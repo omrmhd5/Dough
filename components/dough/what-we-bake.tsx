@@ -13,15 +13,14 @@ export function WhatWeBake() {
   return (
     <section id="bake" className="bg-cream py-20 text-navy md:py-28">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          03. what we bake
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+        What we bake
         </h2>
 
         <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-navy/15 bg-navy/15 sm:grid-cols-2">
           {SERVICES.map((service, i) => (
             <li key={service}>
               <a
-                href="#contact"
                 className="group flex items-center justify-between gap-4 bg-cream px-6 py-7 transition-colors hover:bg-navy hover:text-cream md:px-10 md:py-9"
               >
                 <span className="flex items-center gap-4">

@@ -56,8 +56,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${montserrat.variable} ${alexandria.variable} bg-background`}
+      suppressHydrationWarning
     >
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

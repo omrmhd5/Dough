@@ -22,8 +22,8 @@ export function Contact() {
       />
 
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          07. contact us
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          Contact us
         </h2>
 
         <div className="mt-12 grid gap-10 md:grid-cols-3">
@@ -53,7 +53,7 @@ export function Contact() {
           <div className="lowercase flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
             <span>raw ideas. real results. fully cooked by</span>
             <Logo className="text-xs" blobColor="bg-blob" />
-            <span>est. 2024</span>
+            <span>est. 2026</span>
           </div>
           <p className="lowercase">
             you imagine it. we mold it.. the world sees it.

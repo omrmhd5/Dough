@@ -23,7 +23,7 @@ export function Hero() {
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 text-center">
         <span className="mb-8 rounded-full border border-cream/20 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-cream/70">
-          creative agency · est. 2024
+          creative agency · est. 2026
         </span>
 
         <h1 className="leading-[0.82] tracking-tighter">

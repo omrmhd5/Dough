@@ -5,8 +5,8 @@ const POINTS = [
   'Just like dough that can be molded into any shape, we shape ideas into reality.',
   'Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge.',
   'We mix creativity with strategy, knead it with passion, and bake it with precision.',
-  "And just like the perfect dough, we're always evolving and rising to the occasion.",
-  "Plus, we have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?",
+  "Just like the perfect dough, we're always evolving and rising to the occasion.",
+  "We have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?",
 ]
 
 export function WhyUs() {
@@ -19,8 +19,8 @@ export function WhyUs() {
       />
 
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          02. why us?
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          Why us?
         </h2>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

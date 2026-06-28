@@ -31,8 +31,8 @@ export function WhoWeAre() {
         </div>
 
         <div>
-          <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-            01. who we are?
+          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+            Who we are?
           </h2>
           <div className="mt-8 space-y-6 text-lg leading-relaxed text-navy/80 md:text-xl">
             {PARAGRAPHS.map((p) => (

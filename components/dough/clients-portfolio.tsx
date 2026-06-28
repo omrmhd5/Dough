@@ -64,10 +64,10 @@ export function ClientsPortfolio() {
     <section id="portfolio" className="bg-cream py-20 text-navy md:py-28">
       {/* 05. clients — marquee ticker */}
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          05. clients
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+        Clients
         </h2>
-        <p className="mt-4 text-lg text-navy/70">They asked we shaped...</p>
+        <p className="mt-4 text-lg text-navy/70">They asked we shaped</p>
       </div>
 
       <div className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-6">
@@ -103,8 +103,8 @@ export function ClientsPortfolio() {
 
       {/* 06. portfolio — masonry grid */}
       <div className="mx-auto mt-20 max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          06. portfolio
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          Portfolio
         </h2>
 
         <div className="mt-10 grid auto-rows-[200px] grid-cols-2 gap-4 sm:grid-cols-4">

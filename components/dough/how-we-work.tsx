@@ -33,8 +33,8 @@ export function HowWeWork() {
       />
 
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="font-display text-3xl font-bold lowercase tracking-tight sm:text-5xl">
-          04. how we work
+        <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          How we work
         </h2>
 
         <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
