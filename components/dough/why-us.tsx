@@ -3,10 +3,10 @@ import { WaveDivider } from './wave-divider'
 const POINTS = [
   'At Dough, we believe in the magic of creativity and the power of innovation.',
   'Just like dough that can be molded into any shape, we shape ideas into reality.',
-  'Our team is as versatile and adaptable as the dough itself ready to rise to anny challenge.',
+  'Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge.',
   'We mix creativity with strategy, knead it with passion, and bake it with precision.',
-  "And just like the perfect dough, we're always evolvinng and rising to the occasion.",
-  "Plus, we have a pinch of fun and a dash of cleverness because who says business can't be a little playful?",
+  "And just like the perfect dough, we're always evolving and rising to the occasion.",
+  "Plus, we have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?",
 ]
 
 export function WhyUs() {

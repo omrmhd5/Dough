@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { WaveDivider } from './wave-divider'
 import { Blob } from './blob'
+import { Logo } from './logo'
 
 export function Hero() {
   return (
@@ -25,8 +26,8 @@ export function Hero() {
           creative agency · est. 2024
         </span>
 
-        <h1 className="font-display text-[26vw] font-bold leading-[0.82] tracking-tighter sm:text-[20vw] lg:text-[16rem]">
-          dough
+        <h1 className="leading-[0.82] tracking-tighter">
+          <Logo className="text-[26vw] sm:text-[20vw] lg:text-[16rem]" />
         </h1>
 
         <p className="mt-6 text-balance font-display text-xl font-medium lowercase text-cream/80 sm:text-2xl md:text-3xl">

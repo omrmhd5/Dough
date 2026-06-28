@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { Logo } from './logo'
 
 const LINKS = [
   { label: 'who we are', href: '#who' },
@@ -20,9 +21,9 @@ export function SiteNav() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
         <a
           href="#top"
-          className="font-display text-2xl font-bold lowercase tracking-tight text-cream"
+          className="transition-transform hover:scale-105"
         >
-          dough
+          <Logo className="text-2xl" />
         </a>
 
         <ul className="hidden items-center gap-8 md:flex">

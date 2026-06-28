@@ -1,17 +1,18 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google'
+import { Montserrat, Alexandria } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const montserrat = Montserrat({
+  variable: '--font-montserrat',
   subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
 })
-const spaceGrotesk = Space_Grotesk({
-  variable: '--font-display',
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
+
+const alexandria = Alexandria({
+  variable: '--font-alexandria',
+  subsets: ['arabic', 'latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 })
 
 export const metadata: Metadata = {
@@ -54,7 +55,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} bg-background`}
+      className={`${montserrat.variable} ${alexandria.variable} bg-background`}
     >
       <body className="font-sans antialiased">
         {children}

@@ -1,5 +1,6 @@
 import { WaveDivider } from './wave-divider'
 import { AtSign, Mail, MapPin } from 'lucide-react'
+import { Logo } from './logo'
 
 const DETAILS = [
   { icon: AtSign, label: 'socials', value: '@dough.eg', href: 'https://instagram.com' },
@@ -43,15 +44,17 @@ export function Contact() {
           ))}
         </div>
 
-        {/* giant outline wordmark */}
-        <p className="mt-20 select-none text-center font-display text-[26vw] font-bold leading-none tracking-tighter text-cream/10 lg:text-[18rem]">
-          dough
-        </p>
+        {/* giant wordmark */}
+        <div className="mt-20 flex justify-center select-none text-center opacity-10">
+          <Logo className="text-[26vw] lg:text-[18rem]" textColor="text-cream" blobColor="bg-cream" />
+        </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-cream/10 pt-8 text-center text-sm text-cream/60 md:flex-row md:text-left">
-          <p className="lowercase">
-            raw ideas. real results. fully cooked by dough est. 2024
-          </p>
+          <div className="lowercase flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
+            <span>raw ideas. real results. fully cooked by</span>
+            <Logo className="text-xs" blobColor="bg-blob" />
+            <span>est. 2024</span>
+          </div>
           <p className="lowercase">
             you imagine it. we mold it.. the world sees it.
           </p>

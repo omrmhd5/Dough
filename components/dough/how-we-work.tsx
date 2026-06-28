@@ -4,7 +4,7 @@ import { Blob } from './blob'
 const STEPS = [
   {
     title: 'Discovery',
-    body: 'We dig in deep — brand adults, market pulse, and real convos. We listen more than we talk (for now).',
+    body: 'We dig in deep — brand audits, market pulse, and real convos. We listen more than we talk (for now).',
   },
   {
     title: 'Strategy',
