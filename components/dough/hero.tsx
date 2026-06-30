@@ -22,17 +22,13 @@ export function Hero() {
     const tl = gsap.timeline()
 
     // Hide elements initially to avoid flash of unstyled content (FOUC)
+    // 1. Initial State Set
     gsap.set([
       '.gsap-nav-logo',
       '.gsap-nav-link',
       '.gsap-nav-btn',
       '.gsap-subtitle',
-      '.hero-logo-d',
-      '.hero-logo-u',
-      '.hero-logo-g',
-      '.hero-logo-h',
-      '.hero-logo-copy',
-      '.hero-logo-o'
+      '.hero-logo-img'
     ], {
       opacity: 0
     })
@@ -41,32 +37,19 @@ export function Hero() {
       filter: 'blur(10px)'
     })
 
-    gsap.set(['.hero-logo-d', '.hero-logo-u', '.hero-logo-g', '.hero-logo-h', '.hero-logo-copy'], {
-      y: 60
-    })
-
-    gsap.set('.hero-logo-o', {
-      y: -300,
-      scale: 0.6,
-      borderRadius: '55% 45% 55% 45% / 45% 45% 55% 55%'
+    gsap.set('.hero-logo-img', {
+      y: 60,
+      scale: 0.95
     })
 
     // Execute Staggered Jelly letters timeline
-    tl.to(['.hero-logo-d', '.hero-logo-u', '.hero-logo-g', '.hero-logo-h', '.hero-logo-copy'], {
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      stagger: 0.08,
-      ease: 'back.out(2)'
-    })
-    // Heavy, elastic bounce for the dropping 'o' blob
-    .to('.hero-logo-o', {
+    tl.to('.hero-logo-img', {
       y: 0,
       scale: 1,
       opacity: 1,
-      duration: 1.5,
-      ease: 'elastic.out(1.1, 0.4)'
-    }, '-=0.6')
+      duration: 1.2,
+      ease: 'back.out(1.5)'
+    })
     // Smooth blur reveal for nav components and tagline
     .to(['.gsap-nav-logo', '.gsap-nav-link', '.gsap-nav-btn', '.gsap-subtitle'], {
       opacity: 1,
@@ -75,32 +58,6 @@ export function Hero() {
       stagger: 0.05,
       ease: 'power2.out'
     }, '-=0.9')
-
-    // Continuous Morphing Blob loops
-    const oTimeline = gsap.timeline({
-      repeat: -1,
-      yoyo: true,
-      defaults: { duration: 3.5, ease: 'sine.inOut' }
-    })
-
-    oTimeline.to('.hero-logo-o', {
-      borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
-      scale: 1.15,
-      x: 12,
-      y: -10
-    })
-    .to('.hero-logo-o', {
-      borderRadius: '40% 60% 70% 30% / 50% 70% 30% 50%',
-      scale: 0.9,
-      x: -12,
-      y: 10
-    })
-    .to('.hero-logo-o', {
-      borderRadius: '50% 50% 50% 50% / 50% 50% 50% 50%',
-      scale: 1.05,
-      x: 0,
-      y: 0
-    })
 
 
     // Lava-Lamp background drifts
@@ -211,7 +168,6 @@ export function Hero() {
       if (heroRef.current) {
         heroRef.current.removeEventListener('mouseleave', handleMouseLeave)
       }
-      oTimeline.kill()
       leftBlobAnim.kill()
       rightBlobAnim.kill()
       trigger.scrollTrigger?.kill()
