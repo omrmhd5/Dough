@@ -20,7 +20,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "بارنز",
     sector: "Coffee & Bakery (est. 1992)",
     services: "Brand Identity, Packaging Design, Menu Photography",
-    logo: "",
+    logo: "/logos/Logo Barn's-.png",
     images: [
       "/photography1.png",
       "/photography2.png",
@@ -33,7 +33,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "كوفتا",
     sector: "Street Food & Diner",
     services: "Packaging Design, CGI Visualizations, Brand Activations",
-    logo: "",
+    logo: "/logos/logo 2.png",
     images: [
       "/CGI.png",
       "/Packaging-design.png",
@@ -72,7 +72,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "مضغوط دجاج",
     sector: "F&B Rice & Grill",
     services: "Takeout Packaging Design, Typography",
-    logo: "",
+    logo: "/logos/مضغووووط-01.png",
     images: [
       "/Packaging-design.png",
       "/grids image (2).png",
@@ -98,7 +98,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "قصر الكبابجي",
     sector: "Premium Fine Dining",
     services: "VIP Menu Design, Campaign Photography",
-    logo: "",
+    logo: "/logos/122432_935612.webp",
     images: [
       "/photography3.png",
       "/CGI.png",
@@ -124,7 +124,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "تخميسة",
     sector: "F&B Snacks & Coffee",
     services: "Logo Refinements, Packaging Design",
-    logo: "",
+    logo: "/logos/logo (1).png",
     images: [
       "/Packaging-design.png",
       "/grids image (2).png",
@@ -163,7 +163,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "أكلة",
     sector: "Casual Dining",
     services: "Packaging, Menu Layouts",
-    logo: "",
+    logo: "/logos/akla.png",
     images: [
       "/Packaging-design.png",
       "/grids image (2).png",
@@ -202,7 +202,7 @@ const CLIENTS: ClientDetail[] = [
     ar: "شاورما الريم",
     sector: "Casual Diner",
     services: "Campaign Visuals, Digital Grids",
-    logo: "",
+    logo: "/logos/logo s B.png",
     images: [
       "/photography3.png",
       "/CGI.png",
@@ -210,6 +210,23 @@ const CLIENTS: ClientDetail[] = [
       "/photography1.png"
     ]
   }
+]
+
+const MARQUEE_LOGOS = [
+  { src: "/logos/Logo Barn's-.png", alt: "Barn's" },
+  { src: "/logos/logo 2.png", alt: "Kufta / Ziko" },
+  { src: "/logos/مضغووووط-01.png", alt: "Madghout Dajaj" },
+  { src: "/logos/122432_935612.webp", alt: "Qasr El Kababgi" },
+  { src: "/logos/logo (1).png", alt: "Takhmeesa" },
+  { src: "/logos/akla.png", alt: "Akleh" },
+  { src: "/logos/logo s B.png", alt: "Shawerma El Reem" },
+  { src: "/logos/LUX_LOGO.png", alt: "Lux" },
+  { src: "/logos/cif logo0.png", alt: "Cif" },
+  { src: "/logos/logo.png", alt: "Knorr" },
+  { src: "/logos/lil logo-01.png", alt: "Lil Kitchen" },
+  { src: "/logos/2000logo0.png", alt: "Crepe 2000" },
+  { src: "/logos/تعديل اللوجو 2019 copy (1).png", alt: "Sayed Hanafy" },
+  { src: "/logos/logo faroja00.png", alt: "Farooja" }
 ]
 
 interface GridItem {
@@ -306,33 +323,33 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
-      <div className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-6">
-        <div className="flex shrink-0 animate-marquee items-center">
-          {[...CLIENTS, ...CLIENTS].map((client, i) => (
-            <span
-              key={`${client.en}-${i}`}
-              className="mx-10 inline-flex items-center gap-3 font-display text-4xl font-bold lowercase text-navy/80 sm:text-6xl"
-            >
-              <span>{client.en}</span>
-              <span className="font-arabic text-2xl font-medium text-navy/40">({client.ar})</span>
-              <span className="mx-8 text-blob">✳</span>
-            </span>
+      <div className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-8 bg-white/50 backdrop-blur-sm">
+        <div className="flex shrink-0 animate-marquee items-center whitespace-nowrap">
+          {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
+            <div key={`${logo.src}-${i}`} className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0">
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                fill
+                className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           ))}
         </div>
         {/* duplicate track for seamless loop */}
         <div
-          className="flex shrink-0 animate-marquee items-center"
+          className="flex shrink-0 animate-marquee items-center whitespace-nowrap"
           aria-hidden="true"
         >
-          {[...CLIENTS, ...CLIENTS].map((client, i) => (
-            <span
-              key={`dup-${client.en}-${i}`}
-              className="mx-10 inline-flex items-center gap-3 font-display text-4xl font-bold lowercase text-navy/80 sm:text-6xl"
-            >
-              <span>{client.en}</span>
-              <span className="font-arabic text-2xl font-medium text-navy/40">({client.ar})</span>
-              <span className="mx-8 text-blob">✳</span>
-            </span>
+          {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
+            <div key={`dup-${logo.src}-${i}`} className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0">
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                fill
+                className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           ))}
         </div>
       </div>
@@ -390,7 +407,7 @@ export function ClientsPortfolio() {
                   </div>
                   
                   {/* Logo Box Placeholder */}
-                  <div className="size-16 shrink-0 rounded-2xl bg-navy flex items-center justify-center shadow-inner relative overflow-hidden border border-navy/10">
+                  <div className={`size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-inner relative overflow-hidden border border-navy/10 ${activeClient.logo ? 'bg-white' : 'bg-navy'}`}>
                     {activeClient.logo ? (
                       <Image
                         src={activeClient.logo}
