@@ -22,6 +22,11 @@ export function WaveDivider({ fill, flip = false, className }: WaveDividerProps)
         viewBox="0 0 1440 140"
         preserveAspectRatio="none"
         className="block h-[60px] w-full sm:h-[90px] md:h-[130px]"
+        style={{
+          transform: 'scaleY(1.05)',
+          transformOrigin: flip ? 'bottom' : 'top',
+          shapeRendering: 'geometricPrecision',
+        }}
       >
         <path
           fill={fill}
