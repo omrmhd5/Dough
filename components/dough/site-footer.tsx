@@ -10,13 +10,13 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-cream/10 pt-8 text-center text-sm text-cream/60 md:flex-row md:text-left">
-          <div className="lowercase flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
-            <span>raw ideas. real results. fully cooked by</span>
+          <div className="flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
+            <span>Raw Ideas. Real Results. Fully Cooked by</span>
             <Logo className="text-xs" blobColor="bg-blob" />
-            <span>est. 2026</span>
+            <span>Est. 2026</span>
           </div>
-          <p className="lowercase font-light">
-            you imagine it. we mold it.. the world sees it.
+          <p className="font-light">
+            You imagine it. We mold it. The world sees it.
           </p>
         </div>
       </div>

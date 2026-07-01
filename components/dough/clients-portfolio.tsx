@@ -383,7 +383,7 @@ export function ClientsPortfolio() {
                   >
                     <div className="flex items-center gap-4">
                       <span className="font-mono text-xs text-navy/45">{(idx + 1).toString().padStart(2, '0')}</span>
-                      <span className="font-display font-medium text-base sm:text-lg leading-tight lowercase">
+                      <span className="font-display font-medium text-base sm:text-lg leading-tight">
                         {client.en} <span className="font-arabic text-xs font-normal text-navy/40 ml-1">({client.ar})</span>
                       </span>
                     </div>
@@ -406,10 +406,10 @@ export function ClientsPortfolio() {
                     <span className="text-[10px] uppercase font-extrabold tracking-wider text-water">
                       {activeClient.sector}
                     </span>
-                    <h4 className="font-display text-2xl sm:text-3xl font-extrabold text-navy mt-1 lowercase leading-tight">
+                    <h4 className="font-display text-2xl sm:text-3xl font-extrabold text-navy mt-1 leading-tight">
                       {activeClient.en} <span className="font-arabic text-xl font-medium text-navy/50">({activeClient.ar})</span>
                     </h4>
-                    <p className="text-xs text-navy/60 font-mono mt-1 lowercase">{activeClient.services}</p>
+                    <p className="text-xs text-navy/60 font-mono mt-1">{activeClient.services}</p>
                   </div>
                   
                   {/* Logo Box Placeholder */}
@@ -518,7 +518,7 @@ export function ClientsPortfolio() {
           <div className="flex items-center justify-between text-cream z-10">
             <div className="flex flex-col">
               <span className="font-mono text-xs uppercase tracking-widest text-blob/90">{sliderIndex}</span>
-              <h3 className="font-display text-xl font-bold tracking-tight lowercase">{sliderTitle}</h3>
+              <h3 className="font-display text-xl font-bold tracking-tight">{sliderTitle}</h3>
             </div>
             <button
               onClick={() => setActiveSlides(null)}
@@ -597,7 +597,7 @@ export function ClientsPortfolio() {
                 <span className="font-mono text-xs uppercase tracking-widest text-blob/90">
                   {activeCollageClient.sector}
                 </span>
-                <h3 className="font-display text-3xl sm:text-4xl font-extrabold mt-2 lowercase leading-tight">
+                <h3 className="font-display text-3xl sm:text-4xl font-extrabold mt-2 leading-tight">
                   {activeCollageClient.en} <span className="font-arabic text-2xl font-light text-cream/55">({activeCollageClient.ar})</span>
                 </h3>
                 <p className="text-xs uppercase font-extrabold tracking-widest text-[#457D9E] bg-[#457D9E]/10 border border-[#457D9E]/20 rounded-full px-4 py-1.5 inline-block mt-3">

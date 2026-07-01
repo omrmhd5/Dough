@@ -1,4 +1,4 @@
-import { WaveDivider } from './wave-divider'
+
 import { Blob } from './blob'
 import { Reveal } from './reveal'
 
@@ -28,10 +28,7 @@ const STEPS = [
 export function HowWeWork() {
   return (
     <section id="work" className="relative bg-navy pt-24 pb-32 text-cream md:pt-32">
-      <WaveDivider
-        fill="var(--navy)"
-        className="absolute inset-x-0 -top-px -translate-y-full"
-      />
+
 
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
@@ -53,7 +50,7 @@ export function HowWeWork() {
                     <span className="font-display text-xs font-semibold uppercase tracking-widest text-navy/50">
                       step {i + 1}
                     </span>
-                    <span className="px-4 font-display text-lg font-bold lowercase leading-tight">
+                    <span className="px-4 font-display text-lg font-bold leading-tight">
                       {step.title}
                     </span>
                   </span>
@@ -67,7 +64,7 @@ export function HowWeWork() {
         </div>
       </div>
 
-      <WaveDivider fill="var(--cream)" className="absolute inset-x-0 bottom-0" />
+
     </section>
   )
 }

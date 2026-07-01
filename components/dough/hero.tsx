@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { WaveDivider } from './wave-divider'
+
 import { Blob } from './blob'
 import { Logo } from './logo'
 
@@ -207,8 +207,8 @@ export function Hero() {
           <Logo className="text-[26vw] sm:text-[20vw] lg:text-[16rem]" gsapClass="hero-logo" />
         </h1>
 
-        <p className="mt-8 text-balance font-display text-xl font-medium lowercase text-cream/80 sm:text-2xl md:text-3xl gsap-subtitle">
-          where ideas take shapes
+        <p className="mt-8 text-balance font-display text-xl font-medium text-cream/80 sm:text-2xl md:text-3xl gsap-subtitle">
+          Where Ideas Take Shapes
         </p>
 
         {/* ScrollTrigger Zoom container */}
@@ -225,11 +225,7 @@ export function Hero() {
         </div>
       </div>
 
-      {/* wave transition into the cream "who we are" section */}
-      <WaveDivider
-        fill="var(--cream)"
-        className="absolute inset-x-0 bottom-0 z-10"
-      />
+
     </section>
   )
 }

@@ -18,16 +18,16 @@ export function WhoWeAre() {
               float
               className="aspect-square w-full max-w-md bg-navy/90 text-cream"
             >
-              <span className="font-display text-3xl font-semibold lowercase sm:text-4xl">
-                from scratch
+              <span className="font-display text-3xl font-semibold sm:text-4xl">
+                From Scratch
               </span>
             </Blob>
             <Blob
               variant={4}
               className="absolute -bottom-6 -right-2 size-28 bg-blob text-navy sm:size-36"
             >
-              <span className="px-4 text-sm font-semibold lowercase">
-                freshly baked
+              <span className="px-4 text-sm font-semibold">
+                Freshly Baked
               </span>
             </Blob>
           </div>

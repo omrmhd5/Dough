@@ -6,7 +6,8 @@ This document provides a highly detailed summary of the brand assets, messaging,
 
 ## 1. Brand Identity & Overview
 
-### 1.1 Brand Story
+### 1.1 Brand Story & Evolution
+* **Previous Identity:** Dough was previously named **Buzz** (buzzeg). This transition is reflected in legacy contact emails (e.g., `amrsabry@buzz.com`, `hello@buzz.com`) and social media links.
 * **Core Philosophy:** In a world overflowing with noise, Dough chooses to "knead the silence." They start with the belief that great ideas are like dough—soft, raw, and full of potential. With the right hands, the right heat, and time, they rise.
 * **Identity:** Dough is a creative agency / creative consultancy. They treat every brand like a blank canvas, every brief like a fresh batch, and every challenge like a recipe waiting to be reimagined. They blend strategy with art, insight with instinct, and local flavor with global vision.
 * **Focus Areas:** Branding, content creation, events, influencer campaigns, and general creative work. "Ideas don't just sit. They rise."
@@ -16,20 +17,24 @@ This document provides a highly detailed summary of the brand assets, messaging,
 * **Mission:** To take raw ideas and shape them into something real and moving. Dough listens closely, thinks boldly, and creates work that builds deep human connections rather than just basic content.
 * **Vision:** To create a world where brands connect, laugh, dance, and leave something meaningful behind. They aim to build a creative space that feels like a warm kitchen, shaping brands slowly, intentionally, and with heart. They do not chase trends; they create from the inside out.
 
-### 1.3 Brand Slogan
-> **"where ideas take shapes"** (or **"where ideas take shapes."**)
+### 1.3 Why Dough?
+* **Concept:** Everything great starts with it. Before the flavor, before the shape, before the wow—there’s dough: simple, humble, and full of promise. It’s a blank canvas that can become anything—a croissant, a pizza, a masterpiece. Just like ideas.
+* **Approach:** They take raw concepts, knead them with creativity, heat them with strategy, and let them rise into brands, stories, and experiences people crave. It’s not about food—it’s about craft, transformation, starting from scratch, and making it unforgettable.
 
-### 1.4 Brand Values
+### 1.4 Brand Slogan
+> **"where ideas take shapes."** (also formatted in sentence case: **"Where Ideas Take Shapes."**)
+
+### 1.5 Brand Values
 1. **Creativity:** Molding ideas into unique realities.
 2. **Innovation:** Pushing boundaries and sparking fresh solutions.
 3. **Holistic:** Seasoning every aspect of a brand with strategy and heart.
 4. **Flexibility:** Versatile and adaptable to any challenge.
 
-### 1.5 Brand Voice
+### 1.6 Brand Voice
 * **Energetic, youthful, and inspiring!**
-* Aiming to spark creativity and innovation with warmth, wit, and playfulness ("because who says business can't be a little playful?").
+* Always aiming to spark creativity and innovation with warmth, wit, and playfulness ("because who says business can't be a little playful?").
 
-### 1.6 Brand Persona
+### 1.7 Brand Persona
 * **Name:** Dough
 * **Age:** 24
 * **Job Title:** Creative Designer
@@ -132,10 +137,14 @@ The typographic language is designed to feel minimal, clean, and clear. Montserr
 
 Dough lists many notable F&B and retail brands as clients. Key portfolio references include:
 * **Barn's Coffee** (est. 1992) — packaging, photography, and grid work.
-* **Kufta** — packaging design, portable event booths, and product photography.
-* **Madghout Dajaj** — packaging design.
-* **Tito's** — food packaging.
-* **Tant**
+* **Kufta** — packaging design, portable event booths, sauces (Kufta Sobia, Whiskey Salad, Batates Chips, Rayeb Blueberry Lemon), and product photography.
+* **Madghout Dajaj** — takeout boxes, yogurt drink packaging, F&B rice & grill photography.
+* **Tito's** — Tito's Pasta visual packaging, orange paper bowls.
+* **Ziko** (زيكو) — "Akl 7erash" street food brand visual design, custom packaging boxes.
+* **Malfouf Kabab** (ملفوف كباب) — F&B brand, red minimalist visual packaging boxes.
+* **Gharib / Ghareeb** (غريب) — F&B brand and custom nostalgia event booth.
+* **Qasr El Kababgi** (قصر الكبابجي) — Premium fine dining brand.
+* **Tant** (أكل مصري مصري)
 * **El Dahan**
 * **Town Team & Mini Town Team**
 * **El Anfoshy**
@@ -151,10 +160,12 @@ Dough lists many notable F&B and retail brands as clients. Key portfolio referen
 
 ## 7. Applications & Touchpoints
 
-* **Business Cards:** Feature the logo, the slogan "where ideas take shapes", employee details (e.g., Amr Sabry, CEO & Partner), and standard contact details.
+* **Business Cards:** Feature the logo, the slogan "where ideas take shapes.", employee details (e.g., Amr Sabry, CEO & Partner), and standard contact details.
 * **Stationery & Envelopes:** Minimalist navy and light blue backgrounds with flowing organic waves.
-* **Social Media:** Instagram layout grids utilizing custom photography, CGI elements, and bold typography.
+* **Social Media:** Instagram layout grids utilizing custom photography, CGI elements, and bold typography. Shows rebranding history from **Buzz** to **Dough**.
 * **CGI & Event Booths:** 3D brand activations, including large 3D coffee cups, custom interactive kiosks, and portable event structures (e.g., Kufta's red and black portable booth).
+* **Gharib Interactive Booth:** An interactive 90s/2000s nostalgia activation board featuring an LED camera outline, photo backdrop, mesh sheets, hanging vintage mobile phones ("Make Ur Memory"), boombox tape players, a classic telephone booth, a "Route to 2000s" sign, and an infinity mirror.
+* **Merchandise:** Custom round stickers featuring brand characters, slogan, and logo; navy mugs with light blue organic blob designs; and custom tote bags featuring navy-cream color block curves.
 * **Corporate Details:**
   * **Address:** 65 St. Abdelaziz Fahmy, Saint Fatima, Cairo, Egypt
   * **Website:** www.doughx.com (also referenced as www.xdough.com)

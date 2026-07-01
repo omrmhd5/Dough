@@ -31,7 +31,7 @@ export function WhatWeBake() {
                     <span className="font-display text-sm font-semibold text-navy/40 group-hover:text-cream/50">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <span className="font-display text-xl font-semibold lowercase sm:text-2xl">
+                    <span className="font-display text-xl font-semibold sm:text-2xl">
                       {service}
                     </span>
                   </span>

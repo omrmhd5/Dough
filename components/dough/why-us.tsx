@@ -1,4 +1,4 @@
-import { WaveDivider } from './wave-divider'
+
 import { Reveal } from './reveal'
 
 const POINTS = [
@@ -13,11 +13,7 @@ const POINTS = [
 export function WhyUs() {
   return (
     <section id="why" className="relative bg-navy pt-24 pb-32 text-cream md:pt-32">
-      {/* wave coming down from the cream section above */}
-      <WaveDivider
-        fill="var(--navy)"
-        className="absolute inset-x-0 -top-px -translate-y-full"
-      />
+
 
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
@@ -44,8 +40,7 @@ export function WhyUs() {
         </div>
       </div>
 
-      {/* wave transition into the cream "what we bake" section */}
-      <WaveDivider fill="var(--cream)" className="absolute inset-x-0 bottom-0" />
+
     </section>
   )
 }

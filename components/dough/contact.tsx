@@ -1,4 +1,3 @@
-import { WaveDivider } from './wave-divider'
 import { AtSign, Mail, MapPin } from 'lucide-react'
 import { Reveal } from './reveal'
 
@@ -16,10 +15,6 @@ const DETAILS = [
 export function Contact() {
   return (
     <section id="contact" className="relative bg-navy pt-24 pb-12 text-cream md:pt-32">
-      <WaveDivider
-        fill="var(--navy)"
-        className="absolute inset-x-0 -top-px -translate-y-full"
-      />
 
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
