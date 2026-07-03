@@ -293,9 +293,6 @@ const GRID_ITEMS: GridItem[] = [
 ]
 
 export function ClientsPortfolio() {
-  const [activeClientIndex, setActiveClientIndex] = useState(0)
-  const activeClient = CLIENTS[activeClientIndex]
-
   // Main Portfolio Slideshow state
   const [activeSlides, setActiveSlides] = useState<string[] | null>(null)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
@@ -321,13 +318,19 @@ export function ClientsPortfolio() {
   }
 
   const handleLogoClick = (logoAlt: string) => {
-    const clientIdx = CLIENTS.findIndex(
+    const client = CLIENTS.find(
       (c) => c.en.toLowerCase() === logoAlt.toLowerCase()
     )
-    if (clientIdx !== -1) {
-      setActiveClientIndex(clientIdx)
+    if (client) {
+      const id = `client-${client.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        return
+      }
     }
-    const element = document.getElementById('client-directory')
+    // Fallback: scroll to the client list section
+    const element = document.getElementById('clients-list')
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
@@ -392,153 +395,100 @@ export function ClientsPortfolio() {
         </div>
       </div>
 
-      {/* Interactive Client Directory Index Showcase */}
-      <div id="client-directory" className="mx-auto mt-16 max-w-7xl px-6">
-        <Reveal duration={950}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t border-navy/10 pt-16">
-            {/* Left Column: Interactive Client Directory List */}
-            <div className="lg:col-span-5 flex flex-col gap-1 max-h-[500px] overflow-y-auto pr-4 scrollbar-thin">
-              <h3 className="font-display text-xs uppercase font-extrabold tracking-widest text-navy/45 mb-4">
-                Client Index Directory
-              </h3>
-              {CLIENTS.map((client, idx) => {
-                const isActive = activeClientIndex === idx
-                return (
-                  <button
-                    key={client.en}
-                    onClick={() => setActiveClientIndex(idx)}
-                    className={`w-full flex items-center justify-between py-3.5 border-b border-navy/10 text-left transition-all duration-300 cursor-pointer ${
-                      isActive
-                        ? 'text-navy font-bold pl-4 border-b-2 border-navy'
-                        : 'text-navy/55 hover:text-navy hover:pl-2'
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <span className="font-mono text-xs text-navy/45">{(idx + 1).toString().padStart(2, '0')}</span>
-                      <span className="font-display font-medium text-base sm:text-lg leading-tight">
-                        {client.en} <span className="font-arabic text-xs font-normal text-navy/40 ml-1">({client.ar})</span>
-                      </span>
-                    </div>
-                    <span className={`text-blob transition-transform duration-300 ${isActive ? 'scale-125 rotate-45' : 'opacity-0 scale-75'}`}>✳</span>
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* Right Column: Dynamic Case/Client Showcase Panel */}
-            <div className="lg:col-span-7 flex flex-col">
-              <div
-                key={activeClientIndex}
-                className="bg-[#f3eee3] rounded-3xl p-6 sm:p-8 flex flex-col justify-between min-h-[460px] relative overflow-hidden transition-all duration-500 border border-navy/5 shadow-sm hover:shadow-md animate-in fade-in slide-in-from-right-4 duration-300"
+      {/* Client Directory List Showcase */}
+      <div id="clients-list" className="mx-auto mt-24 max-w-7xl px-6">
+        <div className="flex flex-col gap-24">
+          {CLIENTS.map((client, idx) => {
+            const clientSlug = `client-${client.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+            return (
+              <div 
+                key={client.en} 
+                id={clientSlug}
+                className="scroll-mt-28 group/client"
               >
-                
-                {/* Header: Name, Sector, and Logo box */}
-                <div className="flex items-center justify-between border-b border-navy/10 pb-5">
-                  <div>
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-water">
-                      {activeClient.sector}
-                    </span>
-                    <h4 className="font-display text-2xl sm:text-3xl font-extrabold text-navy mt-1 leading-tight">
-                      {activeClient.en} <span className="font-arabic text-xl font-medium text-navy/50">({activeClient.ar})</span>
-                    </h4>
-                    <p className="text-xs text-navy/60 font-mono mt-1">{activeClient.services}</p>
-                  </div>
-                  
-                  {/* Logo Box Placeholder */}
-                  <div className={`size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-inner relative overflow-hidden border border-navy/10 ${activeClient.logo ? 'bg-white' : 'bg-navy'}`}>
-                    {activeClient.logo ? (
-                      <Image
-                        src={activeClient.logo}
-                        alt={`${activeClient.en} logo`}
-                        fill
-                        className="object-contain p-2"
-                      />
-                    ) : (
-                      <span className="font-display font-extrabold text-xl text-cream select-none uppercase">
-                        {activeClient.en.slice(0, 2)}
-                      </span>
-                    )}
-                  </div>
-                </div>
+                <Reveal duration={700}>
+                  <div className="flex flex-col gap-6">
+                    {/* Header Row: Logo, Name, Sector */}
+                    <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                      {/* Logo Box */}
+                      <div className={`size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-navy/10 ${client.logo ? 'bg-white' : 'bg-navy'}`}>
+                        {client.logo ? (
+                          <Image
+                            src={client.logo}
+                            alt={`${client.en} logo`}
+                            fill
+                            className="object-contain p-2"
+                          />
+                        ) : (
+                          <span className="font-display font-extrabold text-lg text-cream select-none uppercase">
+                            {client.en.slice(0, 2)}
+                          </span>
+                        )}
+                      </div>
 
-                {/* Gallery Grid of Client Projects */}
-                <div className="mt-6 flex-1 flex flex-col">
-                  
-                  <div className="overflow-y-auto max-h-[300px] pr-1.5 scrollbar-thin">
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                      {activeClient.images.map((imgUrl, i) => (
+                      {/* Client Names and Info */}
+                      <div className="flex-1 min-w-[200px]">
+                        <div className="flex items-baseline gap-3 flex-wrap">
+                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy">
+                            {client.en}
+                          </h3>
+                          <span className="font-arabic text-lg sm:text-xl font-medium text-navy/40">
+                            {client.ar}
+                          </span>
+                        </div>
+                        <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1">
+                          {client.sector}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Services / Small Sentence */}
+                    <p className="text-base text-navy/70 leading-relaxed max-w-3xl">
+                      We shaped their brand through <span className="font-semibold text-navy">{client.services}</span>.
+                    </p>
+
+                    {/* Image Grid */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
+                      {client.images.map((imgUrl, i) => (
                         <div 
                           key={`${imgUrl}-${i}`}
-                          onClick={() => setActiveCollageClient(activeClient)}
-                          className="relative aspect-video rounded-xl overflow-hidden bg-navy/5 border border-navy/10 group/img shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                          onClick={() => setActiveCollageClient(client)}
+                          className="relative aspect-video sm:aspect-square rounded-2xl overflow-hidden bg-navy/5 border border-navy/10 group/img shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
                         >
                           <Image
                             src={imgUrl}
-                            alt={`${activeClient.en} showcase image ${i + 1}`}
+                            alt={`${client.en} showcase image ${i + 1}`}
                             fill
-                            sizes="(max-width: 768px) 50vw, 30vw"
+                            sizes="(max-width: 640px) 50vw, 25vw"
                             className="object-cover transition-transform duration-500 ease-out group-hover/img:scale-105"
                           />
+                          <div className="absolute inset-0 bg-navy/5 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span className="text-cream text-xs font-semibold bg-navy/80 px-3 py-1.5 rounded-full backdrop-blur-sm transform translate-y-2 group-hover/img:translate-y-0 transition-transform duration-300">
+                              View Project
+                            </span>
+                          </div>
                         </div>
                       ))}
                     </div>
+
+                    {/* Elegant Divider */}
+                    {idx < CLIENTS.length - 1 && (
+                      <div className="w-full flex items-center justify-between gap-4 mt-16 text-navy/10">
+                        <div className="h-[1px] flex-1 bg-current" />
+                        <span className="text-xs font-mono uppercase tracking-widest text-navy/30">
+                          ✳
+                        </span>
+                        <div className="h-[1px] flex-1 bg-current" />
+                      </div>
+                    )}
                   </div>
-                </div>
-
+                </Reveal>
               </div>
-            </div>
-          </div>
-        </Reveal>
-      </div>
-
-      {/* 06. portfolio — editorial grid showcase */}
-      <div className="mx-auto mt-32 max-w-7xl px-6">
-        <Reveal duration={800}>
-          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
-            Portfolio
-          </h2>
-        </Reveal>
-
-        <div className="mt-10 overflow-hidden rounded-3xl border border-navy/10 bg-navy/5 grid grid-cols-1 md:grid-cols-2 gap-1">
-          {GRID_ITEMS.map((item, i) => (
-            <Reveal 
-              key={item.index} 
-              delay={i * 100} 
-              duration={850} 
-              className={`${item.spanClass} ${item.heightClass}`}
-            >
-              <div
-                onClick={() => {
-                  setActiveSlides(item.slides)
-                  setActiveSlideIndex(0)
-                  setSliderTitle(item.title)
-                  setSliderIndex(item.index)
-                }}
-                className="group relative overflow-hidden bg-[#F5F3FA] cursor-pointer w-full h-full"
-              >
-                {/* Background Image */}
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-
-                {/* Centered Overlay & Text Reveal */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center text-center p-6 text-cream">
-                  <span className="font-mono text-xs uppercase tracking-widest text-blob/90 mb-3">
-                    {item.index}
-                  </span>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-tight max-w-md">
-                    {item.title}
-                  </h3>
-                </div>
-              </div>
-            </Reveal>
-          ))}
+            )
+          })}
         </div>
       </div>
+
 
       {/* Image Slideshow Modal (for Main Portfolio Grid) */}
       {activeSlides && (
