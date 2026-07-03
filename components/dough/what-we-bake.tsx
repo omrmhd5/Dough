@@ -25,7 +25,7 @@ export function WhatWeBake() {
             <Reveal key={service} delay={i * 80} duration={600} className="h-full bg-cream">
               <li className="h-full">
                 <a
-                  className="group flex items-center justify-between gap-4 bg-cream px-6 py-7 transition-colors hover:bg-navy hover:text-cream md:px-10 md:py-9 h-full cursor-pointer"
+                  className="group flex items-center justify-between gap-4 bg-cream px-6 py-7 transition-colors hover:bg-navy hover:text-cream md:px-10 md:py-9 h-full"
                 >
                   <span className="flex items-center gap-4">
                     <span className="font-display text-sm font-semibold text-navy/40 group-hover:text-cream/50">

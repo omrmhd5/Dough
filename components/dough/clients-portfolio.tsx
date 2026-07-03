@@ -305,6 +305,9 @@ export function ClientsPortfolio() {
   // Client Visual Collage overlay state (alternative to slideshow)
   const [activeCollageClient, setActiveCollageClient] = useState<ClientDetail | null>(null)
 
+  // Marquee hover state
+  const [isHovered, setIsHovered] = useState(false)
+
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (!activeSlides) return
@@ -315,6 +318,19 @@ export function ClientsPortfolio() {
     e.stopPropagation()
     if (!activeSlides) return
     setActiveSlideIndex((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1))
+  }
+
+  const handleLogoClick = (logoAlt: string) => {
+    const clientIdx = CLIENTS.findIndex(
+      (c) => c.en.toLowerCase() === logoAlt.toLowerCase()
+    )
+    if (clientIdx !== -1) {
+      setActiveClientIndex(clientIdx)
+    }
+    const element = document.getElementById('client-directory')
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   return (
@@ -329,39 +345,55 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
-      <div className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-8 bg-white/50 backdrop-blur-sm">
-        <div className="flex shrink-0 animate-marquee items-center whitespace-nowrap">
+      <div 
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-8 bg-white/50 backdrop-blur-sm group"
+      >
+        <div 
+          className="flex shrink-0 animate-marquee items-center whitespace-nowrap"
+          style={{ animationPlayState: isHovered ? 'paused' : 'running' }}
+        >
           {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
-            <div key={`${logo.src}-${i}`} className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0">
+            <button
+              key={`${logo.src}-${i}`}
+              onClick={() => handleLogoClick(logo.alt)}
+              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/50 rounded-lg cursor-pointer transition-transform hover:scale-105 duration-300"
+            >
               <Image
                 src={logo.src}
                 alt={logo.alt}
                 fill
-                className="object-contain transition-transform hover:scale-105 duration-300"
+                className="object-contain"
               />
-            </div>
+            </button>
           ))}
         </div>
         {/* duplicate track for seamless loop */}
         <div
           className="flex shrink-0 animate-marquee items-center whitespace-nowrap"
+          style={{ animationPlayState: isHovered ? 'paused' : 'running' }}
           aria-hidden="true"
         >
           {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
-            <div key={`dup-${logo.src}-${i}`} className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0">
+            <button
+              key={`dup-${logo.src}-${i}`}
+              onClick={() => handleLogoClick(logo.alt)}
+              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/50 rounded-lg cursor-pointer transition-transform hover:scale-105 duration-300"
+            >
               <Image
                 src={logo.src}
                 alt={logo.alt}
                 fill
-                className="object-contain transition-transform hover:scale-105 duration-300"
+                className="object-contain"
               />
-            </div>
+            </button>
           ))}
         </div>
       </div>
 
       {/* Interactive Client Directory Index Showcase */}
-      <div className="mx-auto mt-16 max-w-7xl px-6">
+      <div id="client-directory" className="mx-auto mt-16 max-w-7xl px-6">
         <Reveal duration={950}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 border-t border-navy/10 pt-16">
             {/* Left Column: Interactive Client Directory List */}
