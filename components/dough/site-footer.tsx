@@ -16,7 +16,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
           <div className="flex flex-wrap items-center justify-center gap-1.5 md:justify-start">
             <span>Raw Ideas. Real Results. Fully Cooked by</span>
             <Logo className="text-xs translate-y-[2px]" blobColor="bg-blob" />
-            <span>Est. 2026</span>
+            <span>Est. 2023</span>
           </div>
           <p className="font-light">
             You imagine it. We mold it. The world sees it.

@@ -12,7 +12,7 @@ const SERVICES = [
 
 export function WhatWeBake() {
   return (
-    <section id="bake" className="bg-cream py-20 text-navy md:py-28">
+    <section id="bake" className="bg-navy py-20 text-cream md:py-28">
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
           <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
@@ -20,15 +20,15 @@ export function WhatWeBake() {
           </h2>
         </Reveal>
 
-        <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-navy/15 bg-navy/15 sm:grid-cols-2">
+        <ul className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-cream/10 bg-cream/10 sm:grid-cols-2">
           {SERVICES.map((service, i) => (
-            <Reveal key={service} delay={i * 80} duration={600} className="h-full bg-cream">
+            <Reveal key={service} delay={i * 80} duration={600} className="h-full bg-navy">
               <li className="h-full">
                 <div
-                  className="flex items-center justify-between gap-4 bg-cream px-6 py-7 md:px-10 md:py-9 h-full"
+                  className="flex items-center justify-between gap-4 bg-[#122940] px-6 py-7 md:px-10 md:py-9 h-full"
                 >
                   <span className="flex items-center gap-4">
-                    <span className="font-display text-sm font-semibold text-navy/40">
+                    <span className="font-display text-sm font-semibold text-cream/40">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className="font-display text-xl font-semibold sm:text-2xl">

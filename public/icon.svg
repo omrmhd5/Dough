@@ -1,7 +1,0 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Navy background square with rounded corners -->
-  <rect width="180" height="180" rx="40" fill="#122940" />
-  
-  <!-- Soft organic dough blob in the center -->
-  <path d="M90 50C125 50 145 62 145 88C145 110 120 130 90 130C55 130 35 110 35 88C35 62 55 50 90 50Z" fill="#C4D9EB" />
-</svg>

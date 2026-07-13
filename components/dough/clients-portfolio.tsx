@@ -23,26 +23,24 @@ export interface ClientDetail {
 }
 
 const MARQUEE_LOGOS = [
-  { src: "/logos/Logo Barn's-.png", alt: "Barn's" },
-  { src: "/logos/kufta.webp", alt: "Kufta" },
-  { src: "/logos/logo 2.png", alt: "Ziko" },
-  { src: "/logos/مضغووووط-01.png", alt: "Madghout Dajaj" },
-  { src: "/logos/122432_935612.webp", alt: "Qasr El Kababgi" },
-  { src: "/logos/logo (1).png", alt: "Takhmeesa" },
-  { src: "/logos/akla.png", alt: "Akleh" },
-  { src: "/logos/logo s B.png", alt: "Shawerma El Reem" },
-  { src: "/logos/LUX_LOGO.png", alt: "Lux" },
-  { src: "/logos/cif logo0.png", alt: "Cif" },
-  { src: "/logos/logo.png", alt: "Knorr" },
-  { src: "/logos/lil logo-01.png", alt: "Lil Kitchen" },
-  { src: "/logos/2000logo0.png", alt: "Crepe 2000" },
-  { src: "/logos/تعديل اللوجو 2019 copy (1).png", alt: "Sayed Hanafy" },
-  { src: "/logos/logo faroja00.png", alt: "Farooja" },
-  { src: "/logos/eldahan.jpg", alt: "El Dahan" },
-  { src: "/logos/townteam.png", alt: "Town Team" },
-  { src: "/logos/tant.webp", alt: "Tant" },
-  { src: "/logos/tito's.png", alt: "Tito's" },
-  { src: "/logos/alanfoshy.webp", alt: "El Anfoshy" }
+  { src: "/Logos/Barns.png", alt: "Barn's" },
+  { src: "/Logos/Kufta.png", alt: "Kufta" },
+  { src: "/Logos/Crepe2000.png", alt: "Crepe 2000" },
+  { src: "/Logos/ElAnfoshy.png", alt: "El Anfoshy" },
+  { src: "/Logos/ElDahan.png", alt: "El Dahan" },
+  { src: "/Logos/Hamzawy.png", alt: "Hamzawy" },
+  { src: "/Logos/LilKitchen.png", alt: "Lil Kitchen" },
+  { src: "/Logos/MadghoutDajaj.png", alt: "Madghout Dajaj" },
+  { src: "/Logos/MiniTownTeam.png", alt: "Mini Town Team" },
+  { src: "/Logos/QasrElKababgi.png", alt: "Qasr El Kababgi" },
+  { src: "/Logos/ShawermaElreem.png", alt: "Shawerma El Reem" },
+  { src: "/Logos/Shrimp.png", alt: "Shrimp" },
+  { src: "/Logos/Taghmesa.png", alt: "Taghmesa" },
+  { src: "/Logos/Tant.png", alt: "Tant" },
+  { src: "/Logos/Titos.png", alt: "Titos" },
+  { src: "/Logos/TownTeam.png", alt: "Town Team" },
+  { src: "/Logos/Akleh.png", alt: "Akleh" },
+  { src: "/Logos/Bebek.png", alt: "Bebek" }
 ]
 
 export const CLIENTS: ClientDetail[] = [
@@ -51,7 +49,7 @@ export const CLIENTS: ClientDetail[] = [
     ar: "أكلة",
     sector: "Casual Dining",
     services: "Packaging, Menu Layouts",
-    logo: "/logos/akla.png",
+    logo: "/Logos/Akleh.png",
     images: [
       "/Packaging-design.png",
       "/grids image (2).png",
@@ -83,7 +81,6 @@ export const CLIENTS: ClientDetail[] = [
     ar: "لوكس",
     sector: "Beauty & Cosmetics",
     services: "Social Media Strategy, Creative Direction",
-    logo: "/logos/LUX_LOGO.png",
     images: [
       "/CGI.png",
       "/photography1.png",
@@ -145,7 +142,6 @@ export const CLIENTS: ClientDetail[] = [
     ar: "فروجى",
     sector: "Healthy F&B Concept",
     services: "Brand Concept Development, Packaging Design, Naming Direction",
-    logo: "/logos/logo faroja00.png",
     images: [
       "/Packaging-design.png",
       "/photography1.png",
@@ -182,7 +178,6 @@ export const CLIENTS: ClientDetail[] = [
     ar: "كنور",
     sector: "F&B / Cooking Ingredients",
     services: "Social Media Strategy, Creative Direction, Short-Form Video Direction",
-    logo: "/logos/knorr logo.png",
     images: [
       "/photography3.png",
       "/photography1.png",
@@ -213,7 +208,7 @@ export const CLIENTS: ClientDetail[] = [
     ar: "كفتة",
     sector: "F&B / Casual Dining",
     services: "Campaign Strategy, Packaging Design, Customer Experience Design",
-    logo: "/logos/kufta.webp",
+    logo: "/Logos/Kufta.png",
     images: [
       "/Packaging-design.png",
       "/photography1.png",
@@ -260,7 +255,7 @@ export function ClientsPortfolio() {
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="relative mt-10 flex overflow-hidden border-y border-navy/15 py-8 bg-white/50 backdrop-blur-sm group"
+        className="relative mt-10 flex overflow-hidden border-y border-cream/10 py-8 bg-[#122940] group"
       >
         <div 
           className="flex shrink-0 animate-marquee items-center whitespace-nowrap"
@@ -318,11 +313,10 @@ export function ClientsPortfolio() {
                         {/* Logo Box */}
                         <div className={`size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-navy/10 ${client.logo ? 'bg-white' : 'bg-navy'}`}>
                           {client.logo ? (
-                            <Image
+                            <img
                               src={client.logo}
                               alt={`${client.en} logo`}
-                              fill
-                              className="object-contain p-2"
+                              className="object-contain p-2 w-full h-full"
                             />
                           ) : (
                             <span className="font-display font-extrabold text-lg text-cream select-none uppercase">

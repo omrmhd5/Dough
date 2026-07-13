@@ -50,7 +50,7 @@ export function Hero() {
       className="relative overflow-hidden bg-navy pt-28 pb-32 text-cream sm:pb-40">
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 text-center">
         {/* <span className="mb-8 rounded-full border border-cream/20 px-4 py-1.5 text-xs uppercase tracking-[0.25em] text-cream/70 animate-in fade-in slide-in-from-top-6 duration-1000 ease-out">
-          creative agency · est. 2026
+          creative agency · est. 2023
         </span> */}
 
         <p className="mt-8 text-balance font-display text-xl font-medium text-cream/80 sm:text-2xl md:text-3xl gsap-subtitle">

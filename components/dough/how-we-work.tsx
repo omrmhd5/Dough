@@ -1,4 +1,3 @@
-
 import { Blob } from './blob'
 import { Reveal } from './reveal'
 
@@ -27,8 +26,7 @@ const STEPS = [
 
 export function HowWeWork() {
   return (
-    <section id="work" className="relative bg-navy pt-24 pb-32 text-cream md:pt-32">
-
+    <section id="work" className="relative bg-cream pt-24 pb-32 text-navy md:pt-32">
 
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
@@ -54,7 +52,7 @@ export function HowWeWork() {
                     </span>
                   </span>
                 </Blob>
-                <p className="mt-6 text-pretty text-sm leading-relaxed text-cream/70">
+                <p className="mt-6 text-pretty text-sm leading-relaxed text-navy/70">
                   {step.body}
                 </p>
               </div>
@@ -62,7 +60,6 @@ export function HowWeWork() {
           ))}
         </div>
       </div>
-
 
     </section>
   )
