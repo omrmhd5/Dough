@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { SiteNav } from "@/components/dough/site-nav";
 import { SiteFooter } from "@/components/dough/site-footer";
-import { CLIENTS } from "@/components/dough/clients-portfolio";
+import { CLIENTS } from "@/components/dough/clients-data";
 
 export default function CaseStudyPage() {
   const params = useParams();

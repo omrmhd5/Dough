@@ -9,6 +9,7 @@ import { Logo } from "./logo";
 const LINKS = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/clients" },
+  { label: "Uncle Dough", href: "/uncledough" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -41,10 +42,17 @@ export function SiteNav() {
                   className={`text-sm gsap-nav-link relative inline-flex flex-col items-center group ${
                     isActive ? "text-navy" : "text-navy/70 hover:text-navy"
                   }`}>
-                  <span className={isActive ? "font-bold" : "font-medium group-hover:font-bold transition-all duration-300"}>
+                  <span
+                    className={
+                      isActive
+                        ? "font-bold"
+                        : "font-medium group-hover:font-bold transition-all duration-300"
+                    }>
                     {link.label}
                   </span>
-                  <span className="invisible h-0 select-none font-bold block overflow-hidden" aria-hidden="true">
+                  <span
+                    className="invisible h-0 select-none font-bold block overflow-hidden"
+                    aria-hidden="true">
                     {link.label}
                   </span>
                 </Link>
