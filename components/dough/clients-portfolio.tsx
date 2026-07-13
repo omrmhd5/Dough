@@ -2,215 +2,25 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { X, ChevronLeft, ChevronRight, CheckCircle2 } from 'lucide-react'
+import Link from 'next/link'
 import { Reveal } from './reveal'
 
-interface ClientDetail {
+export interface ClientDetail {
   en: string
   ar: string
   sector: string
   services: string
   logo?: string
   images: string[]
+  year?: string
+  subtitle?: string
+  overview?: string
+  challenge?: string
+  approach?: string
+  outcome?: string
+  scope?: string[]
+  challengeLabel?: string
 }
-
-const CLIENTS: ClientDetail[] = [
-  {
-    en: "Barn's",
-    ar: "بارنز",
-    sector: "Coffee & Bakery (est. 1992)",
-    services: "Brand Identity, Packaging Design, Menu Photography",
-    logo: "/logos/Logo Barn's-.png",
-    images: [
-      "/photography1.png",
-      "/photography2.png",
-      "/photography3.png",
-      "/photography4.png"
-    ]
-  },
-  {
-    en: "Kufta",
-    ar: "كوفتا",
-    sector: "Street Food & Diner",
-    services: "Packaging Design, CGI Visualizations, Brand Activations",
-    logo: "/logos/kufta.webp",
-    images: [
-      "/CGI.png",
-      "/Packaging-design.png",
-      "/portable-event-booth.png",
-      "/grids image (2).png"
-    ]
-  },
-  {
-    en: "El Dahan",
-    ar: "الدهان",
-    sector: "Traditional Egyptian Grill",
-    services: "Food Styling & Photography, Editorial Grids",
-    logo: "/logos/eldahan.jpg",
-    images: [
-      "/photography1.png",
-      "/CGI.png",
-      "/photography3.png",
-      "/Packaging-design.png"
-    ]
-  },
-  {
-    en: "Town Team",
-    ar: "تاون تيم",
-    sector: "Apparel & Retail",
-    services: "Visual Merchandising Design, Store Campaign",
-    logo: "/logos/townteam.png",
-    images: [
-      "/grids image (2).png",
-      "/portable-event-booth.png",
-      "/CGI.png",
-      "/photography2.png"
-    ]
-  },
-  {
-    en: "Madghout Dajaj",
-    ar: "مضغوط دجاج",
-    sector: "F&B Rice & Grill",
-    services: "Takeout Packaging Design, Typography",
-    logo: "/logos/مضغووووط-01.png",
-    images: [
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/photography4.png",
-      "/CGI.png"
-    ]
-  },
-  {
-    en: "Tant",
-    ar: "طنط",
-    sector: "Traditional Eatery",
-    services: "Typography & Graphic Elements",
-    logo: "/logos/tant.webp",
-    images: [
-      "/photography2.png",
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/portable-event-booth.png"
-    ]
-  },
-  {
-    en: "Qasr El Kababgi",
-    ar: "قصر الكبابجي",
-    sector: "Premium Fine Dining",
-    services: "VIP Menu Design, Campaign Photography",
-    logo: "/logos/122432_935612.webp",
-    images: [
-      "/photography3.png",
-      "/CGI.png",
-      "/Packaging-design.png",
-      "/photography1.png"
-    ]
-  },
-  {
-    en: "Tito's",
-    ar: "تيتوز",
-    sector: "Pasta & Fast Casual",
-    services: "Branded Cup Design, Direct Photography",
-    logo: "/logos/tito's.png",
-    images: [
-      "/grids image (2).png",
-      "/Packaging-design.png",
-      "/CGI.png",
-      "/photography2.png"
-    ]
-  },
-  {
-    en: "Takhmeesa",
-    ar: "تخميسة",
-    sector: "F&B Snacks & Coffee",
-    services: "Logo Refinements, Packaging Design",
-    logo: "/logos/logo (1).png",
-    images: [
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/photography3.png",
-      "/CGI.png"
-    ]
-  },
-  {
-    en: "Shrimp",
-    ar: "شريمب",
-    sector: "Seafood Diner",
-    services: "Digital Campaigns, Packaging",
-    logo: "",
-    images: [
-      "/CGI.png",
-      "/Packaging-design.png",
-      "/portable-event-booth.png",
-      "/grids image (2).png"
-    ]
-  },
-  {
-    en: "El Anfoshy",
-    ar: "الأنفوشي",
-    sector: "Seafood Restaurant",
-    services: "Environmental Graphic Design, Menus",
-    logo: "/logos/alanfoshy.webp",
-    images: [
-      "/photography1.png",
-      "/CGI.png",
-      "/photography3.png",
-      "/Packaging-design.png"
-    ]
-  },
-  {
-    en: "Akleh",
-    ar: "أكلة",
-    sector: "Casual Dining",
-    services: "Packaging, Menu Layouts",
-    logo: "/logos/akla.png",
-    images: [
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/portable-event-booth.png",
-      "/CGI.png"
-    ]
-  },
-  {
-    en: "Bebek",
-    ar: "بيبيك",
-    sector: "F&B Dairy & Desserts",
-    services: "Illustration, Beverage Cups",
-    logo: "",
-    images: [
-      "/CGI.png",
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/photography4.png"
-    ]
-  },
-  {
-    en: "El Rahawy",
-    ar: "الرهاوي",
-    sector: "Bakery",
-    services: "Identity Guidelines, Kraft Bags",
-    logo: "",
-    images: [
-      "/photography2.png",
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/portable-event-booth.png"
-    ]
-  },
-  {
-    en: "Shawerma El Reem",
-    ar: "شاورما الريم",
-    sector: "Casual Diner",
-    services: "Campaign Visuals, Digital Grids",
-    logo: "/logos/logo s B.png",
-    images: [
-      "/photography3.png",
-      "/CGI.png",
-      "/Packaging-design.png",
-      "/photography1.png"
-    ]
-  }
-]
 
 const MARQUEE_LOGOS = [
   { src: "/logos/Logo Barn's-.png", alt: "Barn's" },
@@ -235,110 +45,208 @@ const MARQUEE_LOGOS = [
   { src: "/logos/alanfoshy.webp", alt: "El Anfoshy" }
 ]
 
-interface GridItem {
-  index: string
-  title: string
-  src: string
-  slides: string[]
-  spanClass: string
-  heightClass: string
-}
-
-const GRID_ITEMS: GridItem[] = [
+export const CLIENTS: ClientDetail[] = [
   {
-    index: "01",
-    title: "Photography",
-    src: "/photography image.png",
-    slides: [
-      "/photography1.png",
-      "/photography2.png",
-      "/photography3.png",
-      "/photography4.png"
+    en: "Akleh",
+    ar: "أكلة",
+    sector: "Casual Dining",
+    services: "Packaging, Menu Layouts",
+    logo: "/logos/akla.png",
+    images: [
+      "/Packaging-design.png",
+      "/grids image (2).png",
+      "/portable-event-booth.png",
+      "/CGI.png"
     ],
-    spanClass: "col-span-1",
-    heightClass: "h-[380px]"
+    year: "2025",
+    subtitle: "From Generic to Genre-Defining.",
+    overview: "Akleh wasn't struggling because of its food—it was struggling because it looked like every other Syrian shawerma restaurant. In a category crowded with similar logos, menus, and interiors, the brand blended into the background. Our mission was to transform Akleh into a bold, culture-driven brand that felt relevant to today's audience while staying true to its roots. The result is a vibrant identity built for a new generation of customers—confident, playful, and instantly recognizable.",
+    challenge: "The Syrian shawerma category has become visually predictable. Most brands rely on the same cues, making it difficult for customers to distinguish one from another. Akleh needed to break away from convention without losing authenticity. The goal wasn't simply to redesign the logo—it was to create a brand people would want to photograph, share, and remember.",
+    approach: "We shifted the brand from a traditional takeaway restaurant into a lifestyle-driven fast-casual experience. Every element was designed to express personality—from bold typography and energetic graphics to vibrant packaging and a playful visual language that resonates with Gen Z and young millennials. Rather than following category conventions, we built a brand that feels modern, expressive, and unmistakably Akleh.",
+    outcome: "The transformation gave Akleh a completely new identity—one that stands apart in an increasingly crowded market. The refreshed brand creates stronger shelf and street presence, elevates the customer experience, and turns everyday items like packaging and menus into memorable brand assets. More than a visual refresh, the project repositioned Akleh as a contemporary food brand with the personality, flexibility, and recognition needed to connect with a younger audience and support long-term growth.",
+    scope: [
+      "Brand Strategy",
+      "Brand Positioning",
+      "Visual Identity System",
+      "Packaging Design",
+      "Menu Engineering",
+      "Menu Design",
+      "Graphic Language",
+      "Restaurant Branding",
+      "Brand Guidelines",
+      "Social Media Art Direction",
+      "Customer Experience Touchpoints"
+    ]
   },
   {
-    index: "02",
-    title: "Grids",
-    src: "/grids image (2).png",
-    slides: ["/grids image (2).png"],
-    spanClass: "col-span-1",
-    heightClass: "h-[380px]"
+    en: "LUX",
+    ar: "لوكس",
+    sector: "Beauty & Cosmetics",
+    services: "Social Media Strategy, Creative Direction",
+    logo: "/logos/LUX_LOGO.png",
+    images: [
+      "/CGI.png",
+      "/photography1.png",
+      "/photography3.png",
+      "/Packaging-design.png"
+    ],
+    year: "2025",
+    subtitle: "Keeping an Icon Ahead of Culture.",
+    overview: "LUX is one of the most recognized beauty brands in the world. The challenge wasn't awareness—it was relevance. In a fast-moving digital landscape where trends evolve daily, our role was to ensure LUX remained both timeless and contemporary. We developed a social-first creative direction that preserved the brand's premium heritage while embracing the visual language of today's audience.",
+    challenge: "As a heritage beauty brand, LUX needed to maintain its premium positioning without feeling distant or outdated. Consumers expect luxury brands to do more than follow trends—they expect them to shape them. Every piece of content needed to feel elevated, culturally relevant, and unmistakably LUX across increasingly competitive social platforms.",
+    approach: "We built a social media system that balances sophistication with modernity. Every visual, campaign, and content piece was crafted to reinforce the brand's premium identity while reflecting current design, beauty, and digital trends. Rather than chasing every trend, we focused on interpreting them through the lens of LUX—creating content that feels current without sacrificing brand equity. The result is a social presence that is aspirational, elegant, and consistently engaging.",
+    outcome: "Our work helped position LUX as a brand that doesn't simply participate in culture—it contributes to it. By combining premium aesthetics with contemporary creative execution, we created a scalable content system that keeps the brand visually fresh, culturally relevant, and instantly recognizable across digital platforms. LUX continues to demonstrate how heritage brands can evolve with the times while remaining true to what made them iconic in the first place.",
+    scope: [
+      "Social Media Strategy",
+      "Creative Direction",
+      "Art Direction",
+      "Campaign Development",
+      "Content Systems",
+      "CGI & AI Creative",
+      "Motion Concepts",
+      "Visual Storytelling",
+      "Product Launch Campaigns",
+      "Social Content Production"
+    ]
   },
   {
-    index: "03",
-    title: "CGI",
-    src: "/CGI.png",
-    slides: ["/CGI.png"],
-    spanClass: "col-span-1 md:col-span-2",
-    heightClass: "min-h-[450px] h-[480px] md:h-[600px]"
+    en: "HNDL",
+    ar: "HNDL",
+    sector: "Fleet Management Platform",
+    services: "Website Strategy, UX Strategy, UI Design",
+    images: [
+      "/grids image (2).png",
+      "/CGI.png",
+      "/photography3.png",
+      "/Packaging-design.png"
+    ],
+    year: "2025",
+    subtitle: "Simplifying Fleet Management Through Better Digital Experiences.",
+    overview: "Fleet management is complex. The experience shouldn't be. HNDL approached us to create a website that communicates a sophisticated fleet management platform with clarity, confidence, and credibility. Our objective was to translate technical capabilities into an intuitive digital experience that speaks to decision-makers, builds trust, and drives business inquiries. The result is a modern website that positions HNDL as an innovative technology partner rather than just another fleet service provider.",
+    challenge: "Fleet management platforms are often burdened by technical jargon, cluttered interfaces, and generic corporate messaging. HNDL needed a digital presence that simplified its offering without oversimplifying its value. The website had to communicate advanced technology, operational efficiency, and reliability while remaining approachable and easy to navigate.",
+    approach: "We designed the website around one principle: Complex technology. Effortless understanding. Every page was structured to guide visitors through HNDL's ecosystem with clear messaging, purposeful hierarchy, and clean visual design. We combined modern UI principles with a confident brand language to create an experience that feels intuitive, professional, and future-focused. Rather than overwhelming users with features, we focused on communicating outcomes—greater visibility, smarter decisions, and more efficient fleet operations.",
+    outcome: "The new website transforms HNDL's digital presence into a platform that reflects the quality of its technology. By combining strategic messaging with modern design, the experience builds credibility, simplifies complex services, and creates a stronger first impression for prospective clients. The result is a website designed not just to inform, but to convert—positioning HNDL as a trusted, forward-thinking leader in fleet management.",
+    scope: [
+      "Website Strategy",
+      "UX Strategy",
+      "UI Design",
+      "Information Architecture",
+      "Website Copy Direction",
+      "Visual Design System",
+      "Iconography",
+      "Landing Page Design",
+      "Conversion Journey",
+      "Responsive Experience",
+      "Digital Brand Direction"
+    ]
   },
   {
-    index: "04",
-    title: "Packaging Design",
-    src: "/Packaging-design.png",
-    slides: ["/Packaging-design.png"],
-    spanClass: "col-span-1",
-    heightClass: "h-[380px]"
+    en: "Farooja",
+    ar: "فروجى",
+    sector: "Healthy F&B Concept",
+    services: "Brand Concept Development, Packaging Design, Naming Direction",
+    logo: "/logos/logo faroja00.png",
+    images: [
+      "/Packaging-design.png",
+      "/photography1.png",
+      "/photography3.png",
+      "/CGI.png"
+    ],
+    year: "2025",
+    subtitle: "Reinventing the Chicken Bucket for a Healthier Generation.",
+    challengeLabel: "The Opportunity",
+    overview: "What if the experience of ordering a bucket of chicken didn't have to mean fried food? Farooja was born from a simple insight: people love the convenience, sharing experience, and familiarity of brands like KFC—but an increasing number of consumers want grilled, protein-rich meals that fit their lifestyle. We created Farooja from the ground up as a bold, modern chicken concept that delivers the satisfaction of a bucket meal without the guilt. A brand built for gym-goers, health-conscious consumers, families, and anyone looking for a better everyday choice.",
+    challenge: "The market offered two extremes. On one side were traditional fried chicken chains. On the other were healthy restaurants that often lacked personality and excitement. There was a clear gap for a brand that combined the emotional appeal of comfort food with a healthier proposition—one that felt energetic, social, and craveable rather than clinical. Farooja was designed to own that space.",
+    approach: "We built Farooja as a category challenger. Instead of speaking the visual language of healthy food, we borrowed the confidence and excitement of mainstream fast food—then paired it with a product people could feel good about eating. Bold typography, vibrant colors, playful graphics, and confident messaging gave the brand a strong presence across every touchpoint, while the concept centered around grilled chicken buckets, protein-packed meals, and shareable dining experiences. The result is a brand that feels just as exciting as indulgent fast food, while representing a smarter everyday choice.",
+    outcome: "Farooja introduces a fresh category within the chicken market—a brand that captures the energy of traditional chicken chains while aligning with today's lifestyle. By combining bold branding with a differentiated product proposition, Farooja stands out as more than another grilled chicken restaurant. It becomes a modern destination for people seeking flavor, convenience, and high-protein meals without compromise. Designed to be instantly recognizable and built for scale, Farooja lays the foundation for a new generation of chicken brands.",
+    scope: [
+      "Market & Category Strategy",
+      "Brand Concept Development",
+      "Brand Positioning",
+      "Naming Direction",
+      "Visual Identity System",
+      "Logo Design",
+      "Packaging Design",
+      "Bucket System Design",
+      "Menu Design",
+      "Interior Creative Direction",
+      "Environmental Graphics",
+      "Brand Guidelines",
+      "Customer Experience Design",
+      "Social Media Art Direction",
+      "Launch Creative Direction"
+    ]
   },
   {
-    index: "05",
-    title: "Portable Event Booth",
-    src: "/portable-event-booth.png",
-    slides: ["/portable-event-booth.png"],
-    spanClass: "col-span-1",
-    heightClass: "h-[380px]"
+    en: "Knorr",
+    ar: "كنور",
+    sector: "F&B / Cooking Ingredients",
+    services: "Social Media Strategy, Creative Direction, Short-Form Video Direction",
+    logo: "/logos/knorr logo.png",
+    images: [
+      "/photography3.png",
+      "/photography1.png",
+      "/CGI.png",
+      "/Packaging-design.png"
+    ],
+    year: "2025",
+    subtitle: "Turning Everyday Recipes into Must-Watch Content.",
+    overview: "For years, recipe content has followed the same formula: ingredients, steps, and a finished dish. The challenge with Knorr wasn't the product—it was the content. In a world dominated by short-form video and entertainment-first platforms, instructional cooking posts were no longer enough to capture attention. Our role was to evolve Knorr's social presence from recipe publisher to food content creator, making every piece of content as engaging as the meals themselves.",
+    challenge: "Consumers don't open social media to follow recipes—they open it to be inspired, entertained, and discover what's next. Knorr needed to move beyond static cooking tutorials and create content that felt native to modern platforms while continuing to showcase its products naturally and authentically.",
+    approach: "We shifted the creative strategy from teaching recipes to creating food experiences. Instead of relying solely on step-by-step cooking content, we introduced a more dynamic visual language built around appetite appeal, storytelling, trends, creator-style execution, and premium food cinematography. The focus became creating content that earns attention first—allowing the product to become part of the story rather than the entire story.",
+    outcome: "Knorr's content evolved from informative to engaging—without losing its role as a trusted cooking companion. By combining trend-driven creativity with strong food storytelling, we helped create a social presence that feels more contemporary, more entertaining, and more relevant to today's audiences. The result is a content system designed to stop the scroll, spark cravings, and keep Knorr at the center of everyday cooking conversations.",
+    scope: [
+      "Social Media Strategy",
+      "Creative Direction",
+      "Content Strategy",
+      "Art Direction",
+      "Campaign Concepts",
+      "Short-Form Video Direction",
+      "Food Styling Direction",
+      "CGI & AI Creative",
+      "Always-On Content System",
+      "Product Launch Campaigns"
+    ]
+  },
+  {
+    en: "Kufta",
+    ar: "كفتة",
+    sector: "F&B / Casual Dining",
+    services: "Campaign Strategy, Packaging Design, Customer Experience Design",
+    logo: "/logos/kufta.webp",
+    images: [
+      "/Packaging-design.png",
+      "/photography1.png",
+      "/photography3.png",
+      "/CGI.png"
+    ],
+    year: "2025",
+    subtitle: "From Ramadan Promotion to Brand Experience.",
+    overview: "Ramadan is one of the noisiest marketing seasons of the year, with brands competing through endless discounts, bundles, and price wars. Kufta chose a different path. Instead of lowering prices to drive sales, we created a campaign that rewarded engagement. 'Open the Chips & Win' transformed every meal into an experience, encouraging customers to interact with the brand rather than simply chase the cheapest offer. At its core, the idea tapped into nostalgia. The excitement of finding a surprise inside a snack is something many grew up with—a familiar childhood memory. By bringing this feeling back, we reintroduced the joy of discovery to older audiences while giving Gen Z a chance to experience something they had never encountered before: the thrill of 'Kharbesh w Eksab.'",
+    challenge: "Most Ramadan campaigns compete on discounts. The problem is that discount-led marketing often attracts price-sensitive customers who disappear as soon as the promotion ends. That wasn't the audience Kufta wanted to build. The objective was to increase traffic, excitement, and repeat visits while protecting the brand's premium perception and strengthening long-term customer loyalty.",
+    approach: "We designed a campaign around anticipation rather than price. Every qualifying order included a branded bag of chips containing a hidden prize. Customers didn't know what they'd receive until they opened it—turning a simple side item into the centerpiece of the campaign. The concept was rooted in nostalgia. For many, it revived the childhood excitement of discovering gifts inside snack packs. For younger audiences, it introduced a new kind of playful interaction—bringing back the spirit of 'Kharbesh w Eksab' in a modern, branded way. The mechanics were intentionally simple, allowing the excitement of discovery and sharing to become the campaign itself. Every purchase carried the possibility of winning, giving customers a reason to participate, return, and talk about the brand. Rather than buying attention with discounts, Kufta earned it through experience.",
+    outcome: "The campaign generated excitement without compromising the brand's positioning. By replacing discounts with interaction, Kufta strengthened customer engagement while maintaining the premium perception it has worked hard to build. Every purchase became more than a transaction—it became a moment of anticipation that customers wanted to experience and share. By tapping into nostalgia while introducing it to a new generation, the campaign created an emotional connection that went beyond the promotion itself. The campaign demonstrated that meaningful engagement can be a stronger growth driver than price reductions, proving that great ideas create loyalty where discounts only create temporary demand.",
+    scope: [
+      "Campaign Strategy",
+      "Creative Concept Development",
+      "Campaign Identity",
+      "Packaging Design",
+      "Prize Mechanics",
+      "Customer Experience Design",
+      "In-Store Campaign Rollout",
+      "Social Media Campaign",
+      "Art Direction",
+      "Launch Creative"
+    ]
   }
 ]
 
 export function ClientsPortfolio() {
-  // Main Portfolio Slideshow state
-  const [activeSlides, setActiveSlides] = useState<string[] | null>(null)
-  const [activeSlideIndex, setActiveSlideIndex] = useState(0)
-  const [sliderTitle, setSliderTitle] = useState('')
-  const [sliderIndex, setSliderIndex] = useState('')
-
-  // Client Visual Collage overlay state (alternative to slideshow)
-  const [activeCollageClient, setActiveCollageClient] = useState<ClientDetail | null>(null)
-
-  // Marquee hover state
   const [isHovered, setIsHovered] = useState(false)
-
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!activeSlides) return
-    setActiveSlideIndex((prev) => (prev === 0 ? activeSlides.length - 1 : prev - 1))
-  }
-
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!activeSlides) return
-    setActiveSlideIndex((prev) => (prev === activeSlides.length - 1 ? 0 : prev + 1))
-  }
-
-  const handleLogoClick = (logoAlt: string) => {
-    const client = CLIENTS.find(
-      (c) => c.en.toLowerCase() === logoAlt.toLowerCase()
-    )
-    if (client) {
-      const id = `client-${client.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
-      const element = document.getElementById(id)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        return
-      }
-    }
-    // Fallback: scroll to the client list section
-    const element = document.getElementById('clients-list')
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
 
   return (
     <section id="portfolio" className="bg-cream py-20 text-navy md:py-28">
-      {/* 05. clients — marquee ticker */}
+      {/* Title */}
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
           <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
@@ -348,6 +256,7 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
+      {/* Reverted Marquee Ticker */}
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -358,10 +267,9 @@ export function ClientsPortfolio() {
           style={{ animationPlayState: isHovered ? 'paused' : 'running' }}
         >
           {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
-            <button
+            <div
               key={`${logo.src}-${i}`}
-              onClick={() => handleLogoClick(logo.alt)}
-              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/50 rounded-lg cursor-pointer transition-transform hover:scale-105 duration-300"
+              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0"
             >
               <Image
                 src={logo.src}
@@ -369,7 +277,7 @@ export function ClientsPortfolio() {
                 fill
                 className="object-contain"
               />
-            </button>
+            </div>
           ))}
         </div>
         {/* duplicate track for seamless loop */}
@@ -379,10 +287,9 @@ export function ClientsPortfolio() {
           aria-hidden="true"
         >
           {[...MARQUEE_LOGOS, ...MARQUEE_LOGOS].map((logo, i) => (
-            <button
+            <div
               key={`dup-${logo.src}-${i}`}
-              onClick={() => handleLogoClick(logo.alt)}
-              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/50 rounded-lg cursor-pointer transition-transform hover:scale-105 duration-300"
+              className="mx-12 flex items-center justify-center h-16 w-36 relative shrink-0"
             >
               <Image
                 src={logo.src}
@@ -390,94 +297,80 @@ export function ClientsPortfolio() {
                 fill
                 className="object-contain"
               />
-            </button>
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Client Directory List Showcase */}
-      <div id="clients-list" className="mx-auto mt-24 max-w-7xl px-6">
-        <div className="flex flex-col gap-24">
+      {/* Clients Showcase Section */}
+      <div id="clients-list" className="mx-auto mt-16 max-w-7xl px-6">
+        <div className="flex flex-col gap-16">
           {CLIENTS.map((client, idx) => {
-            const clientSlug = `client-${client.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+            const clientSlug = client.en.toLowerCase().replace(/[^a-z0-9]+/g, '-')
             return (
-              <div 
-                key={client.en} 
-                id={clientSlug}
-                className="scroll-mt-28 group/client"
-              >
+              <div key={client.en} className="scroll-mt-28 group/client">
                 <Reveal duration={700}>
-                  <div className="flex flex-col gap-6">
-                    {/* Header Row: Logo, Name, Sector */}
-                    <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-                      {/* Logo Box */}
-                      <div className={`size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-navy/10 ${client.logo ? 'bg-white' : 'bg-navy'}`}>
-                        {client.logo ? (
-                          <Image
-                            src={client.logo}
-                            alt={`${client.en} logo`}
-                            fill
-                            className="object-contain p-2"
-                          />
-                        ) : (
-                          <span className="font-display font-extrabold text-lg text-cream select-none uppercase">
-                            {client.en.slice(0, 2)}
-                          </span>
-                        )}
-                      </div>
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white/40 border border-navy/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow duration-300">
+                    
+                    {/* Left Column: Details */}
+                    <div className="lg:col-span-6 flex flex-col gap-6">
+                      <div className="flex items-center gap-4 sm:gap-6">
+                        {/* Logo Box */}
+                        <div className={`size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-navy/10 ${client.logo ? 'bg-white' : 'bg-navy'}`}>
+                          {client.logo ? (
+                            <Image
+                              src={client.logo}
+                              alt={`${client.en} logo`}
+                              fill
+                              className="object-contain p-2"
+                            />
+                          ) : (
+                            <span className="font-display font-extrabold text-lg text-cream select-none uppercase">
+                              {client.en.slice(0, 2)}
+                            </span>
+                          )}
+                        </div>
 
-                      {/* Client Names and Info */}
-                      <div className="flex-1 min-w-[200px]">
-                        <div className="flex items-baseline gap-3 flex-wrap">
+                        {/* Client Names and Info */}
+                        <div className="flex-1 min-w-[150px]">
                           <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy">
                             {client.en}
                           </h3>
+                          <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1 font-display">
+                            {client.sector}
+                          </p>
                         </div>
-                        <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1 font-display">
-                          {client.sector}
-                        </p>
                       </div>
-                    </div>
 
-                    {/* Services / Small Sentence */}
-                    <p className="text-base text-navy/70 leading-relaxed max-w-3xl">
-                      We shaped their brand through <span className="font-semibold text-navy">{client.services}</span>.
-                    </p>
+                      {/* Services Sentence */}
+                      <p className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-xl">
+                        We shaped their brand through <span className="font-semibold text-navy">{client.services}</span>.
+                      </p>
 
-                    {/* Image Grid */}
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
-                      {client.images.map((imgUrl, i) => (
-                        <div 
-                          key={`${imgUrl}-${i}`}
-                          onClick={() => setActiveCollageClient(client)}
-                          className="relative aspect-video sm:aspect-square rounded-2xl overflow-hidden bg-navy/5 border border-navy/10 group/img shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                      {/* Button */}
+                      <div>
+                        <Link
+                          href={`/clients/${clientSlug}`}
+                          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy hover:bg-navy/90 text-cream font-bold text-sm uppercase tracking-widest transition-all duration-300 shadow-sm"
                         >
-                          <Image
-                            src={imgUrl}
-                            alt={`${client.en} showcase image ${i + 1}`}
-                            fill
-                            sizes="(max-width: 640px) 50vw, 25vw"
-                            className="object-cover transition-transform duration-500 ease-out group-hover/img:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-navy/5 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <span className="text-cream text-xs font-semibold bg-navy/80 px-3 py-1.5 rounded-full backdrop-blur-sm transform translate-y-2 group-hover/img:translate-y-0 transition-transform duration-300">
-                              View Project
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                          View Case Study
+                        </Link>
+                      </div>
                     </div>
 
-                    {/* Elegant Divider */}
-                    {idx < CLIENTS.length - 1 && (
-                      <div className="w-full flex items-center justify-between gap-4 mt-16 text-navy/10">
-                        <div className="h-[1px] flex-1 bg-current" />
-                        <span className="text-xs font-display uppercase tracking-widest text-navy/30">
-                          ✳
-                        </span>
-                        <div className="h-[1px] flex-1 bg-current" />
-                      </div>
-                    )}
+                    {/* Right Column: Single Minimal Showcase Image */}
+                    <div className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-sm border border-navy/5">
+                      <Link href={`/clients/${clientSlug}`} className="block w-full h-full relative group">
+                        <Image
+                          src={client.images[0]}
+                          alt={`${client.en} brand showcase preview`}
+                          fill
+                          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
+                        />
+                        <div className="absolute inset-0 bg-navy/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </Link>
+                    </div>
+
                   </div>
                 </Reveal>
               </div>
@@ -485,142 +378,6 @@ export function ClientsPortfolio() {
           })}
         </div>
       </div>
-
-
-      {/* Image Slideshow Modal (for Main Portfolio Grid) */}
-      {activeSlides && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col justify-between bg-[#122940]/95 backdrop-blur-lg p-6 sm:p-10 animate-in fade-in duration-300"
-          onClick={() => setActiveSlides(null)}
-        >
-          {/* Top Bar */}
-          <div className="flex items-center justify-between text-cream z-10">
-            <div className="flex flex-col">
-              <span className="font-display text-xs uppercase tracking-widest text-blob/90">{sliderIndex}</span>
-              <h3 className="font-display text-xl font-bold tracking-tight">{sliderTitle}</h3>
-            </div>
-            <button
-              onClick={() => setActiveSlides(null)}
-              className="rounded-full bg-cream/10 p-3 text-cream hover:bg-cream/25 transition-colors cursor-pointer"
-            >
-              <X className="size-6" />
-            </button>
-          </div>
-
-          {/* Main Slide */}
-          <div className="relative flex-1 flex items-center justify-center py-6">
-            {activeSlides.length > 1 && (
-              <button
-                onClick={handlePrev}
-                className="absolute left-2 sm:left-4 z-10 rounded-full bg-cream/10 p-3 text-cream hover:bg-cream/25 transition-colors backdrop-blur cursor-pointer"
-              >
-                <ChevronLeft className="size-6" />
-              </button>
-            )}
-
-            <div className="relative w-full h-[60vh] max-w-4xl" onClick={(e) => e.stopPropagation()}>
-              <Image
-                src={activeSlides[activeSlideIndex]}
-                alt={`${sliderTitle} slide ${activeSlideIndex + 1}`}
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-
-            {activeSlides.length > 1 && (
-              <button
-                onClick={handleNext}
-                className="absolute right-2 sm:right-4 z-10 rounded-full bg-cream/10 p-3 text-cream hover:bg-cream/25 transition-colors backdrop-blur cursor-pointer"
-              >
-                <ChevronRight className="size-6" />
-              </button>
-            )}
-          </div>
-
-          {/* Bottom Indicators */}
-          <div className="flex flex-col items-center gap-4 text-cream z-10">
-            {activeSlides.length > 1 && (
-              <div className="flex gap-2">
-                {activeSlides.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setActiveSlideIndex(idx)
-                    }}
-                    className={`size-2 rounded-full transition-all ${
-                      idx === activeSlideIndex ? 'bg-blob w-6' : 'bg-cream/30'
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-            <span className="font-display text-xs text-cream/60">
-              {activeSlideIndex + 1} / {activeSlides.length}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* Full-Screen Client Visual Collage Board (Alternative to Slideshow) */}
-      {activeCollageClient && (
-        <div
-          className="fixed inset-0 z-50 bg-[#122940]/95 backdrop-blur-lg overflow-y-auto p-6 sm:p-12 text-cream flex flex-col items-center animate-in fade-in duration-300"
-          onClick={() => setActiveCollageClient(null)}
-        >
-          <div className="w-full max-w-7xl">
-            {/* Top Bar: Case Header & Close Button */}
-            <div className="flex justify-between items-start border-b border-cream/10 pb-6 mb-10">
-              <div>
-                <span className="font-display text-xs uppercase tracking-widest text-blob/90">
-                  {activeCollageClient.sector}
-                </span>
-                <h3 className="font-display text-3xl sm:text-4xl font-extrabold mt-2 leading-tight">
-                  {activeCollageClient.en}
-                </h3>
-                <p className="text-xs uppercase font-extrabold tracking-widest text-[#457D9E] bg-[#457D9E]/10 border border-[#457D9E]/20 rounded-full px-4 py-1.5 inline-block mt-3">
-                  {activeCollageClient.services}
-                </p>
-              </div>
-
-              <button
-                onClick={() => setActiveCollageClient(null)}
-                className="rounded-full bg-cream/10 p-3 text-cream hover:bg-cream/25 transition-colors cursor-pointer"
-                aria-label="Close Case Board"
-              >
-                <X className="size-6" />
-              </button>
-            </div>
-
-            {/* Masonry-Style Image Board Showcase */}
-            <div
-              className="columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6 pb-12"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {activeCollageClient.images.map((imgUrl, idx) => (
-                <div
-                  key={`${imgUrl}-${idx}`}
-                  className="break-inside-avoid relative rounded-3xl overflow-hidden bg-cream/5 border border-cream/10 shadow-lg group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`${activeCollageClient.en} design board visual ${idx + 1}`}
-                    className="w-full h-auto object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
-                    loading="lazy"
-                  />
-                  {/* Subtle label overlay inside collage */}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-[10px] font-display tracking-widest text-blob uppercase">
-                      Deliverable #{(idx + 1).toString().padStart(2, '0')}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   )
 }
