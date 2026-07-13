@@ -432,11 +432,8 @@ export function ClientsPortfolio() {
                           <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy">
                             {client.en}
                           </h3>
-                          <span className="font-arabic text-lg sm:text-xl font-medium text-navy/40">
-                            {client.ar}
-                          </span>
                         </div>
-                        <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1">
+                        <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1 font-display">
                           {client.sector}
                         </p>
                       </div>
@@ -475,7 +472,7 @@ export function ClientsPortfolio() {
                     {idx < CLIENTS.length - 1 && (
                       <div className="w-full flex items-center justify-between gap-4 mt-16 text-navy/10">
                         <div className="h-[1px] flex-1 bg-current" />
-                        <span className="text-xs font-mono uppercase tracking-widest text-navy/30">
+                        <span className="text-xs font-display uppercase tracking-widest text-navy/30">
                           ✳
                         </span>
                         <div className="h-[1px] flex-1 bg-current" />
@@ -499,7 +496,7 @@ export function ClientsPortfolio() {
           {/* Top Bar */}
           <div className="flex items-center justify-between text-cream z-10">
             <div className="flex flex-col">
-              <span className="font-mono text-xs uppercase tracking-widest text-blob/90">{sliderIndex}</span>
+              <span className="font-display text-xs uppercase tracking-widest text-blob/90">{sliderIndex}</span>
               <h3 className="font-display text-xl font-bold tracking-tight">{sliderTitle}</h3>
             </div>
             <button
@@ -559,7 +556,7 @@ export function ClientsPortfolio() {
                 ))}
               </div>
             )}
-            <span className="font-mono text-xs text-cream/60">
+            <span className="font-display text-xs text-cream/60">
               {activeSlideIndex + 1} / {activeSlides.length}
             </span>
           </div>
@@ -576,11 +573,11 @@ export function ClientsPortfolio() {
             {/* Top Bar: Case Header & Close Button */}
             <div className="flex justify-between items-start border-b border-cream/10 pb-6 mb-10">
               <div>
-                <span className="font-mono text-xs uppercase tracking-widest text-blob/90">
+                <span className="font-display text-xs uppercase tracking-widest text-blob/90">
                   {activeCollageClient.sector}
                 </span>
                 <h3 className="font-display text-3xl sm:text-4xl font-extrabold mt-2 leading-tight">
-                  {activeCollageClient.en} <span className="font-arabic text-2xl font-light text-cream/55">({activeCollageClient.ar})</span>
+                  {activeCollageClient.en}
                 </h3>
                 <p className="text-xs uppercase font-extrabold tracking-widest text-[#457D9E] bg-[#457D9E]/10 border border-[#457D9E]/20 rounded-full px-4 py-1.5 inline-block mt-3">
                   {activeCollageClient.services}
@@ -614,7 +611,7 @@ export function ClientsPortfolio() {
                   />
                   {/* Subtle label overlay inside collage */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-[10px] font-mono tracking-widest text-blob uppercase">
+                    <span className="text-[10px] font-display tracking-widest text-blob uppercase">
                       Deliverable #{(idx + 1).toString().padStart(2, '0')}
                     </span>
                   </div>

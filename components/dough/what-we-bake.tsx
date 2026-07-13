@@ -24,19 +24,18 @@ export function WhatWeBake() {
           {SERVICES.map((service, i) => (
             <Reveal key={service} delay={i * 80} duration={600} className="h-full bg-cream">
               <li className="h-full">
-                <a
-                  className="group flex items-center justify-between gap-4 bg-cream px-6 py-7 transition-colors hover:bg-navy hover:text-cream md:px-10 md:py-9 h-full"
+                <div
+                  className="flex items-center justify-between gap-4 bg-cream px-6 py-7 md:px-10 md:py-9 h-full"
                 >
                   <span className="flex items-center gap-4">
-                    <span className="font-display text-sm font-semibold text-navy/40 group-hover:text-cream/50">
+                    <span className="font-display text-sm font-semibold text-navy/40">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <span className="font-display text-xl font-semibold sm:text-2xl">
                       {service}
                     </span>
                   </span>
-                  <ArrowUpRight className="size-5 shrink-0 -translate-x-2 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
-                </a>
+                </div>
               </li>
             </Reveal>
           ))}

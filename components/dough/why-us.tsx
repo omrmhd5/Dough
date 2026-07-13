@@ -26,9 +26,9 @@ export function WhyUs() {
           {POINTS.map((point, i) => (
             <Reveal key={point} delay={i * 100} duration={700} className="h-full">
               <div
-                className="h-full rounded-3xl border border-cream/10 bg-cream/5 p-8 transition-colors hover:bg-cream/10"
+                className="h-full rounded-3xl border border-cream/10 bg-cream/5 p-8"
               >
-                <span className="font-display text-2xl font-bold text-blob">
+                <span className="font-display text-4xl font-bold text-blob">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <p className="mt-4 text-pretty leading-relaxed text-cream/80">

@@ -7,8 +7,8 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "./logo";
 
 const LINKS = [
-  { label: "About Us", href: "/" },
-  { label: "Clients", href: "/clients" },
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/clients" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -38,12 +38,15 @@ export function SiteNav() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`text-sm font-medium px-4.5 py-2 rounded-full transition-all duration-300 gsap-nav-link ${
-                    isActive
-                      ? "bg-navy text-cream font-bold shadow-sm"
-                      : "text-navy/70 hover:text-navy hover:bg-navy/5"
+                  className={`text-sm gsap-nav-link relative inline-flex flex-col items-center group ${
+                    isActive ? "text-navy" : "text-navy/70 hover:text-navy"
                   }`}>
-                  {link.label}
+                  <span className={isActive ? "font-bold" : "font-medium group-hover:font-bold transition-all duration-300"}>
+                    {link.label}
+                  </span>
+                  <span className="invisible h-0 select-none font-bold block overflow-hidden" aria-hidden="true">
+                    {link.label}
+                  </span>
                 </Link>
               </li>
             );
@@ -52,9 +55,9 @@ export function SiteNav() {
 
         <Link
           href="/contact"
-          className="hidden rounded-full bg-navy px-5 py-2 text-sm font-semibold text-cream transition-transform hover:scale-105 md:inline-block gsap-nav-btn relative overflow-hidden group hover:text-navy z-0 border border-cream/10">
+          className="hidden rounded-full bg-navy px-5 py-2 text-sm font-semibold text-cream md:inline-block gsap-nav-btn relative overflow-hidden group hover:text-navy z-0 border border-cream/10">
           {/* Lighter color ripple/fill element */}
-          <span className="absolute inset-0 bg-blob -z-10 translate-y-full -translate-x-full rounded-tr-[100%] transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0 group-hover:rounded-none" />
+          <span className="absolute inset-0 bg-blob -z-10 translate-y-full -translate-x-full rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0" />
           <span className="">Let&apos;s Bake</span>
         </Link>
 
@@ -80,10 +83,10 @@ export function SiteNav() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className={`text-lg font-medium px-4 py-2.5 rounded-2xl block transition-all duration-300 ${
+                    className={`text-lg block transition-colors duration-300 ${
                       isActive
-                        ? "bg-cream text-navy font-bold shadow-md"
-                        : "text-cream/80 hover:text-cream hover:bg-cream/10"
+                        ? "text-cream font-bold"
+                        : "text-cream/80 hover:text-cream hover:font-bold"
                     }`}>
                     {link.label}
                   </Link>

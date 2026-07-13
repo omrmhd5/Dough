@@ -155,7 +155,7 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Heading and Info */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
+          <div className="lg:col-span-6 flex flex-col gap-8">
             <Reveal duration={800}>
               <span className="text-xs uppercase font-extrabold tracking-widest text-blob/90">
                 Get in Touch
@@ -168,25 +168,25 @@ export function Contact() {
                 Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise.
               </p>
             </Reveal>
-
+ 
             {/* Contact Information */}
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
               {DETAILS.map(({ icon: Icon, label, value, href }, i) => (
                 <Reveal key={label} delay={i * 100} duration={750}>
                   <a
                     href={href}
                     target={href.startsWith('http') ? '_blank' : undefined}
                     rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="flex items-center gap-5 group rounded-2xl border border-cream/5 bg-cream/[0.03] p-5 hover:bg-cream/[0.08] hover:border-cream/10 transition-all duration-300"
+                    className="flex flex-col items-start gap-3.5 group rounded-2xl border border-cream/5 bg-cream/[0.03] p-4 hover:bg-cream/[0.08] hover:border-cream/10 transition-all duration-300 h-full"
                   >
-                    <div className="size-11 rounded-xl bg-blob/10 flex items-center justify-center text-blob group-hover:bg-blob group-hover:text-navy transition-all duration-300">
-                      <Icon className="size-5" />
+                    <div className="size-9 rounded-xl bg-blob/10 flex items-center justify-center text-blob group-hover:bg-blob group-hover:text-navy transition-all duration-300">
+                      <Icon className="size-4" />
                     </div>
                     <div>
                       <span className="text-[10px] uppercase font-bold tracking-widest text-cream/40 block">
                         {label}
                       </span>
-                      <span className="text-sm font-medium text-cream group-hover:text-blob transition-colors duration-300">
+                      <span className="text-xs font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
                         {value}
                       </span>
                     </div>
@@ -195,9 +195,9 @@ export function Contact() {
               ))}
             </div>
           </div>
-
+ 
           {/* Right Column: Interactive Form */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <Reveal duration={900} delay={150}>
               <div className="bg-cream/[0.03] border border-cream/10 rounded-3xl p-6 sm:p-10 backdrop-blur-md shadow-xl overflow-hidden">
                 
@@ -238,7 +238,7 @@ export function Contact() {
                     {formStatus === 'submitting' ? (
                       <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
                         <Loader2 className="size-12 text-blob animate-spin mb-4" />
-                        <p className="text-blob font-mono text-sm tracking-widest uppercase animate-pulse">
+                        <p className="text-blob font-display text-sm tracking-widest uppercase animate-pulse">
                           {statusMessage}
                         </p>
                       </div>
@@ -249,7 +249,7 @@ export function Contact() {
                             <h3 className="font-display text-xl font-bold text-cream">
                               Dough Inquiry Form
                             </h3>
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
+                            <span className="text-[10px] font-display uppercase tracking-wider text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
                               Step {step} of 3
                             </span>
                           </div>
@@ -438,7 +438,7 @@ export function Contact() {
                                             : 'bg-cream/[0.02] border-cream/10 text-cream/70 hover:border-cream/30 hover:text-cream'
                                         }`}
                                       >
-                                        <span className="font-mono text-[10px] opacity-60">{index + 1}.</span>
+                                        <span className="font-display text-[10px] opacity-60">{index + 1}.</span>
                                         {service}
                                       </button>
                                     )
