@@ -43,8 +43,7 @@ export function HowWeWork() {
               <div className="flex flex-col items-center text-center h-full">
                 <Blob
                   variant={i}
-                  float
-                  className="size-40 bg-blob text-navy"
+                  className="size-48 bg-blob text-navy"
                 >
                   <span className="flex flex-col gap-1">
                     <span className="font-display text-xs font-semibold uppercase tracking-widest text-navy/50">
