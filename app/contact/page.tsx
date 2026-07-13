@@ -7,7 +7,7 @@ export default function ContactPage() {
     <main className="bg-cream min-h-screen pt-20">
       <SiteNav />
       <Contact />
-      <SiteFooter />
+      <SiteFooter hideCareers />
     </main>
   )
 }
