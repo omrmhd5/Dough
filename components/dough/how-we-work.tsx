@@ -28,40 +28,55 @@ export function HowWeWork() {
   return (
     <section
       id="work"
-      className="relative bg-navy pt-24 pb-32 text-cream md:pt-32">
-      <div className="mx-auto max-w-7xl px-6">
+      className="relative bg-navy pt-32 pb-48 text-cream md:pt-48 md:pb-64 overflow-hidden bg-radial from-[#122940] via-[#0d1e30] to-[#071320]">
+      
+      {/* Background visual grain */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
+
+      <div className="mx-auto max-w-6xl px-6 relative z-10">
         <Reveal duration={800}>
-          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-cream mb-16 leading-none">
             How we work
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-5">
-          {STEPS.map((step, i) => (
-            <Reveal
-              key={step.title}
-              delay={i * 120}
-              duration={850}
-              className="w-full">
-              <div className="flex flex-col items-center text-center h-full">
-                <Blob variant={i} className="size-48 bg-blob text-navy">
-                  <span className="flex flex-col gap-1">
-                    <span className="font-display text-xs font-semibold uppercase tracking-widest text-navy/50">
-                      step {i + 1}
-                    </span>
-                    <span className="px-4 font-display text-lg font-bold leading-tight">
+        {/* Timeline staggered list */}
+        <div className="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-5 items-start">
+          {STEPS.map((step, i) => {
+            // Apply vertical stagger offset only on lg screen (desktop)
+            const staggerClass = i % 2 === 1 ? "lg:mt-20" : "lg:mt-0";
+
+            return (
+              <Reveal
+                key={step.title}
+                delay={i * 120}
+                duration={850}
+                className={`w-full ${staggerClass}`}>
+                <div className="flex flex-col items-center text-center h-full">
+                  
+                  {/* Step Monospace Number */}
+                  <span className="font-mono text-xs font-semibold tracking-widest text-water uppercase mb-4 tabular-nums [font-variant-numeric:tabular-nums]">
+                    [Step {String(i + 1).padStart(2, "0")}]
+                  </span>
+
+                  {/* Blob container */}
+                  <Blob variant={i} className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
+                    <span className="px-4 font-display text-base font-extrabold leading-tight tracking-tight">
                       {step.title}
                     </span>
-                  </span>
-                </Blob>
-                <p className="mt-6 text-pretty text-sm leading-relaxed text-cream/70">
-                  {step.body}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+                  </Blob>
+
+                  {/* Body Paragraph */}
+                  <p className="mt-8 text-pretty text-xs leading-relaxed text-cream/70 font-normal max-w-[24ch]">
+                    {step.body}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+

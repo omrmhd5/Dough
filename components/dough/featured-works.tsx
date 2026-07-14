@@ -16,71 +16,90 @@ export function FeaturedWorks() {
   ).filter(Boolean);
 
   return (
-    <section id="featured" className="bg-cream py-16 text-navy md:py-20">
+    <section id="featured" className="bg-cream py-32 text-navy md:py-48 relative overflow-hidden">
+      
+      {/* Background Visual Texture */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#122940_1px,transparent_1px)] [background-size:24px_24px]" />
+
       <div className="mx-auto max-w-6xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-navy mb-16 leading-none">
             Featured work
           </h2>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {clients.map((client, i) => {
             if (!client) return null;
             const slug = clientSlug(client.en);
+
+            // Determine layout spans:
+            // i=0: col-span-8, height 460px
+            // i=1: col-span-4, height 460px
+            // i=2: col-span-12, height 360px
+            let spanClass = "lg:col-span-4 min-h-[380px] sm:min-h-[420px]";
+            if (i === 0) {
+              spanClass = "lg:col-span-8 min-h-[380px] sm:min-h-[460px]";
+            } else if (i === 2) {
+              spanClass = "lg:col-span-12 min-h-[300px] sm:min-h-[380px]";
+            }
 
             return (
               <Reveal
                 key={client.en}
                 delay={i * 100}
                 duration={700}
-                className="h-full">
+                className={`h-full ${spanClass}`}>
                 <Link
                   href={`/clients/${slug}`}
-                  className="group relative flex h-full min-h-[300px] flex-col overflow-hidden rounded-xl border border-navy/10 bg-navy shadow-sm transition-shadow duration-300 hover:shadow-lg sm:min-h-[340px] lg:min-h-[360px]">
+                  className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-navy/10 bg-navy shadow-[0_12px_40px_-10px_rgba(18,41,64,0.12)]">
+                  
+                  {/* Premium Editorial Grayscale Image Filter */}
                   <Image
                     src={client.images[0]}
                     alt={`${client.en} featured project`}
                     fill
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover grayscale brightness-90 contrast-125 opacity-90 transition-none"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-navy/20" />
+                  {/* Moody Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/55 to-navy/15 pointer-events-none" />
 
-                  <div className="relative z-10 flex h-full flex-col justify-between p-5 sm:p-6">
+                  {/* Content Pinned Cleanly to Bottom */}
+                  <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8">
                     <div className="flex items-start">
                       {client.logo ? (
-                        <div className="relative h-8 w-20 sm:h-9 sm:w-24">
+                        <div className="relative h-8 w-24 sm:h-9 sm:w-28">
                           <Image
                             src={client.logo}
                             alt={`${client.en} logo`}
                             fill
-                            className="object-contain object-left"
+                            className="object-contain object-left filter brightness-0 invert"
                           />
                         </div>
                       ) : (
-                        <span className="font-display text-base font-extrabold uppercase tracking-widest text-cream">
+                        <span className="font-display text-sm font-extrabold uppercase tracking-widest text-cream">
                           {client.en}
                         </span>
                       )}
                     </div>
 
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-4 mt-auto">
                       <div>
-                        <p className="font-display text-base font-bold leading-snug text-cream sm:text-lg">
+                        <p className="font-display text-lg font-bold leading-snug text-cream sm:text-xl">
                           {client.en}
                           <span className="text-cream/50"> — </span>
                           {client.subtitle}
                         </p>
-                        <p className="mt-1.5 font-display text-[10px] uppercase tracking-widest text-cream/50">
+                        <p className="mt-2 font-display text-[9px] font-semibold uppercase tracking-widest text-cream/50">
                           {client.sector}
                         </p>
                       </div>
 
-                      <span className="inline-flex items-center gap-1.5 font-display text-[10px] font-bold uppercase tracking-widest text-cream/80 transition-colors duration-300 group-hover:text-cream">
+                      <span className="inline-flex items-center gap-1.5 font-display text-[9px] font-bold uppercase tracking-widest text-cream/80">
                         View project
-                        <ArrowUpRight className="size-3 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <ArrowUpRight className="size-3" />
                       </span>
                     </div>
                   </div>
