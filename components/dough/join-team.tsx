@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import Link from 'next/link'
 import { Upload, X, Loader2, CheckCircle2 } from 'lucide-react'
-import { Reveal } from './reveal'
+
 
 const ROLES = [
   'Designer',
@@ -134,14 +134,13 @@ export function JoinTeam() {
     <div className="border-t border-cream/10 pt-16 pb-12 text-cream">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         
-        {/* Left Column: Title and CTA Link */}
         <div className="lg:col-span-5 flex flex-col gap-6 h-full justify-between lg:py-6">
-          <Reveal duration={850}>
+          <div>
             <div className="flex flex-col gap-3">
-              <span className="text-xs uppercase font-extrabold tracking-widest text-blob/90 font-display">
+              <span className="font-display font-normal text-[12px] leading-[14px] uppercase tracking-wider text-blob/90">
                 We&apos;re always looking for bright new talents
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl font-extrabold tracking-tight text-cream mt-2">
+              <h2 className="font-display font-bold text-3xl sm:text-[40px] sm:leading-[44px] text-cream mt-2">
                 Join the team!
               </h2>
             </div>
@@ -160,11 +159,11 @@ export function JoinTeam() {
             {/* Get in Touch Alternate Link */}
             <p className="text-sm text-cream/50 mt-6 lg:mt-8 font-display">
               Looking to bake an idea instead?{' '}
-              <Link href="/contact" className="text-blob hover:underline font-bold transition-all duration-300">
+              <Link href="/contact" className="text-blob hover:underline font-bold transition-all duration-300 font-semibold">
                 Contact us
               </Link>
             </p>
-          </Reveal>
+          </div>
         </div>
 
         {/* Right Column: Form Container */}
@@ -302,7 +301,7 @@ export function JoinTeam() {
 
               {/* Textareas */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-cream/60 font-display px-1">Show us your work</label>
+                <label className="font-display font-normal text-[12px] leading-[14px] text-cream/60 px-1">Show us your work</label>
                 <textarea
                   rows={2}
                   value={showWork}
@@ -313,7 +312,7 @@ export function JoinTeam() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-cream/60 font-display px-1">Anything else you&apos;d like us to know?</label>
+                <label className="font-display font-normal text-[12px] leading-[14px] text-cream/60 px-1">Anything else you&apos;d like us to know?</label>
                 <textarea
                   rows={2}
                   value={anythingElse}
@@ -325,7 +324,7 @@ export function JoinTeam() {
 
               {/* File Attachment Dropzone */}
               <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-cream/60 font-display px-1">Attachments</label>
+                <label className="font-display font-normal text-[12px] leading-[14px] text-cream/60 px-1">Attachments</label>
                 <div
                   onDragEnter={handleDrag}
                   onDragOver={handleDrag}
