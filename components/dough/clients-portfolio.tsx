@@ -55,10 +55,10 @@ export function ClientsPortfolio() {
       {/* Title */}
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display text-3xl font-bold tracking-tight sm:text-5xl">
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
             Clients
           </h2>
-          <p className="mt-4 text-lg text-navy/70">They asked we shaped</p>
+          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-navy/70">They asked we shaped</p>
         </Reveal>
       </div>
 
@@ -125,19 +125,19 @@ export function ClientsPortfolio() {
 
                         {/* Client Names and Info */}
                         <div className="flex-1 min-w-[150px]">
-                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy">
+                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy leading-tight">
                             {client.en}
                           </h3>
-                          <p className="text-xs uppercase font-extrabold tracking-widest text-water mt-1 font-display">
+                          <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-1">
                             {client.sector}
                           </p>
                         </div>
                       </div>
 
                       {/* Services Sentence */}
-                      <p className="text-base sm:text-lg text-navy/70 leading-relaxed max-w-xl">
+                      <p className="font-display font-normal text-[16px] leading-[19px] text-navy/70 max-w-xl">
                         We shaped their brand through{" "}
-                        <span className="font-semibold text-navy">
+                        <span className="font-bold text-navy">
                           {client.services}
                         </span>
                         .
@@ -147,7 +147,7 @@ export function ClientsPortfolio() {
                       <div>
                         <Link
                           href={`/clients/${clientSlug}`}
-                          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy hover:bg-navy/90 text-cream font-bold text-sm uppercase tracking-widest transition-all duration-300 shadow-sm">
+                          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy hover:bg-navy/90 text-cream font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
                           View Case Study
                         </Link>
                       </div>

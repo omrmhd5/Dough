@@ -20,7 +20,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
         
         {!hideCareers && <JoinTeam />}
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-cream/10 pt-12 text-center text-xs tracking-wider uppercase md:flex-row md:text-left font-semibold text-cream/50">
+        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-cream/10 pt-12 text-center text-[12px] leading-[14px] tracking-wider uppercase md:flex-row md:text-left font-semibold text-cream/50 font-display">
           <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
             <span>Raw Ideas. Real Results. Fully Cooked by</span>
             <Logo className="text-[10px] translate-y-[1px]" blobColor="bg-blob" />

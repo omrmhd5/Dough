@@ -39,13 +39,22 @@ export function SiteNav() {
               <li key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className={`text-xs font-semibold uppercase tracking-wider relative inline-flex flex-col items-center ${
-                    isActive ? "text-navy" : "text-navy/70"
+                  className={`text-xs uppercase tracking-wider relative inline-flex flex-col items-center group ${
+                    isActive ? "text-navy" : "text-navy/70 hover:text-navy"
                   }`}>
-                  <span>{link.label}</span>
-                  {isActive && (
-                    <span className="absolute -bottom-1 h-0.5 w-4 rounded-full bg-navy" />
-                  )}
+                  <span
+                    className={
+                      isActive
+                        ? "font-bold"
+                        : "font-normal group-hover:font-bold transition-all duration-300"
+                    }>
+                    {link.label}
+                  </span>
+                  <span
+                    className="invisible h-0 select-none font-bold block overflow-hidden"
+                    aria-hidden="true">
+                    {link.label}
+                  </span>
                 </Link>
               </li>
             );
@@ -54,8 +63,10 @@ export function SiteNav() {
 
         <Link
           href="/contact"
-          className="hidden rounded-full bg-navy px-5 py-2 text-xs font-bold uppercase tracking-wider text-cream md:inline-block gsap-nav-btn border border-navy shadow-sm">
-          Let&apos;s Bake
+          className="hidden rounded-full bg-navy px-5 py-2 text-xs font-bold uppercase tracking-wider text-cream md:inline-block gsap-nav-btn relative overflow-hidden group hover:text-navy z-0 border border-navy shadow-sm transition-colors duration-300">
+          {/* Lighter color ripple/fill element */}
+          <span className="absolute inset-0 bg-blob -z-10 translate-y-full -translate-x-full rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0" />
+          <span className="relative z-10">Let&apos;s Bake</span>
         </Link>
 
         <button

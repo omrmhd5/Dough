@@ -23,7 +23,7 @@ export function FeaturedWorks() {
 
       <div className="mx-auto max-w-6xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-navy mb-16 leading-none">
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy mb-16">
             Featured work
           </h2>
         </Reveal>
@@ -54,17 +54,16 @@ export function FeaturedWorks() {
                   href={`/clients/${slug}`}
                   className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-navy/10 bg-navy shadow-[0_12px_40px_-10px_rgba(18,41,64,0.12)]">
                   
-                  {/* Premium Editorial Grayscale Image Filter */}
                   <Image
                     src={client.images[0]}
                     alt={`${client.en} featured project`}
                     fill
-                    className="object-cover grayscale brightness-90 contrast-125 opacity-90 transition-none"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
                   />
 
                   {/* Moody Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/55 to-navy/15 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/50 to-navy/20 pointer-events-none" />
 
                   {/* Content Pinned Cleanly to Bottom */}
                   <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8">
@@ -92,12 +91,12 @@ export function FeaturedWorks() {
                           <span className="text-cream/50"> — </span>
                           {client.subtitle}
                         </p>
-                        <p className="mt-2 font-display text-[9px] font-semibold uppercase tracking-widest text-cream/50">
+                        <p className="mt-2 font-display text-[12px] leading-[14px] font-semibold uppercase tracking-widest text-cream/50">
                           {client.sector}
                         </p>
                       </div>
 
-                      <span className="inline-flex items-center gap-1.5 font-display text-[9px] font-bold uppercase tracking-widest text-cream/80">
+                      <span className="inline-flex items-center gap-1.5 font-display text-[12px] leading-[14px] font-bold uppercase tracking-widest text-cream/80">
                         View project
                         <ArrowUpRight className="size-3" />
                       </span>

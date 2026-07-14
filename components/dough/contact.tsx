@@ -157,14 +157,14 @@ export function Contact() {
           {/* Left Column: Heading and Info */}
           <div className="lg:col-span-6 flex flex-col gap-8">
             <Reveal duration={800}>
-              <span className="text-xs uppercase font-extrabold tracking-widest text-blob/90">
+              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-blob/90">
                 Get in Touch
               </span>
-              <h2 className="font-display text-4xl sm:text-6xl font-extrabold tracking-tight text-cream mt-2 leading-[1.1]">
+              <h2 className="font-display font-extrabold tracking-tight text-[40px] leading-[40px] md:text-[93px] md:leading-[93px] text-cream mt-2">
                 Let's bake your <br />
                 <span className="text-blob">next big idea.</span>
               </h2>
-              <p className="mt-6 text-lg text-cream/70 leading-relaxed max-w-md">
+              <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md">
                 Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise.
               </p>
             </Reveal>
@@ -183,10 +183,10 @@ export function Contact() {
                       <Icon className="size-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-bold tracking-widest text-cream/40 block">
+                      <span className="font-display text-[12px] leading-[14px] uppercase font-bold tracking-widest text-cream/40 block">
                         {label}
                       </span>
-                      <span className="text-xs font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
+                      <span className="font-display text-[12px] leading-[14px] font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
                         {value}
                       </span>
                     </div>

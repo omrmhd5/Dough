@@ -70,7 +70,7 @@ export default function CaseStudyPage() {
                   {client.en}
                 </h1>
                 {client.subtitle && (
-                  <p className="font-display text-lg sm:text-xl text-navy/60 mt-2 font-semibold">
+                  <p className="font-display text-lg sm:text-xl text-navy/60 mt-2 font-medium">
                     {client.subtitle}
                   </p>
                 )}
@@ -79,24 +79,24 @@ export default function CaseStudyPage() {
           </div>
 
           {/* Metadata Table */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-2 text-xs font-display">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-2 text-[12px] leading-[14px] font-display">
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-navy/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-navy/40">
                 Client
               </span>
-              <span className="font-bold text-navy text-sm">{client.en}</span>
+              <span className="font-bold text-navy text-[12px] leading-[14px]">{client.en}</span>
             </div>
             <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-navy/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-navy/40">
                 Year
               </span>
-              <span className="font-bold text-navy text-sm">{client.year}</span>
+              <span className="font-bold text-navy text-[12px] leading-[14px]">{client.year}</span>
             </div>
             <div className="flex flex-col gap-1.5 col-span-2 md:col-span-1">
-              <span className="text-[10px] uppercase font-bold tracking-widest text-navy/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-navy/40">
                 Services
               </span>
-              <span className="font-bold text-navy text-sm leading-relaxed">
+              <span className="font-bold text-navy text-[12px] leading-[14px] leading-relaxed">
                 {client.services}
               </span>
             </div>
@@ -118,10 +118,10 @@ export default function CaseStudyPage() {
 
         {/* Overview */}
         <div className="max-w-3xl mx-auto text-center flex flex-col gap-4 py-4">
-          <span className="text-xs uppercase font-extrabold tracking-widest text-water font-display">
+          <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
             Overview
           </span>
-          <p className="font-display text-lg sm:text-xl font-medium leading-relaxed text-navy/85 text-pretty">
+          <p className="font-display text-[25px] leading-[28px] md:text-[33px] md:leading-[37px] font-medium leading-relaxed text-navy/85 text-pretty">
             {client.overview}
           </p>
         </div>
@@ -129,18 +129,18 @@ export default function CaseStudyPage() {
         {/* Challenge & Approach Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 border-t border-b border-navy/10 py-10 md:py-12">
           <div className="flex flex-col gap-3">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-water font-display">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               {client.challengeLabel || "The Challenge"}
             </span>
-            <p className="text-xs sm:text-sm leading-relaxed text-navy/70 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-navy/70 text-pretty">
               {client.challenge}
             </p>
           </div>
           <div className="flex flex-col gap-3">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-water font-display">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               Our Approach
             </span>
-            <p className="text-xs sm:text-sm leading-relaxed text-navy/70 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-navy/70 text-pretty">
               {client.approach}
             </p>
           </div>
@@ -149,7 +149,7 @@ export default function CaseStudyPage() {
         {/* Visual deliverables list */}
         {client.images.length > 0 && (
           <div className="flex flex-col gap-6">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-water text-center font-display">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
               Visual Deliverables
             </span>
             <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
@@ -172,10 +172,10 @@ export default function CaseStudyPage() {
         {/* Scope of Work & Outcome Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 border-t border-navy/10 pt-12 pb-6">
           <div className="flex flex-col gap-4">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-water font-display">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               Scope of Work
             </span>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-semibold text-navy/70">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[12px] leading-[14px] font-medium text-navy/70">
               {client.scope?.map((item, idx) => (
                 <li key={idx} className="flex items-center gap-2 font-display">
                   <span className="size-1.5 rounded-full bg-water shrink-0" />
@@ -185,10 +185,10 @@ export default function CaseStudyPage() {
             </ul>
           </div>
           <div className="flex flex-col gap-3">
-            <span className="text-xs uppercase font-extrabold tracking-widest text-water font-display">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               The Outcome
             </span>
-            <p className="text-xs sm:text-sm leading-relaxed text-navy/75 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-navy/75 text-pretty">
               {client.outcome}
             </p>
           </div>

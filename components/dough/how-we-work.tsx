@@ -28,14 +28,14 @@ export function HowWeWork() {
   return (
     <section
       id="work"
-      className="relative bg-navy pt-32 pb-48 text-cream md:pt-48 md:pb-64 overflow-hidden bg-radial from-[#122940] via-[#0d1e30] to-[#071320]">
+      className="relative bg-navy pt-32 pb-48 text-cream md:pt-48 md:pb-64 overflow-hidden">
       
       {/* Background visual grain */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="mx-auto max-w-6xl px-6 relative z-10">
         <Reveal duration={800}>
-          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-cream mb-16 leading-none">
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream mb-16">
             How we work
           </h2>
         </Reveal>
@@ -67,7 +67,7 @@ export function HowWeWork() {
                   </Blob>
 
                   {/* Body Paragraph */}
-                  <p className="mt-8 text-pretty text-xs leading-relaxed text-cream/70 font-normal max-w-[24ch]">
+                  <p className="mt-8 text-pretty text-[16px] leading-[19px] text-cream/70 font-normal max-w-[24ch]">
                     {step.body}
                   </p>
                 </div>

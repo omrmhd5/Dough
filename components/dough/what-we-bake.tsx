@@ -11,14 +11,14 @@ const SERVICES = [
 
 export function WhatWeBake() {
   return (
-    <section id="bake" className="bg-[#122940] bg-radial from-[#122940] via-[#0d1e30] to-[#071320] py-32 text-cream md:py-48 relative overflow-hidden">
+    <section id="bake" className="bg-navy py-32 text-cream md:py-48 relative overflow-hidden">
       
       {/* Background Visual Texture */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:32px_32px]" />
 
       <div className="mx-auto max-w-6xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-cream mb-16 leading-none">
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream mb-16">
             What we bake
           </h2>
         </Reveal>
@@ -37,11 +37,11 @@ export function WhatWeBake() {
               <Reveal key={service} delay={i * 80} duration={600} className={`h-full ${spanClass}`}>
                 <div className="group h-full flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10 min-h-[200px] md:min-h-[240px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-md">
                   <div className="flex items-start justify-between">
-                    <span className="font-mono text-xs font-semibold tracking-widest text-cream/40 uppercase">
+                    <span className="font-display text-[12px] leading-[14px] font-semibold tracking-widest text-cream/40 uppercase">
                       [{String(i + 1).padStart(2, '0')}]
                     </span>
                   </div>
-                  <h3 className="font-display text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl text-cream leading-tight mt-12 text-pretty">
+                  <h3 className="font-display text-[22px] leading-[26px] md:text-[33px] md:leading-[37px] font-medium text-cream tracking-tight mt-12 text-pretty">
                     {service}
                   </h3>
                 </div>
