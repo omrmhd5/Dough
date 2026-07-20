@@ -161,8 +161,8 @@ export function Contact() {
                 Get in Touch
               </span>
               <h2 className="font-display font-extrabold tracking-tight text-[40px] leading-[40px] md:text-[93px] md:leading-[93px] text-cream mt-2">
-                Let's bake your <br />
-                <span className="text-blob">next big idea.</span>
+                Let's Bake Your <br />
+                <span className="text-blob">Next Big Idea.</span>
               </h2>
               <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md">
                 Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise.

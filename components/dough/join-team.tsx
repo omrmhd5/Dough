@@ -141,7 +141,7 @@ export function JoinTeam() {
                 We&apos;re always looking for bright new talents
               </span>
               <h2 className="font-display font-bold text-3xl sm:text-[40px] sm:leading-[44px] text-cream mt-2">
-                Join the team!
+                Join The Team!
               </h2>
             </div>
 

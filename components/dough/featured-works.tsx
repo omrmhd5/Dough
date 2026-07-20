@@ -24,7 +24,7 @@ export function FeaturedWorks() {
       <div className="mx-auto max-w-6xl px-6">
         <Reveal duration={800}>
           <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy mb-16">
-            Featured work
+            Featured Work
           </h2>
         </Reveal>
 

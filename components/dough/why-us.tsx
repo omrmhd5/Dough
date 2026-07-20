@@ -17,7 +17,7 @@ export function WhyUs() {
         {/* Section Title */}
         <div className="mb-16 md:mb-24 text-left">
           <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
-            Why us
+            Why Us
           </h2>
         </div>
 
