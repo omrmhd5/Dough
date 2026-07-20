@@ -1,13 +1,14 @@
-import { Reveal } from './reveal'
+import { Reveal } from './reveal';
+import { Sparkles, Palette, Share2, Box, Zap, Megaphone } from "lucide-react";
 
 const SERVICES = [
-  'Strategy & Branding',
-  'Creative Direction & Production',
-  'Social & Digital',
-  'Packaging & Merch',
-  'Brand Activations',
-  'UGC Amplification',
-]
+  { name: 'Strategy & Branding', icon: Sparkles },
+  { name: 'Creative Direction & Production', icon: Palette },
+  { name: 'Social & Digital', icon: Share2 },
+  { name: 'Packaging & Merch', icon: Box },
+  { name: 'Brand Activations', icon: Zap },
+  { name: 'UGC Amplification', icon: Megaphone },
+];
 
 export function WhatWeBake() {
   return (
@@ -25,6 +26,7 @@ export function WhatWeBake() {
 
         <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {SERVICES.map((service, i) => {
+            const Icon = service.icon;
             // Bento spans logic:
             // i=0: col-span-2, i=1: col-span-1
             // i=2: col-span-1, i=3: col-span-2
@@ -34,15 +36,16 @@ export function WhatWeBake() {
               : 'md:col-span-1';
 
             return (
-              <Reveal key={service} delay={i * 80} duration={600} className={`h-full ${spanClass}`}>
-                <div className="group h-full flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-8 md:p-10 min-h-[200px] md:min-h-[240px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-md">
+              <Reveal key={service.name} delay={i * 80} duration={600} className={`h-full ${spanClass}`}>
+                <div className="group h-full flex flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.02] p-6 md:p-8 min-h-[160px] md:min-h-[200px] shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] backdrop-blur-md">
                   <div className="flex items-start justify-between">
                     <span className="font-display text-[12px] leading-[14px] font-semibold tracking-widest text-cream/40 uppercase">
                       [{String(i + 1).padStart(2, '0')}]
                     </span>
+                    <Icon className="size-5 text-blob" />
                   </div>
-                  <h3 className="font-display text-[22px] leading-[26px] md:text-[33px] md:leading-[37px] font-medium text-cream tracking-tight mt-12 text-pretty">
-                    {service}
+                  <h3 className="font-display text-[20px] leading-[24px] md:text-[26px] md:leading-[30px] font-medium text-cream tracking-tight mt-8 text-pretty">
+                    {service.name}
                   </h3>
                 </div>
               </Reveal>
@@ -51,6 +54,5 @@ export function WhatWeBake() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

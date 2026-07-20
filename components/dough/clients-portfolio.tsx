@@ -58,7 +58,9 @@ export function ClientsPortfolio() {
           <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
             Clients
           </h2>
-          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-navy/70">They asked we shaped</p>
+          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-navy/70">
+            They asked we shaped
+          </p>
         </Reveal>
       </div>
 
@@ -148,7 +150,7 @@ export function ClientsPortfolio() {
                         <Link
                           href={`/clients/${clientSlug}`}
                           className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy hover:bg-navy/90 text-cream font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
-                          View Case Study
+                          View Project
                         </Link>
                       </div>
                     </div>
