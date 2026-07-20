@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "./reveal";
@@ -39,16 +39,43 @@ const LOGO_GROUPS = [
 export function ClientsPortfolio() {
   const [activeGroup, setActiveGroup] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const cycleStartRef = useRef(Date.now());
+  const activeGroupRef = useRef(0);
+
+  const totalDuration = 3500;
+  const tickInterval = 50;
+
+  useEffect(() => {
+    activeGroupRef.current = activeGroup;
+  }, [activeGroup]);
 
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
-      setActiveGroup((prev) => (prev + 1) % LOGO_GROUPS.length);
-    }, 2000);
+    const id = setInterval(() => {
+      const elapsed = Date.now() - cycleStartRef.current;
+      const nextProgress = Math.min((elapsed / totalDuration) * 100, 100);
+      setProgress(nextProgress);
 
-    return () => clearInterval(timer);
+      if (elapsed >= totalDuration) {
+        cycleStartRef.current = Date.now();
+        const nextGroup = (activeGroupRef.current + 1) % LOGO_GROUPS.length;
+        activeGroupRef.current = nextGroup;
+        setActiveGroup(nextGroup);
+        setProgress(0);
+      }
+    }, tickInterval);
+
+    return () => clearInterval(id);
   }, [isPaused]);
+
+  const goToGroup = (idx: number) => {
+    cycleStartRef.current = Date.now();
+    activeGroupRef.current = idx;
+    setActiveGroup(idx);
+    setProgress(0);
+  };
 
   return (
     <section id="portfolio" className="bg-cream py-20 text-navy md:py-28">
@@ -64,34 +91,55 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
-      {/* Logo banner — 6 at a time, fade between groups */}
+      {/* Logo banner — 6 at a time, sliding between groups with progress bullets */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         className="relative mt-10 overflow-hidden border-y border-cream/10 py-8 bg-[#122940]">
-        <div className="relative mx-auto max-w-7xl px-6 min-h-28 sm:min-h-16">
-          {LOGO_GROUPS.map((group, groupIdx) => (
-            <div
-              key={groupIdx}
-              className={`absolute inset-x-6 inset-y-0 grid grid-cols-3 sm:grid-cols-6 gap-6 sm:gap-8 items-center transition-opacity duration-1000 ease-in-out ${
-                activeGroup === groupIdx
-                  ? "opacity-100 z-10"
-                  : "opacity-0 z-0 pointer-events-none"
+        <div className="relative mx-auto w-full max-w-7xl overflow-hidden px-6">
+          <div
+            className="flex w-full transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${activeGroup * 100}%)` }}>
+            {LOGO_GROUPS.map((group, groupIdx) => (
+              <div
+                key={groupIdx}
+                className="grid min-w-full shrink-0 grid-cols-3 items-center gap-6 px-4 sm:grid-cols-6 sm:gap-8">
+                {group.map((logo) => (
+                  <div
+                    key={logo.src}
+                    className="relative mx-auto h-14 w-full max-w-36 sm:h-16">
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Time bullets progress indicator */}
+        <div className="flex justify-center gap-2 mt-6">
+          {LOGO_GROUPS.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => goToGroup(idx)}
+              className={`relative h-1.5 rounded-full bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 ${
+                activeGroup === idx ? "w-10" : "w-5"
               }`}
-              aria-hidden={activeGroup !== groupIdx}>
-              {group.map((logo) => (
-                <div
-                  key={logo.src}
-                  className="relative mx-auto h-14 w-full max-w-36 sm:h-16">
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              ))}
-            </div>
+              aria-label={`Go to client slide group ${idx + 1}`}>
+              <div
+                className="absolute top-0 left-0 h-full bg-white transition-all ease-linear"
+                style={{
+                  width: activeGroup === idx ? `${progress}%` : "0%",
+                  transitionDuration: activeGroup === idx ? "100ms" : "0s",
+                }}
+              />
+            </button>
           ))}
         </div>
       </div>
