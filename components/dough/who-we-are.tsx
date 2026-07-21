@@ -1,4 +1,5 @@
 import { Reveal } from "./reveal";
+import { CountUp } from "./count-up";
 
 const PARAGRAPHS = [
   "We're Dough — a creative agency shaping brands, stories, and moments from scratch.",
@@ -7,9 +8,15 @@ const PARAGRAPHS = [
 ];
 
 const STATS = [
-  { value: "30+", label: "Brands Transformed" },
-  { value: "150+", label: "Creative Projects Delivered" },
-  { value: "1BN+", label: "Customer Impressions Generated" },
+  { end: 30, suffix: "+", label: "Brands Transformed" },
+  { end: 150, suffix: "+", label: "Creative Projects Delivered" },
+  {
+    end: 1,
+    suffix: "BN+",
+    label: "Customer Impressions Generated",
+    variant: "billion" as const,
+    duration: 2800,
+  },
 ];
 
 export function WhoWeAre() {
@@ -18,7 +25,6 @@ export function WhoWeAre() {
       id="who"
       className="bg-cream py-28 md:py-40 overflow-hidden text-navy">
       <div className="mx-auto max-w-7xl px-6">
-        
         {/* Asymmetrical Header and Subheader */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20 md:mb-28">
           <Reveal duration={800}>
@@ -35,7 +41,6 @@ export function WhoWeAre() {
 
         {/* Asymmetrical Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
           {/* Left Column: Main statement with large quotation visual hook (Span 7) */}
           <div className="lg:col-span-7">
             <Reveal delay={100} duration={850}>
@@ -83,27 +88,28 @@ export function WhoWeAre() {
             {STATS.map((stat, idx) => (
               <Reveal key={stat.label} delay={400 + idx * 100} duration={850}>
                 <div className="flex flex-col items-start w-full relative">
-                  
                   {/* Number container with horizontal line passing behind the bottom of numbers */}
                   <div className="relative w-full flex items-end min-h-[60px] md:min-h-[80px]">
-                    <span className="font-display font-black text-[42px] md:text-[60px] text-navy tracking-tighter leading-none relative z-10 select-none pb-3 font-mono">
-                      {stat.value}
-                    </span>
+                    <CountUp
+                      end={stat.end}
+                      suffix={stat.suffix}
+                      variant={"variant" in stat ? stat.variant : "default"}
+                      duration={"duration" in stat ? stat.duration : 2000}
+                      className="font-display font-black text-[42px] md:text-[60px] text-navy tracking-tighter leading-none relative z-10 select-none pb-3 font-mono"
+                    />
                     {/* The line that cuts through the bottom part of the number */}
                     <div className="absolute bottom-1 left-0 right-0 h-[1.5px] bg-navy/80 z-0" />
                   </div>
-                  
+
                   {/* Caption underneath the line */}
                   <p className="font-display font-semibold text-[12px] leading-[16px] uppercase tracking-widest text-navy/60 mt-4 text-left">
                     {stat.label}
                   </p>
-                  
                 </div>
               </Reveal>
             ))}
           </div>
         </div>
-
       </div>
     </section>
   );

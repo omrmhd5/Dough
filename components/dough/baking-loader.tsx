@@ -1,0 +1,66 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Blob, BLOB_COUNT } from "./blob";
+import { cn } from "@/lib/utils";
+
+const HOLD_MS = 180;
+const FADE_MS = 450;
+
+interface BakingLoaderProps {
+  className?: string;
+  size?: string;
+  showLabel?: boolean;
+}
+
+export function BakingLoader({
+  className,
+  size = "size-24 sm:size-28",
+  showLabel = true,
+}: BakingLoaderProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % BLOB_COUNT);
+    }, HOLD_MS + FADE_MS);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        "flex flex-col items-center justify-center gap-4 bg-navy",
+        className,
+      )}>
+      <div className={cn("relative animate-blob", size)}>
+        {Array.from({ length: BLOB_COUNT }).map((_, index) => {
+          const isActive = index === activeIndex;
+
+          return (
+            <div
+              key={index}
+              className={cn(
+                "absolute inset-0 transition-[opacity,filter] ease-in-out",
+                isActive
+                  ? "z-10 opacity-100 blur-0"
+                  : "z-0 opacity-0 blur-[3px]",
+              )}
+              style={{ transitionDuration: `${FADE_MS}ms` }}>
+              <Blob variant={index} className="size-full bg-blob" />
+            </div>
+          );
+        })}
+      </div>
+
+      {showLabel && (
+        <p className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-cream/50 animate-pulse">
+          Baking
+        </p>
+      )}
+    </div>
+  );
+}
+
+export const BAKING_LOADER_CYCLE_MS = BLOB_COUNT * (HOLD_MS + FADE_MS);

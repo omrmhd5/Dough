@@ -31,7 +31,9 @@ const BLOBS: { d: string; vb: string }[] = [
     d: "M 1297.03,90 c 0.85,-35.95 18.36,-54 54.1,-56.04 c 61.45,-7.41 118.71,-4.11 178.56,11.99 c 58.45,16.96 60.49,96.38 22.37,134.8 c -32.12,34.38 -49.76,20.46 -85.34,2.9 c -20.1,-7.92 -33.73,0.82 -51.31,9.05 c -27.06,12.09 -72.9,0.87 -88.19,-25.15 c -10.42,-22.41 -29.36,-52.83 -30.19,-77.55 Z",
     vb: "1287 15 315 210",
   },
-];;
+];
+
+export const BLOB_COUNT = BLOBS.length;
 
 // Pre-build CSS mask strings at module load time (static data → no runtime cost)
 const MASKS = BLOBS.map(({ d, vb }) => {
