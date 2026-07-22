@@ -29,7 +29,6 @@ export function HowWeWork() {
     <section
       id="work"
       className="relative bg-navy pt-32 pb-48 text-cream md:pt-48 md:pb-64 overflow-hidden">
-      
       {/* Background visual grain */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
 
@@ -53,14 +52,15 @@ export function HowWeWork() {
                 duration={850}
                 className={`w-full ${staggerClass}`}>
                 <div className="flex flex-col items-center text-center h-full">
-                  
                   {/* Step Number */}
-                  <span className="font-display text-[12px] leading-[14px] font-bold tracking-widest text-water uppercase mb-4">
+                  <span className="font-display text-[12px] leading-[14px] font-bold text-water uppercase mb-4">
                     [Step {String(i + 1).padStart(2, "0")}]
                   </span>
 
                   {/* Blob container */}
-                  <Blob variant={i} className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
+                  <Blob
+                    variant={i}
+                    className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
                     <span className="px-4 font-display text-[16px] leading-[20px] font-extrabold tracking-tight">
                       {step.title}
                     </span>
@@ -79,4 +79,3 @@ export function HowWeWork() {
     </section>
   );
 }
-

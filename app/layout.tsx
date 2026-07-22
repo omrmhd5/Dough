@@ -4,6 +4,7 @@ import { Montserrat, Alexandria } from "next/font/google";
 import "./globals.css";
 import { ScrollToTop } from "@/components/dough/scroll-to-top";
 import { InitialPageLoader } from "@/components/dough/initial-page-loader";
+import { NavigationLoader } from "@/components/dough/navigation-loader";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -48,6 +49,7 @@ export default function RootLayout({
       suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <InitialPageLoader>{children}</InitialPageLoader>
+        <NavigationLoader />
         <ScrollToTop />
         {process.env.NODE_ENV === "production" && <Analytics />}
       </body>

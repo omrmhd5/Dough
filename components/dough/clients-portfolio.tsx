@@ -78,14 +78,14 @@ export function ClientsPortfolio() {
   };
 
   return (
-    <section id="portfolio" className="bg-cream py-20 text-navy md:py-28">
+    <section id="portfolio" className="relative z-10 py-20 md:py-28">
       {/* Title */}
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
-            Clients
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream">
+            Work
           </h2>
-          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-navy/70">
+          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-cream/70">
             They asked we shaped
           </p>
         </Reveal>
@@ -95,7 +95,7 @@ export function ClientsPortfolio() {
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="relative mt-10 overflow-hidden border-y border-cream/10 py-8 bg-[#122940]">
+        className="relative mt-10 overflow-hidden border-y border-cream/10 py-8 bg-navy/50">
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden px-6">
           <div
             className="flex w-full transition-transform duration-500 ease-in-out"
@@ -154,17 +154,17 @@ export function ClientsPortfolio() {
             return (
               <div key={client.en} className="scroll-mt-28 group/client">
                 <Reveal duration={700}>
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white/40 border border-navy/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-cream/5 border border-cream/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
                     {/* Left Column: Details */}
                     <div className="lg:col-span-6 flex flex-col gap-6">
                       <div className="flex items-center gap-4 sm:gap-6">
                         {/* Logo Box */}
-                        <div className="size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-cream/10 bg-navy">
+                        <div className="size-14 sm:size-16 shrink-0 rounded-2xl flex items-center justify-center shadow-sm relative overflow-hidden border border-cream/10 bg-navy/50">
                           {client.logo ? (
                             <img
                               src={client.logo}
                               alt={`${client.en} logo`}
-                              className="object-contain p-2 w-full h-full"
+                              className="object-contain p-2 w-full h-full filter brightness-0 invert"
                             />
                           ) : (
                             <span className="font-display font-extrabold text-lg text-cream select-none uppercase">
@@ -175,7 +175,7 @@ export function ClientsPortfolio() {
 
                         {/* Client Names and Info */}
                         <div className="flex-1 min-w-[150px]">
-                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-navy leading-tight">
+                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-cream leading-tight">
                             {client.en}
                           </h3>
                           <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-1">
@@ -185,9 +185,9 @@ export function ClientsPortfolio() {
                       </div>
 
                       {/* Services Sentence */}
-                      <p className="font-display font-normal text-[16px] leading-[19px] text-navy/70 max-w-xl">
+                      <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-xl">
                         We shaped their brand through{" "}
-                        <span className="font-bold text-navy">
+                        <span className="font-bold text-cream">
                           {client.services}
                         </span>
                         .
@@ -196,17 +196,17 @@ export function ClientsPortfolio() {
                       {/* Button */}
                       <div>
                         <Link
-                          href={`/clients/${clientSlug}`}
-                          className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-navy hover:bg-navy/90 text-cream font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
+                          href={`/work/${clientSlug}`}
+                          className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-cream hover:bg-blob text-navy font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
                           View Project
                         </Link>
                       </div>
                     </div>
 
                     {/* Right Column: Single Minimal Showcase Image */}
-                    <div className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-sm border border-navy/5">
+                    <div className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-sm border border-cream/10">
                       <Link
-                        href={`/clients/${clientSlug}`}
+                        href={`/work/${clientSlug}`}
                         className="block w-full h-full relative group">
                         <Image
                           src={client.images[0]}
@@ -214,7 +214,7 @@ export function ClientsPortfolio() {
                           fill
                           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                         />
-                        <div className="absolute inset-0 bg-navy/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        <div className="absolute inset-0 bg-cream/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       </Link>
                     </div>
                   </div>

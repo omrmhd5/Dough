@@ -4,41 +4,60 @@ import { useEffect, useState } from "react";
 import { BakingLoader, BAKING_LOADER_CYCLE_MS } from "./baking-loader";
 import { cn } from "@/lib/utils";
 
-const MIN_LOADER_MS = BAKING_LOADER_CYCLE_MS + 400;
+const FADE_MS = 400;
+const MAX_LOADER_MS = 4500;
+
+function getMinLoaderMs() {
+  if (typeof window === "undefined") return 2200;
+  return window.innerWidth < 768 ? 1800 : BAKING_LOADER_CYCLE_MS + 300;
+}
 
 export function InitialPageLoader({ children }: { children: React.ReactNode }) {
   const [visible, setVisible] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    let loaded = document.readyState === "complete";
-    let minTimeElapsed = false;
+    let finished = false;
+    let minTimer: number | undefined;
+    const start = Date.now();
 
     const finish = () => {
+      if (finished) return;
+      finished = true;
+      document.body.dataset.initialLoad = "done";
       setFadeOut(true);
-      window.setTimeout(() => setVisible(false), 700);
+      window.setTimeout(() => setVisible(false), FADE_MS);
     };
 
-    const tryFinish = () => {
-      if (loaded && minTimeElapsed) finish();
+    const scheduleFinish = () => {
+      const remaining = Math.max(0, getMinLoaderMs() - (Date.now() - start));
+      window.clearTimeout(minTimer);
+      minTimer = window.setTimeout(finish, remaining);
     };
 
-    const minTimer = window.setTimeout(() => {
-      minTimeElapsed = true;
-      tryFinish();
-    }, MIN_LOADER_MS);
+    const maxTimer = window.setTimeout(finish, MAX_LOADER_MS);
 
-    const onLoad = () => {
-      loaded = true;
-      tryFinish();
+    if (
+      document.readyState === "complete" ||
+      document.readyState === "interactive"
+    ) {
+      scheduleFinish();
+    } else {
+      document.addEventListener("DOMContentLoaded", scheduleFinish, {
+        once: true,
+      });
+      window.addEventListener("load", scheduleFinish, { once: true });
+    }
+
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) finish();
     };
-
-    if (!loaded) window.addEventListener("load", onLoad);
-    else tryFinish();
+    window.addEventListener("pageshow", onPageShow);
 
     return () => {
       window.clearTimeout(minTimer);
-      window.removeEventListener("load", onLoad);
+      window.clearTimeout(maxTimer);
+      window.removeEventListener("pageshow", onPageShow);
     };
   }, []);
 
@@ -47,10 +66,12 @@ export function InitialPageLoader({ children }: { children: React.ReactNode }) {
       {visible && (
         <div
           className={cn(
-            "fixed inset-0 z-[100] transition-opacity duration-700 ease-out",
+            "fixed inset-0 z-[100] bg-navy transition-opacity duration-300 ease-out touch-none",
             fadeOut ? "pointer-events-none opacity-0" : "opacity-100",
-          )}>
-          <BakingLoader className="h-full w-full" />
+          )}
+          aria-hidden={fadeOut}
+          aria-busy={!fadeOut}>
+          <BakingLoader className="h-full w-full min-h-[100dvh]" showLabel />
         </div>
       )}
       {children}

@@ -15,28 +15,41 @@ interface BakingLoaderProps {
 
 export function BakingLoader({
   className,
-  size = "size-24 sm:size-28",
+  size = "size-20 sm:size-28",
   showLabel = true,
 }: BakingLoaderProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduceMotion(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
     const timer = setInterval(() => {
       setActiveIndex((current) => (current + 1) % BLOB_COUNT);
     }, HOLD_MS + FADE_MS);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [reduceMotion]);
 
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-4 bg-navy",
+        "flex flex-col items-center justify-center gap-3 sm:gap-4 bg-navy px-6",
         className,
       )}>
-      <div className={cn("relative animate-blob", size)}>
+      <div
+        className={cn("relative", size, !reduceMotion && "animate-blob")}
+        aria-hidden="true">
         {Array.from({ length: BLOB_COUNT }).map((_, index) => {
-          const isActive = index === activeIndex;
+          const isActive = reduceMotion ? index === 0 : index === activeIndex;
 
           return (
             <div
@@ -47,7 +60,9 @@ export function BakingLoader({
                   ? "z-10 opacity-100 blur-0"
                   : "z-0 opacity-0 blur-[3px]",
               )}
-              style={{ transitionDuration: `${FADE_MS}ms` }}>
+              style={{
+                transitionDuration: reduceMotion ? "0ms" : `${FADE_MS}ms`,
+              }}>
               <Blob variant={index} className="size-full bg-blob" />
             </div>
           );
@@ -55,7 +70,7 @@ export function BakingLoader({
       </div>
 
       {showLabel && (
-        <p className="font-display text-[10px] font-bold uppercase tracking-[0.3em] text-cream/50 animate-pulse">
+        <p className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-cream/50 animate-pulse">
           Baking
         </p>
       )}

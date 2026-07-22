@@ -10,6 +10,7 @@ const PARAGRAPHS = [
 const STATS = [
   { end: 30, suffix: "+", label: "Brands Transformed" },
   { end: 150, suffix: "+", label: "Creative Projects Delivered" },
+  { end: 8, suffix: "+", label: "Industries" },
   {
     end: 1,
     suffix: "BN+",
@@ -84,7 +85,7 @@ export function WhoWeAre() {
 
         {/* Horizontal Line-Through Stats Grid (Underneath the texts) */}
         <div className="mt-12 md:mt-16 border-t border-navy/10 pt-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
             {STATS.map((stat, idx) => (
               <Reveal key={stat.label} delay={400 + idx * 100} duration={850}>
                 <div className="flex flex-col items-start w-full relative">

@@ -29,8 +29,9 @@ export function FeaturedWorks() {
   };
 
   return (
-    <section id="featured" className="bg-cream py-20 text-navy md:py-28 relative overflow-hidden">
-      
+    <section
+      id="featured"
+      className="bg-cream py-20 text-navy md:py-28 relative overflow-hidden">
       {/* Background Visual Texture */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#122940_1px,transparent_1px)] [background-size:24px_24px]" />
 
@@ -45,13 +46,11 @@ export function FeaturedWorks() {
 
         {/* Carousel Viewport Container */}
         <div className="relative h-[320px] sm:h-[420px] md:h-[480px] w-full flex items-center justify-center overflow-visible">
-          
           {/* Left Arrow Button */}
           <button
             onClick={prevSlide}
             className="absolute left-[-12px] sm:left-4 md:left-8 lg:left-12 z-30 size-11 sm:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
-            aria-label="Previous Project"
-          >
+            aria-label="Previous Project">
             <ChevronLeft className="size-5 sm:size-6" />
           </button>
 
@@ -59,8 +58,7 @@ export function FeaturedWorks() {
           <button
             onClick={nextSlide}
             className="absolute right-[-12px] sm:right-4 md:right-8 lg:right-12 z-30 size-11 sm:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
-            aria-label="Next Project"
-          >
+            aria-label="Next Project">
             <ChevronRight className="size-5 sm:size-6" />
           </button>
 
@@ -86,11 +84,14 @@ export function FeaturedWorks() {
               // Setup motion / transform styling for 3 active elements
               let positionClass = "";
               if (isActive) {
-                positionClass = "translate-x-0 scale-100 opacity-100 z-20 pointer-events-auto shadow-[0_20px_50px_rgba(18,41,64,0.18)]";
+                positionClass =
+                  "translate-x-0 scale-100 opacity-100 z-20 pointer-events-auto";
               } else if (isPrev) {
-                positionClass = "-translate-x-[35%] sm:-translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
+                positionClass =
+                  "-translate-x-[35%] sm:-translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
               } else if (isNext) {
-                positionClass = "translate-x-[35%] sm:translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
+                positionClass =
+                  "translate-x-[35%] sm:translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
               }
 
               return (
@@ -100,16 +101,14 @@ export function FeaturedWorks() {
                     if (isPrev) prevSlide();
                     if (isNext) nextSlide();
                   }}
-                  className={`absolute inset-0 w-full h-full transition-all duration-500 ease-out ${positionClass}`}
-                >
+                  className={`absolute inset-0 w-full h-full overflow-hidden rounded-3xl transition-all duration-500 ease-out ${positionClass}`}>
                   <div
-                    className={`relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-navy/10 bg-navy ${!isActive ? 'pointer-events-none select-none' : ''}`}
-                  >
+                    className={`relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-navy ${isActive ? "shadow-[0_20px_50px_rgba(18,41,64,0.18)]" : ""} ${!isActive ? "pointer-events-none select-none" : ""}`}>
                     <Image
                       src={client.images[0]}
                       alt={`${client.en} featured project`}
                       fill
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      className="object-cover scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
                       priority={isActive}
                     />
@@ -150,9 +149,8 @@ export function FeaturedWorks() {
 
                         {isActive ? (
                           <Link
-                            href={`/clients/${slug}`}
-                            className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto"
-                          >
+                            href={`/work/${slug}`}
+                            className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
                             View project
                             <ArrowUpRight className="size-3" />
                           </Link>
@@ -170,7 +168,6 @@ export function FeaturedWorks() {
             })}
           </div>
         </div>
-        
       </div>
     </section>
   );
