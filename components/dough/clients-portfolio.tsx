@@ -47,11 +47,12 @@ const MARQUEE_LOGOS = [
   { src: "/logos/NazimCoffee.png", alt: "Nazim Coffee" },
 ];
 
-const LOGO_GROUP_SIZE = 10;
-const LOGO_GROUPS = Array.from(
-  { length: Math.ceil(MARQUEE_LOGOS.length / LOGO_GROUP_SIZE) },
-  (_, i) => MARQUEE_LOGOS.slice(i * LOGO_GROUP_SIZE, (i + 1) * LOGO_GROUP_SIZE),
-);
+const LOGO_GROUPS = [
+  MARQUEE_LOGOS.slice(0, 8),
+  MARQUEE_LOGOS.slice(8, 16),
+  MARQUEE_LOGOS.slice(16, 25),
+  MARQUEE_LOGOS.slice(25, 34),
+];
 
 export function ClientsPortfolio() {
   const [activeGroup, setActiveGroup] = useState(0);
@@ -108,7 +109,7 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
-      {/* Logo banner — 10 per slide, sliding between groups with progress bullets */}
+      {/* Logo banner — 8, 8, 9, 9 per slide */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -134,7 +135,7 @@ export function ClientsPortfolio() {
         </div>
 
         {/* Time bullets progress indicator */}
-        <div className="flex justify-center gap-2 mt-6">
+        <div className="flex justify-center gap-2 mt-10 sm:mt-12">
           {LOGO_GROUPS.map((_, idx) => (
             <button
               key={idx}
