@@ -103,8 +103,8 @@ export function ClientsPortfolio() {
           <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-cream">
             Clients
           </h2>
-          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-cream/70">
-            They asked we shaped
+          <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-cream/70 lowercase">
+            they asked we shaped
           </p>
         </Reveal>
       </div>
@@ -187,7 +187,7 @@ export function ClientsPortfolio() {
 
                         {/* Logo and subtitle */}
                         <div className="flex-1 min-w-[150px]">
-                          <p className="font-display text-xl sm:text-2xl font-extrabold text-cream leading-snug max-w-xl">
+                          <p className="font-display text-xl sm:text-2xl font-extrabold lowercase text-cream leading-snug max-w-xl">
                             {client.subtitle}
                           </p>
                           <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-3">
@@ -197,7 +197,7 @@ export function ClientsPortfolio() {
                       </div>
 
                       {/* Services Sentence */}
-                      <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-xl">
+                      <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-xl lowercase">
                         We shaped their brand through{" "}
                         <span className="font-bold text-cream">
                           {client.services}

@@ -17,7 +17,7 @@ export function UncleDough() {
         <Blob variant={3} className="size-48 bg-blob/30 text-navy" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-2xl px-6 py-24 text-center">
+      <div className="relative z-10 mx-auto max-w-2xl px-6 py-24 text-center lowercase">
         <Reveal direction="up" duration={900}>
           <span className="font-display text-[12px] leading-[14px] font-extrabold uppercase tracking-[0.3em] text-water">
             Coming soon

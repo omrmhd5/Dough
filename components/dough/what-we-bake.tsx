@@ -54,9 +54,9 @@ export function WhatWeBake() {
         <Reveal duration={800}>
           <div className="mb-14 flex flex-col gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
             <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-cream md:text-[40px] md:leading-[44px]">
-              What we bake
+              What We Bake
             </h2>
-            <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty">
+            <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty lowercase">
               Six disciplines. One kitchen. Select a service to see what&apos;s
               inside.
             </p>
@@ -85,11 +85,11 @@ export function WhatWeBake() {
                         }`}
                       />
                       <span className="flex items-baseline gap-4 pl-0 md:gap-6 md:pl-14">
-                        <span className="shrink-0 font-display text-[12px] font-medium tabular-nums leading-[14px] tracking-widest text-water/60">
+                        <span className="shrink-0 font-display text-[12px] font-medium uppercase tabular-nums leading-[14px] tracking-widest text-water/60">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span
-                          className={`font-display text-[18px] font-bold leading-tight tracking-tight transition-transform duration-300 md:text-[22px] ${
+                          className={`font-display text-[18px] font-bold lowercase leading-tight tracking-tight transition-transform duration-300 md:text-[22px] ${
                             isActive ? "translate-x-1" : ""
                           }`}>
                           {service.title}
@@ -105,10 +105,10 @@ export function WhatWeBake() {
                           : "max-h-0 opacity-0 border-transparent"
                       }`}>
                       <div className="pb-6 pl-10 pt-1">
-                        <p className="font-display text-[16px] leading-[24px] text-cream/75 text-pretty">
+                        <p className="font-display text-[16px] leading-[24px] text-cream/75 text-pretty lowercase">
                           {service.description}
                         </p>
-                        <p className="mt-3 font-display text-[12px] leading-[18px] text-water/75">
+                        <p className="mt-3 font-display text-[12px] leading-[18px] text-water/75 lowercase">
                           {service.tags}
                         </p>
                       </div>
@@ -132,13 +132,13 @@ export function WhatWeBake() {
                 <p className="font-display text-[12px] font-medium uppercase tracking-[0.2em] text-water">
                   Service {String(active + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold leading-[1.1] tracking-tight text-cream text-pretty">
+                <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold lowercase leading-[1.1] tracking-tight text-cream text-pretty">
                   {current.title}
                 </h3>
-                <p className="mt-8 max-w-lg font-display text-[18px] leading-[28px] text-cream/70 text-pretty">
+                <p className="mt-8 max-w-lg font-display text-[18px] leading-[28px] text-cream/70 text-pretty lowercase">
                   {current.description}
                 </p>
-                <p className="mt-10 max-w-xl border-t border-cream/10 pt-6 font-display text-[12px] leading-[20px] text-water/80">
+                <p className="mt-10 max-w-xl border-t border-cream/10 pt-6 font-display text-[12px] leading-[20px] text-water/80 lowercase">
                   {current.tags}
                 </p>
               </div>

@@ -127,7 +127,7 @@ export function FeaturedWorks() {
                             size="featured"
                           />
                         ) : (
-                          <span className="font-display text-sm font-extrabold uppercase tracking-widest text-cream">
+                          <span className="font-display text-sm font-extrabold lowercase tracking-widest text-cream">
                             {client.en}
                           </span>
                         )}
@@ -135,7 +135,7 @@ export function FeaturedWorks() {
 
                       <div className="flex flex-col gap-4 mt-auto">
                         <div>
-                          <p className="font-display text-lg font-bold leading-snug text-cream sm:text-xl md:text-2xl">
+                          <p className="font-display text-lg font-bold lowercase leading-snug text-cream sm:text-xl md:text-2xl">
                             {client.en}
                             <span className="text-cream/50"> — </span>
                             {client.subtitle}

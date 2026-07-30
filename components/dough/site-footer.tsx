@@ -26,10 +26,10 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
               <span className="font-display text-[11px] leading-[13px] uppercase font-bold tracking-[0.2em] text-water">
                 Let's Make It Rise
               </span>
-              <h2 className="font-display font-extrabold text-[24px] leading-[28px] md:text-[32px] md:leading-[36px] text-cream max-w-md">
-                Got a raw idea?
+              <h2 className="font-display font-extrabold lowercase text-[24px] leading-[28px] md:text-[32px] md:leading-[36px] text-cream max-w-md">
+                got a raw idea?
                 <br />
-                Let's bake it together.
+                let&apos;s bake it together.
               </h2>
             </div>
             <Link
@@ -90,7 +90,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
               <span className="font-display font-semibold text-[11px] leading-[13px] uppercase tracking-widest text-water">
                 Rise with Us
               </span>
-              <p className="font-display font-normal text-[13px] leading-[18px] text-cream/60 max-w-xs">
+              <p className="font-display font-normal text-[13px] leading-[18px] text-cream/60 max-w-xs lowercase">
                 We're always seeking creative minds, designers, copywriters, and
                 thinkers to grow our kitchen.
               </p>

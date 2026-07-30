@@ -332,26 +332,26 @@ export function Contact() {
               <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-blob/90">
                 {activeTab === "project" ? "Get in Touch" : "Rise with Us"}
               </span>
-              <h2 className="font-display font-extrabold tracking-tight text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2">
+              <h2 className="font-display font-extrabold lowercase tracking-tight text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2">
                 {activeTab === "project" ? (
                   <>
                     <span className="block whitespace-nowrap">
-                      Let's Bake Your
+                      let&apos;s bake your
                     </span>
                     <span className="block text-blob whitespace-nowrap">
-                      Next Big Idea.
+                      next big idea.
                     </span>
                   </>
                 ) : (
                   <>
-                    <span className="block whitespace-nowrap">Bake Your</span>
+                    <span className="block whitespace-nowrap">bake your</span>
                     <span className="block text-blob whitespace-nowrap">
-                      Creative Future.
+                      creative future.
                     </span>
                   </>
                 )}
               </h2>
-              <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md">
+              <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md lowercase">
                 {activeTab === "project"
                   ? "Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise."
                   : "We're always looking for raw talent, fresh perspectives, and creative minds to rise with us. Bring your skills to the kitchen."}
@@ -424,7 +424,7 @@ export function Contact() {
                         <div className="size-20 rounded-full bg-blob/20 border border-blob/30 flex items-center justify-center text-blob mb-6 animate-bounce">
                           <Check className="size-10" />
                         </div>
-                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-cream leading-tight">
+                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
                           Freshly Baked! 🍞
                         </h3>
                         <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
@@ -466,7 +466,7 @@ export function Contact() {
                           <>
                             <div className="flex flex-col gap-2">
                               <div className="flex justify-between items-center">
-                                <h3 className="font-display text-xl font-bold text-cream">
+                                <h3 className="font-display text-xl font-bold lowercase text-cream">
                                   Dough Inquiry Form
                                 </h3>
                                 <span className="text-[10px] font-display uppercase tracking-wider text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
@@ -805,7 +805,7 @@ export function Contact() {
                         <div className="size-20 rounded-full bg-blob/20 border border-blob/30 flex items-center justify-center text-blob mb-6 animate-bounce">
                           <Check className="size-10" />
                         </div>
-                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-cream leading-tight">
+                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
                           Application Received! 🍞
                         </h3>
                         <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
@@ -844,7 +844,7 @@ export function Contact() {
                         ) : (
                           <>
                             <div className="flex flex-col gap-2">
-                              <h3 className="font-display text-xl font-bold text-cream">
+                              <h3 className="font-display text-xl font-bold lowercase text-cream">
                                 Apply as a Teammate
                               </h3>
                               <p className="text-xs text-cream/55 leading-relaxed">

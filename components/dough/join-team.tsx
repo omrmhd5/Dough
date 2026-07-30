@@ -138,7 +138,7 @@ export function JoinTeam() {
               <span className="font-display font-normal text-[12px] leading-[14px] uppercase tracking-wider text-blob/90">
                 We&apos;re always looking for bright new talents
               </span>
-              <h2 className="font-display font-bold text-3xl sm:text-[40px] sm:leading-[44px] text-cream mt-2">
+              <h2 className="font-display font-bold uppercase text-3xl sm:text-[40px] sm:leading-[44px] text-cream mt-2">
                 Join The Team!
               </h2>
             </div>
@@ -155,7 +155,7 @@ export function JoinTeam() {
             </div>
 
             {/* Get in Touch Alternate Link */}
-            <p className="text-sm text-cream/50 mt-6 lg:mt-8 font-display">
+            <p className="text-sm text-cream/50 mt-6 lg:mt-8 font-display lowercase">
               Looking to bake an idea instead?{" "}
               <Link
                 href="/contact"
@@ -173,7 +173,7 @@ export function JoinTeam() {
               <div className="size-16 rounded-full bg-blob/10 flex items-center justify-center text-blob mb-6">
                 <CheckCircle2 className="size-10" />
               </div>
-              <h3 className="font-display text-2xl font-bold text-cream">
+              <h3 className="font-display text-2xl font-bold lowercase text-cream">
                 Application Received!
               </h3>
               <p className="mt-4 text-sm text-cream/70 max-w-md leading-relaxed">

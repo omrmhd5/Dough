@@ -58,7 +58,7 @@ export function WhyUs() {
               </h2>
             </Reveal>
             <Reveal duration={800} delay={150}>
-              <p className="font-display font-normal text-[16px] leading-[22px] text-navy/70 max-w-sm">
+              <p className="font-display font-normal text-[16px] leading-[22px] text-navy/70 max-w-sm lowercase">
                 How we bake, shape, and rise to make raw concepts stand out from
                 the noise.
               </p>
@@ -81,7 +81,7 @@ export function WhyUs() {
                         <span className="font-display font-medium tabular-nums text-[12px] leading-[14px] text-water/65 select-none">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="font-display font-bold text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300">
+                        <span className="font-display font-bold lowercase text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300">
                           {point.title}
                         </span>
                       </div>
@@ -103,7 +103,7 @@ export function WhyUs() {
                           : "grid-rows-[0fr] opacity-0 pointer-events-none"
                       }`}>
                       <div className="overflow-hidden">
-                        <p className="font-display font-normal text-[16px] leading-[22px] text-navy/80 pl-10 md:pl-12 max-w-xl pb-2">
+                        <p className="font-display font-normal text-[16px] leading-[22px] text-navy/80 pl-10 md:pl-12 max-w-xl pb-2 lowercase">
                           {point.content}
                         </p>
                       </div>

@@ -61,12 +61,12 @@ export default function CaseStudyPage() {
                   size="hero"
                   boxed
                 />
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-cream leading-tight">
+                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold lowercase text-cream leading-tight">
                   {client.en}
                 </h1>
               </div>
               {client.subtitle && (
-                <p className="font-display text-lg sm:text-xl text-cream/60 font-medium text-left">
+                <p className="font-display text-lg sm:text-xl text-cream/60 font-medium text-left lowercase">
                   {client.subtitle}
                 </p>
               )}
@@ -78,7 +78,7 @@ export default function CaseStudyPage() {
               <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
                 Client
               </span>
-              <span className="font-bold text-cream text-[12px] leading-[14px]">
+              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
                 {client.en}
               </span>
             </div>
@@ -86,7 +86,7 @@ export default function CaseStudyPage() {
               <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
                 Industry
               </span>
-              <span className="font-bold text-cream text-[12px] leading-[14px]">
+              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
                 {client.sector}
               </span>
             </div>
@@ -94,7 +94,7 @@ export default function CaseStudyPage() {
               <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
                 Year
               </span>
-              <span className="font-bold text-cream text-[12px] leading-[14px]">
+              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
                 {client.year}
               </span>
             </div>
@@ -102,7 +102,7 @@ export default function CaseStudyPage() {
               <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
                 Services
               </span>
-              <span className="font-bold text-cream text-[12px] leading-[14px] leading-relaxed">
+              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
                 {client.services}
               </span>
             </div>
@@ -125,7 +125,7 @@ export default function CaseStudyPage() {
           <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
             Overview
           </span>
-          <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-justify">
+          <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-justify lowercase">
             {client.overview}
           </p>
         </div>
@@ -135,7 +135,7 @@ export default function CaseStudyPage() {
             <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               {client.challengeLabel || "The Challenge"}
             </span>
-            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-justify lowercase">
               {client.challenge}
             </p>
           </div>
@@ -143,7 +143,7 @@ export default function CaseStudyPage() {
             <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               {client.approachLabel || "Our Approach"}
             </span>
-            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-justify lowercase">
               {client.approach}
             </p>
           </div>
@@ -176,11 +176,11 @@ export default function CaseStudyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                   {client.experience.map((item) => (
                     <div key={item.title} className="flex flex-col gap-2">
-                      <h3 className="font-display text-sm font-extrabold text-cream">
+                      <h3 className="font-display text-sm font-extrabold lowercase text-cream">
                         {item.title}
                       </h3>
                       {item.items && (
-                        <p className="font-display text-[12px] leading-[14px] text-cream/60">
+                        <p className="font-display text-[12px] leading-[14px] text-cream/60 lowercase">
                           {item.items}
                         </p>
                       )}
@@ -200,11 +200,11 @@ export default function CaseStudyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                   {client.experience.map((item) => (
                     <div key={item.title} className="flex flex-col gap-2">
-                      <h3 className="font-display text-sm font-extrabold text-cream">
+                      <h3 className="font-display text-sm font-extrabold lowercase text-cream">
                         {item.title}
                       </h3>
                       {item.items && (
-                        <p className="font-display text-[12px] leading-[14px] text-cream/60">
+                        <p className="font-display text-[12px] leading-[14px] text-cream/60 lowercase">
                           {item.items}
                         </p>
                       )}
@@ -245,7 +245,9 @@ export default function CaseStudyPage() {
             </span>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[12px] leading-[14px] font-medium text-cream/70">
               {client.scope?.map((item, idx) => (
-                <li key={idx} className="flex items-center gap-2 font-display">
+                <li
+                  key={idx}
+                  className="flex items-center gap-2 font-display lowercase">
                   <span className="size-1.5 rounded-full bg-water shrink-0" />
                   {item}
                 </li>
@@ -256,7 +258,7 @@ export default function CaseStudyPage() {
             <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
               The Outcome
             </span>
-            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/75 text-pretty">
+            <p className="font-display font-normal text-[16px] leading-[19px] text-cream/75 text-justify lowercase">
               {client.outcome}
             </p>
           </div>

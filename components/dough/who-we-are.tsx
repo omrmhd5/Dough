@@ -46,7 +46,7 @@ export function WhoWeAre() {
                   aria-hidden>
                   “
                 </span>
-                <p className="font-display font-medium text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
+                <p className="font-display font-medium lowercase text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
                   {PARAGRAPHS[0]}
                 </p>
                 <span
@@ -65,7 +65,7 @@ export function WhoWeAre() {
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
                   Creative Philosophy
                 </span>
-                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80">
+                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
                   {PARAGRAPHS[1]}
                 </p>
               </div>
@@ -76,7 +76,7 @@ export function WhoWeAre() {
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
                   Working Principle
                 </span>
-                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80">
+                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
                   {PARAGRAPHS[2]}
                 </p>
               </div>
