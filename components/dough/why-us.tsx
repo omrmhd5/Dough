@@ -74,7 +74,7 @@ export function WhyUs() {
                   <div className="border-b border-navy/10 py-5">
                     <button
                       onClick={() => toggleAccordion(i)}
-                      className="flex w-full items-center justify-between text-left group focus:outline-none"
+                      className="flex w-full cursor-pointer items-center justify-between text-left group focus:outline-none"
                       aria-expanded={isOpen}>
                       {/* Left: Number & Title */}
                       <div className="flex items-center gap-4 md:gap-6">

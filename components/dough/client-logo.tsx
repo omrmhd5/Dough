@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -32,21 +35,25 @@ export function ClientLogo({
   boxed = false,
   className,
 }: ClientLogoProps) {
-  const logo = src ? (
-    <div className={cn("relative shrink-0", innerSizeMap[size])}>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-contain object-center mix-blend-screen"
-        sizes="120px"
-      />
-    </div>
-  ) : (
-    <span className="font-display text-xs font-extrabold uppercase tracking-widest text-cream sm:text-sm">
-      {fallback?.slice(0, 2)}
-    </span>
-  );
+  const [hasError, setHasError] = useState(false);
+
+  const logo =
+    src && !hasError ? (
+      <div className={cn("relative shrink-0", innerSizeMap[size])}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          className="object-contain object-center mix-blend-screen"
+          sizes="120px"
+          onError={() => setHasError(true)}
+        />
+      </div>
+    ) : (
+      <span className="font-display text-xs font-extrabold uppercase tracking-widest text-cream sm:text-sm">
+        {fallback?.slice(0, 2)}
+      </span>
+    );
 
   if (boxed && (size === "card" || size === "hero")) {
     return (

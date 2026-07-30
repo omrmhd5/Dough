@@ -20,7 +20,9 @@ export function SiteNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
       <nav className="mx-auto flex max-w-5xl items-center justify-between pl-6 pr-8 md:pl-6 md:pr-12 py-3.5 rounded-full bg-cream/75 border border-navy/10 shadow-[0_4px_20px_-4px_rgba(18,41,64,0.08)] backdrop-blur-md">
-        <Link href="/" className="gsap-nav-logo flex shrink-0 items-center">
+        <Link
+          href="/"
+          className="gsap-nav-logo flex shrink-0 cursor-pointer items-center">
           <Logo
             className="text-xl md:text-2xl"
             textColor="text-navy"
@@ -37,7 +39,7 @@ export function SiteNav() {
               <li key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className={`text-sm uppercase tracking-wider relative inline-flex flex-col items-center group ${
+                  className={`text-sm uppercase tracking-wider relative inline-flex cursor-pointer flex-col items-center group ${
                     isActive ? "text-navy" : "text-navy/70 hover:text-navy"
                   }`}>
                   <span
@@ -62,7 +64,7 @@ export function SiteNav() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="text-navy md:hidden"
+          className="cursor-pointer text-navy md:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}>
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -81,7 +83,7 @@ export function SiteNav() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className={`text-sm font-semibold uppercase tracking-wider block ${
+                    className={`cursor-pointer text-sm font-semibold uppercase tracking-wider block ${
                       isActive ? "text-cream" : "text-cream/70"
                     }`}>
                     {link.label}

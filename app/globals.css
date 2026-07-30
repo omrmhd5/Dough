@@ -1,6 +1,6 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -56,11 +56,11 @@
 
 :root {
   color-scheme: light;
-  --navy: rgb(18, 41, 64);      /* Dark: #122940 */
+  --navy: rgb(18, 41, 64); /* Dark: #122940 */
   --navy-foreground: rgb(255, 252, 247); /* Light: #FFFDF7 */
-  --cream: rgb(255, 252, 247);  /* Light: #FFFDF7 */
-  --blob: rgb(196, 217, 235);   /* Sparkle: #C4D9EB */
-  --water: rgb(69, 125, 158);   /* Water: #457D9E */
+  --cream: rgb(255, 252, 247); /* Light: #FFFDF7 */
+  --blob: rgb(196, 217, 235); /* Sparkle: #C4D9EB */
+  --water: rgb(69, 125, 158); /* Water: #457D9E */
   --background: rgb(255, 252, 247); /* Cream background */
   --foreground: rgb(18, 41, 64);
   --card: rgb(255, 252, 247);
@@ -178,6 +178,17 @@
     @apply font-sans;
     scroll-behavior: smooth;
   }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href],
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
 @keyframes marquee {
@@ -255,7 +266,7 @@
     width: 0;
     height: 0;
   }
-  
+
   /* For Firefox */
   * {
     scrollbar-width: none;
@@ -267,12 +278,13 @@
   @media (min-width: 768px) {
     * {
       scrollbar-width: thin;
-      scrollbar-color: color-mix(in srgb, var(--navy) 25%, transparent) var(--cream);
+      scrollbar-color: color-mix(in srgb, var(--navy) 25%, transparent)
+        var(--cream);
     }
     .scrollbar-thin {
       scrollbar-width: thin;
-      scrollbar-color: color-mix(in srgb, var(--navy) 25%, transparent) transparent;
+      scrollbar-color: color-mix(in srgb, var(--navy) 25%, transparent)
+        transparent;
     }
   }
 }
-

@@ -370,7 +370,7 @@ export function Contact() {
                         ? "noopener noreferrer"
                         : undefined
                     }
-                    className="flex flex-col items-start gap-3.5 group rounded-2xl border border-cream/5 bg-cream/[0.03] p-4 hover:bg-cream/[0.08] hover:border-cream/10 transition-all duration-300 h-full">
+                    className="flex cursor-pointer flex-col items-start gap-3.5 group rounded-2xl border border-cream/5 bg-cream/[0.03] p-4 hover:bg-cream/[0.08] hover:border-cream/10 transition-all duration-300 h-full">
                     <div className="size-9 rounded-xl bg-blob/10 flex items-center justify-center text-blob group-hover:bg-blob group-hover:text-navy transition-all duration-300">
                       <Icon className="size-4" />
                     </div>

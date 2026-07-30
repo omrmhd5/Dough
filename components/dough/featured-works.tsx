@@ -148,7 +148,7 @@ export function FeaturedWorks() {
                         {isActive ? (
                           <Link
                             href={`/work/${slug}`}
-                            className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
+                            className="inline-flex cursor-pointer items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
                             View project
                             <ArrowUpRight className="size-3" />
                           </Link>

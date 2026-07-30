@@ -23,7 +23,7 @@ export default function CaseStudyPage() {
         <h1 className="text-xl font-bold font-display">Project Not Found</h1>
         <Link
           href="/work"
-          className="text-water hover:text-blob text-sm font-display font-bold">
+          className="cursor-pointer text-water hover:text-blob text-sm font-display font-bold">
           Back to Projects
         </Link>
       </div>
@@ -41,7 +41,7 @@ export default function CaseStudyPage() {
         <div className="flex items-center justify-between border-b border-cream/10 pb-4">
           <Link
             href="/work"
-            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-water hover:text-blob transition-colors duration-300 group font-display">
+            className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase tracking-widest text-water hover:text-blob transition-colors duration-300 group font-display">
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Projects
           </Link>
@@ -52,24 +52,24 @@ export default function CaseStudyPage() {
             <span className="font-display text-xs uppercase font-extrabold tracking-widest text-water">
               Project
             </span>
-            <div className="flex-1 md:max-w-3xl flex items-start gap-4 sm:gap-6">
-              <ClientLogo
-                src={client.logo}
-                alt={`${client.en} logo`}
-                fallback={client.en}
-                size="hero"
-                boxed
-              />
-              <div className="flex-1 min-w-0">
+            <div className="flex-1 md:max-w-3xl flex flex-col gap-2">
+              <div className="flex items-center gap-4 sm:gap-6">
+                <ClientLogo
+                  src={client.logo}
+                  alt={`${client.en} logo`}
+                  fallback={client.en}
+                  size="hero"
+                  boxed
+                />
                 <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-cream leading-tight">
                   {client.en}
                 </h1>
-                {client.subtitle && (
-                  <p className="font-display text-lg sm:text-xl text-cream/60 mt-2 font-medium">
-                    {client.subtitle}
-                  </p>
-                )}
               </div>
+              {client.subtitle && (
+                <p className="font-display text-lg sm:text-xl text-cream/60 font-medium text-left">
+                  {client.subtitle}
+                </p>
+              )}
             </div>
           </div>
 
@@ -121,11 +121,11 @@ export default function CaseStudyPage() {
           </div>
         )}
 
-        <div className="max-w-3xl mx-auto text-center flex flex-col gap-4 py-4">
-          <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
+        <div className="max-w-3xl mx-auto flex flex-col gap-4 py-4">
+          <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
             Overview
           </span>
-          <p className="font-display text-[25px] leading-[28px] md:text-[33px] md:leading-[37px] font-medium leading-relaxed text-cream/85 text-pretty">
+          <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-justify">
             {client.overview}
           </p>
         </div>

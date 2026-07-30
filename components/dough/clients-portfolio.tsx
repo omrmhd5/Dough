@@ -61,7 +61,7 @@ export function ClientsPortfolio() {
   const cycleStartRef = useRef(Date.now());
   const activeGroupRef = useRef(0);
 
-  const totalDuration = 3500;
+  const totalDuration = 5000;
   const tickInterval = 50;
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export function ClientsPortfolio() {
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
           <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream">
-            Work
+            Clients
           </h2>
           <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-cream/70">
             They asked we shaped
@@ -113,7 +113,7 @@ export function ClientsPortfolio() {
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="relative mt-10 overflow-hidden border-y border-cream/10 py-10 bg-navy/50 sm:py-12">
+        className="relative mt-10 overflow-hidden py-10 bg-navy/50 sm:py-12">
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden px-6">
           <div
             className="flex w-full transition-transform duration-500 ease-in-out"
@@ -158,7 +158,12 @@ export function ClientsPortfolio() {
       </div>
 
       {/* Clients Showcase Section */}
-      <div id="clients-list" className="mx-auto mt-16 max-w-7xl px-6">
+      <div id="clients-list" className="mx-auto mt-24 max-w-7xl px-6 md:mt-32">
+        <Reveal duration={800}>
+          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream mb-12">
+            Projects
+          </h2>
+        </Reveal>
         <div className="flex flex-col gap-16">
           {CLIENTS.map((client, idx) => {
             const clientSlug = client.en
@@ -180,12 +185,12 @@ export function ClientsPortfolio() {
                           boxed
                         />
 
-                        {/* Client Names and Info */}
+                        {/* Logo and subtitle */}
                         <div className="flex-1 min-w-[150px]">
-                          <h3 className="font-display text-2xl sm:text-3xl font-extrabold text-cream leading-tight">
-                            {client.en}
-                          </h3>
-                          <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-1">
+                          <p className="font-display text-xl sm:text-2xl font-extrabold text-cream leading-snug max-w-xl">
+                            {client.subtitle}
+                          </p>
+                          <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-3">
                             {client.sector}
                           </p>
                         </div>
@@ -204,7 +209,7 @@ export function ClientsPortfolio() {
                       <div>
                         <Link
                           href={`/work/${clientSlug}`}
-                          className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-cream hover:bg-blob text-navy font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
+                          className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-cream hover:bg-blob text-navy font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
                           View Project
                         </Link>
                       </div>
@@ -214,7 +219,7 @@ export function ClientsPortfolio() {
                     <div className="lg:col-span-6 relative aspect-[16/10] w-full rounded-2xl overflow-hidden shadow-sm border border-cream/10">
                       <Link
                         href={`/work/${clientSlug}`}
-                        className="block w-full h-full relative group">
+                        className="block w-full h-full relative cursor-pointer group">
                         <Image
                           src={client.images[0]}
                           alt={`${client.en} brand showcase preview`}

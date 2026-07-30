@@ -53,7 +53,7 @@ export function UncleDough() {
 
             <Link
               href="/"
-              className="group relative inline-flex items-center gap-2 rounded-full border border-cream/15 bg-cream/5 px-6 py-3 font-display text-[12px] leading-[14px] font-bold uppercase tracking-widest text-cream transition-colors duration-300 overflow-hidden hover:text-navy hover:border-blob/40 z-0">
+              className="group relative inline-flex cursor-pointer items-center gap-2 rounded-full border border-cream/15 bg-cream/5 px-6 py-3 font-display text-[12px] leading-[14px] font-bold uppercase tracking-widest text-cream transition-colors duration-300 overflow-hidden hover:text-navy hover:border-blob/40 z-0">
               {/* Bubble overlay */}
               <span className="absolute inset-0 bg-blob -z-10 translate-y-full -translate-x-full rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0" />
               <ArrowLeft className="size-3.5 transition-transform duration-300 group-hover:-translate-x-1 relative z-10" />
