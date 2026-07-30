@@ -100,7 +100,7 @@ export function ClientsPortfolio() {
       {/* Title */}
       <div className="mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
-          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream">
+          <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-cream">
             Clients
           </h2>
           <p className="mt-4 font-display font-normal text-[16px] leading-[19px] text-cream/70">
@@ -160,7 +160,7 @@ export function ClientsPortfolio() {
       {/* Clients Showcase Section */}
       <div id="clients-list" className="mx-auto mt-24 max-w-7xl px-6 md:mt-32">
         <Reveal duration={800}>
-          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream mb-12">
+          <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-cream mb-12">
             Projects
           </h2>
         </Reveal>

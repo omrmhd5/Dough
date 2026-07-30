@@ -34,7 +34,7 @@ export function HowWeWork() {
 
       <div className="mx-auto max-w-6xl px-6 relative z-10">
         <Reveal duration={800}>
-          <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-cream mb-16">
+          <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-cream mb-16">
             How We Work
           </h2>
         </Reveal>

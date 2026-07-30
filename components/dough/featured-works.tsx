@@ -39,7 +39,7 @@ export function FeaturedWorks() {
       <div className="mx-auto max-w-7xl px-6 relative">
         <Reveal duration={800}>
           <div className="flex items-center justify-between mb-12">
-            <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
+            <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-navy">
               Featured Work
             </h2>
           </div>

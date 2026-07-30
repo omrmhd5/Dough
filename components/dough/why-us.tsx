@@ -53,7 +53,7 @@ export function WhyUs() {
           {/* Left Column: Heading & Caption */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Reveal duration={800}>
-              <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
+              <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-navy">
                 Why Us
               </h2>
             </Reveal>

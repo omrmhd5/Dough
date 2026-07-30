@@ -53,7 +53,7 @@ export function WhatWeBake() {
       <div className="relative mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
           <div className="mb-14 flex flex-col gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-cream md:text-[40px] md:leading-[44px]">
+            <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-cream md:text-[40px] md:leading-[44px]">
               What we bake
             </h2>
             <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty">
