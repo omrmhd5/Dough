@@ -73,13 +73,21 @@ export default function CaseStudyPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-2 text-[12px] leading-[14px] font-display">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-2 text-[12px] leading-[14px] font-display">
             <div className="flex flex-col gap-1.5">
               <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
                 Client
               </span>
               <span className="font-bold text-cream text-[12px] leading-[14px]">
                 {client.en}
+              </span>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
+                Industry
+              </span>
+              <span className="font-bold text-cream text-[12px] leading-[14px]">
+                {client.sector}
               </span>
             </div>
             <div className="flex flex-col gap-1.5">
@@ -133,7 +141,7 @@ export default function CaseStudyPage() {
           </div>
           <div className="flex flex-col gap-3">
             <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
-              Our Approach
+              {client.approachLabel || "Our Approach"}
             </span>
             <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-pretty">
               {client.approach}
@@ -141,26 +149,93 @@ export default function CaseStudyPage() {
           </div>
         </div>
 
-        {client.images.length > 0 && (
-          <div className="flex flex-col gap-6">
-            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
-              Visual Deliverables
-            </span>
-            <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-              {client.images.map((imgUrl, idx) => (
-                <div
-                  key={`${imgUrl}-${idx}`}
-                  className="break-inside-avoid relative rounded-2xl overflow-hidden bg-cream/[0.02] border border-cream/10 shadow-sm">
-                  <img
-                    src={imgUrl}
-                    alt={`${client.en} design board visual ${idx + 1}`}
-                    className="w-full h-auto object-cover"
-                    loading="lazy"
-                  />
+        {client.showcaseLayout === "combined" ? (
+          (client.images.length > 0 ||
+            (client.experience && client.experience.length > 0)) && (
+            <div className="flex flex-col gap-8 border-b border-cream/10 pb-10 md:pb-12">
+              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+                {client.galleryLabel || "Digital Experience"}
+              </span>
+              {client.images.length > 0 && (
+                <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+                  {client.images.map((imgUrl, idx) => (
+                    <div
+                      key={`${imgUrl}-${idx}`}
+                      className="break-inside-avoid relative rounded-2xl overflow-hidden bg-cream/[0.02] border border-cream/10 shadow-sm">
+                      <img
+                        src={imgUrl}
+                        alt={`${client.en} design board visual ${idx + 1}`}
+                        className="w-full h-auto object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
+              {client.experience && client.experience.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                  {client.experience.map((item) => (
+                    <div key={item.title} className="flex flex-col gap-2">
+                      <h3 className="font-display text-sm font-extrabold text-cream">
+                        {item.title}
+                      </h3>
+                      {item.items && (
+                        <p className="font-display text-[12px] leading-[14px] text-cream/60">
+                          {item.items}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
+          )
+        ) : (
+          <>
+            {client.experience && client.experience.length > 0 && (
+              <div className="flex flex-col gap-8 border-b border-cream/10 pb-10 md:pb-12">
+                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+                  {client.experienceLabel || "Social Experience"}
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                  {client.experience.map((item) => (
+                    <div key={item.title} className="flex flex-col gap-2">
+                      <h3 className="font-display text-sm font-extrabold text-cream">
+                        {item.title}
+                      </h3>
+                      {item.items && (
+                        <p className="font-display text-[12px] leading-[14px] text-cream/60">
+                          {item.items}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {client.images.length > 0 && (
+              <div className="flex flex-col gap-6">
+                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+                  {client.galleryLabel || "Visual Deliverables"}
+                </span>
+                <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+                  {client.images.map((imgUrl, idx) => (
+                    <div
+                      key={`${imgUrl}-${idx}`}
+                      className="break-inside-avoid relative rounded-2xl overflow-hidden bg-cream/[0.02] border border-cream/10 shadow-sm">
+                      <img
+                        src={imgUrl}
+                        alt={`${client.en} design board visual ${idx + 1}`}
+                        className="w-full h-auto object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 border-t border-cream/10 pt-12 pb-6">
