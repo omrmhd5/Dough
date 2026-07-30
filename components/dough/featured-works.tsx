@@ -6,8 +6,9 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "./reveal";
 import { CLIENTS } from "./clients-data";
+import { ClientLogo } from "./client-logo";
 
-const FEATURED = ["Akleh", "LUX", "HNDL", "Taghmesa", "Tant"];
+const FEATURED = ["Akleh", "LUX", "HNDL", "Taghmisa", "Tant"];
 
 function clientSlug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -120,14 +121,11 @@ export function FeaturedWorks() {
                     <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8">
                       <div className="flex items-start">
                         {client.logo ? (
-                          <div className="relative h-8 w-24 sm:h-9 sm:w-28">
-                            <Image
-                              src={client.logo}
-                              alt={`${client.en} logo`}
-                              fill
-                              className="object-contain object-left filter brightness-0 invert"
-                            />
-                          </div>
+                          <ClientLogo
+                            src={client.logo}
+                            alt={`${client.en} logo`}
+                            size="featured"
+                          />
                         ) : (
                           <span className="font-display text-sm font-extrabold uppercase tracking-widest text-cream">
                             {client.en}

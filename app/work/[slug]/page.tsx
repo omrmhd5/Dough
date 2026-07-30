@@ -7,6 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { SiteNav } from "@/components/dough/site-nav";
 import { SiteFooter } from "@/components/dough/site-footer";
 import { CLIENTS } from "@/components/dough/clients-data";
+import { ClientLogo } from "@/components/dough/client-logo";
 
 export default function CaseStudyPage() {
   const params = useParams();
@@ -52,19 +53,13 @@ export default function CaseStudyPage() {
               Project
             </span>
             <div className="flex-1 md:max-w-3xl flex items-start gap-4 sm:gap-6">
-              <div className="size-16 sm:size-20 shrink-0 rounded-2xl flex items-center justify-center shadow-sm overflow-hidden border border-cream/10 bg-navy/50">
-                {client.logo ? (
-                  <img
-                    src={client.logo}
-                    alt={`${client.en} logo`}
-                    className="object-contain p-2 w-full h-full filter brightness-0 invert"
-                  />
-                ) : (
-                  <span className="font-display font-extrabold text-lg text-cream select-none uppercase">
-                    {client.en.slice(0, 2)}
-                  </span>
-                )}
-              </div>
+              <ClientLogo
+                src={client.logo}
+                alt={`${client.en} logo`}
+                fallback={client.en}
+                size="hero"
+                boxed
+              />
               <div className="flex-1 min-w-0">
                 <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold text-cream leading-tight">
                   {client.en}

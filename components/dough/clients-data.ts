@@ -15,33 +15,6 @@ export interface ClientDetail {
   challengeLabel?: string;
 }
 
-const MARQUEE_LOGOS = [
-  { src: "/logos/Barns.png", alt: "Barn's" },
-  { src: "/logos/Kufta.png", alt: "Kufta" },
-  { src: "/logos/Crepe2000.png", alt: "Crepe 2000" },
-  { src: "/logos/ElAnfoshy.png", alt: "El Anfoshy" },
-  { src: "/logos/ElDahan.png", alt: "El Dahan" },
-  { src: "/logos/Hamzawy.png", alt: "Hamzawy" },
-  { src: "/logos/LilKitchen.png", alt: "Lil Kitchen" },
-  { src: "/logos/MadghoutDajaj.png", alt: "Madghout Dajaj" },
-  { src: "/logos/MiniTownTeam.png", alt: "Mini Town Team" },
-  { src: "/logos/QasrElKababgi.png", alt: "Qasr El Kababgi" },
-  { src: "/logos/ShawermaElreem.png", alt: "Shawerma El Reem" },
-  { src: "/logos/Shrimp.png", alt: "Shrimp" },
-  { src: "/logos/Taghmesa.png", alt: "Taghmesa" },
-  { src: "/logos/Tant.png", alt: "Tant" },
-  { src: "/logos/Titos.png", alt: "Titos" },
-  { src: "/logos/townteam.png", alt: "Town Team" },
-  { src: "/logos/Akleh.png", alt: "Akleh" },
-  { src: "/logos/Bebek.png", alt: "Bebek" },
-];
-
-const LOGO_GROUPS = [
-  MARQUEE_LOGOS.slice(0, 6),
-  MARQUEE_LOGOS.slice(6, 12),
-  MARQUEE_LOGOS.slice(12, 18),
-];
-
 export const CLIENTS: ClientDetail[] = [
   {
     en: "Akleh",
@@ -84,6 +57,7 @@ export const CLIENTS: ClientDetail[] = [
     ar: "لوكس",
     sector: "Beauty & Cosmetics",
     services: "Social Media Strategy, Creative Direction",
+    logo: "/logos/LUX.png",
     images: [
       "/CGI.png",
       "/photography1.png",
@@ -118,6 +92,7 @@ export const CLIENTS: ClientDetail[] = [
     ar: "HNDL",
     sector: "Fleet Management Platform",
     services: "Website Strategy, UX Strategy, UI Design",
+    logo: "/logos/HNDL.png",
     images: [
       "/grids image (2).png",
       "/CGI.png",
@@ -154,6 +129,7 @@ export const CLIENTS: ClientDetail[] = [
     ar: "فروجى",
     sector: "Healthy F&B Concept",
     services: "Brand Concept Development, Packaging Design, Naming Direction",
+    logo: "/logos/Farooja.png",
     images: [
       "/Packaging-design.png",
       "/photography1.png",
