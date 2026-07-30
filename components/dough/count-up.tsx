@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
 function easeOutExpo(t: number): number {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
@@ -77,7 +78,7 @@ export function CountUp({
     variant === "billion" ? formatBillion(value) : `${value}${suffix}`;
 
   return (
-    <span ref={ref} className={className}>
+    <span ref={ref} className={cn("font-display tabular-nums", className)}>
       {display}
     </span>
   );

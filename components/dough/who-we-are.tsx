@@ -27,12 +27,7 @@ export function WhoWeAre() {
       className="bg-cream py-28 md:py-40 overflow-hidden text-navy">
       <div className="mx-auto max-w-7xl px-6">
         {/* Asymmetrical Header and Subheader */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20 md:mb-28">
-          <Reveal duration={800}>
-            <h2 className="font-display font-bold text-3xl md:text-[40px] md:leading-[44px] text-navy">
-              Who We Are
-            </h2>
-          </Reveal>
+        <div className="flex flex-col md:flex-row md:items-end justify-end gap-6 mb-20 md:mb-28">
           <Reveal duration={800} delay={150}>
             <span className="font-display font-normal text-[12px] leading-[14px] uppercase tracking-[0.25em] text-water">
               A Creative Baking Lab
@@ -46,13 +41,19 @@ export function WhoWeAre() {
           <div className="lg:col-span-7">
             <Reveal delay={100} duration={850}>
               <div className="relative">
-                {/* Large decorative quotation mark block */}
-                <span className="absolute -top-10 -left-6 font-serif text-[120px] text-blob/25 leading-none select-none pointer-events-none">
+                <span
+                  className="absolute -top-8 md:-top-10 -left-4 md:-left-6 font-display text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
+                  aria-hidden>
                   “
                 </span>
                 <p className="font-display font-medium text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
                   {PARAGRAPHS[0]}
                 </p>
+                <span
+                  className="absolute -bottom-4 md:-bottom-6 -right-2 md:-right-4 font-display text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
+                  aria-hidden>
+                  ”
+                </span>
               </div>
             </Reveal>
           </div>
@@ -64,7 +65,7 @@ export function WhoWeAre() {
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
                   Creative Philosophy
                 </span>
-                <p className="font-normal text-[16px] leading-[24px] text-navy/80">
+                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80">
                   {PARAGRAPHS[1]}
                 </p>
               </div>
@@ -75,7 +76,7 @@ export function WhoWeAre() {
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
                   Working Principle
                 </span>
-                <p className="font-normal text-[16px] leading-[24px] text-navy/80">
+                <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80">
                   {PARAGRAPHS[2]}
                 </p>
               </div>
@@ -96,7 +97,7 @@ export function WhoWeAre() {
                       suffix={stat.suffix}
                       variant={"variant" in stat ? stat.variant : "default"}
                       duration={"duration" in stat ? stat.duration : 2000}
-                      className="font-display font-black text-[42px] md:text-[60px] text-navy tracking-tighter leading-none relative z-10 select-none pb-3 font-mono"
+                      className="font-medium text-[42px] md:text-[60px] text-navy tracking-tighter leading-none relative z-10 select-none pb-3"
                     />
                     {/* The line that cuts through the bottom part of the number */}
                     <div className="absolute bottom-1 left-0 right-0 h-[1.5px] bg-navy/80 z-0" />
