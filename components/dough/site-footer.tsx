@@ -14,9 +14,6 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
       <div className="absolute bottom-[-10%] left-[-10%] w-[35vw] h-[35vw] rounded-full bg-blob/5 blur-[120px] pointer-events-none" />
       <div className="absolute top-[-10%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-water/10 blur-[120px] pointer-events-none" />
 
-      {/* Subtle grid mesh overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
-
       <div className="relative mx-auto max-w-7xl px-6 z-10">
         {/* Actual Editorial Footer Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-cream/10 items-stretch">
