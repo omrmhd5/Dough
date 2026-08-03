@@ -24,6 +24,8 @@ export function formatBrandName(name: string) {
   return name.toUpperCase();
 }
 
+export const TWO_LINE_TITLE_CLIENTS = new Set(["LUX", "HNDL"]);
+
 export const CLIENTS: ClientDetail[] = [
   {
     en: "Akleh",

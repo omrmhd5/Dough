@@ -6,7 +6,11 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { SiteNav } from "@/components/dough/site-nav";
 import { SiteFooter } from "@/components/dough/site-footer";
-import { CLIENTS, formatBrandName } from "@/components/dough/clients-data";
+import {
+  CLIENTS,
+  formatBrandName,
+  TWO_LINE_TITLE_CLIENTS,
+} from "@/components/dough/clients-data";
 import { ClientLogo } from "@/components/dough/client-logo";
 
 export default function CaseStudyPage() {
@@ -38,22 +42,20 @@ export default function CaseStudyPage() {
       <div className="absolute bottom-[20%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-water/5 blur-[120px] pointer-events-none" />
 
       <div className="relative mx-auto max-w-5xl px-6 py-8 md:py-16 flex flex-col gap-12 md:gap-16 z-10">
-        <div className="flex items-center justify-between border-b border-cream/10 pb-4">
-          <Link
-            href="/work"
-            className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase text-water hover:text-blob transition-colors duration-300 group font-display">
-            <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
-            Back to Projects
-          </Link>
-        </div>
-
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-4 border-b border-cream/10 pb-6">
-            <span className="font-display text-xs uppercase font-extrabold text-water">
-              Project
-            </span>
-            <div className="flex-1 md:max-w-3xl flex flex-col gap-2">
-              <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex flex-col">
+            <Link
+              href="/work"
+              className="flex w-fit cursor-pointer items-center gap-2 pb-4 text-xs font-bold uppercase text-water hover:text-blob transition-colors duration-300 group font-display">
+              <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
+              Back to Projects
+            </Link>
+
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 border-y border-cream/10 py-6">
+              <span className="shrink-0 font-display text-xs uppercase font-extrabold text-water">
+                Project
+              </span>
+              <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-6 md:max-w-3xl">
                 <ClientLogo
                   src={client.logo}
                   alt={`${formatBrandName(client.en)} logo`}
@@ -61,15 +63,38 @@ export default function CaseStudyPage() {
                   size="hero"
                   boxed
                 />
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase text-cream leading-tight">
-                  {formatBrandName(client.en)}
-                </h1>
+                <div className="min-w-0 flex-1">
+                  {client.subtitle ? (
+                    TWO_LINE_TITLE_CLIENTS.has(client.en) ? (
+                      <div className="font-display text-xl leading-snug text-cream sm:text-2xl lg:text-3xl">
+                        <p>
+                          <span className="font-bold uppercase">
+                            {formatBrandName(client.en)}
+                          </span>
+                          <span className="font-bold text-cream/50"> —</span>
+                        </p>
+                        <p className="mt-1 text-[0.9em] font-medium text-cream/80">
+                          {client.subtitle}
+                        </p>
+                      </div>
+                    ) : (
+                      <h1 className="font-display text-2xl leading-snug text-cream sm:text-3xl lg:text-4xl">
+                        <span className="font-bold uppercase">
+                          {formatBrandName(client.en)}
+                        </span>
+                        <span className="font-bold text-cream/50"> — </span>
+                        <span className="text-[0.9em] font-medium lowercase text-cream/80">
+                          {client.subtitle}
+                        </span>
+                      </h1>
+                    )
+                  ) : (
+                    <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-cream leading-tight">
+                      {formatBrandName(client.en)}
+                    </h1>
+                  )}
+                </div>
               </div>
-              {client.subtitle && (
-                <p className="font-display text-lg sm:text-xl text-cream/60 font-medium text-left lowercase">
-                  {client.subtitle}
-                </p>
-              )}
             </div>
           </div>
 
@@ -86,7 +111,7 @@ export default function CaseStudyPage() {
               <span className="text-[12px] leading-[14px] uppercase font-semibold text-cream/40">
                 Industry
               </span>
-              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
+              <span className="font-bold uppercase text-cream text-[12px] leading-[14px]">
                 {client.sector}
               </span>
             </div>
@@ -125,7 +150,7 @@ export default function CaseStudyPage() {
           <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water text-center">
             Overview
           </span>
-          <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-justify lowercase">
+          <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-center lowercase">
             {client.overview}
           </p>
         </div>
@@ -176,7 +201,7 @@ export default function CaseStudyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                   {client.experience.map((item) => (
                     <div key={item.title} className="flex flex-col gap-2">
-                      <h3 className="font-display text-sm font-extrabold lowercase text-cream">
+                      <h3 className="font-display text-sm font-extrabold uppercase text-cream">
                         {item.title}
                       </h3>
                       {item.items && (
@@ -200,7 +225,7 @@ export default function CaseStudyPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                   {client.experience.map((item) => (
                     <div key={item.title} className="flex flex-col gap-2">
-                      <h3 className="font-display text-sm font-extrabold lowercase text-cream">
+                      <h3 className="font-display text-sm font-extrabold uppercase text-cream">
                         {item.title}
                       </h3>
                       {item.items && (

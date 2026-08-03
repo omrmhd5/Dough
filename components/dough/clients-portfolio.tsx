@@ -4,7 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "./reveal";
-import { CLIENTS, type ClientDetail, formatBrandName } from "./clients-data";
+import {
+  CLIENTS,
+  type ClientDetail,
+  formatBrandName,
+  TWO_LINE_TITLE_CLIENTS,
+} from "./clients-data";
 import { ClientLogo } from "./client-logo";
 
 export type { ClientDetail };
@@ -48,10 +53,11 @@ const MARQUEE_LOGOS = [
 ];
 
 const LOGO_GROUPS = [
-  MARQUEE_LOGOS.slice(0, 8),
-  MARQUEE_LOGOS.slice(8, 16),
-  MARQUEE_LOGOS.slice(16, 25),
-  MARQUEE_LOGOS.slice(25, 34),
+  MARQUEE_LOGOS.slice(0, 7),
+  MARQUEE_LOGOS.slice(7, 14),
+  MARQUEE_LOGOS.slice(14, 21),
+  MARQUEE_LOGOS.slice(21, 28),
+  MARQUEE_LOGOS.slice(28, 34),
 ];
 
 export function ClientsPortfolio() {
@@ -109,7 +115,7 @@ export function ClientsPortfolio() {
         </Reveal>
       </div>
 
-      {/* Logo banner — 8, 8, 9, 9 per slide */}
+      {/* Logo banner — 7, 7, 7, 7, 6 per slide */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
@@ -176,7 +182,7 @@ export function ClientsPortfolio() {
             return (
               <div key={client.en} className="scroll-mt-28 group/client">
                 <Reveal duration={700}>
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-cream/5 border border-cream/10 rounded-3xl p-6 sm:p-8 backdrop-blur-sm shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#0b1724] border border-cream/10 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
                     {/* Left Column: Details */}
                     <div className="lg:col-span-6 flex flex-col gap-6">
                       <div className="flex items-center gap-4 sm:gap-6">
@@ -189,14 +195,37 @@ export function ClientsPortfolio() {
                           boxed
                         />
 
-                        {/* Logo and subtitle */}
+                        {/* Title + subtitle */}
                         <div className="flex-1 min-w-[150px]">
-                          <p className="font-display text-sm font-extrabold uppercase text-cream">
-                            {formatBrandName(client.en)}
-                          </p>
-                          <p className="mt-1 font-display text-xl sm:text-2xl font-extrabold lowercase text-cream leading-snug max-w-xl">
-                            {client.subtitle}
-                          </p>
+                          {TWO_LINE_TITLE_CLIENTS.has(client.en) ? (
+                            <div className="font-display text-base leading-snug text-cream sm:text-lg md:text-xl max-w-xl">
+                              <p>
+                                <span className="font-bold uppercase">
+                                  {formatBrandName(client.en)}
+                                </span>
+                                <span className="font-bold text-cream/50">
+                                  {" "}
+                                  —
+                                </span>
+                              </p>
+                              <p className="mt-1 font-medium">
+                                {client.subtitle}
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="font-display text-lg leading-snug text-cream sm:text-xl md:text-2xl max-w-xl">
+                              <span className="font-bold uppercase">
+                                {formatBrandName(client.en)}
+                              </span>
+                              <span className="font-bold text-cream/50">
+                                {" "}
+                                —{" "}
+                              </span>
+                              <span className="font-medium lowercase">
+                                {client.subtitle}
+                              </span>
+                            </p>
+                          )}
                           <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase text-water mt-3">
                             {client.sector}
                           </p>
