@@ -13,13 +13,11 @@ export function Hero() {
           {/* Left Column: Text & CTAs */}
           <div className="flex flex-col items-start lg:col-span-12 max-w-4xl lowercase">
             <Reveal delay={100} duration={850}>
-              <h1 className="font-display tracking-tight text-[36px] leading-[40px] md:text-[76px] md:leading-[80px] text-cream">
+              <h1 className="font-display text-[36px] leading-[40px] md:text-[76px] md:leading-[80px] text-cream">
                 <span className="font-extrabold">we shape</span> <br />
-                <span className="font-light italic text-blob tracking-wide">
-                  raw
-                </span>{" "}
+                <span className="font-light italic text-blob">raw</span>{" "}
                 <span className="font-extrabold">concepts</span> <br />
-                <span className="text-white font-extrabold">
+                <span className="text-white font-extrabold whitespace-nowrap">
                   into cultural moments
                 </span>
               </h1>
@@ -38,14 +36,14 @@ export function Hero() {
               <div className="mt-12 flex flex-wrap gap-4">
                 <Link
                   href="/contact"
-                  className="cursor-pointer rounded-full bg-cream px-8 py-4 text-sm font-bold uppercase tracking-widest text-navy border border-cream relative overflow-hidden group hover:text-cream z-0 transition-colors duration-300">
+                  className="cursor-pointer rounded-full bg-cream px-8 py-4 text-sm font-bold uppercase text-navy border border-cream relative overflow-hidden group hover:text-cream z-0 transition-colors duration-300">
                   {/* Dark color ripple/fill element */}
                   <span className="absolute inset-0 bg-navy -z-10 translate-y-full -translate-x-full rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0" />
                   <span className="relative z-10">let&apos;s bake</span>
                 </Link>
                 <a
                   href="#featured"
-                  className="cursor-pointer rounded-full border border-cream/30 px-8 py-4 text-sm font-bold uppercase tracking-widest text-cream relative overflow-hidden group hover:text-navy hover:border-cream z-0 transition-all duration-300">
+                  className="cursor-pointer rounded-full border border-cream/30 px-8 py-4 text-sm font-bold uppercase text-cream relative overflow-hidden group hover:text-navy hover:border-cream z-0 transition-all duration-300">
                   {/* Light color ripple/fill element */}
                   <span className="absolute inset-0 bg-cream -z-10 translate-y-full -translate-x-full rounded-full transition-transform duration-500 ease-out group-hover:translate-y-0 group-hover:translate-x-0" />
                   <span className="relative z-10">explore work</span>

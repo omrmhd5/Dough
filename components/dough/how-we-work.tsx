@@ -3,23 +3,23 @@ import { Reveal } from "./reveal";
 
 const STEPS = [
   {
-    title: "Discovery",
+    title: "DISCOVERY",
     body: "We dig in deep — brand audits, market pulse, and real convos. We listen more than we talk (for now).",
   },
   {
-    title: "Strategy",
+    title: "STRATEGY",
     body: "We knead the insights into a tight, tasty plan. Positioning, voice, goals — it all starts here.",
   },
   {
-    title: "Creative Development",
+    title: "CREATIVE DEVELOPMENT",
     body: "From zero to concept — this is where your brand gets its flavor. Visuals, copy, packaging, campaigns — all baked in.",
   },
   {
-    title: "Execution",
+    title: "EXECUTION",
     body: "We bring the heat. Whether it's content, media, or a full-on launch — our team rolls it out, pixel by pixel, post by post.",
   },
   {
-    title: "Optimization",
+    title: "OPTIMIZATION",
     body: "We don't 'set and forget.' We test, tweak, and turn insights into sharper moves.",
   },
 ];
@@ -61,7 +61,7 @@ export function HowWeWork() {
                   <Blob
                     variant={i}
                     className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
-                    <span className="px-4 font-display text-[16px] leading-[20px] font-extrabold lowercase tracking-tight">
+                    <span className="px-4 font-display text-[16px] leading-[20px] font-extrabold uppercase">
                       {step.title}
                     </span>
                   </Blob>

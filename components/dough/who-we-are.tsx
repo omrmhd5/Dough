@@ -29,7 +29,7 @@ export function WhoWeAre() {
         {/* Asymmetrical Header and Subheader */}
         <div className="flex flex-col md:flex-row md:items-end justify-end gap-6 mb-20 md:mb-28">
           <Reveal duration={800} delay={150}>
-            <span className="font-display font-normal text-[12px] leading-[14px] uppercase tracking-[0.25em] text-water">
+            <span className="font-display font-normal text-[12px] leading-[14px] uppercase text-water">
               A Creative Baking Lab
             </span>
           </Reveal>
@@ -62,7 +62,7 @@ export function WhoWeAre() {
           <div className="lg:col-span-5 flex flex-col gap-8 lg:mt-2">
             <Reveal delay={200} duration={850}>
               <div className="flex flex-col gap-3">
-                <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
+                <span className="font-display font-bold text-[12px] leading-[14px] uppercase text-water">
                   Creative Philosophy
                 </span>
                 <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
@@ -73,7 +73,7 @@ export function WhoWeAre() {
 
             <Reveal delay={300} duration={850}>
               <div className="flex flex-col gap-3">
-                <span className="font-display font-bold text-[12px] leading-[14px] uppercase tracking-wider text-water">
+                <span className="font-display font-bold text-[12px] leading-[14px] uppercase text-water">
                   Working Principle
                 </span>
                 <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
@@ -97,14 +97,14 @@ export function WhoWeAre() {
                       suffix={stat.suffix}
                       variant={"variant" in stat ? stat.variant : "default"}
                       duration={"duration" in stat ? stat.duration : 2000}
-                      className="font-medium text-[42px] md:text-[60px] text-navy tracking-tighter leading-none relative z-10 select-none pb-3"
+                      className="font-medium text-[42px] md:text-[60px] text-navy leading-none relative z-10 select-none pb-3"
                     />
                     {/* The line that cuts through the bottom part of the number */}
                     <div className="absolute bottom-1 left-0 right-0 h-[1.5px] bg-navy/80 z-0" />
                   </div>
 
                   {/* Caption underneath the line */}
-                  <p className="font-display font-semibold text-[12px] leading-[16px] uppercase tracking-widest text-navy/60 mt-4 text-left">
+                  <p className="font-display font-semibold text-[12px] leading-[16px] uppercase text-navy/60 mt-4 text-left">
                     {stat.label}
                   </p>
                 </div>

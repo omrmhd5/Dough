@@ -4,47 +4,47 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "./reveal";
-import { CLIENTS, type ClientDetail } from "./clients-data";
+import { CLIENTS, type ClientDetail, formatBrandName } from "./clients-data";
 import { ClientLogo } from "./client-logo";
 
 export type { ClientDetail };
 export { CLIENTS };
 
 const MARQUEE_LOGOS = [
-  { src: "/logos/Comfort.png", alt: "Comfort" },
-  { src: "/logos/Kufta.png", alt: "Kufta" },
+  { src: "/logos/Comfort.png", alt: "COMFORT" },
+  { src: "/logos/Kufta.png", alt: "KUFTA" },
   { src: "/logos/CIF.png", alt: "CIF" },
-  { src: "/logos/Farooja.png", alt: "Farooja" },
-  { src: "/logos/Knorr.png", alt: "Knorr" },
-  { src: "/logos/TownTeam.png", alt: "Town Team" },
-  { src: "/logos/MiniTownTeam.png", alt: "Mini Town Team" },
-  { src: "/logos/Crepe2000.png", alt: "Crepe 2000" },
-  { src: "/logos/MadghoutDagag.png", alt: "Madghout Dagag" },
+  { src: "/logos/Farooja.png", alt: "FAROOJA" },
+  { src: "/logos/Knorr.png", alt: "KNORR" },
+  { src: "/logos/TownTeam.png", alt: "TOWN TEAM" },
+  { src: "/logos/MiniTownTeam.png", alt: "MINI TOWN TEAM" },
+  { src: "/logos/Crepe2000.png", alt: "CREPE 2000" },
+  { src: "/logos/MadghoutDagag.png", alt: "MADGHOUT DAGAG" },
   { src: "/logos/LUX.png", alt: "LUX" },
-  { src: "/logos/SayedHanafy.png", alt: "Sayed Hanafy" },
-  { src: "/logos/Barns.png", alt: "Barn's" },
-  { src: "/logos/Heinz.png", alt: "Heinz" },
-  { src: "/logos/E11vn.png", alt: "E11vn" },
+  { src: "/logos/SayedHanafy.png", alt: "SAYED HANAFY" },
+  { src: "/logos/Barns.png", alt: "BARN'S" },
+  { src: "/logos/Heinz.png", alt: "HEINZ" },
+  { src: "/logos/E11vn.png", alt: "E11VN" },
   { src: "/logos/HNDL.png", alt: "HNDL" },
-  { src: "/logos/Akleh.png", alt: "Akleh" },
-  { src: "/logos/Camay.png", alt: "Camay" },
-  { src: "/logos/LilKitchen.png", alt: "Lil Kitchen" },
-  { src: "/logos/ElDahan.png", alt: "El Dahan" },
-  { src: "/logos/Unilever.png", alt: "Unilever" },
-  { src: "/logos/Taghmisa.png", alt: "Taghmisa" },
-  { src: "/logos/Bebek.png", alt: "Bebek" },
-  { src: "/logos/Crinkle.png", alt: "Crinkle" },
-  { src: "/logos/MealFactory.png", alt: "Meal Factory" },
-  { src: "/logos/ShawermaElReem.png", alt: "Shawerma ElReem" },
-  { src: "/logos/Ziko.png", alt: "Ziko" },
-  { src: "/logos/Orca.png", alt: "Orca" },
-  { src: "/logos/KasrElKababgy.png", alt: "Kasr ElKababgy" },
-  { src: "/logos/Tant.png", alt: "Tant" },
-  { src: "/logos/ElAnfoushy.png", alt: "ElAnfoushy" },
-  { src: "/logos/Urbnlanes.png", alt: "Urbnlanes" },
-  { src: "/logos/Embaba.png", alt: "Embaba" },
-  { src: "/logos/OstaRosto.png", alt: "Osta Rosto" },
-  { src: "/logos/NazimCoffee.png", alt: "Nazim Coffee" },
+  { src: "/logos/Akleh.png", alt: "AKLEH" },
+  { src: "/logos/Camay.png", alt: "CAMAY" },
+  { src: "/logos/LilKitchen.png", alt: "LIL KITCHEN" },
+  { src: "/logos/ElDahan.png", alt: "EL DAHAN" },
+  { src: "/logos/Unilever.png", alt: "UNILEVER" },
+  { src: "/logos/Taghmisa.png", alt: "TAGHMISA" },
+  { src: "/logos/Bebek.png", alt: "BEBEK" },
+  { src: "/logos/Crinkle.png", alt: "CRINKLE" },
+  { src: "/logos/MealFactory.png", alt: "MEAL FACTORY" },
+  { src: "/logos/ShawermaElReem.png", alt: "SHAWERMA ELREEM" },
+  { src: "/logos/Ziko.png", alt: "ZIKO" },
+  { src: "/logos/Orca.png", alt: "ORCA" },
+  { src: "/logos/KasrElKababgy.png", alt: "KASR ELKABABGY" },
+  { src: "/logos/Tant.png", alt: "TANT" },
+  { src: "/logos/ElAnfoushy.png", alt: "ELANFOUSHY" },
+  { src: "/logos/Urbnlanes.png", alt: "URBNLANES" },
+  { src: "/logos/Embaba.png", alt: "EMBABA" },
+  { src: "/logos/OstaRosto.png", alt: "OSTA ROSTO" },
+  { src: "/logos/NazimCoffee.png", alt: "NAZIM COFFEE" },
 ];
 
 const LOGO_GROUPS = [
@@ -126,7 +126,11 @@ export function ClientsPortfolio() {
                   <div
                     key={logo.src}
                     className="flex flex-1 items-center justify-center">
-                    <ClientLogo src={logo.src} alt={logo.alt} size="banner" />
+                    <ClientLogo
+                      src={logo.src}
+                      alt={formatBrandName(logo.alt)}
+                      size="banner"
+                    />
                   </div>
                 ))}
               </div>
@@ -179,18 +183,21 @@ export function ClientsPortfolio() {
                         {/* Logo Box */}
                         <ClientLogo
                           src={client.logo}
-                          alt={`${client.en} logo`}
-                          fallback={client.en}
+                          alt={`${formatBrandName(client.en)} logo`}
+                          fallback={formatBrandName(client.en)}
                           size="card"
                           boxed
                         />
 
                         {/* Logo and subtitle */}
                         <div className="flex-1 min-w-[150px]">
-                          <p className="font-display text-xl sm:text-2xl font-extrabold lowercase text-cream leading-snug max-w-xl">
+                          <p className="font-display text-sm font-extrabold uppercase text-cream">
+                            {formatBrandName(client.en)}
+                          </p>
+                          <p className="mt-1 font-display text-xl sm:text-2xl font-extrabold lowercase text-cream leading-snug max-w-xl">
                             {client.subtitle}
                           </p>
-                          <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase tracking-widest text-water mt-3">
+                          <p className="font-display font-extrabold text-[12px] leading-[14px] uppercase text-water mt-3">
                             {client.sector}
                           </p>
                         </div>
@@ -209,7 +216,7 @@ export function ClientsPortfolio() {
                       <div>
                         <Link
                           href={`/work/${clientSlug}`}
-                          className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-cream hover:bg-blob text-navy font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 shadow-sm">
+                          className="inline-flex cursor-pointer items-center justify-center px-6 py-3 rounded-full bg-cream hover:bg-blob text-navy font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 shadow-sm">
                           View Project
                         </Link>
                       </div>
@@ -222,7 +229,7 @@ export function ClientsPortfolio() {
                         className="block w-full h-full relative cursor-pointer group">
                         <Image
                           src={client.images[0]}
-                          alt={`${client.en} brand showcase preview`}
+                          alt={`${formatBrandName(client.en)} brand showcase preview`}
                           fill
                           className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.02]"
                         />

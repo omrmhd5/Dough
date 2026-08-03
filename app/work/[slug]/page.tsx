@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { SiteNav } from "@/components/dough/site-nav";
 import { SiteFooter } from "@/components/dough/site-footer";
-import { CLIENTS } from "@/components/dough/clients-data";
+import { CLIENTS, formatBrandName } from "@/components/dough/clients-data";
 import { ClientLogo } from "@/components/dough/client-logo";
 
 export default function CaseStudyPage() {
@@ -41,7 +41,7 @@ export default function CaseStudyPage() {
         <div className="flex items-center justify-between border-b border-cream/10 pb-4">
           <Link
             href="/work"
-            className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase tracking-widest text-water hover:text-blob transition-colors duration-300 group font-display">
+            className="flex cursor-pointer items-center gap-2 text-xs font-bold uppercase text-water hover:text-blob transition-colors duration-300 group font-display">
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
             Back to Projects
           </Link>
@@ -49,20 +49,20 @@ export default function CaseStudyPage() {
 
         <div className="flex flex-col gap-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4 border-b border-cream/10 pb-6">
-            <span className="font-display text-xs uppercase font-extrabold tracking-widest text-water">
+            <span className="font-display text-xs uppercase font-extrabold text-water">
               Project
             </span>
             <div className="flex-1 md:max-w-3xl flex flex-col gap-2">
               <div className="flex items-center gap-4 sm:gap-6">
                 <ClientLogo
                   src={client.logo}
-                  alt={`${client.en} logo`}
-                  fallback={client.en}
+                  alt={`${formatBrandName(client.en)} logo`}
+                  fallback={formatBrandName(client.en)}
                   size="hero"
                   boxed
                 />
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold lowercase text-cream leading-tight">
-                  {client.en}
+                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold uppercase text-cream leading-tight">
+                  {formatBrandName(client.en)}
                 </h1>
               </div>
               {client.subtitle && (
@@ -75,15 +75,15 @@ export default function CaseStudyPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-2 text-[12px] leading-[14px] font-display">
             <div className="flex flex-col gap-1.5">
-              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold text-cream/40">
                 Client
               </span>
-              <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
-                {client.en}
+              <span className="font-bold uppercase text-cream text-[12px] leading-[14px]">
+                {formatBrandName(client.en)}
               </span>
             </div>
             <div className="flex flex-col gap-1.5">
-              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold text-cream/40">
                 Industry
               </span>
               <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
@@ -91,7 +91,7 @@ export default function CaseStudyPage() {
               </span>
             </div>
             <div className="flex flex-col gap-1.5">
-              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold text-cream/40">
                 Year
               </span>
               <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
@@ -99,7 +99,7 @@ export default function CaseStudyPage() {
               </span>
             </div>
             <div className="flex flex-col gap-1.5 col-span-2 md:col-span-1">
-              <span className="text-[12px] leading-[14px] uppercase font-semibold tracking-widest text-cream/40">
+              <span className="text-[12px] leading-[14px] uppercase font-semibold text-cream/40">
                 Services
               </span>
               <span className="font-bold lowercase text-cream text-[12px] leading-[14px]">
@@ -113,7 +113,7 @@ export default function CaseStudyPage() {
           <div className="relative w-full h-[35vh] sm:h-[45vh] rounded-2xl overflow-hidden border border-cream/10 shadow-lg">
             <Image
               src={client.images[0]}
-              alt={`${client.en} Hero Showcase`}
+              alt={`${formatBrandName(client.en)} Hero Showcase`}
               fill
               className="object-cover"
               priority
@@ -122,7 +122,7 @@ export default function CaseStudyPage() {
         )}
 
         <div className="max-w-3xl mx-auto flex flex-col gap-4 py-4">
-          <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+          <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water text-center">
             Overview
           </span>
           <p className="font-display text-[18px] leading-[26px] md:text-[22px] md:leading-[32px] font-medium text-cream/85 text-justify lowercase">
@@ -132,7 +132,7 @@ export default function CaseStudyPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 border-t border-b border-cream/10 py-10 md:py-12">
           <div className="flex flex-col gap-3">
-            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water">
               {client.challengeLabel || "The Challenge"}
             </span>
             <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-justify lowercase">
@@ -140,7 +140,7 @@ export default function CaseStudyPage() {
             </p>
           </div>
           <div className="flex flex-col gap-3">
-            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water">
               {client.approachLabel || "Our Approach"}
             </span>
             <p className="font-display font-normal text-[16px] leading-[19px] text-cream/70 text-justify lowercase">
@@ -153,7 +153,7 @@ export default function CaseStudyPage() {
           (client.images.length > 0 ||
             (client.experience && client.experience.length > 0)) && (
             <div className="flex flex-col gap-8 border-b border-cream/10 pb-10 md:pb-12">
-              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water text-center">
                 {client.galleryLabel || "Digital Experience"}
               </span>
               {client.images.length > 0 && (
@@ -164,7 +164,7 @@ export default function CaseStudyPage() {
                       className="break-inside-avoid relative rounded-2xl overflow-hidden bg-cream/[0.02] border border-cream/10 shadow-sm">
                       <img
                         src={imgUrl}
-                        alt={`${client.en} design board visual ${idx + 1}`}
+                        alt={`${formatBrandName(client.en)} design board visual ${idx + 1}`}
                         className="w-full h-auto object-cover"
                         loading="lazy"
                       />
@@ -194,7 +194,7 @@ export default function CaseStudyPage() {
           <>
             {client.experience && client.experience.length > 0 && (
               <div className="flex flex-col gap-8 border-b border-cream/10 pb-10 md:pb-12">
-                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water text-center">
                   {client.experienceLabel || "Social Experience"}
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
@@ -216,7 +216,7 @@ export default function CaseStudyPage() {
 
             {client.images.length > 0 && (
               <div className="flex flex-col gap-6">
-                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water text-center">
+                <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water text-center">
                   {client.galleryLabel || "Visual Deliverables"}
                 </span>
                 <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
@@ -226,7 +226,7 @@ export default function CaseStudyPage() {
                       className="break-inside-avoid relative rounded-2xl overflow-hidden bg-cream/[0.02] border border-cream/10 shadow-sm">
                       <img
                         src={imgUrl}
-                        alt={`${client.en} design board visual ${idx + 1}`}
+                        alt={`${formatBrandName(client.en)} design board visual ${idx + 1}`}
                         className="w-full h-auto object-cover"
                         loading="lazy"
                       />
@@ -240,7 +240,7 @@ export default function CaseStudyPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 border-t border-cream/10 pt-12 pb-6">
           <div className="flex flex-col gap-4">
-            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water">
               Scope of Work
             </span>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-[12px] leading-[14px] font-medium text-cream/70">
@@ -255,7 +255,7 @@ export default function CaseStudyPage() {
             </ul>
           </div>
           <div className="flex flex-col gap-3">
-            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-water">
+            <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-water">
               The Outcome
             </span>
             <p className="font-display font-normal text-[16px] leading-[19px] text-cream/75 text-justify lowercase">
@@ -267,7 +267,7 @@ export default function CaseStudyPage() {
         <div className="flex justify-center border-t border-cream/10 pt-8 mt-4">
           <Link
             href="/work"
-            className="px-6 py-3 rounded-full bg-cream text-navy hover:bg-blob hover:text-navy font-bold text-xs uppercase tracking-widest transition-all duration-300 cursor-pointer shadow-md text-center font-display">
+            className="px-6 py-3 rounded-full bg-cream text-navy hover:bg-blob hover:text-navy font-bold text-xs uppercase transition-all duration-300 cursor-pointer shadow-md text-center font-display">
             Back to Projects
           </Link>
         </div>

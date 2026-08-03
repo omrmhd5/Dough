@@ -39,7 +39,7 @@ export function SiteNav() {
               <li key={link.href} className="relative">
                 <Link
                   href={link.href}
-                  className={`text-sm uppercase tracking-wider relative inline-flex cursor-pointer flex-col items-center group ${
+                  className={`text-sm uppercase relative inline-flex cursor-pointer flex-col items-center group ${
                     isActive ? "text-navy" : "text-navy/70 hover:text-navy"
                   }`}>
                   <span
@@ -83,7 +83,7 @@ export function SiteNav() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    className={`cursor-pointer text-sm font-semibold uppercase tracking-wider block ${
+                    className={`cursor-pointer text-sm font-semibold uppercase block ${
                       isActive ? "text-cream" : "text-cream/70"
                     }`}>
                     {link.label}

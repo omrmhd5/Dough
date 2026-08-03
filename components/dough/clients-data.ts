@@ -20,6 +20,10 @@ export interface ClientDetail {
   experience?: { title: string; items?: string }[];
 }
 
+export function formatBrandName(name: string) {
+  return name.toUpperCase();
+}
+
 export const CLIENTS: ClientDetail[] = [
   {
     en: "Akleh",
@@ -40,10 +44,10 @@ export const CLIENTS: ClientDetail[] = [
       "Transforming a traditional Syrian shawerma restaurant into a bold, culture-driven brand designed for a new generation.",
     challengeLabel: "The Opportunity",
     challenge:
-      "Akleh wasn't struggling because of its food—it was struggling because it looked like every other Syrian shawerma restaurant. In a category crowded with familiar logos, menus, and interiors, the brand lacked distinction. Our challenge was to create an identity that felt authentic to its roots while becoming instantly recognizable to today's audience.",
+      "AKLEH wasn't struggling because of its food—it was struggling because it looked like every other Syrian shawerma restaurant. In a category crowded with familiar logos, menus, and interiors, the brand lacked distinction. Our challenge was to create an identity that felt authentic to its roots while becoming instantly recognizable to today's audience.",
     approachLabel: "Our Creative Direction",
     approach:
-      "Rather than redesigning a logo, we reimagined the entire brand experience. Inspired by street culture, bold typography, vibrant colors, and expressive graphics, we created a visual system that feels playful, confident, and unmistakably Akleh. Every customer touchpoint—from packaging to menus—was designed to become part of the brand story.",
+      "Rather than redesigning a logo, we reimagined the entire brand experience. Inspired by street culture, bold typography, vibrant colors, and expressive graphics, we created a visual system that feels playful, confident, and unmistakably AKLEH. Every customer touchpoint—from packaging to menus—was designed to become part of the brand story.",
     showcaseLayout: "combined",
     galleryLabel: "Visual Direction",
     experience: [
@@ -65,7 +69,7 @@ export const CLIENTS: ClientDetail[] = [
       },
     ],
     outcome:
-      "Akleh evolved from another shawerma restaurant into a brand with a distinctive personality and a recognizable visual identity. The new system strengthened brand recognition across every customer touchpoint, elevated the dining experience, and provided a scalable foundation for future growth—proving that thoughtful branding can transform how people perceive a business before they even take their first bite.",
+      "AKLEH evolved from another shawerma restaurant into a brand with a distinctive personality and a recognizable visual identity. The new system strengthened brand recognition across every customer touchpoint, elevated the dining experience, and provided a scalable foundation for future growth—proving that thoughtful branding can transform how people perceive a business before they even take their first bite.",
     scope: [
       "Brand Strategy",
       "Brand Positioning",
@@ -181,8 +185,7 @@ export const CLIENTS: ClientDetail[] = [
       },
       {
         title: "Interface Design",
-        items:
-          "Dashboard UI • Components • Design System • Interaction Design",
+        items: "Dashboard UI • Components • Design System • Interaction Design",
       },
       {
         title: "Digital Presence",
@@ -221,19 +224,20 @@ export const CLIENTS: ClientDetail[] = [
     year: "2025–2026",
     subtitle: "Reinventing the Chicken Bucket for a Healthier Generation.",
     overview:
-      "We built Farooja as a bold, modern grilled chicken brand that delivers the excitement of fast food with a healthier, high-protein proposition—designed for active, digitally native customers.",
+      "We built FAROOJA as a bold, modern grilled chicken brand that delivers the excitement of fast food with a healthier, high-protein proposition—designed for active, digitally native customers.",
     challengeLabel: "The Opportunity",
     challenge:
-      "The market was full of fried chicken concepts, but few brands offered the same sense of indulgence, convenience, and shareability through grilled chicken. Farooja was created to fill that gap: a brand that could own the healthier chicken bucket space without feeling clinical, restrictive, or overly fitness-focused.",
+      "The market was full of fried chicken concepts, but few brands offered the same sense of indulgence, convenience, and shareability through grilled chicken. FAROOJA was created to fill that gap: a brand that could own the healthier chicken bucket space without feeling clinical, restrictive, or overly fitness-focused.",
     approachLabel: "Our Creative Direction",
     approach:
-      "We positioned Farooja as the grilled alternative to traditional fried chicken brands—a high-protein, post-workout-friendly concept with the energy and attitude of modern fast food. The identity was built around bold typography, expressive graphics, vibrant color, and a playful visual system that feels confident, youthful, and instantly recognizable. Every touchpoint, from the bucket to the menu, was designed to make healthier eating feel exciting rather than compromising.",
+      "We positioned FAROOJA as the grilled alternative to traditional fried chicken brands—a high-protein, post-workout-friendly concept with the energy and attitude of modern fast food. The identity was built around bold typography, expressive graphics, vibrant color, and a playful visual system that feels confident, youthful, and instantly recognizable. Every touchpoint, from the bucket to the menu, was designed to make healthier eating feel exciting rather than compromising.",
     showcaseLayout: "combined",
     galleryLabel: "Brand Experience",
     experience: [
       {
         title: "Brand Identity",
-        items: "Positioning • Naming • Logo System • Typography • Color Palette",
+        items:
+          "Positioning • Naming • Logo System • Typography • Color Palette",
       },
       {
         title: "Packaging System",
@@ -251,7 +255,7 @@ export const CLIENTS: ClientDetail[] = [
       },
     ],
     outcome:
-      "Farooja launched with a clear and differentiated position in the chicken category: the excitement of a fast-food bucket, reimagined around grilled chicken and high-protein meals. The brand system created a strong foundation across packaging, menus, and digital communication, helping Farooja stand apart from traditional fried chicken concepts and connect with a younger, health-conscious audience without losing the fun and indulgence people expect from fast food.",
+      "FAROOJA launched with a clear and differentiated position in the chicken category: the excitement of a fast-food bucket, reimagined around grilled chicken and high-protein meals. The brand system created a strong foundation across packaging, menus, and digital communication, helping FAROOJA stand apart from traditional fried chicken concepts and connect with a younger, health-conscious audience without losing the fun and indulgence people expect from fast food.",
     scope: [
       "Brand Strategy",
       "Brand Positioning",
@@ -283,13 +287,13 @@ export const CLIENTS: ClientDetail[] = [
     year: "2025",
     subtitle: "Making Everyday Cooking Worth Watching.",
     overview:
-      "We transformed Knorr's digital presence by turning recipe content into entertaining food experiences—supported by integrated social media campaigns, digital amplification, and an AI-powered recipe platform.",
+      "We transformed KNORR's digital presence by turning recipe content into entertaining food experiences—supported by integrated social media campaigns, digital amplification, and an AI-powered recipe platform.",
     challengeLabel: "The Opportunity",
     challenge:
-      "Traditional recipe content had become predictable. Most cooking posts focused on instructions rather than inspiration, making it difficult to capture attention in increasingly competitive social feeds. Knorr needed a content ecosystem that entertained first, educated second, and inspired consumers to cook with confidence.",
+      "Traditional recipe content had become predictable. Most cooking posts focused on instructions rather than inspiration, making it difficult to capture attention in increasingly competitive social feeds. KNORR needed a content ecosystem that entertained first, educated second, and inspired consumers to cook with confidence.",
     approachLabel: "Our Creative Direction",
     approach:
-      "We shifted Knorr's communication from recipe demonstrations to food storytelling. Every piece of content was designed to be visually engaging, platform-native, and optimized for social sharing—combining cinematic food visuals, creator-led content, trend-driven formats, and performance marketing to maximize reach and engagement.",
+      "We shifted KNORR's communication from recipe demonstrations to food storytelling. Every piece of content was designed to be visually engaging, platform-native, and optimized for social sharing—combining cinematic food visuals, creator-led content, trend-driven formats, and performance marketing to maximize reach and engagement.",
     showcaseLayout: "combined",
     galleryLabel: "Digital Experience",
     experience: [
@@ -299,7 +303,7 @@ export const CLIENTS: ClientDetail[] = [
           "Content Strategy • Creative Direction • Food Photography • Short-form Video • Motion Graphics",
       },
       {
-        title: "Knorr 7alet-ha",
+        title: "KNORR 7alet-ha",
         items:
           "Digital Campaign • Social Amplification • Influencer Content • Community Engagement",
       },
@@ -310,7 +314,7 @@ export const CLIENTS: ClientDetail[] = [
       },
     ],
     outcome:
-      "Knorr evolved beyond traditional recipe marketing into a content-driven digital ecosystem. Through engaging social storytelling, the Knorr 7alet-ha campaign, and an AI-powered recipe platform that recommends meals based on ingredients users already have at home, we created a seamless brand experience that inspired everyday cooking, increased engagement, and strengthened Knorr's connection with modern home cooks.",
+      "KNORR evolved beyond traditional recipe marketing into a content-driven digital ecosystem. Through engaging social storytelling, the KNORR 7alet-ha campaign, and an AI-powered recipe platform that recommends meals based on ingredients users already have at home, we created a seamless brand experience that inspired everyday cooking, increased engagement, and strengthened KNORR's connection with modern home cooks.",
     scope: [
       "Social Media Strategy",
       "Content Strategy",
@@ -342,11 +346,11 @@ export const CLIENTS: ClientDetail[] = [
     year: "2025",
     subtitle: "Turning Every Meal into a Winning Experience.",
     overview:
-      "Ramadan is one of the most competitive marketing seasons, with brands competing through discounts and price wars. Rather than joining the race to the lowest price, Kufta created an experience. Open the Chips & Win transformed every meal into a moment of anticipation, reviving the nostalgia of discovering hidden prizes while introducing a new generation to the excitement of Kharbesh w Eksab. The campaign proved that memorable experiences create stronger brand connections than temporary discounts.",
+      "Ramadan is one of the most competitive marketing seasons, with brands competing through discounts and price wars. Rather than joining the race to the lowest price, KUFTA created an experience. Open the Chips & Win transformed every meal into a moment of anticipation, reviving the nostalgia of discovering hidden prizes while introducing a new generation to the excitement of Kharbesh w Eksab. The campaign proved that memorable experiences create stronger brand connections than temporary discounts.",
     challenge:
-      "In a market dominated by price-driven promotions, Kufta wanted to reward engagement instead of discount-seeking behavior. The challenge was to increase traffic, encourage repeat visits, and generate excitement while preserving the brand's premium positioning and strengthening long-term customer loyalty.",
+      "In a market dominated by price-driven promotions, KUFTA wanted to reward engagement instead of discount-seeking behavior. The challenge was to increase traffic, encourage repeat visits, and generate excitement while preserving the brand's premium positioning and strengthening long-term customer loyalty.",
     approach:
-      "Every qualifying order included a branded bag of chips containing a hidden prize. Customers only discovered their reward after opening the pack, transforming a simple side item into the centerpiece of the campaign. Inspired by the nostalgia of childhood snack promotions, the experience brought back the excitement of Kharbesh w Eksab for older audiences while introducing it to Gen Z. The mechanics were intentionally simple, allowing anticipation, surprise, and sharing to become the campaign itself. Rather than buying attention with discounts, Kufta earned it through an experience customers genuinely wanted to talk about.",
+      "Every qualifying order included a branded bag of chips containing a hidden prize. Customers only discovered their reward after opening the pack, transforming a simple side item into the centerpiece of the campaign. Inspired by the nostalgia of childhood snack promotions, the experience brought back the excitement of Kharbesh w Eksab for older audiences while introducing it to Gen Z. The mechanics were intentionally simple, allowing anticipation, surprise, and sharing to become the campaign itself. Rather than buying attention with discounts, KUFTA earned it through an experience customers genuinely wanted to talk about.",
     showcaseLayout: "combined",
     galleryLabel: "Campaign Experience",
     experience: [
@@ -356,7 +360,7 @@ export const CLIENTS: ClientDetail[] = [
       { title: "Social Campaign" },
     ],
     outcome:
-      "Rather than competing through discounts, Kufta created a campaign customers genuinely wanted to experience. Every purchase became a moment of anticipation, strengthening engagement while protecting the brand's premium positioning. By transforming nostalgia into a modern brand experience, the campaign demonstrated that meaningful interactions create stronger loyalty than temporary price reductions. Because memorable brands aren't built through discounts—they're built through experiences people remember.",
+      "Rather than competing through discounts, KUFTA created a campaign customers genuinely wanted to experience. Every purchase became a moment of anticipation, strengthening engagement while protecting the brand's premium positioning. By transforming nostalgia into a modern brand experience, the campaign demonstrated that meaningful interactions create stronger loyalty than temporary price reductions. Because memorable brands aren't built through discounts—they're built through experiences people remember.",
     scope: [
       "Campaign Strategy",
       "Creative Concept Development",

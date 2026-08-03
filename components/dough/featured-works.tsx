@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "./reveal";
-import { CLIENTS } from "./clients-data";
+import { CLIENTS, formatBrandName } from "./clients-data";
 import { ClientLogo } from "./client-logo";
 
 const FEATURED = ["Akleh", "LUX", "HNDL", "Taghmisa", "Tant"];
@@ -107,7 +107,7 @@ export function FeaturedWorks() {
                     className={`relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-navy ${isActive ? "shadow-[0_20px_50px_rgba(18,41,64,0.18)]" : ""} ${!isActive ? "pointer-events-none select-none" : ""}`}>
                     <Image
                       src={client.images[0]}
-                      alt={`${client.en} featured project`}
+                      alt={`${formatBrandName(client.en)} featured project`}
                       fill
                       className="object-cover scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
@@ -123,24 +123,28 @@ export function FeaturedWorks() {
                         {client.logo ? (
                           <ClientLogo
                             src={client.logo}
-                            alt={`${client.en} logo`}
+                            alt={`${formatBrandName(client.en)} logo`}
                             size="featured"
                           />
                         ) : (
-                          <span className="font-display text-sm font-extrabold lowercase tracking-widest text-cream">
-                            {client.en}
+                          <span className="font-display text-sm font-extrabold uppercase text-cream">
+                            {formatBrandName(client.en)}
                           </span>
                         )}
                       </div>
 
                       <div className="flex flex-col gap-4 mt-auto">
                         <div>
-                          <p className="font-display text-lg font-bold lowercase leading-snug text-cream sm:text-xl md:text-2xl">
-                            {client.en}
-                            <span className="text-cream/50"> — </span>
-                            {client.subtitle}
+                          <p className="font-display text-lg leading-snug text-cream sm:text-xl md:text-2xl">
+                            <span className="font-bold uppercase">
+                              {formatBrandName(client.en)}
+                            </span>
+                            <span className="font-bold text-cream/50"> — </span>
+                            <span className="font-medium lowercase">
+                              {client.subtitle}
+                            </span>
                           </p>
-                          <p className="mt-1.5 font-display text-[11px] leading-[13px] font-semibold uppercase tracking-widest text-cream/50">
+                          <p className="mt-1.5 font-display text-[11px] leading-[13px] font-semibold uppercase text-cream/50">
                             {client.sector}
                           </p>
                         </div>
@@ -148,12 +152,12 @@ export function FeaturedWorks() {
                         {isActive ? (
                           <Link
                             href={`/work/${slug}`}
-                            className="inline-flex cursor-pointer items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
+                            className="inline-flex cursor-pointer items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
                             View project
                             <ArrowUpRight className="size-3" />
                           </Link>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase tracking-widest text-cream/30">
+                          <span className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase text-cream/30">
                             View project
                             <ArrowUpRight className="size-3" />
                           </span>

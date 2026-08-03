@@ -70,7 +70,7 @@ export function BakingLoader({
       </div>
 
       {showLabel && (
-        <p className="font-display text-[10px] font-bold uppercase tracking-[0.25em] text-cream/50 animate-pulse">
+        <p className="font-display text-[10px] font-bold uppercase text-cream/50 animate-pulse">
           Baking
         </p>
       )}

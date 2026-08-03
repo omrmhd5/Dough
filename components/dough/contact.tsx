@@ -329,10 +329,10 @@ export function Contact() {
           {/* Left Column: Heading and Info */}
           <div className="lg:col-span-5 flex flex-col gap-8">
             <Reveal duration={800}>
-              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold tracking-widest text-blob/90">
+              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-blob/90">
                 {activeTab === "project" ? "Get in Touch" : "Rise with Us"}
               </span>
-              <h2 className="font-display font-extrabold lowercase tracking-tight text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2">
+              <h2 className="font-display font-extrabold lowercase text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2">
                 {activeTab === "project" ? (
                   <>
                     <span className="block whitespace-nowrap">
@@ -375,7 +375,7 @@ export function Contact() {
                       <Icon className="size-4" />
                     </div>
                     <div>
-                      <span className="font-display text-[12px] leading-[14px] uppercase font-bold tracking-widest text-cream/40 block">
+                      <span className="font-display text-[12px] leading-[14px] uppercase font-bold text-cream/40 block">
                         {label}
                       </span>
                       <span className="font-display text-[12px] leading-[14px] font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
@@ -397,7 +397,7 @@ export function Contact() {
                   <button
                     type="button"
                     onClick={() => setActiveTab("project")}
-                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 relative cursor-pointer ${activeTab === "project" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
+                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "project" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
                     Start a Project
                     {activeTab === "project" && (
                       <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
@@ -406,7 +406,7 @@ export function Contact() {
                   <button
                     type="button"
                     onClick={() => setActiveTab("job")}
-                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase tracking-widest transition-all duration-300 relative cursor-pointer ${activeTab === "job" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
+                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "job" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
                     Join the Team
                     {activeTab === "job" && (
                       <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
@@ -447,7 +447,7 @@ export function Contact() {
                             setMeetingPreference("");
                             setStep(1);
                           }}
-                          className="mt-8 text-xs uppercase font-extrabold tracking-widest bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
+                          className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
                           Submit Another Inquiry
                         </button>
                       </div>
@@ -458,7 +458,7 @@ export function Contact() {
                         {projectFormStatus === "submitting" ? (
                           <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
                             <Loader2 className="size-12 text-blob animate-spin mb-4" />
-                            <p className="text-blob font-display text-sm tracking-widest uppercase animate-pulse">
+                            <p className="text-blob font-display text-sm uppercase animate-pulse">
                               {projectStatusMessage}
                             </p>
                           </div>
@@ -469,7 +469,7 @@ export function Contact() {
                                 <h3 className="font-display text-xl font-bold lowercase text-cream">
                                   Dough Inquiry Form
                                 </h3>
-                                <span className="text-[10px] font-display uppercase tracking-wider text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
+                                <span className="text-[10px] font-display uppercase text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
                                   Step {step} of 3
                                 </span>
                               </div>
@@ -497,7 +497,7 @@ export function Contact() {
                                 {/* Step 1: Business Details */}
                                 <div className="w-full shrink-0 flex flex-col gap-6 pr-2">
                                   <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                    <label className="text-[10px] uppercase font-bold text-cream/60">
                                       Business Name *
                                     </label>
                                     <input
@@ -522,7 +522,7 @@ export function Contact() {
                                   </div>
 
                                   <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                    <label className="text-[10px] uppercase font-bold text-cream/60">
                                       Business Social Media Page *
                                     </label>
                                     <input
@@ -549,7 +549,7 @@ export function Contact() {
                                   <button
                                     type="button"
                                     onClick={handleNext1}
-                                    className="w-full flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs tracking-widest py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
+                                    className="w-full flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
                                     Next Step
                                     <ArrowRight className="size-4" />
                                   </button>
@@ -559,7 +559,7 @@ export function Contact() {
                                 <div className="w-full shrink-0 flex flex-col gap-6 px-1">
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                      <label className="text-[10px] uppercase font-bold text-cream/60">
                                         Your Name *
                                       </label>
                                       <input
@@ -584,7 +584,7 @@ export function Contact() {
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                      <label className="text-[10px] uppercase font-bold text-cream/60">
                                         Mobile Number *
                                       </label>
                                       <input
@@ -611,7 +611,7 @@ export function Contact() {
 
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                      <label className="text-[10px] uppercase font-bold text-cream/60">
                                         Email Address *
                                       </label>
                                       <input
@@ -626,7 +626,7 @@ export function Contact() {
                                     </div>
 
                                     <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                      <label className="text-[10px] uppercase font-bold text-cream/60">
                                         Position *
                                       </label>
                                       <input
@@ -655,14 +655,14 @@ export function Contact() {
                                     <button
                                       type="button"
                                       onClick={() => setStep(1)}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs tracking-widest py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
+                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
                                       <ArrowLeft className="size-4" />
                                       Back
                                     </button>
                                     <button
                                       type="button"
                                       onClick={handleNext2}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs tracking-widest py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
+                                      className="flex-1 flex items-center justify-center gap-2 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
                                       Next Step
                                       <ArrowRight className="size-4" />
                                     </button>
@@ -672,7 +672,7 @@ export function Contact() {
                                 {/* Step 3: Service & Meeting Preference */}
                                 <div className="w-full shrink-0 flex flex-col gap-6 pl-2">
                                   <div className="flex flex-col gap-3">
-                                    <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                    <label className="text-[10px] uppercase font-bold text-cream/60">
                                       Service(s) needed *
                                     </label>
                                     <div className="flex flex-col gap-2">
@@ -737,7 +737,7 @@ export function Contact() {
                                   </div>
 
                                   <div className="flex flex-col gap-3">
-                                    <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                    <label className="text-[10px] uppercase font-bold text-cream/60">
                                       Client Meeting Preference *
                                     </label>
                                     <div className="grid grid-cols-3 gap-2">
@@ -777,13 +777,13 @@ export function Contact() {
                                     <button
                                       type="button"
                                       onClick={() => setStep(2)}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs tracking-widest py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
+                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
                                       <ArrowLeft className="size-4" />
                                       Back
                                     </button>
                                     <button
                                       type="submit"
-                                      className="flex-[2] flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs tracking-widest py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
+                                      className="flex-[2] flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
                                       <Send className="size-4" />
                                       Bake & Send Inquiry
                                     </button>
@@ -826,7 +826,7 @@ export function Contact() {
                             setJobAnythingElse("");
                             setJobFile(null);
                           }}
-                          className="mt-8 text-xs uppercase font-extrabold tracking-widest bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
+                          className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
                           Apply for Another Role
                         </button>
                       </div>
@@ -837,7 +837,7 @@ export function Contact() {
                         {jobFormStatus === "submitting" ? (
                           <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
                             <Loader2 className="size-12 text-blob animate-spin mb-4" />
-                            <p className="text-blob font-display text-sm tracking-widest uppercase animate-pulse">
+                            <p className="text-blob font-display text-sm uppercase animate-pulse">
                               {jobStatusMessage}
                             </p>
                           </div>
@@ -856,7 +856,7 @@ export function Contact() {
                             {/* Grid 1: Basic Personal Info */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   Full Name *
                                 </label>
                                 <input
@@ -881,7 +881,7 @@ export function Contact() {
                                 )}
                               </div>
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   Email Address *
                                 </label>
                                 <input
@@ -910,7 +910,7 @@ export function Contact() {
                             {/* Grid 2: Location and Phone */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   Phone Number *
                                 </label>
                                 <input
@@ -935,7 +935,7 @@ export function Contact() {
                                 )}
                               </div>
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   City / Country *
                                 </label>
                                 <input
@@ -964,7 +964,7 @@ export function Contact() {
                             {/* Grid 3: Portfolio Link and Selection */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   LinkedIn / Portfolio URL
                                 </label>
                                 <input
@@ -978,7 +978,7 @@ export function Contact() {
                                 />
                               </div>
                               <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                                <label className="text-[10px] uppercase font-bold text-cream/60">
                                   Role Applying For *
                                 </label>
                                 <div className="relative">
@@ -1020,7 +1020,7 @@ export function Contact() {
 
                             {/* Textareas */}
                             <div className="flex flex-col gap-1.5">
-                              <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                              <label className="text-[10px] uppercase font-bold text-cream/60">
                                 Show us your work
                               </label>
                               <textarea
@@ -1033,7 +1033,7 @@ export function Contact() {
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                              <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                              <label className="text-[10px] uppercase font-bold text-cream/60">
                                 Anything else you'd like us to know?
                               </label>
                               <textarea
@@ -1049,7 +1049,7 @@ export function Contact() {
 
                             {/* File Attachment Dropzone */}
                             <div className="flex flex-col gap-2">
-                              <label className="text-[10px] uppercase font-bold tracking-widest text-cream/60">
+                              <label className="text-[10px] uppercase font-bold text-cream/60">
                                 Attachments *
                               </label>
                               <div
@@ -1122,7 +1122,7 @@ export function Contact() {
                             {/* Submit Button */}
                             <button
                               type="submit"
-                              className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-xs tracking-widest uppercase py-4 px-6 rounded-2xl cursor-pointer transition-all duration-300 mt-2 shadow-lg hover:-translate-y-[1px]">
+                              className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-xs uppercase py-4 px-6 rounded-2xl cursor-pointer transition-all duration-300 mt-2 shadow-lg hover:-translate-y-[1px]">
                               Submit Application
                             </button>
                           </>

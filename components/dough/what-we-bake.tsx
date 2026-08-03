@@ -5,36 +5,36 @@ import { Reveal } from "./reveal";
 
 const SERVICES = [
   {
-    title: "Strategy & Branding",
+    title: "STRATEGY & BRANDING",
     description:
       "Build brands with clarity, purpose, and competitive advantage.",
     tags: "Brand Strategy • Positioning • Naming • Visual Identity • Brand Guidelines • Tone of Voice",
   },
   {
-    title: "Creative Direction & Content",
+    title: "CREATIVE DIRECTION & CONTENT",
     description:
       "Create unforgettable stories that capture attention and inspire action.",
     tags: "Creative Direction • Campaign Concepts • Photography • Videography • Motion Graphics • CGI • AI Content • Copywriting",
   },
   {
-    title: "Digital Marketing",
+    title: "DIGITAL MARKETING",
     description:
       "Accelerate growth through data-driven marketing and performance.",
     tags: "Social Media • Performance Marketing • Paid Media • Community Management • Influencer Marketing • SEO • Email Marketing • Analytics",
   },
   {
-    title: "Web Design & Development",
+    title: "WEB DESIGN & DEVELOPMENT",
     description:
       "Build seamless digital experiences that convert visitors into customers.",
     tags: "UI/UX Design • Website Design • Web Development • Landing Pages • E-commerce • CMS Development • Conversion Optimization",
   },
   {
-    title: "Packaging & Physical Branding",
+    title: "PACKAGING & PHYSICAL BRANDING",
     description: "Elevate every physical touchpoint of your brand.",
     tags: "Packaging Design • Menu Design • POS Materials • Merchandise • Brand Collateral • Print Design",
   },
   {
-    title: "Retail & Spatial Design",
+    title: "RETAIL & SPATIAL DESIGN",
     description: "Create immersive spaces that leave lasting impressions.",
     tags: "Booth Design • Kiosks • Store Branding • Signage • Partitions • Exhibition Design • Environmental Graphics",
   },
@@ -53,7 +53,7 @@ export function WhatWeBake() {
       <div className="relative mx-auto max-w-7xl px-6">
         <Reveal duration={800}>
           <div className="mb-14 flex flex-col gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-cream md:text-[40px] md:leading-[44px]">
+            <h2 className="font-display text-3xl font-bold uppercase text-cream md:text-[40px] md:leading-[44px]">
               What We Bake
             </h2>
             <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty lowercase">
@@ -86,11 +86,11 @@ export function WhatWeBake() {
                         }`}
                       />
                       <span className="flex items-baseline gap-4 pl-0 md:gap-6 md:pl-14">
-                        <span className="shrink-0 font-display text-[12px] font-medium uppercase tabular-nums leading-[14px] tracking-widest text-water/60">
+                        <span className="shrink-0 font-display text-[12px] font-medium uppercase tabular-nums leading-[14px] text-water/60">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span
-                          className={`font-display text-[18px] font-bold lowercase leading-tight tracking-tight transition-transform duration-300 md:text-[22px] ${
+                          className={`font-display text-[18px] font-bold uppercase tracking-[0.03em] leading-tight transition-transform duration-300 md:text-[22px] ${
                             isActive ? "translate-x-1" : ""
                           }`}>
                           {service.title}
@@ -126,10 +126,10 @@ export function WhatWeBake() {
               <div
                 key={current.title}
                 className="relative animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <p className="font-display text-[12px] font-medium uppercase tracking-[0.2em] text-water">
+                <p className="font-display text-[12px] font-medium uppercase text-water">
                   {String(active + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold lowercase leading-[1.1] tracking-tight text-cream text-pretty">
+                <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold uppercase tracking-[0.03em] leading-[1.1] text-cream text-pretty">
                   {current.title}
                 </h3>
                 <p className="mt-8 max-w-lg font-display text-[18px] leading-[28px] text-cream/70 text-pretty lowercase">

@@ -23,10 +23,10 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
           {/* Left Column: Call to Action (Span 6) */}
           <div className="lg:col-span-6 flex flex-col justify-start items-start gap-6">
             <div className="flex flex-col gap-3">
-              <span className="font-display text-[11px] leading-[13px] uppercase font-bold tracking-[0.2em] text-water">
+              <span className="font-display text-[11px] leading-[13px] uppercase font-bold text-water">
                 Let's Make It Rise
               </span>
-              <h2 className="font-display font-extrabold lowercase text-[24px] leading-[28px] md:text-[32px] md:leading-[36px] text-cream max-w-md">
+              <h2 className="font-display font-extrabold lowercase tracking-[0.03em] text-[24px] leading-[28px] md:text-[32px] md:leading-[36px] text-cream max-w-md">
                 got a raw idea?
                 <br />
                 let&apos;s bake it together.
@@ -34,7 +34,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
             </div>
             <Link
               href="/contact?tab=project"
-              className="group inline-flex cursor-pointer items-center gap-2 px-5 py-3 rounded-full bg-cream text-navy font-display font-bold text-[11px] leading-[13px] uppercase tracking-wider hover:bg-blob transition-all duration-300">
+              className="group inline-flex cursor-pointer items-center gap-2 px-5 py-3 rounded-full bg-cream text-navy font-display font-bold text-[11px] leading-[13px] uppercase hover:bg-blob transition-all duration-300">
               <span>Start a Project</span>
               <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
@@ -43,7 +43,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
           {/* Middle Column: Inquiries & Socials Grouped (Span 3) */}
           <div className="lg:col-span-3 flex flex-col gap-6 lg:border-l lg:border-cream/5 lg:pl-8 justify-start">
             <div className="flex flex-col gap-1.5">
-              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase tracking-widest text-water">
+              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase text-water">
                 Bake a Project
               </span>
               <a
@@ -54,7 +54,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase tracking-widest text-cream/40">
+              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase text-cream/40">
                 Stay Fresh
               </span>
               <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
           {/* Right Column: Careers Isolated (Span 3) */}
           <div className="lg:col-span-3 flex flex-col gap-6 items-start lg:border-l lg:border-cream/5 lg:pl-8 justify-start w-full">
             <div className="flex flex-col gap-2 w-full">
-              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase tracking-widest text-water">
+              <span className="font-display font-semibold text-[11px] leading-[13px] uppercase text-water">
                 Rise with Us
               </span>
               <p className="font-display font-normal text-[13px] leading-[18px] text-cream/60 max-w-xs lowercase">
@@ -98,7 +98,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
 
             <Link
               href="/contact?tab=job"
-              className="group inline-flex cursor-pointer items-center justify-between px-5 py-3 rounded-xl bg-cream/5 border border-cream/15 text-cream font-display font-bold text-[11px] leading-[13px] uppercase tracking-wider hover:bg-cream hover:text-navy transition-all duration-300 w-full text-center">
+              className="group inline-flex cursor-pointer items-center justify-between px-5 py-3 rounded-xl bg-cream/5 border border-cream/15 text-cream font-display font-bold text-[11px] leading-[13px] uppercase hover:bg-cream hover:text-navy transition-all duration-300 w-full text-center">
               <span>Join the Team</span>
               <ArrowRight className="size-3.5 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
@@ -106,7 +106,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
         </div>
 
         {/* Lower footer copyright details */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 pt-2 text-center text-[11px] leading-[13px] tracking-wider uppercase md:flex-row md:text-left font-semibold text-cream/50 font-display">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 pt-2 text-center text-[11px] leading-[13px] uppercase md:flex-row md:text-left font-semibold text-cream/50 font-display">
           <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start">
             <span>Raw Ideas. Real Results. Fully Cooked by</span>
             <Logo
@@ -115,7 +115,7 @@ export function SiteFooter({ hideCareers = false }: SiteFooterProps) {
             />
             <span>Est. 2024</span>
           </div>
-          <p className="font-medium text-cream/70 text-right normal-case tracking-normal">
+          <p className="font-medium text-cream/70 text-right normal-case">
             where ideas take shapes.
           </p>
         </div>

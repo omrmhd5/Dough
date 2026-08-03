@@ -135,7 +135,7 @@ export function JoinTeam() {
         <div className="lg:col-span-5 flex flex-col gap-6 h-full justify-between lg:py-6">
           <div>
             <div className="flex flex-col gap-3">
-              <span className="font-display font-normal text-[12px] leading-[14px] uppercase tracking-wider text-blob/90">
+              <span className="font-display font-normal text-[12px] leading-[14px] uppercase text-blob/90">
                 We&apos;re always looking for bright new talents
               </span>
               <h2 className="font-display font-bold uppercase text-3xl sm:text-[40px] sm:leading-[44px] text-cream mt-2">
@@ -145,7 +145,7 @@ export function JoinTeam() {
 
             {/* Desktop only line visual to point to the form */}
             <div className="hidden lg:flex items-center gap-6 mt-16 group select-none">
-              <span className="font-display text-xl font-bold uppercase tracking-widest text-blob transition-colors duration-300 group-hover:text-cream">
+              <span className="font-display text-xl font-bold uppercase text-blob transition-colors duration-300 group-hover:text-cream">
                 Apply now
               </span>
               <div className="h-[2px] bg-blob/40 flex-1 relative min-w-[120px] overflow-hidden group-hover:bg-cream/60 transition-colors duration-300">
@@ -195,14 +195,14 @@ export function JoinTeam() {
                   setAnythingElse("");
                   setFile(null);
                 }}
-                className="mt-8 px-6 py-2.5 rounded-full border border-cream/20 text-xs font-semibold uppercase tracking-widest text-cream hover:bg-cream/10 cursor-pointer transition-colors duration-300">
+                className="mt-8 px-6 py-2.5 rounded-full border border-cream/20 text-xs font-semibold uppercase text-cream hover:bg-cream/10 cursor-pointer transition-colors duration-300">
                 Apply for another role
               </button>
             </div>
           ) : formStatus === "submitting" ? (
             <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
               <Loader2 className="size-12 text-blob animate-spin mb-4" />
-              <p className="text-blob font-display text-sm tracking-widest uppercase animate-pulse">
+              <p className="text-blob font-display text-sm uppercase animate-pulse">
                 {statusMessage}
               </p>
             </div>
@@ -410,7 +410,7 @@ export function JoinTeam() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-sm tracking-widest uppercase py-3.5 px-6 rounded-xl cursor-pointer transition-all duration-300 mt-2 shadow-lg active:scale-[0.99]">
+                className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-sm uppercase py-3.5 px-6 rounded-xl cursor-pointer transition-all duration-300 mt-2 shadow-lg active:scale-[0.99]">
                 Submit Application
               </button>
             </form>

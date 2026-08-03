@@ -50,7 +50,7 @@ export function ClientLogo({
         />
       </div>
     ) : (
-      <span className="font-display text-xs font-extrabold uppercase tracking-widest text-cream sm:text-sm">
+      <span className="font-display text-xs font-extrabold uppercase text-cream sm:text-sm">
         {fallback?.slice(0, 2)}
       </span>
     );
