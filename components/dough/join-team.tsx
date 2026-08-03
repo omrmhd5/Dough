@@ -195,7 +195,7 @@ export function JoinTeam() {
                   setAnythingElse("");
                   setFile(null);
                 }}
-                className="mt-8 px-6 py-2.5 rounded-full border border-cream/20 text-xs font-semibold text-cream hover:bg-cream/10 cursor-pointer transition-colors duration-300">
+                className="mt-8 px-6 py-2.5 rounded-full border border-cream/20 text-xs font-semibold uppercase tracking-widest text-cream hover:bg-cream/10 cursor-pointer transition-colors duration-300">
                 Apply for another role
               </button>
             </div>

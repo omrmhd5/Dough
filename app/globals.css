@@ -185,6 +185,9 @@
   summary {
     cursor: pointer;
   }
+  button:not(:disabled) {
+    text-transform: uppercase;
+  }
   button:disabled,
   [aria-disabled="true"] {
     cursor: not-allowed;

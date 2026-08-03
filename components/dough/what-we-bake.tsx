@@ -57,8 +57,9 @@ export function WhatWeBake() {
               What We Bake
             </h2>
             <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty lowercase">
-              Six disciplines. One kitchen. Select a service to see what&apos;s
-              inside.
+              Six disciplines. One kitchen.
+              <br />
+              Select a service to see what&apos;s inside.
             </p>
           </div>
         </Reveal>
@@ -122,15 +123,11 @@ export function WhatWeBake() {
           {/* Desktop preview panel — open editorial space, not a card */}
           <div className="hidden lg:col-span-7 lg:flex lg:flex-col lg:justify-center lg:pl-8">
             <div className="relative min-h-[320px]">
-              <span className="pointer-events-none absolute -left-4 top-0 font-display text-[120px] font-bold leading-none text-cream/[0.03] tabular-nums">
-                {String(active + 1).padStart(2, "0")}
-              </span>
-
               <div
                 key={current.title}
                 className="relative animate-in fade-in slide-in-from-bottom-2 duration-500">
                 <p className="font-display text-[12px] font-medium uppercase tracking-[0.2em] text-water">
-                  Service {String(active + 1).padStart(2, "0")}
+                  {String(active + 1).padStart(2, "0")}
                 </p>
                 <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold lowercase leading-[1.1] tracking-tight text-cream text-pretty">
                   {current.title}
