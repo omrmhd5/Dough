@@ -25,7 +25,7 @@ export function UncleDough() {
         </Reveal>
 
         <Reveal direction="up" duration={900} delay={100}>
-          <h1 className="mt-6 font-display font-extrabold text-[40px] leading-[40px] md:text-[93px] md:leading-[93px] text-cream">
+          <h1 className="mt-6 font-display font-extrabold text-[32px] leading-[36px] sm:text-[40px] sm:leading-[40px] md:text-[93px] md:leading-[93px] text-cream text-balance">
             Uncle Dough
           </h1>
         </Reveal>

@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden bg-navy pt-40 pb-40 text-cream md:pt-56 md:pb-56 min-h-[90dvh] flex items-center">
+      className="relative overflow-hidden bg-navy pt-32 pb-32 text-cream sm:pt-36 md:pt-40 md:pb-40 min-h-[85dvh] sm:min-h-[90dvh] flex items-center">
       <div className="relative mx-auto max-w-7xl px-6 w-full z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Left Column: Text & CTAs */}
@@ -17,7 +17,7 @@ export function Hero() {
                 <span className="font-extrabold">we shape</span> <br />
                 <span className="font-light italic text-blob">raw</span>{" "}
                 <span className="font-extrabold">concepts</span> <br />
-                <span className="text-white font-extrabold whitespace-nowrap">
+                <span className="text-white font-extrabold text-balance sm:whitespace-nowrap">
                   into cultural moments
                 </span>
               </h1>

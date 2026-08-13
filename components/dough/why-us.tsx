@@ -77,11 +77,11 @@ export function WhyUs() {
                       className="flex w-full cursor-pointer items-center justify-between text-left group focus:outline-none"
                       aria-expanded={isOpen}>
                       {/* Left: Number & Title */}
-                      <div className="flex items-center gap-4 md:gap-6">
-                        <span className="font-display font-medium tabular-nums text-[12px] leading-[14px] text-water/65 select-none">
+                      <div className="flex items-start gap-3 min-w-0 flex-1 sm:items-center sm:gap-4 md:gap-6">
+                        <span className="font-display font-medium tabular-nums text-[12px] leading-[14px] text-water/65 select-none shrink-0">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="font-display font-bold uppercase text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300">
+                        <span className="min-w-0 flex-1 font-display font-bold uppercase text-base sm:text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300 text-pretty">
                           {point.title}
                         </span>
                       </div>

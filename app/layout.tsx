@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Alexandria } from "next/font/google";
 import "./globals.css";
 import { ScrollToTop } from "@/components/dough/scroll-to-top";
+import { ScrollToTopOnLoad } from "@/components/dough/scroll-to-top-on-load";
 import { InitialPageLoader } from "@/components/dough/initial-page-loader";
 import { NavigationLoader } from "@/components/dough/navigation-loader";
 
@@ -48,6 +49,12 @@ export default function RootLayout({
       className={`${montserrat.variable} ${alexandria.variable} bg-background`}
       suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}})();`,
+          }}
+        />
+        <ScrollToTopOnLoad />
         <InitialPageLoader>{children}</InitialPageLoader>
         <NavigationLoader />
         <ScrollToTop />

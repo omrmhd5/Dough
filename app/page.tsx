@@ -9,7 +9,7 @@ import { SiteFooter } from "@/components/dough/site-footer";
 
 export default function Page() {
   return (
-    <main className="bg-cream">
+    <main className="bg-cream overflow-x-clip">
       <SiteNav />
       <Hero />
       <WhoWeAre />

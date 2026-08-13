@@ -42,15 +42,15 @@ export function WhoWeAre() {
             <Reveal delay={100} duration={850}>
               <div className="relative">
                 <span
-                  className="absolute -top-8 md:-top-10 -left-4 md:-left-6 font-display text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
+                  className="absolute -top-6 sm:-top-8 md:-top-10 -left-2 sm:-left-4 md:-left-6 font-display text-[56px] sm:text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
                   aria-hidden>
                   “
                 </span>
-                <p className="font-display font-medium lowercase text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
+                <p className="font-display font-medium lowercase text-xl sm:text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
                   {PARAGRAPHS[0]}
                 </p>
                 <span
-                  className="absolute -bottom-4 md:-bottom-6 -right-2 md:-right-4 font-display text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
+                  className="absolute -bottom-2 sm:-bottom-4 md:-bottom-6 -right-1 sm:-right-2 md:-right-4 font-display text-[56px] sm:text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
                   aria-hidden>
                   ”
                 </span>

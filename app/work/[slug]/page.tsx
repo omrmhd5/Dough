@@ -51,11 +51,11 @@ export default function CaseStudyPage() {
               Back to Projects
             </Link>
 
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 border-y border-cream/10 py-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center md:gap-4 border-y border-cream/10 py-6">
               <span className="shrink-0 font-display text-xs uppercase font-extrabold text-water">
                 Project
               </span>
-              <div className="flex min-w-0 flex-1 items-center gap-4 sm:gap-6 md:max-w-3xl">
+              <div className="flex min-w-0 flex-1 flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-4 md:max-w-3xl">
                 <ClientLogo
                   src={client.logo}
                   alt={`${formatBrandName(client.en)} logo`}

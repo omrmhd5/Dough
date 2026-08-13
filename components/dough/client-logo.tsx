@@ -5,7 +5,8 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const innerSizeMap = {
-  banner: "h-14 w-[72px] sm:h-16 sm:w-[88px] lg:h-[4.5rem] lg:w-[104px]",
+  banner:
+    "h-8 w-9 min-[480px]:h-10 min-[480px]:w-12 sm:h-14 sm:w-[72px] md:h-16 md:w-[88px] lg:h-[4.5rem] lg:w-[104px]",
   card: "h-10 w-14 sm:h-11 sm:w-16",
   featured: "h-9 w-24 sm:h-10 sm:w-28",
   hero: "h-12 w-16 sm:h-14 sm:w-20",

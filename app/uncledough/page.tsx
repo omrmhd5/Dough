@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/dough/site-footer";
 
 export default function UncleDoughPage() {
   return (
-    <main className="bg-navy min-h-screen pt-20">
+    <main className="bg-navy min-h-screen pt-20 overflow-x-clip">
       <SiteNav />
       <UncleDough />
       <SiteFooter hideCareers />

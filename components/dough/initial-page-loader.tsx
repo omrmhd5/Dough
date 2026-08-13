@@ -24,6 +24,9 @@ export function InitialPageLoader({ children }: { children: React.ReactNode }) {
     const finish = () => {
       if (finished) return;
       finished = true;
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
       document.body.dataset.initialLoad = "done";
       setFadeOut(true);
       window.setTimeout(() => setVisible(false), FADE_MS);

@@ -46,11 +46,11 @@ export function FeaturedWorks() {
         </Reveal>
 
         {/* Carousel Viewport Container */}
-        <div className="relative h-[320px] sm:h-[420px] md:h-[480px] w-full flex items-center justify-center overflow-visible">
+        <div className="relative h-[320px] sm:h-[420px] md:h-[480px] w-full flex items-center justify-center overflow-visible px-10 sm:px-16 md:px-20">
           {/* Left Arrow Button */}
           <button
             onClick={prevSlide}
-            className="absolute left-[-12px] sm:left-4 md:left-8 lg:left-12 z-30 size-11 sm:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
+            className="absolute left-2 sm:left-4 md:left-8 lg:left-12 z-30 size-10 sm:size-11 md:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
             aria-label="Previous Project">
             <ChevronLeft className="size-5 sm:size-6" />
           </button>
@@ -58,7 +58,7 @@ export function FeaturedWorks() {
           {/* Right Arrow Button */}
           <button
             onClick={nextSlide}
-            className="absolute right-[-12px] sm:right-4 md:right-8 lg:right-12 z-30 size-11 sm:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
+            className="absolute right-2 sm:right-4 md:right-8 lg:right-12 z-30 size-10 sm:size-11 md:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
             aria-label="Next Project">
             <ChevronRight className="size-5 sm:size-6" />
           </button>
@@ -89,10 +89,10 @@ export function FeaturedWorks() {
                   "translate-x-0 scale-100 opacity-100 z-20 pointer-events-auto";
               } else if (isPrev) {
                 positionClass =
-                  "-translate-x-[35%] sm:-translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
+                  "-translate-x-[35%] sm:-translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer pointer-events-auto";
               } else if (isNext) {
                 positionClass =
-                  "translate-x-[35%] sm:translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer";
+                  "translate-x-[35%] sm:translate-x-[45%] scale-90 opacity-45 z-10 cursor-pointer pointer-events-auto";
               }
 
               return (
@@ -135,7 +135,7 @@ export function FeaturedWorks() {
 
                       <div className="flex flex-col gap-4 mt-auto">
                         <div>
-                          <p className="font-display text-lg leading-snug text-cream sm:text-xl md:text-2xl">
+                          <p className="font-display text-base leading-snug text-cream sm:text-lg md:text-2xl text-pretty">
                             <span className="font-bold uppercase">
                               {formatBrandName(client.en)}
                             </span>

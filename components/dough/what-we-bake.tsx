@@ -85,12 +85,12 @@ export function WhatWeBake() {
                           isActive ? "w-6 md:w-10" : "w-0"
                         }`}
                       />
-                      <span className="flex items-baseline gap-4 pl-0 md:gap-6 md:pl-14">
+                      <span className="flex min-w-0 flex-1 items-baseline gap-3 pl-0 sm:gap-4 md:gap-6 md:pl-14">
                         <span className="shrink-0 font-display text-[12px] font-medium uppercase tabular-nums leading-[14px] text-water/60">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span
-                          className={`font-display text-[18px] font-bold uppercase tracking-[0.03em] leading-tight transition-transform duration-300 md:text-[22px] ${
+                          className={`min-w-0 flex-1 font-display text-base font-bold uppercase tracking-[0.03em] leading-tight transition-transform duration-300 sm:text-[18px] md:text-[22px] ${
                             isActive ? "translate-x-1" : ""
                           }`}>
                           {service.title}

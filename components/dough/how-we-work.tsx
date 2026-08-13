@@ -61,7 +61,7 @@ export function HowWeWork() {
                   {/* Blob container */}
                   <Blob
                     variant={i}
-                    className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
+                    className="size-36 sm:size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
                     <span
                       className={cn(
                         "max-w-[88%] text-balance font-display text-[14px] leading-[18px] font-extrabold uppercase sm:text-[15px] sm:leading-[19px]",

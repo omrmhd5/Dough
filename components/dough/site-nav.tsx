@@ -19,7 +19,7 @@ export function SiteNav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between pl-6 pr-8 md:pl-6 md:pr-12 py-3.5 rounded-full bg-cream/75 border border-navy/10 shadow-[0_4px_20px_-4px_rgba(18,41,64,0.08)] backdrop-blur-md">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 sm:pl-6 sm:pr-8 md:pl-6 md:pr-12 md:py-3.5 rounded-full bg-cream/75 border border-navy/10 shadow-[0_4px_20px_-4px_rgba(18,41,64,0.08)] backdrop-blur-md">
         <Link
           href="/"
           className="gsap-nav-logo flex shrink-0 cursor-pointer items-center">

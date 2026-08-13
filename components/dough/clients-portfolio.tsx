@@ -127,7 +127,7 @@ export function ClientsPortfolio() {
             {LOGO_GROUPS.map((group, groupIdx) => (
               <div
                 key={groupIdx}
-                className="flex min-w-full shrink-0 items-center justify-between gap-1 px-1 sm:gap-2">
+                className="flex min-w-full shrink-0 items-center justify-between gap-0.5 px-0.5 min-[480px]:gap-1 min-[480px]:px-1 sm:gap-2">
                 {group.map((logo) => (
                   <div
                     key={logo.src}
@@ -185,7 +185,7 @@ export function ClientsPortfolio() {
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#102536] border border-cream/10 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
                     {/* Left Column: Details */}
                     <div className="lg:col-span-6 flex flex-col gap-6">
-                      <div className="flex items-center gap-4 sm:gap-6">
+                      <div className="flex items-center gap-4 sm:gap-6 min-w-0">
                         {/* Logo Box */}
                         <ClientLogo
                           src={client.logo}
@@ -196,7 +196,7 @@ export function ClientsPortfolio() {
                         />
 
                         {/* Title + subtitle */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="flex-1 min-w-0">
                           {TWO_LINE_TITLE_CLIENTS.has(client.en) ? (
                             <div className="font-display text-base leading-snug text-cream sm:text-lg md:text-xl max-w-xl">
                               <p>

@@ -319,7 +319,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative bg-navy pt-24 pb-20 text-cream md:pt-32 min-h-[calc(100vh-80px)] overflow-hidden">
+      className="relative bg-navy pt-20 pb-16 text-cream sm:pt-24 md:pt-32 md:pb-20 min-h-[calc(100vh-80px)] overflow-hidden">
       {/* Decorative Blob Glows */}
       <div className="absolute top-[-10%] right-[-10%] size-96 rounded-full bg-blob/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-15%] left-[-10%] size-[500px] rounded-full bg-water/20 blur-[150px] pointer-events-none" />
@@ -332,22 +332,16 @@ export function Contact() {
               <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-blob/90">
                 {activeTab === "project" ? "Get in Touch" : "Rise with Us"}
               </span>
-              <h2 className="font-display font-extrabold lowercase text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2">
+              <h2 className="font-display font-extrabold lowercase text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2 text-balance">
                 {activeTab === "project" ? (
                   <>
-                    <span className="block whitespace-nowrap">
-                      let&apos;s bake your
-                    </span>
-                    <span className="block text-blob whitespace-nowrap">
-                      next big idea.
-                    </span>
+                    <span className="block">let&apos;s bake your</span>
+                    <span className="block text-blob">next big idea.</span>
                   </>
                 ) : (
                   <>
-                    <span className="block whitespace-nowrap">bake your</span>
-                    <span className="block text-blob whitespace-nowrap">
-                      creative future.
-                    </span>
+                    <span className="block">bake your</span>
+                    <span className="block text-blob">creative future.</span>
                   </>
                 )}
               </h2>
@@ -391,7 +385,7 @@ export function Contact() {
           {/* Right Column: Interactive Tabbed Form */}
           <div className="lg:col-span-7">
             <Reveal duration={900} delay={150}>
-              <div className="bg-cream/[0.03] border border-cream/10 rounded-3xl p-6 sm:p-10 backdrop-blur-md shadow-xl overflow-hidden">
+              <div className="bg-cream/[0.03] border border-cream/10 rounded-3xl p-4 sm:p-6 md:p-10 backdrop-blur-md shadow-xl overflow-hidden">
                 {/* Tab Switcher Button */}
                 <div className="flex border-b border-cream/10 mb-8 pb-1">
                   <button
@@ -740,7 +734,7 @@ export function Contact() {
                                     <label className="text-[10px] uppercase font-bold text-cream/60">
                                       Client Meeting Preference *
                                     </label>
-                                    <div className="grid grid-cols-3 gap-2">
+                                    <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-2">
                                       {PREFERENCES.map((pref) => {
                                         const isSelected =
                                           meetingPreference === pref;
