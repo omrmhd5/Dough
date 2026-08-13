@@ -154,7 +154,7 @@ export function Contact() {
     setStep(3);
   };
 
-  const handleProjectSubmit = (e: React.FormEvent) => {
+  const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) {
       handleNext1();
@@ -182,18 +182,43 @@ export function Contact() {
     }
 
     setStep3Errors({});
+    setProjectStatusMessage("");
     setProjectFormStatus("submitting");
     setProjectStatusMessage("Kneading the data...");
 
-    setTimeout(() => {
-      setProjectStatusMessage("Baking your message...");
-      setTimeout(() => {
-        setProjectStatusMessage("Rising...");
-        setTimeout(() => {
-          setProjectFormStatus("success");
-        }, 800);
-      }, 800);
-    }, 800);
+    try {
+      const response = await fetch("/api/contact/project", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessName,
+          socialMedia,
+          name,
+          mobile,
+          email,
+          position,
+          services: selectedServices,
+          otherService: showOtherInput ? otherService : "",
+          meetingPreference,
+        }),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Failed to send inquiry.");
+      }
+
+      setProjectStatusMessage("Rising...");
+      setProjectFormStatus("success");
+    } catch (error) {
+      setProjectFormStatus("idle");
+      setProjectStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    }
   };
 
   // ==========================================
@@ -298,22 +323,49 @@ export function Contact() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleJobSubmit = (e: React.FormEvent) => {
+  const handleJobSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateJobForm()) return;
 
+    setJobStatusMessage("");
     setJobFormStatus("submitting");
     setJobStatusMessage("Reviewing your raw talent...");
 
-    setTimeout(() => {
-      setJobStatusMessage("Kneading your portfolio...");
-      setTimeout(() => {
-        setJobStatusMessage("Rising...");
-        setTimeout(() => {
-          setJobFormStatus("success");
-        }, 800);
-      }, 800);
-    }, 800);
+    try {
+      const formData = new FormData();
+      formData.append("fullName", jobFullName);
+      formData.append("email", jobEmail);
+      formData.append("phone", jobPhone);
+      formData.append("cityCountry", jobCityCountry);
+      formData.append("linkedin", jobLinkedin);
+      formData.append("applyingFor", jobApplyingFor);
+      formData.append("showWork", jobShowWork);
+      formData.append("anythingElse", jobAnythingElse);
+      if (jobFile) {
+        formData.append("attachment", jobFile);
+      }
+
+      const response = await fetch("/api/contact/job", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Failed to send application.");
+      }
+
+      setJobStatusMessage("Rising...");
+      setJobFormStatus("success");
+    } catch (error) {
+      setJobFormStatus("idle");
+      setJobStatusMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (
@@ -440,6 +492,7 @@ export function Contact() {
                             setShowOtherInput(false);
                             setMeetingPreference("");
                             setStep(1);
+                            setProjectStatusMessage("");
                           }}
                           className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
                           Submit Another Inquiry
@@ -481,6 +534,13 @@ export function Contact() {
                                 />
                               </div>
                             </div>
+
+                            {projectStatusMessage &&
+                              projectFormStatus === "idle" && (
+                                <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300 font-sans">
+                                  {projectStatusMessage}
+                                </p>
+                              )}
 
                             <div className="overflow-hidden relative w-full">
                               <div
@@ -819,6 +879,7 @@ export function Contact() {
                             setJobShowWork("");
                             setJobAnythingElse("");
                             setJobFile(null);
+                            setJobStatusMessage("");
                           }}
                           className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
                           Apply for Another Role
@@ -846,6 +907,12 @@ export function Contact() {
                                 creative potential.
                               </p>
                             </div>
+
+                            {jobStatusMessage && jobFormStatus === "idle" && (
+                              <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300 font-sans">
+                                {jobStatusMessage}
+                              </p>
+                            )}
 
                             {/* Grid 1: Basic Personal Info */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
