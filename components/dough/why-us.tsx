@@ -5,32 +5,32 @@ import { Reveal } from "./reveal";
 
 const POINTS = [
   {
-    title: "Magic of Creativity & Innovation",
+    title: "MAGIC OF CREATIVITY & INNOVATION",
     content:
       "At Dough, we believe in the magic of creativity and the power of innovation.",
   },
   {
-    title: "Molding Ideas into Reality",
+    title: "MOLDING IDEAS INTO REALITY",
     content:
       "Just like dough that can be molded into any shape, we shape ideas into reality.",
   },
   {
-    title: "Versatile & Adaptable Team",
+    title: "VERSATILE & ADAPTABLE TEAM",
     content:
       "Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge.",
   },
   {
-    title: "Mixing Strategy with Passion",
+    title: "MIXING STRATEGY WITH PASSION",
     content:
       "We mix creativity with strategy, knead it with passion, and bake it with precision.",
   },
   {
-    title: "Constant Evolution & Rising",
+    title: "CONSTANT EVOLUTION & RISING",
     content:
       "Just like the perfect dough, we're always evolving and rising to the occasion.",
   },
   {
-    title: "Playful Professionalism",
+    title: "PLAYFUL PROFESSIONALISM",
     content:
       "We have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?",
   },
@@ -81,7 +81,7 @@ export function WhyUs() {
                         <span className="font-display font-medium tabular-nums text-[12px] leading-[14px] text-water/65 select-none">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <span className="font-display font-bold lowercase text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300">
+                        <span className="font-display font-bold uppercase text-[18px] md:text-[22px] leading-tight text-navy group-hover:text-water transition-colors duration-300">
                           {point.title}
                         </span>
                       </div>

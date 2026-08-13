@@ -66,7 +66,7 @@ export function Blob({
   return (
     <div
       className={cn(
-        "flex items-center justify-center text-center",
+        "grid place-items-center text-center",
         float && "animate-blob",
         className,
       )}
@@ -78,7 +78,9 @@ export function Blob({
         WebkitMaskRepeat: "no-repeat",
         maskRepeat: "no-repeat",
       }}>
-      {children}
+      <div className="grid h-full w-full place-items-center p-4">
+        {children}
+      </div>
     </div>
   );
 }

@@ -182,7 +182,7 @@ export function ClientsPortfolio() {
             return (
               <div key={client.en} className="scroll-mt-28 group/client">
                 <Reveal duration={700}>
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#0b1724] border border-cream/10 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#102536] border border-cream/10 rounded-3xl p-6 sm:p-8 shadow-sm hover:shadow-md hover:border-cream/20 transition-all duration-300">
                     {/* Left Column: Details */}
                     <div className="lg:col-span-6 flex flex-col gap-6">
                       <div className="flex items-center gap-4 sm:gap-6">

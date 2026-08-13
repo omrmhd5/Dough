@@ -1,5 +1,6 @@
 import { Blob } from "./blob";
 import { Reveal } from "./reveal";
+import { cn } from "@/lib/utils";
 
 const STEPS = [
   {
@@ -61,7 +62,11 @@ export function HowWeWork() {
                   <Blob
                     variant={i}
                     className="size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
-                    <span className="px-4 font-display text-[16px] leading-[20px] font-extrabold uppercase">
+                    <span
+                      className={cn(
+                        "max-w-[88%] text-balance font-display text-[14px] leading-[18px] font-extrabold uppercase sm:text-[15px] sm:leading-[19px]",
+                        i === 1 && "translate-y-1",
+                      )}>
                       {step.title}
                     </span>
                   </Blob>

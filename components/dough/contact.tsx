@@ -466,7 +466,7 @@ export function Contact() {
                           <>
                             <div className="flex flex-col gap-2">
                               <div className="flex justify-between items-center">
-                                <h3 className="font-display text-xl font-bold lowercase text-cream">
+                                <h3 className="font-display text-xl font-bold uppercase text-cream">
                                   Dough Inquiry Form
                                 </h3>
                                 <span className="text-[10px] font-display uppercase text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
@@ -844,7 +844,7 @@ export function Contact() {
                         ) : (
                           <>
                             <div className="flex flex-col gap-2">
-                              <h3 className="font-display text-xl font-bold lowercase text-cream">
+                              <h3 className="font-display text-xl font-bold uppercase text-cream">
                                 Apply as a Teammate
                               </h3>
                               <p className="text-xs text-cream/55 leading-relaxed">
