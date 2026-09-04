@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getMessage, getRequestLocale } from "@/lib/i18n/api";
 import { getJobInbox } from "@/lib/email/config";
 import { sendMail } from "@/lib/email/send";
 import {
@@ -11,8 +12,11 @@ export const runtime = "nodejs";
 const MAX_FILE_BYTES = 20 * 1024 * 1024;
 const ALLOWED_EXTENSIONS = new Set(["pdf", "doc", "docx"]);
 
-function badRequest(message: string) {
-  return NextResponse.json({ error: message }, { status: 400 });
+function badRequest(locale: ReturnType<typeof getRequestLocale>, key: string) {
+  return NextResponse.json(
+    { error: getMessage(locale, key) },
+    { status: 400 },
+  );
 }
 
 function isNonEmptyString(value: FormDataEntryValue | null): value is string {
@@ -20,6 +24,8 @@ function isNonEmptyString(value: FormDataEntryValue | null): value is string {
 }
 
 export async function POST(request: Request) {
+  const locale = getRequestLocale(request);
+
   try {
     const formData = await request.formData();
 
@@ -34,22 +40,22 @@ export async function POST(request: Request) {
     const attachment = formData.get("attachment");
 
     if (!isNonEmptyString(fullName)) {
-      return badRequest("Full name is required.");
+      return badRequest(locale, "api.errors.fullNameRequired");
     }
     if (!isNonEmptyString(email)) {
-      return badRequest("Email address is required.");
+      return badRequest(locale, "api.errors.emailRequired");
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      return badRequest("Invalid email address.");
+      return badRequest(locale, "api.errors.invalidEmail");
     }
     if (!isNonEmptyString(phone)) {
-      return badRequest("Phone number is required.");
+      return badRequest(locale, "api.errors.phoneRequired");
     }
     if (!isNonEmptyString(cityCountry)) {
-      return badRequest("City / country is required.");
+      return badRequest(locale, "api.errors.cityCountryRequired");
     }
     if (!isNonEmptyString(applyingFor)) {
-      return badRequest("Role is required.");
+      return badRequest(locale, "api.errors.roleRequired");
     }
 
     const payload: JobApplicationPayload = {
@@ -66,7 +72,7 @@ export async function POST(request: Request) {
     const inbox = getJobInbox();
     if (!inbox) {
       return NextResponse.json(
-        { error: "Contact inbox is not configured on the server." },
+        { error: getMessage(locale, "api.errors.inboxNotConfigured") },
         { status: 500 },
       );
     }
@@ -78,10 +84,10 @@ export async function POST(request: Request) {
       const extension = attachment.name.split(".").pop()?.toLowerCase() ?? "";
 
       if (!ALLOWED_EXTENSIONS.has(extension)) {
-        return badRequest("Only PDF, DOC, and DOCX files are accepted.");
+        return badRequest(locale, "api.errors.invalidFileFormat");
       }
       if (attachment.size > MAX_FILE_BYTES) {
-        return badRequest("Attachment must be 20 MB or smaller.");
+        return badRequest(locale, "api.errors.fileTooLarge");
       }
 
       payload.attachmentName = attachment.name;
@@ -110,7 +116,7 @@ export async function POST(request: Request) {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to send job application.",
+            : getMessage(locale, "api.errors.jobSendFailed"),
       },
       { status: 500 },
     );

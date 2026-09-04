@@ -1,43 +1,40 @@
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Reveal } from "./reveal";
 import { CountUp } from "./count-up";
 
-const PARAGRAPHS = [
-  "We're Dough — a creative agency shaping brands, stories, and moments from scratch.",
-  "From bold concepts to scroll-stopping content, we don't just follow culture — we bake it fresh.",
-  "Agile, obsessive, and unafraid of the unconventional, we work with brands ready to leave a mark, not just make a sale.",
-];
-
-const STATS = [
-  { end: 30, suffix: "+", label: "Brands Transformed" },
-  { end: 150, suffix: "+", label: "Creative Projects Delivered" },
-  { end: 8, suffix: "+", label: "Industries" },
+const STAT_VALUES = [
+  { end: 30, suffix: "+" },
+  { end: 150, suffix: "+" },
+  { end: 8, suffix: "+" },
   {
     end: 1,
     suffix: "BN+",
-    label: "Customer Impressions Generated",
     variant: "billion" as const,
     duration: 2800,
   },
 ];
 
 export function WhoWeAre() {
+  const t = useTranslations("whoWeAre");
+  const paragraphs = t.raw("paragraphs") as string[];
+  const stats = t.raw("stats") as { label: string }[];
+
   return (
     <section
       id="who"
       className="bg-cream py-28 md:py-40 overflow-hidden text-navy">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Asymmetrical Header and Subheader */}
         <div className="flex flex-col md:flex-row md:items-end justify-end gap-6 mb-20 md:mb-28">
           <Reveal duration={800} delay={150}>
             <span className="font-display font-normal text-[12px] leading-[14px] uppercase text-water">
-              A Creative Baking Lab
+              {t("eyebrow")}
             </span>
           </Reveal>
         </div>
 
-        {/* Asymmetrical Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Main statement with large quotation visual hook (Span 7) */}
           <div className="lg:col-span-7">
             <Reveal delay={100} duration={850}>
               <div className="relative">
@@ -47,7 +44,7 @@ export function WhoWeAre() {
                   “
                 </span>
                 <p className="font-display font-medium lowercase text-xl sm:text-2xl md:text-[38px] md:leading-[48px] text-navy leading-relaxed text-pretty relative z-10">
-                  {PARAGRAPHS[0]}
+                  {paragraphs[0]}
                 </p>
                 <span
                   className="absolute -bottom-2 sm:-bottom-4 md:-bottom-6 -right-1 sm:-right-2 md:-right-4 font-display text-[56px] sm:text-[72px] md:text-[96px] font-medium text-blob/65 leading-none select-none pointer-events-none"
@@ -58,15 +55,14 @@ export function WhoWeAre() {
             </Reveal>
           </div>
 
-          {/* Right Column: Sub-paragraphs (Span 5) */}
           <div className="lg:col-span-5 flex flex-col gap-8 lg:mt-2">
             <Reveal delay={200} duration={850}>
               <div className="flex flex-col gap-3">
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase text-water">
-                  Creative Philosophy
+                  {t("creativePhilosophy")}
                 </span>
                 <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
-                  {PARAGRAPHS[1]}
+                  {paragraphs[1]}
                 </p>
               </div>
             </Reveal>
@@ -74,42 +70,41 @@ export function WhoWeAre() {
             <Reveal delay={300} duration={850}>
               <div className="flex flex-col gap-3">
                 <span className="font-display font-bold text-[12px] leading-[14px] uppercase text-water">
-                  Working Principle
+                  {t("workingPrinciple")}
                 </span>
                 <p className="font-display font-normal text-[16px] leading-[24px] text-navy/80 lowercase">
-                  {PARAGRAPHS[2]}
+                  {paragraphs[2]}
                 </p>
               </div>
             </Reveal>
           </div>
         </div>
 
-        {/* Horizontal Line-Through Stats Grid (Underneath the texts) */}
         <div className="mt-12 md:mt-16 border-t border-navy/10 pt-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
-            {STATS.map((stat, idx) => (
-              <Reveal key={stat.label} delay={400 + idx * 100} duration={850}>
-                <div className="flex flex-col items-start w-full relative">
-                  {/* Number container with horizontal line passing behind the bottom of numbers */}
-                  <div className="relative w-full flex items-end min-h-[60px] md:min-h-[80px]">
-                    <CountUp
-                      end={stat.end}
-                      suffix={stat.suffix}
-                      variant={"variant" in stat ? stat.variant : "default"}
-                      duration={"duration" in stat ? stat.duration : 2000}
-                      className="font-medium text-[42px] md:text-[60px] text-navy leading-none relative z-10 select-none pb-3"
-                    />
-                    {/* The line that cuts through the bottom part of the number */}
-                    <div className="absolute bottom-1 left-0 right-0 h-[1.5px] bg-navy/80 z-0" />
-                  </div>
+            {stats.map((stat, idx) => {
+              const values = STAT_VALUES[idx];
+              return (
+                <Reveal key={stat.label} delay={400 + idx * 100} duration={850}>
+                  <div className="flex flex-col items-start w-full relative">
+                    <div className="relative w-full flex items-end min-h-[60px] md:min-h-[80px]">
+                      <CountUp
+                        end={values.end}
+                        suffix={values.suffix}
+                        variant={"variant" in values ? values.variant : "default"}
+                        duration={"duration" in values ? values.duration : 2000}
+                        className="font-medium text-[42px] md:text-[60px] text-navy leading-none relative z-10 select-none pb-3"
+                      />
+                      <div className="absolute bottom-1 left-0 right-0 h-[1.5px] bg-navy/80 z-0" />
+                    </div>
 
-                  {/* Caption underneath the line */}
-                  <p className="font-display font-semibold text-[12px] leading-[16px] uppercase text-navy/60 mt-4 text-left">
-                    {stat.label}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+                    <p className="font-display font-semibold text-[12px] leading-[16px] uppercase text-navy/60 mt-4 text-left">
+                      {stat.label}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </div>

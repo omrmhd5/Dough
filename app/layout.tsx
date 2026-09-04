@@ -6,6 +6,7 @@ import { ScrollToTop } from "@/components/dough/scroll-to-top";
 import { ScrollToTopOnLoad } from "@/components/dough/scroll-to-top-on-load";
 import { InitialPageLoader } from "@/components/dough/initial-page-loader";
 import { NavigationLoader } from "@/components/dough/navigation-loader";
+import { LocaleProvider } from "@/components/providers/locale-provider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -54,11 +55,13 @@ export default function RootLayout({
             __html: `(function(){try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}})();`,
           }}
         />
-        <ScrollToTopOnLoad />
-        <InitialPageLoader>{children}</InitialPageLoader>
-        <NavigationLoader />
-        <ScrollToTop />
-        {process.env.NODE_ENV === "production" && <Analytics />}
+        <LocaleProvider>
+          <ScrollToTopOnLoad />
+          <InitialPageLoader>{children}</InitialPageLoader>
+          <NavigationLoader />
+          <ScrollToTop />
+          {process.env.NODE_ENV === "production" && <Analytics />}
+        </LocaleProvider>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getMessage, getRequestLocale } from "@/lib/i18n/api";
 import { getProjectInbox } from "@/lib/email/config";
 import { sendMail } from "@/lib/email/send";
 import {
@@ -12,11 +13,16 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
 
-function badRequest(message: string) {
-  return NextResponse.json({ error: message }, { status: 400 });
+function badRequest(locale: ReturnType<typeof getRequestLocale>, key: string) {
+  return NextResponse.json(
+    { error: getMessage(locale, key) },
+    { status: 400 },
+  );
 }
 
 export async function POST(request: Request) {
+  const locale = getRequestLocale(request);
+
   try {
     const body = (await request.json()) as Partial<ProjectInquiryPayload> & {
       services?: unknown;
@@ -27,32 +33,32 @@ export async function POST(request: Request) {
       : [];
 
     if (!isNonEmptyString(body.businessName)) {
-      return badRequest("Business name is required.");
+      return badRequest(locale, "api.errors.businessNameRequired");
     }
     if (!isNonEmptyString(body.socialMedia)) {
-      return badRequest("Business social media is required.");
+      return badRequest(locale, "api.errors.socialMediaRequired");
     }
     if (!isNonEmptyString(body.name)) {
-      return badRequest("Contact name is required.");
+      return badRequest(locale, "api.errors.contactNameRequired");
     }
     if (!isNonEmptyString(body.mobile)) {
-      return badRequest("Mobile number is required.");
+      return badRequest(locale, "api.errors.mobileRequired");
     }
     if (!isNonEmptyString(body.position)) {
-      return badRequest("Position is required.");
+      return badRequest(locale, "api.errors.positionRequired");
     }
     if (services.length === 0 && !isNonEmptyString(body.otherService)) {
-      return badRequest("At least one service is required.");
+      return badRequest(locale, "api.errors.servicesRequired");
     }
     if (!isNonEmptyString(body.meetingPreference)) {
-      return badRequest("Meeting preference is required.");
+      return badRequest(locale, "api.errors.meetingPreferenceRequired");
     }
 
     if (
       isNonEmptyString(body.email) &&
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email.trim())
     ) {
-      return badRequest("Invalid email address.");
+      return badRequest(locale, "api.errors.invalidEmail");
     }
 
     const payload: ProjectInquiryPayload = {
@@ -70,7 +76,7 @@ export async function POST(request: Request) {
     const inbox = getProjectInbox();
     if (!inbox) {
       return NextResponse.json(
-        { error: "Contact inbox is not configured on the server." },
+        { error: getMessage(locale, "api.errors.inboxNotConfigured") },
         { status: 500 },
       );
     }
@@ -93,7 +99,7 @@ export async function POST(request: Request) {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to send project inquiry.",
+            : getMessage(locale, "api.errors.projectSendFailed"),
       },
       { status: 500 },
     );

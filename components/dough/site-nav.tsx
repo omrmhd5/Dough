@@ -3,19 +3,27 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Globe, Menu, X } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { useAppLocale } from "@/components/providers/locale-provider";
 import { Logo } from "./logo";
 
-const LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Work", href: "/work" },
-  { label: "Uncle Dough", href: "/uncledough" },
-  { label: "Contact", href: "/contact" },
-];
-
 export function SiteNav() {
+  const t = useTranslations("nav");
+  const { locale, setLocale } = useAppLocale();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+
+  const links = [
+    { label: t("home"), href: "/" },
+    { label: t("work"), href: "/work" },
+    { label: t("uncleDough"), href: "/uncledough" },
+    { label: t("contact"), href: "/contact" },
+  ];
+
+  const toggleLocale = () => {
+    setLocale(locale === "en" ? "ar" : "en");
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
@@ -31,7 +39,7 @@ export function SiteNav() {
         </Link>
 
         <ul className="hidden items-center gap-12 lg:gap-14 md:flex">
-          {LINKS.map((link) => {
+          {links.map((link) => {
             const isActive =
               pathname === link.href ||
               (pathname === "/" && link.href.startsWith("/#"));
@@ -61,20 +69,30 @@ export function SiteNav() {
           })}
         </ul>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          className="cursor-pointer text-navy md:hidden"
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}>
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleLocale}
+            className="cursor-pointer rounded-full p-2 text-navy transition-colors hover:bg-navy/5"
+            aria-label={t("toggleLanguage")}>
+            <Globe className="size-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            className="cursor-pointer text-navy md:hidden"
+            aria-label={open ? t("closeMenu") : t("openMenu")}
+            aria-expanded={open}>
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
       </nav>
 
       {open && (
         <div className="mx-auto mt-2 max-w-5xl rounded-2xl bg-navy/95 p-6 shadow-xl backdrop-blur-lg md:hidden">
           <ul className="flex flex-col gap-3">
-            {LINKS.map((link) => {
+            {links.map((link) => {
               const isActive =
                 pathname === link.href ||
                 (pathname === "/" && link.href.startsWith("/#"));

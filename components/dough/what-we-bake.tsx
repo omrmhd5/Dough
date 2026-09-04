@@ -1,48 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./reveal";
 
-const SERVICES = [
-  {
-    title: "STRATEGY & BRANDING",
-    description:
-      "Build brands with clarity, purpose, and competitive advantage.",
-    tags: "Brand Strategy • Positioning • Naming • Visual Identity • Brand Guidelines • Tone of Voice",
-  },
-  {
-    title: "CREATIVE DIRECTION & CONTENT",
-    description:
-      "Create unforgettable stories that capture attention and inspire action.",
-    tags: "Creative Direction • Campaign Concepts • Photography • Videography • Motion Graphics • CGI • AI Content • Copywriting",
-  },
-  {
-    title: "DIGITAL MARKETING",
-    description:
-      "Accelerate growth through data-driven marketing and performance.",
-    tags: "Social Media • Performance Marketing • Paid Media • Community Management • Influencer Marketing • SEO • Email Marketing • Analytics",
-  },
-  {
-    title: "WEB DESIGN & DEVELOPMENT",
-    description:
-      "Build seamless digital experiences that convert visitors into customers.",
-    tags: "UI/UX Design • Website Design • Web Development • Landing Pages • E-commerce • CMS Development • Conversion Optimization",
-  },
-  {
-    title: "PACKAGING & PHYSICAL BRANDING",
-    description: "Elevate every physical touchpoint of your brand.",
-    tags: "Packaging Design • Menu Design • POS Materials • Merchandise • Brand Collateral • Print Design",
-  },
-  {
-    title: "RETAIL & SPATIAL DESIGN",
-    description: "Create immersive spaces that leave lasting impressions.",
-    tags: "Booth Design • Kiosks • Store Branding • Signage • Partitions • Exhibition Design • Environmental Graphics",
-  },
-];
+type BakeService = {
+  title: string;
+  description: string;
+  tags: string;
+};
 
 export function WhatWeBake() {
+  const t = useTranslations("whatWeBake");
+  const services = t.raw("services") as BakeService[];
   const [active, setActive] = useState(0);
-  const current = SERVICES[active];
+  const current = services[active];
 
   return (
     <section
@@ -54,21 +26,20 @@ export function WhatWeBake() {
         <Reveal duration={800}>
           <div className="mb-14 flex flex-col gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
             <h2 className="font-display text-3xl font-bold uppercase text-cream md:text-[40px] md:leading-[44px]">
-              What We Bake
+              {t("title")}
             </h2>
             <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty lowercase">
-              Six disciplines. One kitchen.
+              {t("subtitleLine1")}
               <br />
-              Select a service to see what&apos;s inside.
+              {t("subtitleLine2")}
             </p>
           </div>
         </Reveal>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Service index — typographic list, no boxes */}
           <div className="lg:col-span-5">
             <ul className="flex flex-col">
-              {SERVICES.map((service, i) => {
+              {services.map((service, i) => {
                 const isActive = active === i;
 
                 return (
@@ -98,7 +69,6 @@ export function WhatWeBake() {
                       </span>
                     </button>
 
-                    {/* Mobile inline preview */}
                     <div
                       className={`overflow-hidden border-b border-cream/10 transition-all duration-500 lg:hidden ${
                         isActive
@@ -120,7 +90,6 @@ export function WhatWeBake() {
             </ul>
           </div>
 
-          {/* Desktop preview panel — open editorial space, not a card */}
           <div className="hidden lg:col-span-7 lg:flex lg:flex-col lg:justify-center lg:pl-8">
             <div className="relative min-h-[320px]">
               <div

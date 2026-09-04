@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useAppLocale } from "@/components/providers/locale-provider";
 import {
   Mail,
   MapPin,
@@ -38,37 +40,32 @@ export const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const DETAILS = [
   {
     icon: InstagramIcon,
-    label: "instagram",
+    labelKey: "instagram" as const,
     value: "@dough.eg",
     href: "https://www.instagram.com/dough.eg",
   },
   {
     icon: WhatsAppIcon,
-    label: "whatsapp",
+    labelKey: "whatsapp" as const,
     value: "+20 111 104 0222",
     href: "https://api.whatsapp.com/send/?phone=201111040222&text&type=phone_number&app_absent=0&utm_source=ig",
   },
   {
     icon: MapPin,
-    label: "address",
+    labelKey: "address" as const,
     value: "65 St. Abdelaziz Fahmy, Saint Fatima, Cairo, Egypt",
     href: "https://maps.google.com",
   },
 ];
 
-const SERVICES = [
-  "Brand & Marketing Strategy",
-  "Creative & Content Production",
-  "Digital & Social Media Marketing",
-  "Experiential & Event Marketing",
-  "Packaging & Merch",
-];
-
-const PREFERENCES = ["Online", "Office - Masr ElGedida", "Any"];
-
-const ROLES = ["Designer", "Developer", "Marketer", "Copywriter", "Other"];
-
 export function Contact() {
+  const t = useTranslations("contact");
+  const tp = useTranslations("contact.project");
+  const tj = useTranslations("contact.job");
+  const { locale } = useAppLocale();
+  const services = tp.raw("services") as string[];
+  const preferences = tp.raw("preferences") as string[];
+  const roles = tj.raw("roles") as string[];
   const [activeTab, setActiveTab] = useState<"project" | "job">("project");
 
   // URL Tab Sync
@@ -128,9 +125,9 @@ export function Contact() {
 
   const handleNext1 = () => {
     const errors: typeof step1Errors = {};
-    if (!businessName.trim()) errors.businessName = "Business Name is required";
+    if (!businessName.trim()) errors.businessName = tp("errors.businessName");
     if (!socialMedia.trim())
-      errors.socialMedia = "Business Social Media Page is required";
+      errors.socialMedia = tp("errors.socialMedia");
 
     if (Object.keys(errors).length > 0) {
       setStep1Errors(errors);
@@ -142,9 +139,9 @@ export function Contact() {
 
   const handleNext2 = () => {
     const errors: typeof step2Errors = {};
-    if (!name.trim()) errors.name = "Your Name is required";
-    if (!mobile.trim()) errors.mobile = "Mobile Number is required";
-    if (!position.trim()) errors.position = "Position is required";
+    if (!name.trim()) errors.name = tp("errors.name");
+    if (!mobile.trim()) errors.mobile = tp("errors.mobile");
+    if (!position.trim()) errors.position = tp("errors.position");
 
     if (Object.keys(errors).length > 0) {
       setStep2Errors(errors);
@@ -170,10 +167,10 @@ export function Contact() {
       selectedServices.length === 0 &&
       (!showOtherInput || !otherService.trim())
     ) {
-      errors.services = "Please select at least one service";
+      errors.services = tp("errors.services");
     }
     if (!meetingPreference) {
-      errors.preference = "Please select a meeting preference";
+      errors.preference = tp("errors.preference");
     }
 
     if (Object.keys(errors).length > 0) {
@@ -184,12 +181,16 @@ export function Contact() {
     setStep3Errors({});
     setProjectStatusMessage("");
     setProjectFormStatus("submitting");
-    setProjectStatusMessage("Kneading the data...");
+    setProjectStatusMessage(tp("kneading"));
 
     try {
       const response = await fetch("/api/contact/project", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Accept-Language": locale,
+          "X-Language": locale,
+        },
         body: JSON.stringify({
           businessName,
           socialMedia,
@@ -206,17 +207,17 @@ export function Contact() {
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(data.error ?? "Failed to send inquiry.");
+        throw new Error(data.error ?? tp("fetchFailed"));
       }
 
-      setProjectStatusMessage("Rising...");
+      setProjectStatusMessage(tp("rising"));
       setProjectFormStatus("success");
     } catch (error) {
       setProjectFormStatus("idle");
       setProjectStatusMessage(
         error instanceof Error
           ? error.message
-          : "Something went wrong. Please try again.",
+          : tp("genericError"),
       );
     }
   };
@@ -261,14 +262,12 @@ export function Contact() {
       selectedFile.name.split(".").pop()?.toLowerCase() || "";
 
     if (!allowedExtensions.includes(fileExtension)) {
-      setJobFileError(
-        "Invalid file format. Only PDF, DOC, and DOCX are accepted.",
-      );
+      setJobFileError(tj("errors.invalidFileFormat"));
       return false;
     }
 
     if (selectedFile.size > 20 * 1024 * 1024) {
-      setJobFileError("File size exceeds the 20 MB limit.");
+      setJobFileError(tj("errors.fileTooLarge"));
       return false;
     }
 
@@ -308,16 +307,16 @@ export function Contact() {
 
   const validateJobForm = () => {
     const errors: Record<string, string> = {};
-    if (!jobFullName.trim()) errors.fullName = "Full Name is required";
+    if (!jobFullName.trim()) errors.fullName = tj("errors.fullName");
     if (!jobEmail.trim()) {
-      errors.email = "Email Address is required";
+      errors.email = tj("errors.emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(jobEmail)) {
-      errors.email = "Invalid email address";
+      errors.email = tj("errors.emailInvalid");
     }
-    if (!jobPhone.trim()) errors.phone = "Phone Number is required";
+    if (!jobPhone.trim()) errors.phone = tj("errors.phone");
     if (!jobCityCountry.trim())
-      errors.cityCountry = "City / Country is required";
-    if (!jobApplyingFor) errors.applyingFor = "Please select a role";
+      errors.cityCountry = tj("errors.cityCountry");
+    if (!jobApplyingFor) errors.applyingFor = tj("errors.applyingFor");
 
     setJobErrors(errors);
     return Object.keys(errors).length === 0;
@@ -329,7 +328,7 @@ export function Contact() {
 
     setJobStatusMessage("");
     setJobFormStatus("submitting");
-    setJobStatusMessage("Reviewing your raw talent...");
+    setJobStatusMessage(tj("reviewing"));
 
     try {
       const formData = new FormData();
@@ -347,23 +346,27 @@ export function Contact() {
 
       const response = await fetch("/api/contact/job", {
         method: "POST",
+        headers: {
+          "Accept-Language": locale,
+          "X-Language": locale,
+        },
         body: formData,
       });
 
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(data.error ?? "Failed to send application.");
+        throw new Error(data.error ?? tj("fetchFailed"));
       }
 
-      setJobStatusMessage("Rising...");
+      setJobStatusMessage(tj("rising"));
       setJobFormStatus("success");
     } catch (error) {
       setJobFormStatus("idle");
       setJobStatusMessage(
         error instanceof Error
           ? error.message
-          : "Something went wrong. Please try again.",
+          : tj("genericError"),
       );
     }
   };
@@ -382,32 +385,32 @@ export function Contact() {
           <div className="lg:col-span-5 flex flex-col gap-8">
             <Reveal duration={800}>
               <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-blob/90">
-                {activeTab === "project" ? "Get in Touch" : "Rise with Us"}
+                {activeTab === "project" ? t("projectEyebrow") : t("jobEyebrow")}
               </span>
               <h2 className="font-display font-extrabold lowercase text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2 text-balance">
                 {activeTab === "project" ? (
                   <>
-                    <span className="block">let&apos;s bake your</span>
-                    <span className="block text-blob">next big idea.</span>
+                    <span className="block">{t("projectHeadlineLine1")}</span>
+                    <span className="block text-blob">{t("projectHeadlineLine2")}</span>
                   </>
                 ) : (
                   <>
-                    <span className="block">bake your</span>
-                    <span className="block text-blob">creative future.</span>
+                    <span className="block">{t("jobHeadlineLine1")}</span>
+                    <span className="block text-blob">{t("jobHeadlineLine2")}</span>
                   </>
                 )}
               </h2>
               <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md lowercase">
                 {activeTab === "project"
-                  ? "Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise."
-                  : "We're always looking for raw talent, fresh perspectives, and creative minds to rise with us. Bring your skills to the kitchen."}
+                  ? t("projectDescription")
+                  : t("jobDescription")}
               </p>
             </Reveal>
 
             {/* Contact Information */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-              {DETAILS.map(({ icon: Icon, label, value, href }, i) => (
-                <Reveal key={label} delay={i * 100} duration={750}>
+              {DETAILS.map(({ icon: Icon, labelKey, value, href }, i) => (
+                <Reveal key={labelKey} delay={i * 100} duration={750}>
                   <a
                     href={href}
                     target={href.startsWith("http") ? "_blank" : undefined}
@@ -422,7 +425,7 @@ export function Contact() {
                     </div>
                     <div>
                       <span className="font-display text-[12px] leading-[14px] uppercase font-bold text-cream/40 block">
-                        {label}
+                        {t(`details.${labelKey}`)}
                       </span>
                       <span className="font-display text-[12px] leading-[14px] font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
                         {value}
@@ -444,7 +447,7 @@ export function Contact() {
                     type="button"
                     onClick={() => setActiveTab("project")}
                     className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "project" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
-                    Start a Project
+                    {t("tabProject")}
                     {activeTab === "project" && (
                       <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
                     )}
@@ -453,7 +456,7 @@ export function Contact() {
                     type="button"
                     onClick={() => setActiveTab("job")}
                     className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "job" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
-                    Join the Team
+                    {t("tabJob")}
                     {activeTab === "job" && (
                       <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
                     )}
@@ -471,12 +474,10 @@ export function Contact() {
                           <Check className="size-10" />
                         </div>
                         <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
-                          Freshly Baked! 🍞
+                          {tp("successTitle")}
                         </h3>
                         <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
-                          Your inquiry is officially in our oven. We will review
-                          your project details and get back to you hot and
-                          fresh!
+                          {tp("successMessage")}
                         </p>
                         <button
                           onClick={() => {
@@ -495,7 +496,7 @@ export function Contact() {
                             setProjectStatusMessage("");
                           }}
                           className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
-                          Submit Another Inquiry
+                          {tp("submitAnother")}
                         </button>
                       </div>
                     ) : (
@@ -514,10 +515,10 @@ export function Contact() {
                             <div className="flex flex-col gap-2">
                               <div className="flex justify-between items-center">
                                 <h3 className="font-display text-xl font-bold uppercase text-cream">
-                                  Dough Inquiry Form
+                                  {tp("formTitle")}
                                 </h3>
                                 <span className="text-[10px] font-display uppercase text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
-                                  Step {step} of 3
+                                  {tp("stepOf", { step })}
                                 </span>
                               </div>
                               <div className="w-full bg-cream/10 h-1 rounded-full overflow-hidden mt-1">
@@ -552,7 +553,7 @@ export function Contact() {
                                 <div className="w-full shrink-0 flex flex-col gap-6 pr-2">
                                   <div className="flex flex-col gap-2">
                                     <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      Business Name *
+                                      {tp("businessName")}
                                     </label>
                                     <input
                                       type="text"
@@ -565,7 +566,7 @@ export function Contact() {
                                             businessName: undefined,
                                           }));
                                       }}
-                                      placeholder="e.g. Dough Bakery"
+                                      placeholder={tp("businessNamePlaceholder")}
                                       className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                     />
                                     {step1Errors.businessName && (
@@ -577,7 +578,7 @@ export function Contact() {
 
                                   <div className="flex flex-col gap-2">
                                     <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      Business Social Media Page *
+                                      {tp("socialMedia")}
                                     </label>
                                     <input
                                       type="text"
@@ -590,7 +591,7 @@ export function Contact() {
                                             socialMedia: undefined,
                                           }));
                                       }}
-                                      placeholder="e.g. instagram.com/dough"
+                                      placeholder={tp("socialMediaPlaceholder")}
                                       className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                     />
                                     {step1Errors.socialMedia && (
@@ -604,7 +605,7 @@ export function Contact() {
                                     type="button"
                                     onClick={handleNext1}
                                     className="w-full flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
-                                    Next Step
+                                    {tp("nextStep")}
                                     <ArrowRight className="size-4" />
                                   </button>
                                 </div>
@@ -614,7 +615,7 @@ export function Contact() {
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="flex flex-col gap-2">
                                       <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        Your Name *
+                                        {tp("yourName")}
                                       </label>
                                       <input
                                         type="text"
@@ -627,7 +628,7 @@ export function Contact() {
                                               name: undefined,
                                             }));
                                         }}
-                                        placeholder="e.g. John Dough"
+                                        placeholder={tp("yourNamePlaceholder")}
                                         className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                       />
                                       {step2Errors.name && (
@@ -639,7 +640,7 @@ export function Contact() {
 
                                     <div className="flex flex-col gap-2">
                                       <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        Mobile Number *
+                                        {tp("mobile")}
                                       </label>
                                       <input
                                         type="tel"
@@ -652,7 +653,7 @@ export function Contact() {
                                               mobile: undefined,
                                             }));
                                         }}
-                                        placeholder="e.g. +20 100 000 0000"
+                                        placeholder={tp("mobilePlaceholder")}
                                         className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                       />
                                       {step2Errors.mobile && (
@@ -666,7 +667,7 @@ export function Contact() {
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="flex flex-col gap-2">
                                       <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        Email Address *
+                                        {tp("email")}
                                       </label>
                                       <input
                                         type="email"
@@ -674,14 +675,14 @@ export function Contact() {
                                         onChange={(e) =>
                                           setEmail(e.target.value)
                                         }
-                                        placeholder="e.g. john@dough.eg"
+                                        placeholder={tp("emailPlaceholder")}
                                         className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                       />
                                     </div>
 
                                     <div className="flex flex-col gap-2">
                                       <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        Position *
+                                        {tp("position")}
                                       </label>
                                       <input
                                         type="text"
@@ -694,7 +695,7 @@ export function Contact() {
                                               position: undefined,
                                             }));
                                         }}
-                                        placeholder="e.g. Founder & CEO"
+                                        placeholder={tp("positionPlaceholder")}
                                         className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                       />
                                       {step2Errors.position && (
@@ -711,13 +712,13 @@ export function Contact() {
                                       onClick={() => setStep(1)}
                                       className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
                                       <ArrowLeft className="size-4" />
-                                      Back
+                                      {tp("back")}
                                     </button>
                                     <button
                                       type="button"
                                       onClick={handleNext2}
                                       className="flex-1 flex items-center justify-center gap-2 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
-                                      Next Step
+                                      {tp("nextStep")}
                                       <ArrowRight className="size-4" />
                                     </button>
                                   </div>
@@ -727,10 +728,10 @@ export function Contact() {
                                 <div className="w-full shrink-0 flex flex-col gap-6 pl-2">
                                   <div className="flex flex-col gap-3">
                                     <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      Service(s) needed *
+                                      {tp("servicesLabel")}
                                     </label>
                                     <div className="flex flex-col gap-2">
-                                      {SERVICES.map((service, index) => {
+                                      {services.map((service, index) => {
                                         const isSelected =
                                           selectedServices.includes(service);
                                         return (
@@ -763,7 +764,7 @@ export function Contact() {
                                             ? "bg-blob border-blob text-navy font-bold shadow-md"
                                             : "bg-cream/[0.02] border-cream/10 text-cream/70 hover:border-cream/30 hover:text-cream"
                                         }`}>
-                                        Other...
+                                        {tp("other")}
                                       </button>
 
                                       {showOtherInput && (
@@ -778,7 +779,7 @@ export function Contact() {
                                                 services: undefined,
                                               }));
                                           }}
-                                          placeholder="Please specify other service needed..."
+                                          placeholder={tp("otherPlaceholder")}
                                           className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans mt-1 animate-in fade-in slide-in-from-top-1 duration-200"
                                         />
                                       )}
@@ -792,10 +793,10 @@ export function Contact() {
 
                                   <div className="flex flex-col gap-3">
                                     <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      Client Meeting Preference *
+                                      {tp("meetingPreference")}
                                     </label>
                                     <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-2">
-                                      {PREFERENCES.map((pref) => {
+                                      {preferences.map((pref) => {
                                         const isSelected =
                                           meetingPreference === pref;
                                         return (
@@ -833,13 +834,13 @@ export function Contact() {
                                       onClick={() => setStep(2)}
                                       className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
                                       <ArrowLeft className="size-4" />
-                                      Back
+                                      {tp("back")}
                                     </button>
                                     <button
                                       type="submit"
                                       className="flex-[2] flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
                                       <Send className="size-4" />
-                                      Bake & Send Inquiry
+                                      {tp("submit")}
                                     </button>
                                   </div>
                                 </div>
@@ -860,12 +861,10 @@ export function Contact() {
                           <Check className="size-10" />
                         </div>
                         <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
-                          Application Received! 🍞
+                          {tj("successTitle")}
                         </h3>
                         <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
-                          Thank you for applying. We are reviewing your profile
-                          and will get back to you shortly if your credentials
-                          match our current needs.
+                          {tj("successMessage")}
                         </p>
                         <button
                           onClick={() => {
@@ -882,7 +881,7 @@ export function Contact() {
                             setJobStatusMessage("");
                           }}
                           className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
-                          Apply for Another Role
+                          {tj("applyAnother")}
                         </button>
                       </div>
                     ) : (
@@ -900,11 +899,10 @@ export function Contact() {
                           <>
                             <div className="flex flex-col gap-2">
                               <h3 className="font-display text-xl font-bold uppercase text-cream">
-                                Apply as a Teammate
+                                {tj("formTitle")}
                               </h3>
                               <p className="text-xs text-cream/55 leading-relaxed">
-                                Fill out your details below and show us your raw
-                                creative potential.
+                                {tj("formSubtitle")}
                               </p>
                             </div>
 
@@ -918,7 +916,7 @@ export function Contact() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  Full Name *
+                                  {tj("fullName")}
                                 </label>
                                 <input
                                   type="text"
@@ -932,7 +930,7 @@ export function Contact() {
                                         fullName: undefined,
                                       }));
                                   }}
-                                  placeholder="e.g. John Dough"
+                                  placeholder={tj("fullNamePlaceholder")}
                                   className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                 />
                                 {jobErrors.fullName && (
@@ -943,7 +941,7 @@ export function Contact() {
                               </div>
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  Email Address *
+                                  {tj("email")}
                                 </label>
                                 <input
                                   type="email"
@@ -957,7 +955,7 @@ export function Contact() {
                                         email: undefined,
                                       }));
                                   }}
-                                  placeholder="e.g. john@dough.com"
+                                  placeholder={tj("emailPlaceholder")}
                                   className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                 />
                                 {jobErrors.email && (
@@ -972,7 +970,7 @@ export function Contact() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  Phone Number *
+                                  {tj("phone")}
                                 </label>
                                 <input
                                   type="tel"
@@ -986,7 +984,7 @@ export function Contact() {
                                         phone: undefined,
                                       }));
                                   }}
-                                  placeholder="e.g. +20 100 000 0000"
+                                  placeholder={tj("phonePlaceholder")}
                                   className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                 />
                                 {jobErrors.phone && (
@@ -997,7 +995,7 @@ export function Contact() {
                               </div>
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  City / Country *
+                                  {tj("cityCountry")}
                                 </label>
                                 <input
                                   type="text"
@@ -1011,7 +1009,7 @@ export function Contact() {
                                         cityCountry: undefined,
                                       }));
                                   }}
-                                  placeholder="e.g. Cairo, Egypt"
+                                  placeholder={tj("cityCountryPlaceholder")}
                                   className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                 />
                                 {jobErrors.cityCountry && (
@@ -1026,7 +1024,7 @@ export function Contact() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  LinkedIn / Portfolio URL
+                                  {tj("linkedin")}
                                 </label>
                                 <input
                                   type="url"
@@ -1034,13 +1032,13 @@ export function Contact() {
                                   onChange={(e) =>
                                     setJobLinkedin(e.target.value)
                                   }
-                                  placeholder="e.g. linkedin.com/in/john"
+                                  placeholder={tj("linkedinPlaceholder")}
                                   className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
                                 />
                               </div>
                               <div className="flex flex-col gap-1.5">
                                 <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  Role Applying For *
+                                  {tj("role")}
                                 </label>
                                 <div className="relative">
                                   <select
@@ -1059,9 +1057,9 @@ export function Contact() {
                                       value=""
                                       disabled
                                       className="bg-navy text-cream/30">
-                                      Select a Role...
+                                      {tj("selectRole")}
                                     </option>
-                                    {ROLES.map((role) => (
+                                    {roles.map((role) => (
                                       <option
                                         key={role}
                                         value={role}
@@ -1082,20 +1080,20 @@ export function Contact() {
                             {/* Textareas */}
                             <div className="flex flex-col gap-1.5">
                               <label className="text-[10px] uppercase font-bold text-cream/60">
-                                Show us your work
+                                {tj("showWork")}
                               </label>
                               <textarea
                                 rows={2}
                                 value={jobShowWork}
                                 onChange={(e) => setJobShowWork(e.target.value)}
-                                placeholder="Share links to your Behance, Dribbble, Instagram, website, or work you're proud of."
+                                placeholder={tj("showWorkPlaceholder")}
                                 className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans resize-none leading-relaxed"
                               />
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                               <label className="text-[10px] uppercase font-bold text-cream/60">
-                                Anything else you'd like us to know?
+                                {tj("anythingElse")}
                               </label>
                               <textarea
                                 rows={2}
@@ -1103,7 +1101,7 @@ export function Contact() {
                                 onChange={(e) =>
                                   setJobAnythingElse(e.target.value)
                                 }
-                                placeholder="This is your chance to stand out."
+                                placeholder={tj("anythingElsePlaceholder")}
                                 className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans resize-none leading-relaxed"
                               />
                             </div>
@@ -1111,7 +1109,7 @@ export function Contact() {
                             {/* File Attachment Dropzone */}
                             <div className="flex flex-col gap-2">
                               <label className="text-[10px] uppercase font-bold text-cream/60">
-                                Attachments *
+                                {tj("attachments")}
                               </label>
                               <div
                                 onDragEnter={handleJobDrag}
@@ -1164,11 +1162,10 @@ export function Contact() {
                                     className="cursor-pointer w-full h-full flex flex-col items-center justify-center py-1">
                                     <Upload className="size-6 text-cream/40 mb-2 hover:text-blob transition-colors" />
                                     <span className="text-xs font-medium text-cream/80 block">
-                                      Upload your CV, portfolio, or supporting
-                                      documents
+                                      {tj("uploadPrompt")}
                                     </span>
                                     <span className="text-[10px] text-cream/45 block mt-1">
-                                      PDF, DOC, DOCX (Max. 20 MB)
+                                      {tj("uploadHint")}
                                     </span>
                                   </label>
                                 )}
@@ -1184,7 +1181,7 @@ export function Contact() {
                             <button
                               type="submit"
                               className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-xs uppercase py-4 px-6 rounded-2xl cursor-pointer transition-all duration-300 mt-2 shadow-lg hover:-translate-y-[1px]">
-                              Submit Application
+                              {tj("submit")}
                             </button>
                           </>
                         )}

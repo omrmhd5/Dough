@@ -4,9 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./reveal";
-import { CLIENTS, formatBrandName } from "./clients-data";
+import { CLIENTS, formatBrandName, type ClientDetail } from "./clients-data";
 import { ClientLogo } from "./client-logo";
+import { useLocalizedClient } from "@/lib/i18n/use-localized-client";
 
 const FEATURED = ["Akleh", "LUX", "HNDL", "Taghmisa", "Tant"];
 
@@ -14,7 +16,25 @@ function clientSlug(name: string) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }
 
+function FeaturedClientCopy({ client }: { client: ClientDetail }) {
+  const copy = useLocalizedClient(client);
+
+  return (
+    <div>
+      <p className="font-display text-base leading-snug text-cream sm:text-lg md:text-2xl text-pretty">
+        <span className="font-bold uppercase">{formatBrandName(client.en)}</span>
+        <span className="font-bold text-cream/50"> — </span>
+        <span className="font-medium lowercase">{copy.subtitle}</span>
+      </p>
+      <p className="mt-1.5 font-display text-[11px] leading-[13px] font-semibold uppercase text-cream/50">
+        {copy.sector}
+      </p>
+    </div>
+  );
+}
+
 export function FeaturedWorks() {
+  const t = useTranslations("featuredWorks");
   const clients = FEATURED.map((name) =>
     CLIENTS.find((c) => c.en === name),
   ).filter(Boolean);
@@ -40,7 +60,7 @@ export function FeaturedWorks() {
         <Reveal duration={800}>
           <div className="flex items-center justify-between mb-12">
             <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-navy">
-              Featured Work
+              {t("title")}
             </h2>
           </div>
         </Reveal>
@@ -51,7 +71,7 @@ export function FeaturedWorks() {
           <button
             onClick={prevSlide}
             className="absolute left-2 sm:left-4 md:left-8 lg:left-12 z-30 size-10 sm:size-11 md:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
-            aria-label="Previous Project">
+            aria-label={t("previousProject")}>
             <ChevronLeft className="size-5 sm:size-6" />
           </button>
 
@@ -59,7 +79,7 @@ export function FeaturedWorks() {
           <button
             onClick={nextSlide}
             className="absolute right-2 sm:right-4 md:right-8 lg:right-12 z-30 size-10 sm:size-11 md:size-12 rounded-full border border-navy/15 bg-cream/90 text-navy hover:bg-navy hover:text-cream hover:border-navy flex items-center justify-center backdrop-blur-md shadow-md transition-all duration-300 cursor-pointer"
-            aria-label="Next Project">
+            aria-label={t("nextProject")}>
             <ChevronRight className="size-5 sm:size-6" />
           </button>
 
@@ -107,7 +127,9 @@ export function FeaturedWorks() {
                     className={`relative flex h-full w-full flex-col overflow-hidden rounded-3xl bg-navy ${isActive ? "shadow-[0_20px_50px_rgba(18,41,64,0.18)]" : ""} ${!isActive ? "pointer-events-none select-none" : ""}`}>
                     <Image
                       src={client.images[0]}
-                      alt={`${formatBrandName(client.en)} featured project`}
+                      alt={t("featuredAlt", {
+                        brand: formatBrandName(client.en),
+                      })}
                       fill
                       className="object-cover scale-[1.02] transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 100vw"
@@ -123,7 +145,9 @@ export function FeaturedWorks() {
                         {client.logo ? (
                           <ClientLogo
                             src={client.logo}
-                            alt={`${formatBrandName(client.en)} logo`}
+                            alt={t("logoAlt", {
+                              brand: formatBrandName(client.en),
+                            })}
                             size="featured"
                           />
                         ) : (
@@ -134,31 +158,18 @@ export function FeaturedWorks() {
                       </div>
 
                       <div className="flex flex-col gap-4 mt-auto">
-                        <div>
-                          <p className="font-display text-base leading-snug text-cream sm:text-lg md:text-2xl text-pretty">
-                            <span className="font-bold uppercase">
-                              {formatBrandName(client.en)}
-                            </span>
-                            <span className="font-bold text-cream/50"> — </span>
-                            <span className="font-medium lowercase">
-                              {client.subtitle}
-                            </span>
-                          </p>
-                          <p className="mt-1.5 font-display text-[11px] leading-[13px] font-semibold uppercase text-cream/50">
-                            {client.sector}
-                          </p>
-                        </div>
+                        <FeaturedClientCopy client={client} />
 
                         {isActive ? (
                           <Link
                             href={`/work/${slug}`}
                             className="inline-flex cursor-pointer items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase text-cream/80 hover:text-blob transition-colors duration-300 w-fit pointer-events-auto">
-                            View project
+                            {t("viewProject")}
                             <ArrowUpRight className="size-3" />
                           </Link>
                         ) : (
                           <span className="inline-flex items-center gap-1.5 font-display text-[11px] leading-[13px] font-bold uppercase text-cream/30">
-                            View project
+                            {t("viewProject")}
                             <ArrowUpRight className="size-3" />
                           </span>
                         )}

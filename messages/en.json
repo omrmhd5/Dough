@@ -1,0 +1,315 @@
+{
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "uncleDough": "Uncle Dough",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleLanguage": "Toggle language"
+  },
+  "hero": {
+    "line1Bold": "we shape",
+    "line2Italic": "raw",
+    "line3Bold": "concepts",
+    "line4Bold": "into cultural moments",
+    "subtitle": "where ideas take shapes — a creative agency shaping brands, stories, and moments from scratch.",
+    "ctaBake": "let's bake",
+    "ctaExplore": "explore work"
+  },
+  "whoWeAre": {
+    "eyebrow": "A Creative Baking Lab",
+    "paragraphs": [
+      "We're Dough — a creative agency shaping brands, stories, and moments from scratch.",
+      "From bold concepts to scroll-stopping content, we don't just follow culture — we bake it fresh.",
+      "Agile, obsessive, and unafraid of the unconventional, we work with brands ready to leave a mark, not just make a sale."
+    ],
+    "creativePhilosophy": "Creative Philosophy",
+    "workingPrinciple": "Working Principle",
+    "stats": [
+      { "label": "Brands Transformed" },
+      { "label": "Creative Projects Delivered" },
+      { "label": "Industries" },
+      { "label": "Customer Impressions Generated" }
+    ]
+  },
+  "whyUs": {
+    "title": "Why Us",
+    "subtitle": "How we bake, shape, and rise to make raw concepts stand out from the noise.",
+    "points": [
+      {
+        "title": "MAGIC OF CREATIVITY & INNOVATION",
+        "content": "At Dough, we believe in the magic of creativity and the power of innovation."
+      },
+      {
+        "title": "MOLDING IDEAS INTO REALITY",
+        "content": "Just like dough that can be molded into any shape, we shape ideas into reality."
+      },
+      {
+        "title": "VERSATILE & ADAPTABLE TEAM",
+        "content": "Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge."
+      },
+      {
+        "title": "MIXING STRATEGY WITH PASSION",
+        "content": "We mix creativity with strategy, knead it with passion, and bake it with precision."
+      },
+      {
+        "title": "CONSTANT EVOLUTION & RISING",
+        "content": "Just like the perfect dough, we're always evolving and rising to the occasion."
+      },
+      {
+        "title": "PLAYFUL PROFESSIONALISM",
+        "content": "We have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?"
+      }
+    ]
+  },
+  "whatWeBake": {
+    "title": "What We Bake",
+    "subtitleLine1": "Six disciplines. One kitchen.",
+    "subtitleLine2": "Select a service to see what's inside.",
+    "services": [
+      {
+        "title": "STRATEGY & BRANDING",
+        "description": "Build brands with clarity, purpose, and competitive advantage.",
+        "tags": "Brand Strategy • Positioning • Naming • Visual Identity • Brand Guidelines • Tone of Voice"
+      },
+      {
+        "title": "CREATIVE DIRECTION & CONTENT",
+        "description": "Create unforgettable stories that capture attention and inspire action.",
+        "tags": "Creative Direction • Campaign Concepts • Photography • Videography • Motion Graphics • CGI • AI Content • Copywriting"
+      },
+      {
+        "title": "DIGITAL MARKETING",
+        "description": "Accelerate growth through data-driven marketing and performance.",
+        "tags": "Social Media • Performance Marketing • Paid Media • Community Management • Influencer Marketing • SEO • Email Marketing • Analytics"
+      },
+      {
+        "title": "WEB DESIGN & DEVELOPMENT",
+        "description": "Build seamless digital experiences that convert visitors into customers.",
+        "tags": "UI/UX Design • Website Design • Web Development • Landing Pages • E-commerce • CMS Development • Conversion Optimization"
+      },
+      {
+        "title": "PACKAGING & PHYSICAL BRANDING",
+        "description": "Elevate every physical touchpoint of your brand.",
+        "tags": "Packaging Design • Menu Design • POS Materials • Merchandise • Brand Collateral • Print Design"
+      },
+      {
+        "title": "RETAIL & SPATIAL DESIGN",
+        "description": "Create immersive spaces that leave lasting impressions.",
+        "tags": "Booth Design • Kiosks • Store Branding • Signage • Partitions • Exhibition Design • Environmental Graphics"
+      }
+    ]
+  },
+  "howWeWork": {
+    "title": "How We Work",
+    "stepLabel": "[Step {step}]",
+    "steps": [
+      {
+        "title": "DISCOVERY",
+        "body": "We dig in deep — brand audits, market pulse, and real convos. We listen more than we talk (for now)."
+      },
+      {
+        "title": "STRATEGY",
+        "body": "We knead the insights into a tight, tasty plan. Positioning, voice, goals — it all starts here."
+      },
+      {
+        "title": "CREATIVE DEVELOPMENT",
+        "body": "From zero to concept — this is where your brand gets its flavor. Visuals, copy, packaging, campaigns — all baked in."
+      },
+      {
+        "title": "EXECUTION",
+        "body": "We bring the heat. Whether it's content, media, or a full-on launch — our team rolls it out, pixel by pixel, post by post."
+      },
+      {
+        "title": "OPTIMIZATION",
+        "body": "We don't 'set and forget.' We test, tweak, and turn insights into sharper moves."
+      }
+    ]
+  },
+  "featuredWorks": {
+    "title": "Featured Work",
+    "previousProject": "Previous Project",
+    "nextProject": "Next Project",
+    "viewProject": "View project",
+    "featuredAlt": "{brand} featured project",
+    "logoAlt": "{brand} logo"
+  },
+  "clientsPortfolio": {
+    "clientsTitle": "Clients",
+    "clientsSubtitle": "they asked we shaped",
+    "projectsTitle": "Projects",
+    "servicesSentence": "We shaped their brand through {services}.",
+    "viewProject": "View Project",
+    "slideGroup": "Go to client slide group {index}",
+    "showcaseAlt": "{brand} brand showcase preview",
+    "logoAlt": "{brand} logo"
+  },
+  "workCaseStudy": {
+    "backToProjects": "Back to Projects",
+    "project": "Project",
+    "client": "Client",
+    "industry": "Industry",
+    "year": "Year",
+    "servicesLabel": "Services",
+    "overview": "Overview",
+    "challengeDefault": "The Challenge",
+    "approachDefault": "Our Approach",
+    "experienceDefault": "Social Experience",
+    "galleryDefault": "Visual Deliverables",
+    "scopeOfWork": "Scope of Work",
+    "outcome": "The Outcome",
+    "notFound": "Project Not Found",
+    "heroAlt": "{brand} Hero Showcase",
+    "visualAlt": "{brand} design board visual {index}"
+  },
+  "siteFooter": {
+    "eyebrow": "Let's Make It Rise",
+    "headlineLine1": "got a raw idea?",
+    "headlineLine2": "let's bake it together.",
+    "startProject": "Start a Project",
+    "bakeProject": "Bake a Project",
+    "stayFresh": "Stay Fresh",
+    "ourLocation": "Our Location",
+    "riseWithUs": "Rise with Us",
+    "careersCopy": "We're always seeking creative minds, designers, copywriters, and thinkers to grow our kitchen.",
+    "joinTeam": "Join the Team",
+    "copyrightPrefix": "Raw Ideas. Real Results. Fully Cooked by",
+    "est": "Est. 2024",
+    "tagline": "where ideas take shapes."
+  },
+  "uncleDough": {
+    "eyebrow": "Coming soon",
+    "title": "Uncle Dough",
+    "stayTuned": "Stay tuned!",
+    "description": "Something fresh is rising from the oven. We're kneading up something special — check back soon.",
+    "backHome": "Back to home"
+  },
+  "contact": {
+    "projectEyebrow": "Get in Touch",
+    "jobEyebrow": "Rise with Us",
+    "projectHeadlineLine1": "let's bake your",
+    "projectHeadlineLine2": "next big idea.",
+    "jobHeadlineLine1": "bake your",
+    "jobHeadlineLine2": "creative future.",
+    "projectDescription": "Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise.",
+    "jobDescription": "We're always looking for raw talent, fresh perspectives, and creative minds to rise with us. Bring your skills to the kitchen.",
+    "details": {
+      "instagram": "instagram",
+      "whatsapp": "whatsapp",
+      "address": "address"
+    },
+    "tabProject": "Start a Project",
+    "tabJob": "Join the Team",
+    "project": {
+      "successTitle": "Freshly Baked! 🍞",
+      "successMessage": "Your inquiry is officially in our oven. We will review your project details and get back to you hot and fresh!",
+      "submitAnother": "Submit Another Inquiry",
+      "kneading": "Kneading the data...",
+      "rising": "Rising...",
+      "formTitle": "Dough Inquiry Form",
+      "stepOf": "Step {step} of 3",
+      "businessName": "Business Name *",
+      "businessNamePlaceholder": "e.g. Dough Bakery",
+      "socialMedia": "Business Social Media Page *",
+      "socialMediaPlaceholder": "e.g. instagram.com/dough",
+      "yourName": "Your Name *",
+      "yourNamePlaceholder": "e.g. John Dough",
+      "mobile": "Mobile Number *",
+      "mobilePlaceholder": "e.g. +20 100 000 0000",
+      "email": "Email Address *",
+      "emailPlaceholder": "e.g. john@dough.eg",
+      "position": "Position *",
+      "positionPlaceholder": "e.g. Founder & CEO",
+      "servicesLabel": "Service(s) needed *",
+      "other": "Other...",
+      "otherPlaceholder": "Please specify other service needed...",
+      "meetingPreference": "Client Meeting Preference *",
+      "nextStep": "Next Step",
+      "back": "Back",
+      "submit": "Bake & Send Inquiry",
+      "services": [
+        "Brand & Marketing Strategy",
+        "Creative & Content Production",
+        "Digital & Social Media Marketing",
+        "Experiential & Event Marketing",
+        "Packaging & Merch"
+      ],
+      "preferences": ["Online", "Office - Masr ElGedida", "Any"],
+      "errors": {
+        "businessName": "Business Name is required",
+        "socialMedia": "Business Social Media Page is required",
+        "name": "Your Name is required",
+        "mobile": "Mobile Number is required",
+        "position": "Position is required",
+        "services": "Please select at least one service",
+        "preference": "Please select a meeting preference"
+      },
+      "fetchFailed": "Failed to send inquiry.",
+      "genericError": "Something went wrong. Please try again."
+    },
+    "job": {
+      "successTitle": "Application Received! 🍞",
+      "successMessage": "Thank you for applying. We are reviewing your profile and will get back to you shortly if your credentials match our current needs.",
+      "applyAnother": "Apply for Another Role",
+      "reviewing": "Reviewing your raw talent...",
+      "rising": "Rising...",
+      "formTitle": "Apply as a Teammate",
+      "formSubtitle": "Fill out your details below and show us your raw creative potential.",
+      "fullName": "Full Name *",
+      "fullNamePlaceholder": "e.g. John Dough",
+      "email": "Email Address *",
+      "emailPlaceholder": "e.g. john@dough.com",
+      "phone": "Phone Number *",
+      "phonePlaceholder": "e.g. +20 100 000 0000",
+      "cityCountry": "City / Country *",
+      "cityCountryPlaceholder": "e.g. Cairo, Egypt",
+      "linkedin": "LinkedIn / Portfolio URL",
+      "linkedinPlaceholder": "e.g. linkedin.com/in/john",
+      "role": "Role Applying For *",
+      "selectRole": "Select a Role...",
+      "showWork": "Show us your work",
+      "showWorkPlaceholder": "Share links to your Behance, Dribbble, Instagram, website, or work you're proud of.",
+      "anythingElse": "Anything else you'd like us to know?",
+      "anythingElsePlaceholder": "This is your chance to stand out.",
+      "attachments": "Attachments *",
+      "uploadPrompt": "Upload your CV, portfolio, or supporting documents",
+      "uploadHint": "PDF, DOC, DOCX (Max. 20 MB)",
+      "submit": "Submit Application",
+      "roles": ["Designer", "Developer", "Marketer", "Copywriter", "Other"],
+      "errors": {
+        "fullName": "Full Name is required",
+        "emailRequired": "Email Address is required",
+        "emailInvalid": "Invalid email address",
+        "phone": "Phone Number is required",
+        "cityCountry": "City / Country is required",
+        "applyingFor": "Please select a role",
+        "invalidFileFormat": "Invalid file format. Only PDF, DOC, and DOCX are accepted.",
+        "fileTooLarge": "File size exceeds the 20 MB limit."
+      },
+      "fetchFailed": "Failed to send application.",
+      "genericError": "Something went wrong. Please try again."
+    }
+  },
+  "api": {
+    "errors": {
+      "businessNameRequired": "Business name is required.",
+      "socialMediaRequired": "Business social media is required.",
+      "contactNameRequired": "Contact name is required.",
+      "mobileRequired": "Mobile number is required.",
+      "positionRequired": "Position is required.",
+      "servicesRequired": "At least one service is required.",
+      "meetingPreferenceRequired": "Meeting preference is required.",
+      "invalidEmail": "Invalid email address.",
+      "inboxNotConfigured": "Contact inbox is not configured on the server.",
+      "projectSendFailed": "Failed to send project inquiry.",
+      "fullNameRequired": "Full name is required.",
+      "emailRequired": "Email address is required.",
+      "phoneRequired": "Phone number is required.",
+      "cityCountryRequired": "City / country is required.",
+      "roleRequired": "Role is required.",
+      "invalidFileFormat": "Only PDF, DOC, and DOCX files are accepted.",
+      "fileTooLarge": "Attachment must be 20 MB or smaller.",
+      "jobSendFailed": "Failed to send job application."
+    }
+  }
+}

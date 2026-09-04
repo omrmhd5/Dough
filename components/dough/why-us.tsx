@@ -1,42 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Reveal } from "./reveal";
 
-const POINTS = [
-  {
-    title: "MAGIC OF CREATIVITY & INNOVATION",
-    content:
-      "At Dough, we believe in the magic of creativity and the power of innovation.",
-  },
-  {
-    title: "MOLDING IDEAS INTO REALITY",
-    content:
-      "Just like dough that can be molded into any shape, we shape ideas into reality.",
-  },
-  {
-    title: "VERSATILE & ADAPTABLE TEAM",
-    content:
-      "Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge.",
-  },
-  {
-    title: "MIXING STRATEGY WITH PASSION",
-    content:
-      "We mix creativity with strategy, knead it with passion, and bake it with precision.",
-  },
-  {
-    title: "CONSTANT EVOLUTION & RISING",
-    content:
-      "Just like the perfect dough, we're always evolving and rising to the occasion.",
-  },
-  {
-    title: "PLAYFUL PROFESSIONALISM",
-    content:
-      "We have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?",
-  },
-];
+type WhyUsPoint = {
+  title: string;
+  content: string;
+};
 
 export function WhyUs() {
+  const t = useTranslations("whyUs");
+  const points = t.raw("points") as WhyUsPoint[];
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleAccordion = (index: number) => {
@@ -48,26 +23,22 @@ export function WhyUs() {
       id="why"
       className="bg-cream py-24 md:py-36 text-navy overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Asymmetrical Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-          {/* Left Column: Heading & Caption */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <Reveal duration={800}>
               <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-navy">
-                Why Us
+                {t("title")}
               </h2>
             </Reveal>
             <Reveal duration={800} delay={150}>
               <p className="font-display font-normal text-[16px] leading-[22px] text-navy/70 max-w-sm lowercase">
-                How we bake, shape, and rise to make raw concepts stand out from
-                the noise.
+                {t("subtitle")}
               </p>
             </Reveal>
           </div>
 
-          {/* Right Column: Sleek FAQ Accordion List (No rounding identity, pure editorial borders) */}
           <div className="lg:col-span-7 flex flex-col w-full border-t border-navy/10">
-            {POINTS.map((point, i) => {
+            {points.map((point, i) => {
               const isOpen = openIndex === i;
               return (
                 <Reveal key={point.title} delay={idxDelay(i)} duration={800}>
@@ -76,7 +47,6 @@ export function WhyUs() {
                       onClick={() => toggleAccordion(i)}
                       className="flex w-full cursor-pointer items-center justify-between text-left group focus:outline-none"
                       aria-expanded={isOpen}>
-                      {/* Left: Number & Title */}
                       <div className="flex items-start gap-3 min-w-0 flex-1 sm:items-center sm:gap-4 md:gap-6">
                         <span className="font-display font-medium tabular-nums text-[12px] leading-[14px] text-water/65 select-none shrink-0">
                           {String(i + 1).padStart(2, "0")}
@@ -86,7 +56,6 @@ export function WhyUs() {
                         </span>
                       </div>
 
-                      {/* Right: Expand/Collapse indicator */}
                       <span className="ml-4 flex h-6 w-6 items-center justify-center rounded-full border border-navy/15 text-navy group-hover:border-water group-hover:text-water transition-all duration-300 relative shrink-0">
                         <span className="absolute w-2.5 h-[1.5px] bg-current" />
                         <span
@@ -95,7 +64,6 @@ export function WhyUs() {
                       </span>
                     </button>
 
-                    {/* Expandable answer container using CSS Grid Transition */}
                     <div
                       className={`grid transition-all duration-300 ease-in-out ${
                         isOpen
