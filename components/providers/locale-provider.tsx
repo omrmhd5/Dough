@@ -16,6 +16,9 @@ export type AppLocale = "en" | "ar";
 
 const STORAGE_KEY = "language";
 
+/** Fixed TZ so server/client agree (next-intl ENVIRONMENT_FALLBACK). */
+export const APP_TIME_ZONE = "Africa/Cairo";
+
 const messages: Record<AppLocale, typeof enMessages> = {
   en: enMessages,
   ar: arMessages,
@@ -67,7 +70,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   return (
     <LocaleContext.Provider value={{ locale, setLocale }}>
-      <NextIntlClientProvider locale={locale} messages={messages[locale]}>
+      <NextIntlClientProvider
+        locale={locale}
+        messages={messages[locale]}
+        timeZone={APP_TIME_ZONE}
+      >
         {children}
       </NextIntlClientProvider>
     </LocaleContext.Provider>
