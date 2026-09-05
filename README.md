@@ -74,47 +74,28 @@ The site strengthened Dough’s digital presence with a scroll-stopping hero, st
 
 ---
 
+## 🎬 Site Demo
+
+**[▶ Watch site walkthrough](./docs/dough-demo.mp4)** (~1 min)
+
+Home hero → Who We Are → What We Bake → Featured → How We Work → Why Us → Work carousel → Akleh case study → Contact → Uncle Dough → Arabic homepage.
+
+---
+
 ## 📸 Screenshots
 
-- Hero Section
-  <img width="1600" height="794" alt="Hero Section" src="./docs/screenshots/01-home-hero.png" />
-
-- Mobile Preview
-  <img width="390" height="701" alt="Mobile Preview" src="./docs/screenshots/10-mobile-home.png" />
-
-- Who We Are
-  <img width="1600" height="786" alt="Who We Are" src="./docs/screenshots/02-who-we-are.png" />
-
-- What We Bake
-  <img width="1600" height="864" alt="What We Bake" src="./docs/screenshots/03-what-we-bake.png" />
-
-- Featured Works
-  <img width="1600" height="750" alt="Featured Works" src="./docs/screenshots/04-featured-works.png" />
-
-- How We Work
-  <img width="1600" height="646" alt="How We Work" src="./docs/screenshots/11-how-we-work.png" />
-
-- Work Portfolio
-  <img width="1600" height="884" alt="Work Portfolio" src="./docs/screenshots/05-work-portfolio.png" />
-
-- Case Study — Akleh
-  <img width="1600" height="884" alt="Case Study Akleh" src="./docs/screenshots/06-case-study-akleh.png" />
-
-- Case Study Overview
-  <img width="1600" height="884" alt="Case Study Overview" src="./docs/screenshots/12-case-study-overview.png" />
-
-- Contact Page
-  <img width="1600" height="823" alt="Contact Page" src="./docs/screenshots/07-contact.png" />
-
-- Uncle Dough
-  <img width="1600" height="884" alt="Uncle Dough" src="./docs/screenshots/08-uncle-dough.png" />
-
-- Arabic Homepage
-  <img width="1600" height="794" alt="Arabic Homepage" src="./docs/screenshots/09-home-arabic.png" />
+|                                                                                               |                                                                                        |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png)                               | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png)                     |
+| **What We Bake** ![What We Bake](./docs/screenshots/03-what-we-bake.png)                      | **Featured Works** ![Featured Works](./docs/screenshots/04-featured-works.png)         |
+| **How We Work** ![How We Work](./docs/screenshots/11-how-we-work.png)                         | **Work Portfolio** ![Work Portfolio](./docs/screenshots/05-work-portfolio.png)         |
+| **Case Study Overview** ![Case Study Overview](./docs/screenshots/12-case-study-overview.png) | **Case Study — Akleh** ![Case Study Akleh](./docs/screenshots/06-case-study-akleh.png) |
+| **Contact** ![Contact Page](./docs/screenshots/07-contact.png)                                | **Uncle Dough** ![Uncle Dough](./docs/screenshots/08-uncle-dough.png)                  |
+| **Arabic Homepage** ![Arabic Homepage](./docs/screenshots/09-home-arabic.png)                 | **Mobile Home** ![Mobile Home](./docs/screenshots/10-mobile-home.png)                  |
 
 ## Live Demo 🚀
 
-[**View Live Demo**](https://dough.vercel.app/)
+**[View Live Demo](https://dough.vercel.app/)**
 
 ---
 
