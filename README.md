@@ -74,14 +74,6 @@ The site strengthened Dough’s digital presence with a scroll-stopping hero, st
 
 ---
 
-## 🎬 Site Demo
-
-**[▶ Watch site walkthrough](./docs/dough-demo.mp4)** (~1 min)
-
-Homepage scroll → Work → Case study → Contact → Uncle Dough → Arabic toggle.
-
----
-
 ## 📸 Screenshots
 
 - Hero Section
