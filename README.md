@@ -95,7 +95,7 @@ Homepage Arabic glance → Home hero → Who We Are → What We Bake → Feature
 
 ## Live Demo 🚀
 
-**[View Live Demo](https://dough.vercel.app/)**
+**[View Live Demo](https://doughx.vercel.app/)**
 
 ---
 
