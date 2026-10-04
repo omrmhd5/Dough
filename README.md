@@ -45,9 +45,9 @@ The site strengthened Dough’s digital presence with a scroll-stopping hero, st
 ## 💡 Impact
 
 - Delivered a premium agency portfolio that reflects Dough’s playful yet strategic brand voice
-- Showcased **6 client case studies** across QSR, FMCG, and lifestyle sectors
-- Enabled bilingual outreach for both local and international prospects
-- Streamlined lead capture with structured project and hiring inquiry flows
+- Expanded Dough’s market presence with a premium portfolio hub for services, work, and inquiries
+- Showcased **6 client case studies** across QSR, FMCG, and lifestyle to build prospect trust
+- Built an SEO-first, semantic structure to support long-term search visibility and client reach
 
 ---
 
@@ -95,7 +95,7 @@ Homepage Arabic glance → Home hero → Who We Are → What We Bake → Feature
 
 ## Live Demo 🚀
 
-**[View Live Demo](https://dough.vercel.app/)**
+**[View Live Demo](https://doughx.vercel.app/)**
 
 ---
 
