@@ -1,39 +1,22 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 
-interface BakingLoaderProps {
-  className?: string;
-  showLabel?: boolean;
-}
-
-export function BakingLoader({
-  className,
-  showLabel = true,
-}: BakingLoaderProps) {
+/** Route-level loading state: the wordmark breathing on cream. */
+export function BakingLoader({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-3 sm:gap-4 bg-navy px-6",
+        "flex items-center justify-center bg-cream",
         className,
       )}
       role="status"
-      aria-live="polite"
-      aria-label="Loading">
+      aria-live="polite">
       <img
-        src="/dough_blob_morph.svg"
+        src="/Logo-Dark.png"
         alt=""
-        className="h-auto w-32 sm:w-40"
         aria-hidden="true"
+        className="h-8 w-auto animate-pulse sm:h-10"
       />
-
-      {showLabel && (
-        <p className="font-display text-[10px] font-bold uppercase text-cream/50 animate-pulse">
-          Baking
-        </p>
-      )}
+      <span className="sr-only">Loading</span>
     </div>
   );
 }
-
-export const BAKING_LOADER_CYCLE_MS = 4000;

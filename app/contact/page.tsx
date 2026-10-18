@@ -6,8 +6,10 @@ export default function ContactPage() {
   return (
     <>
       <SiteNav />
-      <Contact />
-      <SiteFooter hideCareers />
+      <main>
+        <Contact />
+      </main>
+      <SiteFooter variant="compact" />
     </>
   );
 }

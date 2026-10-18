@@ -1,69 +1,44 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Blob } from "./blob";
+import { Emphasis, RunningHeader } from "./primitives";
 import { Reveal } from "./reveal";
-import { cn } from "@/lib/utils";
 
-type WorkStep = {
-  title: string;
-  body: string;
-};
+type Step = { title: string; body: string };
 
+/** Profile page 09: five steps on sparkle. */
 export function HowWeWork() {
-  const t = useTranslations("howWeWork");
-  const steps = t.raw("steps") as WorkStep[];
+  const t = useTranslations("process");
+  const steps = t.raw("steps") as Step[];
 
   return (
-    <section
-      id="work"
-      className="relative bg-navy pt-32 pb-48 text-cream md:pt-48 md:pb-64 overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
+    <section className="section-y bg-sparkle text-navy">
+      <div className="wrap">
+        <RunningHeader start="dough" end={t("label")} tone="sparkle" />
 
-      <div className="mx-auto max-w-6xl px-6 relative z-10">
-        <Reveal duration={800}>
-          <h2 className="font-display font-bold uppercase text-3xl md:text-[40px] md:leading-[44px] text-cream mb-16">
-            {t("title")}
+        <Reveal>
+          <h2 className="t-display t-md mt-[clamp(56px,8vw,150px)]">
+            <Emphasis text={t("title")} />
           </h2>
         </Reveal>
 
-        <div className="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-5 items-start">
-          {steps.map((step, i) => {
-            const staggerClass = i % 2 === 1 ? "lg:mt-20" : "lg:mt-0";
-
-            return (
-              <Reveal
-                key={step.title}
-                delay={i * 120}
-                duration={850}
-                className={`w-full ${staggerClass}`}>
-                <div className="flex flex-col items-center text-center h-full">
-                  <span className="font-display text-[12px] leading-[14px] font-bold text-water uppercase mb-4">
-                    {t("stepLabel", {
-                      step: String(i + 1).padStart(2, "0"),
-                    })}
-                  </span>
-
-                  <Blob
-                    variant={i}
-                    className="size-36 sm:size-44 bg-blob text-navy shadow-[0_10px_30px_rgba(186,215,233,0.15)]">
-                    <span
-                      className={cn(
-                        "max-w-[88%] text-balance font-display text-[14px] leading-[18px] font-extrabold uppercase sm:text-[15px] sm:leading-[19px]",
-                        i === 1 && "translate-y-1",
-                      )}>
-                      {step.title}
-                    </span>
-                  </Blob>
-
-                  <p className="mt-8 text-pretty font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-[24ch] lowercase">
-                    {step.body}
-                  </p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
+        <ol className="mt-[clamp(64px,8vw,150px)] grid gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-[clamp(24px,2.5vw,48px)]">
+          {steps.map((step, i) => (
+            <Reveal
+              as="li"
+              key={step.title}
+              delay={i * 80}
+              className="flex flex-col gap-4 border-t border-navy pt-7">
+              <span className="t-label t-num font-semibold text-navy/70">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-[clamp(20px,1.65vw,32px)] font-semibold leading-tight">
+                {step.title}
+              </h3>
+              <p className="t-small max-w-[30ch]">{step.body}</p>
+            </Reveal>
+          ))}
+        </ol>
       </div>
     </section>
   );

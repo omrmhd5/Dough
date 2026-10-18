@@ -2,114 +2,86 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
+import { Emphasis, RunningHeader } from "./primitives";
 import { Reveal } from "./reveal";
 
-type BakeService = {
-  title: string;
-  description: string;
-  tags: string;
-};
+type Service = { title: string; description: string; tags: string };
 
+/** Profile page 08: six disciplines as a ruled list that opens to show tags. */
 export function WhatWeBake() {
-  const t = useTranslations("whatWeBake");
-  const services = t.raw("services") as BakeService[];
-  const [active, setActive] = useState(0);
-  const current = services[active];
+  const t = useTranslations("services");
+  const services = t.raw("items") as Service[];
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section
-      id="bake"
-      className="relative overflow-hidden bg-navy py-28 text-cream md:py-40">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_50%,rgba(196,217,235,0.06),transparent_50%)]" />
+    <section id="services" className="section-y bg-cream text-navy">
+      <div className="wrap">
+        <RunningHeader start="dough" end={t("label")} />
 
-      <div className="relative mx-auto max-w-7xl px-6">
-        <Reveal duration={800}>
-          <div className="mb-14 flex flex-col gap-4 md:mb-20 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display text-3xl font-bold uppercase text-cream md:text-[40px] md:leading-[44px]">
-              {t("title")}
+        <div className="mt-[clamp(56px,8vw,150px)] grid gap-14 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)] lg:gap-[clamp(48px,6vw,120px)]">
+          <Reveal className="flex flex-col gap-8 lg:sticky lg:top-[calc(var(--nav-h)+48px)] lg:self-start">
+            <h2 className="t-display t-md">
+              <Emphasis text={t("title")} />
             </h2>
-            <p className="max-w-md font-display text-[16px] leading-[22px] text-cream/55 text-pretty lowercase">
-              {t("subtitleLine1")}
-              <br />
-              {t("subtitleLine2")}
-            </p>
-          </div>
-        </Reveal>
+            <p className="t-body max-w-[32ch]">{t("intro")}</p>
+          </Reveal>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5">
-            <ul className="flex flex-col">
-              {services.map((service, i) => {
-                const isActive = active === i;
-
-                return (
-                  <li key={service.title}>
-                    <button
-                      type="button"
-                      onClick={() => setActive(i)}
-                      aria-expanded={isActive}
-                      className={`relative w-full cursor-pointer border-b border-cream/10 py-5 text-left transition-colors duration-300 focus:outline-none focus-visible:text-blob md:py-6 ${
-                        isActive ? "text-blob" : "text-cream/45"
-                      }`}>
+          <ol className="border-t border-navy/20">
+            {services.map((service, i) => {
+              const isOpen = open === i;
+              const panelId = `service-panel-${i}`;
+              return (
+                <li key={service.title} className="border-b border-navy/20">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="group grid w-full grid-cols-[clamp(40px,4.5vw,90px)_1fr_auto] items-baseline gap-x-4 py-[clamp(22px,2vw,32px)] text-start sm:grid-cols-[clamp(40px,4.5vw,90px)_minmax(0,1fr)_minmax(0,1fr)_auto]">
+                    <span className="t-label t-num font-semibold text-water">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[clamp(16px,1.45vw,28px)] font-bold uppercase leading-tight tracking-[0.04em]">
+                      {service.title}
+                    </span>
+                    <span className="t-small col-start-2 row-start-2 mt-2 font-light sm:col-start-3 sm:row-start-1 sm:mt-0">
+                      {service.description}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="relative col-start-3 row-start-1 size-4 self-center sm:col-start-4">
+                      <span className="absolute inset-x-0 top-1/2 h-[1.5px] -translate-y-1/2 bg-navy" />
                       <span
-                        className={`absolute left-0 top-1/2 h-px -translate-y-1/2 bg-blob transition-all duration-500 ${
-                          isActive ? "w-6 md:w-10" : "w-0"
-                        }`}
+                        className={cn(
+                          "absolute inset-y-0 left-1/2 w-[1.5px] -translate-x-1/2 bg-navy transition-transform duration-300",
+                          isOpen && "scale-y-0",
+                        )}
                       />
-                      <span className="flex min-w-0 flex-1 items-baseline gap-3 pl-0 sm:gap-4 md:gap-6 md:pl-14">
-                        <span className="shrink-0 font-display text-[12px] font-medium uppercase tabular-nums leading-[14px] text-water/60">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span
-                          className={`min-w-0 flex-1 font-display text-base font-bold uppercase tracking-[0.03em] leading-tight transition-transform duration-300 sm:text-[18px] md:text-[22px] ${
-                            isActive ? "translate-x-1" : ""
-                          }`}>
-                          {service.title}
-                        </span>
-                      </span>
-                    </button>
-
-                    <div
-                      className={`overflow-hidden border-b border-cream/10 transition-all duration-500 lg:hidden ${
-                        isActive
-                          ? "max-h-64 opacity-100"
-                          : "max-h-0 opacity-0 border-transparent"
-                      }`}>
-                      <div className="pb-6 pl-10 pt-1">
-                        <p className="font-display text-[16px] leading-[24px] text-cream/75 text-pretty lowercase">
-                          {service.description}
-                        </p>
-                        <p className="mt-3 font-display text-[12px] leading-[18px] text-water/75 lowercase">
-                          {service.tags}
-                        </p>
-                      </div>
+                    </span>
+                  </button>
+                  <div
+                    id={panelId}
+                    className={cn(
+                      "grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                    )}>
+                    <div className="overflow-hidden">
+                      <ul className="flex flex-wrap gap-2 pb-8 ps-[calc(clamp(40px,4.5vw,90px)+1rem)]">
+                        {service.tags.split("•").map((tag) => (
+                          <li
+                            key={tag}
+                            className="rounded-full border border-navy/25 px-4 py-2 text-[14px]">
+                            {tag.trim()}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          <div className="hidden lg:col-span-7 lg:flex lg:flex-col lg:justify-center lg:pl-8">
-            <div className="relative min-h-[320px]">
-              <div
-                key={current.title}
-                className="relative animate-in fade-in slide-in-from-bottom-2 duration-500">
-                <p className="font-display text-[12px] font-medium uppercase text-water">
-                  {String(active + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 max-w-xl font-display text-[32px] font-bold uppercase tracking-[0.03em] leading-[1.1] text-cream text-pretty">
-                  {current.title}
-                </h3>
-                <p className="mt-8 max-w-lg font-display text-[18px] leading-[28px] text-cream/70 text-pretty lowercase">
-                  {current.description}
-                </p>
-                <p className="mt-10 max-w-xl border-t border-cream/10 pt-6 font-display text-[12px] leading-[20px] text-water/80 lowercase">
-                  {current.tags}
-                </p>
-              </div>
-            </div>
-          </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </div>
       </div>
     </section>

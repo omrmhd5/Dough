@@ -1,4 +1,5 @@
 export interface ClientDetail {
+  slug: string;
   en: string;
   ar: string;
   sector: string;
@@ -6,7 +7,8 @@ export interface ClientDetail {
   services: string;
   servicesAr?: string;
   logo?: string;
-  images: string[];
+  /** Legacy placeholder imagery; case media now lives in case-media.ts. */
+  images?: string[];
   year?: string;
   subtitle?: string;
   subtitleAr?: string;
@@ -45,6 +47,7 @@ export const TWO_LINE_TITLE_CLIENTS = new Set(["LUX", "HNDL"]);
 
 export const CLIENTS: ClientDetail[] = [
   {
+    slug: "akleh",
     en: "Akleh",
     ar: "أكلة",
     sector: "QSR/Casual Dining",
@@ -138,6 +141,7 @@ export const CLIENTS: ClientDetail[] = [
     ],
   },
   {
+    slug: "lux",
     en: "LUX",
     ar: "لوكس",
     sector: "FMCG - Beauty & Personal Care",
@@ -244,6 +248,7 @@ export const CLIENTS: ClientDetail[] = [
     ],
   },
   {
+    slug: "hndl",
     en: "HNDL",
     ar: "HNDL",
     sector: "Tech - Fleet Management & Mobility",
@@ -342,6 +347,7 @@ export const CLIENTS: ClientDetail[] = [
     ],
   },
   {
+    slug: "farooja",
     en: "Farooja",
     ar: "فروجى",
     sector: "Quick Service Restaurant",
@@ -444,6 +450,7 @@ export const CLIENTS: ClientDetail[] = [
     ],
   },
   {
+    slug: "knorr",
     en: "Knorr",
     ar: "كنور",
     sector: "FMCG - Food & Beverage",
@@ -541,6 +548,7 @@ export const CLIENTS: ClientDetail[] = [
     ],
   },
   {
+    slug: "kufta",
     en: "Kufta",
     ar: "كفتة",
     sector: "F&B / Casual Dining",
@@ -608,5 +616,90 @@ export const CLIENTS: ClientDetail[] = [
       "إبداع الإطلاق",
       "تنفيذ الحملة داخل الفروع",
     ],
+  },
+  {
+    slug: "barns",
+    en: "Barn's",
+    ar: "بارنز",
+    sector: "F&B / Coffee",
+    sectorAr: "أغذية ومشروبات / قهوة",
+    services: "Social Media • Photography • Business Development",
+    servicesAr: "السوشيال ميديا • التصوير • تطوير الأعمال",
+    logo: "/logos/Barns.png",
+    subtitle: "Launching Saudi Arabia's #1 coffee brand in Egypt.",
+    subtitleAr: "إطلاق علامة القهوة الأولى في السعودية في مصر.",
+    overview:
+      "Dough runs Barn's Egypt social media: content planning, art direction, photoshoots made for social and community management.",
+    overviewAr:
+      "Dough بتدير السوشيال ميديا لبارنز مصر: تخطيط المحتوى، الإخراج الفني، جلسات تصوير معمولة للسوشيال، وإدارة المجتمع.",
+    challengeLabel: "Business development",
+    challengeLabelAr: "تطوير الأعمال",
+    challenge:
+      "Before launch we studied the Egyptian coffee market and adapted the Saudi menu to compete locally on taste, range and price.",
+    challengeAr:
+      "قبل الإطلاق درسنا سوق القهوة المصري، وعدّلنا المنيو السعودي عشان ينافس محليًا في الطعم والتنوّع والسعر.",
+    scope: [
+      "Market Study",
+      "Menu Adaptation",
+      "Social Media Management",
+      "Content Planning",
+      "Art Direction",
+      "Photography",
+      "Community Management",
+    ],
+    scopeAr: [
+      "دراسة السوق",
+      "تعديل المنيو",
+      "إدارة السوشيال ميديا",
+      "تخطيط المحتوى",
+      "الإخراج الفني",
+      "التصوير",
+      "إدارة المجتمع",
+    ],
+  },
+  {
+    slug: "primos",
+    en: "Primos",
+    ar: "بريموز",
+    sector: "F&B / Pizza",
+    sectorAr: "أغذية ومشروبات / بيتزا",
+    services: "Social Media • Content Production • Art Direction • Community",
+    servicesAr: "السوشيال ميديا • إنتاج المحتوى • الإخراج الفني • المجتمع",
+    subtitle: "Primos rebranded. We bring the new vision to life on social.",
+    subtitleAr: "بريموز غيّرت هويتها، وإحنا بنحيي الرؤية الجديدة على السوشيال.",
+    overview:
+      "Ongoing social media amplification of the new identity: content, art direction and community.",
+    overviewAr:
+      "تضخيم مستمر للهوية الجديدة على السوشيال ميديا: محتوى، إخراج فني ومجتمع.",
+    scope: [
+      "Social Media Strategy",
+      "Content Production",
+      "Art Direction",
+      "Community Management",
+    ],
+    scopeAr: [
+      "استراتيجية السوشيال ميديا",
+      "إنتاج المحتوى",
+      "الإخراج الفني",
+      "إدارة المجتمع",
+    ],
+  },
+  {
+    slug: "qasr-elkababgi",
+    en: "Qasr ElKababgi",
+    ar: "قصر الكبابجي",
+    sector: "F&B / Restaurant",
+    sectorAr: "أغذية ومشروبات / مطعم",
+    services: "Menu Design • Food Photography • Print Production",
+    servicesAr: "تصميم المنيو • تصوير الطعام • الإنتاج الطباعي",
+    logo: "/logos/KasrElKababgy.png",
+    subtitle: "A new menu, designed, printed and produced.",
+    subtitleAr: "منيو جديد، اتصمم واتطبع واتنفّذ.",
+    overview:
+      "A 22-page bilingual menu with photography on every section, taken through to print and production.",
+    overviewAr:
+      "منيو من ٢٢ صفحة بلغتين، فيه تصوير لكل قسم، ووصلناه لحد الطباعة والإنتاج.",
+    scope: ["Menu Design", "Food Photography", "Bilingual Typesetting", "Print Production"],
+    scopeAr: ["تصميم المنيو", "تصوير الطعام", "تنسيق النص بلغتين", "الإنتاج الطباعي"],
   },
 ];

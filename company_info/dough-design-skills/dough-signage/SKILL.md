@@ -1,0 +1,31 @@
+---
+name: dough-signage
+description: Office wayfinding signage and pictograms for Dough's studio (stroke pictograms, uppercase labels, navy on cream).
+---
+# Dough signage
+
+Read `dough-brand` first. Working reference: `reference-signage.html` (all icons and sign layouts, including directional, stairwell directory and hallway signs).
+
+**Style:** line pictograms on a 30 × 30 grid, 2.5px stroke, round caps and joins, no fills except person figures; colour `#122940` on `#FFFCF7` or `#C4D9EB`. Label: Montserrat 800 uppercase, 0.02em tracking, beside the icon. Arrow: 3px stroke arrow, left-pointing for rooms to the left, down for stairs.
+
+**Icon set (done):** studio, meeting room, kitchen, CEO office, management offices, restrooms (men/women), garden (2 variants), smoking area, non-smoking (with smoke), furniture gallery.
+
+**Rules**
+- One icon = one idea, readable at 24px. Same optical weight across the set.
+- Person pictograms (men/women) share the same mood: solid circle head, simple body, equal height.
+- Signs state where to go, not generic words like "downstairs": the stairwell directory lists destinations with icons and an arrow.
+- Hallway entry signs group rooms (meeting room, management offices, restrooms) with icon + label + arrow.
+
+**Icon source (30 × 30 viewBox, stroke #122940, 2.5):**
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><rect x="4" y="10" width="22" height="15" rx="3" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M11 10 V6.5 Q11 5 12.5 5 H17.5 Q19 5 19 6.5 V10" stroke="#122940" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="17.5" r="5" stroke="#122940" stroke-width="2.5" fill="none"/><circle cx="15" cy="17.5" r="1.5" fill="#122940"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><rect x="6" y="11" width="18" height="8" rx="4" stroke="#122940" stroke-width="2.5" fill="none"/><circle cx="6" cy="8" r="2.2" fill="#122940"/><circle cx="15" cy="6" r="2.2" fill="#122940"/><circle cx="24" cy="8" r="2.2" fill="#122940"/><circle cx="6" cy="22" r="2.2" fill="#122940"/><circle cx="15" cy="24" r="2.2" fill="#122940"/><circle cx="24" cy="22" r="2.2" fill="#122940"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M6 13 H20 V19 C20 23 6 23 6 19 Z" stroke="#122940" stroke-width="2.5" fill="none" stroke-linejoin="round"/><path d="M20 15 H23 A3 3 0 1 1 23 21 H20" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M10 9 C9 7 11 7 10 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M15 9 C14 7 16 7 15 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><circle cx="15" cy="12" r="8" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M15 19 V26" stroke="#122940" stroke-width="2.5"/><path d="M10 26 H20" stroke="#122940" stroke-width="2.5" stroke-linecap="round"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M5 15 H22 V19 H5 Z" stroke="#122940" stroke-width="2.5" fill="none" stroke-linejoin="round"/><path d="M17 15 V19" stroke="#122940" stroke-width="2.5"/><path d="M22 11 C24 9 21 7 23 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><circle cx="15" cy="15" r="12" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M6 15 H18 V18 H6 Z" stroke="#122940" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M14 15 V18" stroke="#122940" stroke-width="2"/><path d="M18 13 C20 11 17 9 19 6" stroke="#122940" stroke-width="1.8" fill="none" stroke-linecap="round"/><line x1="5" y1="5" x2="25" y2="25" stroke="#122940" stroke-width="2.5"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M4 26 V16 Q4 12 8 12 H22 Q26 12 26 16 V26" stroke="#122940" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20 H26" stroke="#122940" stroke-width="2.5"/><path d="M7 26 V29 M23 26 V29" stroke="#122940" stroke-width="2.5" stroke-linecap="round"/></svg>
+<svg width="28" height="28" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M6 13 H20 V19 C20 23 6 23 6 19 Z" stroke="#122940" stroke-width="2.5" fill="none" stroke-linejoin="round"/><path d="M20 15 H23 A3 3 0 1 1 23 21 H20" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M10 9 C9 7 11 7 10 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M15 9 C14 7 16 7 15 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+<svg width="28" height="28" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M4 26 V16 Q4 12 8 12 H22 Q26 12 26 16 V26" stroke="#122940" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20 H26" stroke="#122940" stroke-width="2.5"/><path d="M7 26 V29 M23 26 V29" stroke="#122940" stroke-width="2.5" stroke-linecap="round"/></svg>
+<svg width="28" height="28" viewBox="0 0 30 30" style="flex-shrink:0;"><path d="M5 15 H22 V19 H5 Z" stroke="#122940" stroke-width="2.5" fill="none" stroke-linejoin="round"/><path d="M17 15 V19" stroke="#122940" stroke-width="2.5"/><path d="M22 11 C24 9 21 7 23 5" stroke="#122940" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+<svg width="28" height="28" viewBox="0 0 30 30" style="flex-shrink:0;"><rect x="4" y="10" width="22" height="15" rx="3" stroke="#122940" stroke-width="2.5" fill="none"/><path d="M11 10 V6.5 Q11 5 12.5 5 H17.5 Q19 5 19 6.5 V10" stroke="#122940" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="15" cy="17.5" r="5" stroke="#122940" stroke-width="2.5" fill="none"/><circle cx="15" cy="17.5" r="1.5" fill="#122940"/></svg>
+<svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0;"><rect x="6" y="11" width="18" height="8" rx="4" stroke="#122940" stroke-width="2.5" fill="none"/><circle cx="6" cy="8" r="2.2" fill="#122940"/><circle cx="15" cy="6" r="2.2" fill="#122940"/><circle cx="24" cy="8" r="2.2" fill="#122940"/><circle cx="6" cy="22" r="2.2" fill="#122940"/><circle cx="15" cy="24" r="2.2" fill="#122940"/><circle cx="24" cy="22" r="2.2" fill="#122940"/></svg>

@@ -4,229 +4,296 @@
     "work": "Work",
     "uncleDough": "Uncle Dough",
     "contact": "Contact",
+    "startProject": "Start a project",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "toggleLanguage": "Toggle language"
+    "toggleLanguage": "Switch to Arabic",
+    "languageShort": "عربي",
+    "homeLabel": "Dough, home"
   },
   "hero": {
-    "line1Bold": "we shape",
-    "line2Italic": "raw",
-    "line3Bold": "concepts",
-    "line4Bold": "into cultural moments",
-    "subtitle": "where ideas take shapes — a creative agency shaping brands, stories, and moments from scratch.",
-    "ctaBake": "let's bake",
-    "ctaExplore": "explore work"
+    "eyebrowStart": "Creative agency",
+    "eyebrowEnd": "Cairo, Egypt",
+    "title": "we shape raw concepts into *cultural moments.*",
+    "tagline": "where ideas take shape.",
+    "ctaPrimary": "Start a project",
+    "ctaSecondary": "See the work",
+    "imageAlt": "A cook in a flour-dusted apron, hands on hips, in a working kitchen"
   },
   "whoWeAre": {
-    "eyebrow": "A Creative Baking Lab",
-    "paragraphs": [
-      "We're Dough — a creative agency shaping brands, stories, and moments from scratch.",
-      "From bold concepts to scroll-stopping content, we don't just follow culture — we bake it fresh.",
-      "Agile, obsessive, and unafraid of the unconventional, we work with brands ready to leave a mark, not just make a sale."
-    ],
-    "creativePhilosophy": "Creative Philosophy",
-    "workingPrinciple": "Working Principle",
-    "stats": [
-      { "label": "Brands Transformed" },
-      { "label": "Creative Projects Delivered" },
-      { "label": "Industries" },
-      { "label": "Customer Impressions Generated" }
-    ]
+    "label": "01 — Who we are",
+    "statement": "We're Dough — a creative agency shaping brands, stories, and moments from scratch. We don't just follow culture, *we bake it fresh.*",
+    "body": "From bold concepts to scroll-stopping content, we work with brands ready to leave a mark, not just make a sale. Agile, obsessive, and unafraid of the unconventional.",
+    "studioLabel": "The studio",
+    "studioBody": "Strategy, design and production under one roof in Cairo.",
+    "studioAlt": "Two hands pressing into soft dough"
   },
-  "whyUs": {
-    "title": "Why Us",
-    "subtitle": "How we bake, shape, and rise to make raw concepts stand out from the noise.",
-    "points": [
+  "whyDough": {
+    "label": "02 — Why Dough",
+    "title": "three reasons brands keep *coming back.*",
+    "reasons": [
       {
-        "title": "MAGIC OF CREATIVITY & INNOVATION",
-        "content": "At Dough, we believe in the magic of creativity and the power of innovation."
+        "title": "Rooted in food & FMCG",
+        "body": "We know how food photographs, how a pack sells on shelf and how a launch fills a queue."
       },
       {
-        "title": "MOLDING IDEAS INTO REALITY",
-        "content": "Just like dough that can be molded into any shape, we shape ideas into reality."
+        "title": "Idea to shelf, one team",
+        "body": "Strategy, identity, content, packaging and spaces, so the idea survives every handover."
       },
       {
-        "title": "VERSATILE & ADAPTABLE TEAM",
-        "content": "Our team is as versatile and adaptable as the dough itself — ready to rise to any challenge."
-      },
-      {
-        "title": "MIXING STRATEGY WITH PASSION",
-        "content": "We mix creativity with strategy, knead it with passion, and bake it with precision."
-      },
-      {
-        "title": "CONSTANT EVOLUTION & RISING",
-        "content": "Just like the perfect dough, we're always evolving and rising to the occasion."
-      },
-      {
-        "title": "PLAYFUL PROFESSIONALISM",
-        "content": "We have a pinch of fun and a dash of cleverness — because who says business can't be a little playful?"
+        "title": "Content made in-house",
+        "body": "Photography, video, CGI and AI by our own team, for consistent quality and short timelines."
       }
     ]
   },
-  "whatWeBake": {
-    "title": "What We Bake",
-    "subtitleLine1": "Six disciplines. One kitchen.",
-    "subtitleLine2": "Select a service to see what's inside.",
-    "services": [
+  "industries": {
+    "label": "03 — Industries",
+    "title": "where we *work.*",
+    "groups": [
       {
-        "title": "STRATEGY & BRANDING",
-        "description": "Build brands with clarity, purpose, and competitive advantage.",
+        "name": "FMCG",
+        "items": [
+          { "area": "Beauty & personal care", "clients": "Lux, Camay" },
+          { "area": "Food & condiments", "clients": "Knorr, Heinz" },
+          { "area": "Home care", "clients": "Cif, Comfort" },
+          { "area": "Consumer goods", "clients": "Unilever" }
+        ]
+      },
+      {
+        "name": "F&B",
+        "items": [
+          {
+            "area": "Restaurants & QSRs",
+            "clients": "Kufta, Farooja, Primos Pizza, Akleh, Barn's, Qasr ElKababgi, Crepe 2000"
+          }
+        ]
+      },
+      {
+        "name": "Tech",
+        "items": [{ "area": "Fleet management", "clients": "HNDL" }]
+      },
+      {
+        "name": "Retail",
+        "items": [{ "area": "Fashion retail", "clients": "Town Team" }]
+      }
+    ]
+  },
+  "clients": {
+    "label": "03 — Clients",
+    "title": "they asked, *we shaped.*",
+    "wallLabel": "Brands we have worked with"
+  },
+  "services": {
+    "label": "04 — What we bake",
+    "title": "six ways *in.*",
+    "intro": "Six disciplines, one kitchen. Open any of them to see what's inside.",
+    "items": [
+      {
+        "title": "Strategy & Branding",
+        "description": "Positioning, naming, identity and guidelines.",
         "tags": "Brand Strategy • Positioning • Naming • Visual Identity • Brand Guidelines • Tone of Voice"
       },
       {
-        "title": "CREATIVE DIRECTION & CONTENT",
-        "description": "Create unforgettable stories that capture attention and inspire action.",
+        "title": "Creative Direction & Content",
+        "description": "Photography, film, CGI and AI content.",
         "tags": "Creative Direction • Campaign Concepts • Photography • Videography • Motion Graphics • CGI • AI Content • Copywriting"
       },
       {
-        "title": "DIGITAL MARKETING",
-        "description": "Accelerate growth through data-driven marketing and performance.",
+        "title": "Digital Marketing",
+        "description": "Social, community, paid media and UGC.",
         "tags": "Social Media • Performance Marketing • Paid Media • Community Management • Influencer Marketing • SEO • Email Marketing • Analytics"
       },
       {
-        "title": "WEB DESIGN & DEVELOPMENT",
-        "description": "Build seamless digital experiences that convert visitors into customers.",
+        "title": "Web Design & Development",
+        "description": "Websites, UI and digital products.",
         "tags": "UI/UX Design • Website Design • Web Development • Landing Pages • E-commerce • CMS Development • Conversion Optimization"
       },
       {
-        "title": "PACKAGING & PHYSICAL BRANDING",
-        "description": "Elevate every physical touchpoint of your brand.",
+        "title": "Packaging & Physical Branding",
+        "description": "Packs, menus, print and merch.",
         "tags": "Packaging Design • Menu Design • POS Materials • Merchandise • Brand Collateral • Print Design"
       },
       {
-        "title": "RETAIL & SPATIAL DESIGN",
-        "description": "Create immersive spaces that leave lasting impressions.",
+        "title": "Retail & Spatial Design",
+        "description": "Booths, installations and interiors.",
         "tags": "Booth Design • Kiosks • Store Branding • Signage • Partitions • Exhibition Design • Environmental Graphics"
       }
     ]
   },
-  "howWeWork": {
-    "title": "How We Work",
-    "stepLabel": "[Step {step}]",
+  "process": {
+    "label": "05 — How we work",
+    "title": "from raw *to ready.*",
     "steps": [
       {
-        "title": "DISCOVERY",
-        "body": "We dig in deep — brand audits, market pulse, and real convos. We listen more than we talk (for now)."
+        "title": "Discovery",
+        "body": "Brand audits, market pulse and real conversations."
       },
       {
-        "title": "STRATEGY",
-        "body": "We knead the insights into a tight, tasty plan. Positioning, voice, goals — it all starts here."
+        "title": "Strategy",
+        "body": "Positioning, voice and goals in a tight plan."
       },
       {
-        "title": "CREATIVE DEVELOPMENT",
-        "body": "From zero to concept — this is where your brand gets its flavor. Visuals, copy, packaging, campaigns — all baked in."
+        "title": "Creative",
+        "body": "Visuals, copy, packaging and campaigns."
       },
       {
-        "title": "EXECUTION",
-        "body": "We bring the heat. Whether it's content, media, or a full-on launch — our team rolls it out, pixel by pixel, post by post."
+        "title": "Execution",
+        "body": "Content, media or a full launch, rolled out."
       },
       {
-        "title": "OPTIMIZATION",
-        "body": "We don't 'set and forget.' We test, tweak, and turn insights into sharper moves."
+        "title": "Optimization",
+        "body": "Test, tweak, and turn insights into sharper moves."
       }
     ]
   },
-  "featuredWorks": {
-    "title": "Featured Work",
-    "previousProject": "Previous Project",
-    "nextProject": "Next Project",
-    "viewProject": "View project",
-    "featuredAlt": "{brand} featured project",
-    "logoAlt": "{brand} logo"
+  "selectedWork": {
+    "label": "06 — Case studies",
+    "title": "case *studies.*",
+    "intro": "From a shawerma shop's new identity to a global beauty brand's feed, here is the work, start to finish.",
+    "viewAll": "All case studies",
+    "viewCase": "View case"
   },
-  "clientsPortfolio": {
-    "clientsTitle": "Clients",
-    "clientsSubtitle": "they asked we shaped",
-    "projectsTitle": "Projects",
-    "servicesSentence": "We shaped their brand through {services}.",
-    "viewProject": "View Project",
-    "slideGroup": "Go to client slide group {index}",
-    "showcaseAlt": "{brand} brand showcase preview",
-    "logoAlt": "{brand} logo"
+  "capabilities": {
+    "label": "07 — Capabilities",
+    "title": "made *in-house.*",
+    "intro": "Packs, films, booths and sets, produced by the same team that writes the strategy.",
+    "items": [
+      {
+        "title": "every kind *of pack.*",
+        "body": "Boxes, buckets, bags and bowls for Kufta, Farooja and Akleh.",
+        "alt": "Kufta takeaway boxes stacked in a tower"
+      },
+      {
+        "title": "ai, in *the studio.*",
+        "body": "Concepts, visuals and motion are generated, then art-directed and finished by our team.",
+        "alt": "Grid of AI-generated Comfort social posts"
+      },
+      {
+        "title": "motion, *made.*",
+        "body": "From a single product still to a finished film for Lux Revitalizing Grapefruit.",
+        "alt": "Lux Revitalizing Grapefruit product film",
+        "play": "Play the Lux film",
+        "pause": "Pause the Lux film"
+      },
+      {
+        "title": "booths, *built.*",
+        "body": "A Sahel container booth for Crepe 2000, event booths for Farooja and HNDL.",
+        "alt": "Crepe 2000 container booth on the Sahel coast"
+      },
+      {
+        "title": "sets & *installations.*",
+        "body": "The Lil Kitchen Shark Tank set and a backlit Heinz photo-point standee.",
+        "alt": "Render of the Lil Kitchen set for Shark Tank"
+      },
+      {
+        "title": "kiosks *& walls.*",
+        "body": "Kufta's ordering kiosk and a 6 × 2.45 m photo wall for Crepe 2000.",
+        "alt": "Render of the Kufta ordering kiosk"
+      }
+    ]
+  },
+  "workPage": {
+    "label": "Work",
+    "title": "case *studies.*",
+    "intro": "Brands we have shaped from the first sketch to the shelf, the feed and the street.",
+    "caseLabel": "Case {n}",
+    "viewCase": "View case",
+    "capabilitiesLabel": "Capabilities"
   },
   "workCaseStudy": {
-    "backToProjects": "Back to Projects",
-    "project": "Project",
+    "caseLabel": "Case {n}",
+    "backToProjects": "All case studies",
     "client": "Client",
     "industry": "Industry",
     "year": "Year",
     "servicesLabel": "Services",
     "overview": "Overview",
-    "challengeDefault": "The Challenge",
-    "approachDefault": "Our Approach",
-    "experienceDefault": "Social Experience",
-    "galleryDefault": "Visual Deliverables",
-    "scopeOfWork": "Scope of Work",
-    "outcome": "The Outcome",
-    "notFound": "Project Not Found",
-    "heroAlt": "{brand} Hero Showcase",
-    "visualAlt": "{brand} design board visual {index}"
+    "challengeDefault": "The challenge",
+    "approachDefault": "Our approach",
+    "experienceDefault": "What we did",
+    "scopeOfWork": "Scope of work",
+    "outcome": "The outcome",
+    "nextCase": "Next case",
+    "visitSite": "Visit site",
+    "notFound": "Project not found",
+    "heroAlt": "{brand} case study cover",
+    "before": "Before",
+    "after": "After",
+    "palette": "Palette",
+    "play": "Play the film",
+    "pause": "Pause the film"
   },
   "siteFooter": {
-    "eyebrow": "Let's Make It Rise",
-    "headlineLine1": "got a raw idea?",
-    "headlineLine2": "let's bake it together.",
-    "startProject": "Start a Project",
-    "bakeProject": "Bake a Project",
-    "stayFresh": "Stay Fresh",
-    "ourLocation": "Our Location",
-    "riseWithUs": "Rise with Us",
-    "careersCopy": "We're always seeking creative minds, designers, copywriters, and thinkers to grow our kitchen.",
-    "joinTeam": "Join the Team",
-    "copyrightPrefix": "Raw Ideas. Real Results. Fully Cooked by",
-    "est": "Est. 2024",
-    "tagline": "where ideas take shapes."
+    "label": "Contact",
+    "headline": "got something in mind? *let's shape it.*",
+    "sayHello": "Say hello",
+    "website": "Website",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn",
+    "whatsapp": "WhatsApp",
+    "studio": "Studio",
+    "studioCity": "New Cairo, Egypt",
+    "directions": "Get directions",
+    "startProject": "Start a project",
+    "joinTeam": "Join the team",
+    "careersCopy": "We're always looking for designers, writers and thinkers to grow the kitchen.",
+    "rights": "© {year} Dough. All rights reserved.",
+    "tagline": "where ideas take shape."
   },
   "uncleDough": {
     "eyebrow": "Coming soon",
-    "title": "Uncle Dough",
-    "stayTuned": "Stay tuned!",
-    "description": "Something fresh is rising from the oven. We're kneading up something special — check back soon.",
+    "title": "uncle *dough.*",
+    "stayTuned": "Stay tuned.",
+    "description": "Something fresh is rising in the oven. Check back soon.",
     "backHome": "Back to home"
   },
+  "loader": {
+    "label": "Loading"
+  },
   "contact": {
-    "projectEyebrow": "Get in Touch",
-    "jobEyebrow": "Rise with Us",
-    "projectHeadlineLine1": "let's bake your",
-    "projectHeadlineLine2": "next big idea.",
-    "jobHeadlineLine1": "bake your",
-    "jobHeadlineLine2": "creative future.",
-    "projectDescription": "Every great brand starts raw, soft, and full of promise. Let's knead strategy with art and watch it rise.",
+    "label": "Contact",
+    "projectEyebrow": "Start a project",
+    "jobEyebrow": "Join the team",
+    "projectHeadline": "let's bake your *next big idea.*",
+    "jobHeadline": "bake your *creative future.*",
+    "projectDescription": "Every great brand starts raw, soft, and full of promise. Tell us about yours and let's knead strategy with craft.",
     "jobDescription": "We're always looking for raw talent, fresh perspectives, and creative minds to rise with us. Bring your skills to the kitchen.",
     "details": {
-      "instagram": "instagram",
-      "whatsapp": "whatsapp",
-      "address": "address"
+      "email": "Email",
+      "instagram": "Instagram",
+      "whatsapp": "WhatsApp",
+      "address": "Studio"
     },
-    "tabProject": "Start a Project",
-    "tabJob": "Join the Team",
+    "tabProject": "Start a project",
+    "tabJob": "Join the team",
     "project": {
-      "successTitle": "Freshly Baked! 🍞",
-      "successMessage": "Your inquiry is officially in our oven. We will review your project details and get back to you hot and fresh!",
-      "submitAnother": "Submit Another Inquiry",
-      "kneading": "Kneading the data...",
-      "rising": "Rising...",
-      "formTitle": "Dough Inquiry Form",
+      "successTitle": "Freshly baked.",
+      "successMessage": "Your inquiry is in the oven. We'll review your project details and get back to you soon.",
+      "submitAnother": "Send another inquiry",
+      "kneading": "Sending your inquiry…",
+      "rising": "Sent",
+      "formTitle": "Project inquiry",
       "stepOf": "Step {step} of 3",
-      "businessName": "Business Name *",
+      "stepTitles": ["Your business", "About you", "What you need"],
+      "businessName": "Business name *",
       "businessNamePlaceholder": "e.g. Dough Bakery",
-      "socialMedia": "Business Social Media Page *",
+      "socialMedia": "Business social media page *",
       "socialMediaPlaceholder": "e.g. instagram.com/dough",
-      "yourName": "Your Name *",
+      "yourName": "Your name *",
       "yourNamePlaceholder": "e.g. John Dough",
-      "mobile": "Mobile Number *",
+      "mobile": "Mobile number *",
       "mobilePlaceholder": "e.g. +20 100 000 0000",
-      "email": "Email Address *",
+      "email": "Email address",
       "emailPlaceholder": "e.g. john@dough.eg",
       "position": "Position *",
       "positionPlaceholder": "e.g. Founder & CEO",
       "servicesLabel": "Service(s) needed *",
-      "other": "Other...",
-      "otherPlaceholder": "Please specify other service needed...",
-      "meetingPreference": "Client Meeting Preference *",
-      "nextStep": "Next Step",
+      "other": "Other",
+      "otherPlaceholder": "Tell us which service you need",
+      "meetingPreference": "Meeting preference *",
+      "nextStep": "Next step",
       "back": "Back",
-      "submit": "Bake & Send Inquiry",
+      "submit": "Send inquiry",
       "services": [
         "Brand & Marketing Strategy",
         "Creative & Content Production",
@@ -234,12 +301,12 @@
         "Experiential & Event Marketing",
         "Packaging & Merch"
       ],
-      "preferences": ["Online", "Office - Masr ElGedida", "Any"],
+      "preferences": ["Online", "Office - New Cairo", "Any"],
       "errors": {
-        "businessName": "Business Name is required",
-        "socialMedia": "Business Social Media Page is required",
-        "name": "Your Name is required",
-        "mobile": "Mobile Number is required",
+        "businessName": "Business name is required",
+        "socialMedia": "Business social media page is required",
+        "name": "Your name is required",
+        "mobile": "Mobile number is required",
         "position": "Position is required",
         "services": "Please select at least one service",
         "preference": "Please select a meeting preference"
@@ -248,40 +315,41 @@
       "genericError": "Something went wrong. Please try again."
     },
     "job": {
-      "successTitle": "Application Received! 🍞",
-      "successMessage": "Thank you for applying. We are reviewing your profile and will get back to you shortly if your credentials match our current needs.",
-      "applyAnother": "Apply for Another Role",
-      "reviewing": "Reviewing your raw talent...",
-      "rising": "Rising...",
-      "formTitle": "Apply as a Teammate",
+      "successTitle": "Application received.",
+      "successMessage": "Thank you for applying. We're reviewing your profile and will get back to you if your experience matches what we need right now.",
+      "applyAnother": "Apply for another role",
+      "reviewing": "Sending your application…",
+      "rising": "Sent",
+      "formTitle": "Apply to Dough",
       "formSubtitle": "Fill out your details below and show us your raw creative potential.",
-      "fullName": "Full Name *",
+      "fullName": "Full name *",
       "fullNamePlaceholder": "e.g. John Dough",
-      "email": "Email Address *",
+      "email": "Email address *",
       "emailPlaceholder": "e.g. john@dough.com",
-      "phone": "Phone Number *",
+      "phone": "Phone number *",
       "phonePlaceholder": "e.g. +20 100 000 0000",
-      "cityCountry": "City / Country *",
+      "cityCountry": "City / country *",
       "cityCountryPlaceholder": "e.g. Cairo, Egypt",
-      "linkedin": "LinkedIn / Portfolio URL",
+      "linkedin": "LinkedIn / portfolio URL",
       "linkedinPlaceholder": "e.g. linkedin.com/in/john",
-      "role": "Role Applying For *",
-      "selectRole": "Select a Role...",
+      "role": "Role applying for *",
+      "selectRole": "Select a role",
       "showWork": "Show us your work",
-      "showWorkPlaceholder": "Share links to your Behance, Dribbble, Instagram, website, or work you're proud of.",
+      "showWorkPlaceholder": "Links to your Behance, Dribbble, Instagram, website, or work you're proud of.",
       "anythingElse": "Anything else you'd like us to know?",
       "anythingElsePlaceholder": "This is your chance to stand out.",
-      "attachments": "Attachments *",
+      "attachments": "Attachments",
       "uploadPrompt": "Upload your CV, portfolio, or supporting documents",
-      "uploadHint": "PDF, DOC, DOCX (Max. 20 MB)",
-      "submit": "Submit Application",
+      "uploadHint": "PDF, DOC, DOCX (max. 20 MB)",
+      "removeFile": "Remove file",
+      "submit": "Submit application",
       "roles": ["Designer", "Developer", "Marketer", "Copywriter", "Other"],
       "errors": {
-        "fullName": "Full Name is required",
-        "emailRequired": "Email Address is required",
+        "fullName": "Full name is required",
+        "emailRequired": "Email address is required",
         "emailInvalid": "Invalid email address",
-        "phone": "Phone Number is required",
-        "cityCountry": "City / Country is required",
+        "phone": "Phone number is required",
+        "cityCountry": "City / country is required",
         "applyingFor": "Please select a role",
         "invalidFileFormat": "Invalid file format. Only PDF, DOC, and DOCX are accepted.",
         "fileTooLarge": "File size exceeds the 20 MB limit."
