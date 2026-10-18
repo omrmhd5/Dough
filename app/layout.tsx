@@ -2,29 +2,38 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Alexandria } from "next/font/google";
 import "./globals.css";
-import { ScrollToTop } from "@/components/dough/scroll-to-top";
 import { ScrollToTopOnLoad } from "@/components/dough/scroll-to-top-on-load";
-import { InitialPageLoader } from "@/components/dough/initial-page-loader";
-import { NavigationLoader } from "@/components/dough/navigation-loader";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 const alexandria = Alexandria({
   variable: "--font-alexandria",
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "dough — where ideas take shapes",
+  metadataBase: new URL("https://doughx.vercel.app"),
+  title: {
+    default: "Dough — where ideas take shape",
+    template: "%s — Dough",
+  },
   description:
-    "Dough is a creative agency shaping brands, stories, and moments from scratch.",
-  generator: "v0.app",
+    "Dough is a Cairo creative agency shaping brands, stories, and moments from scratch: strategy, identity, content, packaging and spaces.",
+  openGraph: {
+    title: "Dough — where ideas take shape",
+    description:
+      "A Cairo creative agency shaping brands, stories, and moments from scratch.",
+    images: ["/profile/v3/n2-0.webp"],
+    type: "website",
+  },
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
@@ -32,11 +41,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  colorScheme: "light",
+  themeColor: "#fffcf7",
 };
 
 export default function RootLayout({
@@ -47,19 +53,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${alexandria.variable} bg-background`}
+      className={`${montserrat.variable} ${alexandria.variable}`}
       suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}})();`,
-          }}
-        />
         <LocaleProvider>
           <ScrollToTopOnLoad />
-          <InitialPageLoader>{children}</InitialPageLoader>
-          <NavigationLoader />
-          <ScrollToTop />
+          {children}
           {process.env.NODE_ENV === "production" && <Analytics />}
         </LocaleProvider>
       </body>

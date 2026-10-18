@@ -84,14 +84,14 @@ Homepage Arabic glance → Home hero → Who We Are → What We Bake → Feature
 
 ## 📸 Screenshots
 
-|                                                                                               |                                                                                        |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png)                               | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png)                     |
-| **What We Bake** ![What We Bake](./docs/screenshots/03-what-we-bake.png)                      | **Featured Works** ![Featured Works](./docs/screenshots/04-featured-works.png)         |
-| **How We Work** ![How We Work](./docs/screenshots/11-how-we-work.png)                         | **Work Portfolio** ![Work Portfolio](./docs/screenshots/05-work-portfolio.png)         |
-| **Case Study Overview** ![Case Study Overview](./docs/screenshots/12-case-study-overview.png) | **Case Study — Akleh** ![Case Study Akleh](./docs/screenshots/06-case-study-akleh.png) |
-| **Contact** ![Contact Page](./docs/screenshots/07-contact.png)                                | **Uncle Dough** ![Uncle Dough](./docs/screenshots/08-uncle-dough.png)                  |
-| **Arabic Homepage** ![Arabic Homepage](./docs/screenshots/09-home-arabic.png)                 | **Mobile Home** ![Mobile Home](./docs/screenshots/10-mobile-home.png)                  |
+|                                                                                        |                                                                                               |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png)                        | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png)                            |
+| **What We Bake** ![What We Bake](./docs/screenshots/03-what-we-bake.png)               | **Featured Works** ![Featured Works](./docs/screenshots/04-featured-works.png)                |
+| **How We Work** ![How We Work](./docs/screenshots/05-how-we-work.png)                  | **Work Portfolio** ![Work Portfolio](./docs/screenshots/06-work-portfolio.png)                |
+| **Case Study — Akleh** ![Case Study Akleh](./docs/screenshots/07-case-study-akleh.png) | **Case Study Overview** ![Case Study Overview](./docs/screenshots/08-case-study-overview.png) |
+| **Contact** ![Contact Page](./docs/screenshots/09-contact.png)                         | **Uncle Dough** ![Uncle Dough](./docs/screenshots/10-uncle-dough.png)                         |
+| **Arabic Homepage** ![Arabic Homepage](./docs/screenshots/11-home-arabic.png)          | **Mobile Home** ![Mobile Home](./docs/screenshots/12-mobile-home.png)                         |
 
 ## Live Demo 🚀
 

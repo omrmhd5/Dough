@@ -1,17 +1,26 @@
+import type { Metadata } from "next";
 import { SiteNav } from "@/components/dough/site-nav";
-import { ClientsPortfolio } from "@/components/dough/clients-portfolio";
+import { WorkIndex } from "@/components/dough/work-index";
+import { ClientWall } from "@/components/dough/industries";
+import { Capabilities } from "@/components/dough/capabilities";
 import { SiteFooter } from "@/components/dough/site-footer";
+
+export const metadata: Metadata = {
+  title: "Work",
+  description:
+    "Case studies from Dough: Akleh, HNDL, Knorr, Lux, Farooja and Kufta.",
+};
 
 export default function WorkPage() {
   return (
-    <main className="bg-navy min-h-screen pt-20 text-cream relative overflow-x-hidden">
+    <>
       <SiteNav />
-
-      <div className="absolute top-[10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-blob/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-water/5 blur-[120px] pointer-events-none" />
-
-      <ClientsPortfolio />
+      <main>
+        <WorkIndex />
+        <ClientWall />
+        <Capabilities />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

@@ -1,89 +1,297 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useAppLocale } from "@/components/providers/locale-provider";
-import {
-  Mail,
-  MapPin,
-  Send,
-  Check,
-  Loader2,
-  ArrowLeft,
-  ArrowRight,
-  Upload,
-  X,
-} from "lucide-react";
-import { Reveal } from "./reveal";
+import { cn } from "@/lib/utils";
+import { Arrow, Emphasis, OutArrow, RunningHeader, buttonClass } from "./primitives";
+import { CONTACT } from "./site-footer";
 
-export const InstagramIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={props.className}>
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-  </svg>
-);
+/* ── Form primitives ──────────────────────────────────────────────────── */
 
-export const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={props.className}>
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.456 5.705 1.457h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-  </svg>
-);
+const fieldClass =
+  "w-full border-0 border-b border-navy/30 bg-transparent px-0 py-3 text-[17px] text-navy placeholder:text-navy/40 transition-colors focus:border-navy focus:outline-none focus-visible:outline-none";
 
-const DETAILS = [
-  {
-    icon: InstagramIcon,
-    labelKey: "instagram" as const,
-    value: "@dough.eg",
-    href: "https://www.instagram.com/dough.eg",
-  },
-  {
-    icon: WhatsAppIcon,
-    labelKey: "whatsapp" as const,
-    value: "+20 111 104 0222",
-    href: "https://api.whatsapp.com/send/?phone=201111040222&text&type=phone_number&app_absent=0&utm_source=ig",
-  },
-  {
-    icon: MapPin,
-    labelKey: "address" as const,
-    value: "65 St. Abdelaziz Fahmy, Saint Fatima, Cairo, Egypt",
-    href: "https://maps.google.com",
-  },
-];
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  error?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-1">
+      <label id={`${id}-label`} htmlFor={id} className="t-label text-water">
+        {label}
+      </label>
+      {children}
+      {error && (
+        <p id={`${id}-error`} className="t-small mt-1 text-[var(--error)]">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Choice({
+  selected,
+  onClick,
+  children,
+  className,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onClick}
+      className={cn(
+        "rounded-full border px-5 py-3 text-start text-[15px] transition-colors duration-200",
+        selected
+          ? "border-navy bg-navy text-cream"
+          : "border-navy/25 text-navy hover:border-navy",
+        className,
+      )}>
+      {children}
+    </button>
+  );
+}
+
+/** Custom listbox that replaces the native <select>, styled to the site. */
+function Select({
+  id,
+  value,
+  onChange,
+  options,
+  placeholder,
+  invalid,
+  describedBy,
+}: {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+  placeholder: string;
+  invalid?: boolean;
+  describedBy?: string;
+}) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const listId = `${id}-list`;
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [open]);
+
+  const openList = () => {
+    setActive(Math.max(0, options.indexOf(value)));
+    setOpen(true);
+  };
+
+  const choose = (option: string) => {
+    onChange(option);
+    setOpen(false);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    switch (e.key) {
+      case "ArrowDown":
+      case "ArrowUp": {
+        e.preventDefault();
+        if (!open) return openList();
+        const step = e.key === "ArrowDown" ? 1 : -1;
+        setActive((i) => (i + step + options.length) % options.length);
+        break;
+      }
+      case "Home":
+      case "End":
+        if (open) {
+          e.preventDefault();
+          setActive(e.key === "Home" ? 0 : options.length - 1);
+        }
+        break;
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        if (!open) openList();
+        else if (active >= 0) choose(options[active]);
+        break;
+      case "Escape":
+        if (open) {
+          e.preventDefault();
+          setOpen(false);
+        }
+        break;
+      case "Tab":
+        setOpen(false);
+        break;
+    }
+  };
+
+  return (
+    <div ref={rootRef} className="relative">
+      <button
+        id={id}
+        type="button"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={listId}
+        aria-activedescendant={open && active >= 0 ? `${id}-opt-${active}` : undefined}
+        aria-invalid={invalid ? true : undefined}
+        aria-describedby={describedBy}
+        onClick={() => (open ? setOpen(false) : openList())}
+        onKeyDown={onKeyDown}
+        className={cn(
+          fieldClass,
+          "flex items-center justify-between gap-4 text-start",
+          !value && "text-navy/40",
+          open && "border-navy",
+        )}>
+        <span className="truncate">{value || placeholder}</span>
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          className={cn(
+            "size-4 shrink-0 text-navy transition-transform duration-300",
+            open && "rotate-180",
+          )}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="square">
+          <path d="M5 9l7 7 7-7" />
+        </svg>
+      </button>
+
+      {open && (
+        <ul
+          id={listId}
+          role="listbox"
+          aria-labelledby={`${id}-label`}
+          className="photo-shadow animate-in fade-in slide-in-from-top-1 absolute inset-x-0 top-full z-20 mt-2 border border-navy bg-cream py-1 duration-200">
+          {options.map((option, i) => {
+            const selected = option === value;
+            return (
+              <li
+                key={option}
+                id={`${id}-opt-${i}`}
+                role="option"
+                aria-selected={selected}
+                onMouseEnter={() => setActive(i)}
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => choose(option)}
+                className={cn(
+                  "flex cursor-pointer items-center justify-between gap-4 px-4 py-3 text-[16px] transition-colors",
+                  i === active ? "bg-sparkle/60" : "bg-transparent",
+                  selected ? "font-semibold" : "font-normal",
+                  i > 0 && "border-t border-navy/10",
+                )}>
+                <span>{option}</span>
+                {selected && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="size-4 shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="square">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                  </svg>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function StatusPanel({
+  title,
+  message,
+  action,
+  onAction,
+}: {
+  title: string;
+  message: string;
+  action: string;
+  onAction: () => void;
+}) {
+  return (
+    <div className="flex flex-col items-start gap-6 border-t border-navy/20 py-12" role="status">
+      <h3 className="t-display t-sm">{title}</h3>
+      <p className="t-body max-w-[44ch]">{message}</p>
+      <button type="button" onClick={onAction} className={buttonClass("outline-light")}>
+        {action}
+      </button>
+    </div>
+  );
+}
+
+function Sending({ message }: { message: string }) {
+  return (
+    <div className="flex items-center gap-4 border-t border-navy/20 py-16" role="status" aria-live="polite">
+      <span className="size-3 animate-ping rounded-full bg-water" />
+      <p className="t-label text-navy">{message}</p>
+    </div>
+  );
+}
+
+function ErrorBanner({ message }: { message: string }) {
+  return (
+    <p
+      role="alert"
+      className="t-small border-s-2 border-[var(--error)] bg-[var(--error)]/5 px-4 py-3 text-[var(--error)]">
+      {message}
+    </p>
+  );
+}
+
+/* ── Contact ──────────────────────────────────────────────────────────── */
 
 export function Contact() {
   const t = useTranslations("contact");
   const tp = useTranslations("contact.project");
   const tj = useTranslations("contact.job");
+  const tf = useTranslations("siteFooter");
   const { locale } = useAppLocale();
   const services = tp.raw("services") as string[];
   const preferences = tp.raw("preferences") as string[];
+  const stepTitles = tp.raw("stepTitles") as string[];
   const roles = tj.raw("roles") as string[];
   const [activeTab, setActiveTab] = useState<"project" | "job">("project");
 
-  // URL Tab Sync
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const tab = params.get("tab");
-      if (tab === "job") {
-        setActiveTab("job");
-      } else if (tab === "project") {
-        setActiveTab("project");
-      }
-    }
+    const tab = new URLSearchParams(window.location.search).get("tab");
+    if (tab === "job" || tab === "project") setActiveTab(tab);
   }, []);
 
-  // ==========================================
-  // FORM 1: Project Inquiry State & Handlers
-  // ==========================================
+  const selectTab = (tab: "project" | "job") => {
+    setActiveTab(tab);
+    const url = new URL(window.location.href);
+    url.searchParams.set("tab", tab);
+    window.history.replaceState(null, "", url);
+  };
+
+  /* Project inquiry */
   const [step, setStep] = useState(1);
   const [businessName, setBusinessName] = useState("");
   const [socialMedia, setSocialMedia] = useState("");
@@ -114,6 +322,16 @@ export function Contact() {
     "idle" | "submitting" | "success"
   >("idle");
   const [projectStatusMessage, setProjectStatusMessage] = useState("");
+  const projectFormRef = useRef<HTMLDivElement>(null);
+
+  const goToStep = (next: number) => {
+    setStep(next);
+    requestAnimationFrame(() => {
+      projectFormRef.current
+        ?.querySelector<HTMLElement>("input, button[aria-pressed]")
+        ?.focus({ preventScroll: true });
+    });
+  };
 
   const handleServiceToggle = (service: string) => {
     setSelectedServices((prev) =>
@@ -121,20 +339,19 @@ export function Contact() {
         ? prev.filter((s) => s !== service)
         : [...prev, service],
     );
+    if (step3Errors.services) setStep3Errors((p) => ({ ...p, services: undefined }));
   };
 
   const handleNext1 = () => {
     const errors: typeof step1Errors = {};
     if (!businessName.trim()) errors.businessName = tp("errors.businessName");
-    if (!socialMedia.trim())
-      errors.socialMedia = tp("errors.socialMedia");
-
+    if (!socialMedia.trim()) errors.socialMedia = tp("errors.socialMedia");
     if (Object.keys(errors).length > 0) {
       setStep1Errors(errors);
       return;
     }
     setStep1Errors({});
-    setStep(2);
+    goToStep(2);
   };
 
   const handleNext2 = () => {
@@ -142,44 +359,46 @@ export function Contact() {
     if (!name.trim()) errors.name = tp("errors.name");
     if (!mobile.trim()) errors.mobile = tp("errors.mobile");
     if (!position.trim()) errors.position = tp("errors.position");
-
     if (Object.keys(errors).length > 0) {
       setStep2Errors(errors);
       return;
     }
     setStep2Errors({});
-    setStep(3);
+    goToStep(3);
+  };
+
+  const resetProject = () => {
+    setProjectFormStatus("idle");
+    setBusinessName("");
+    setSocialMedia("");
+    setName("");
+    setMobile("");
+    setEmail("");
+    setPosition("");
+    setSelectedServices([]);
+    setOtherService("");
+    setShowOtherInput(false);
+    setMeetingPreference("");
+    setStep(1);
+    setProjectStatusMessage("");
   };
 
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (step === 1) {
-      handleNext1();
-      return;
-    }
-    if (step === 2) {
-      handleNext2();
-      return;
-    }
+    if (step === 1) return handleNext1();
+    if (step === 2) return handleNext2();
 
     const errors: typeof step3Errors = {};
-    if (
-      selectedServices.length === 0 &&
-      (!showOtherInput || !otherService.trim())
-    ) {
+    if (selectedServices.length === 0 && (!showOtherInput || !otherService.trim())) {
       errors.services = tp("errors.services");
     }
-    if (!meetingPreference) {
-      errors.preference = tp("errors.preference");
-    }
-
+    if (!meetingPreference) errors.preference = tp("errors.preference");
     if (Object.keys(errors).length > 0) {
       setStep3Errors(errors);
       return;
     }
 
     setStep3Errors({});
-    setProjectStatusMessage("");
     setProjectFormStatus("submitting");
     setProjectStatusMessage(tp("kneading"));
 
@@ -203,28 +422,17 @@ export function Contact() {
           meetingPreference,
         }),
       });
-
       const data = (await response.json()) as { error?: string };
-
-      if (!response.ok) {
-        throw new Error(data.error ?? tp("fetchFailed"));
-      }
-
+      if (!response.ok) throw new Error(data.error ?? tp("fetchFailed"));
       setProjectStatusMessage(tp("rising"));
       setProjectFormStatus("success");
     } catch (error) {
       setProjectFormStatus("idle");
-      setProjectStatusMessage(
-        error instanceof Error
-          ? error.message
-          : tp("genericError"),
-      );
+      setProjectStatusMessage(error instanceof Error ? error.message : tp("genericError"));
     }
   };
 
-  // ==========================================
-  // FORM 2: Job Application State & Handlers
-  // ==========================================
+  /* Job application */
   const [jobFullName, setJobFullName] = useState("");
   const [jobEmail, setJobEmail] = useState("");
   const [jobPhone, setJobPhone] = useState("");
@@ -233,44 +441,35 @@ export function Contact() {
   const [jobApplyingFor, setJobApplyingFor] = useState("");
   const [jobShowWork, setJobShowWork] = useState("");
   const [jobAnythingElse, setJobAnythingElse] = useState("");
-
   const [jobFile, setJobFile] = useState<File | null>(null);
   const [jobDragActive, setJobDragActive] = useState(false);
   const [jobFileError, setJobFileError] = useState("");
   const jobFileInputRef = useRef<HTMLInputElement>(null);
-
-  const [jobFormStatus, setJobFormStatus] = useState<
-    "idle" | "submitting" | "success"
-  >("idle");
+  const [jobFormStatus, setJobFormStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [jobStatusMessage, setJobStatusMessage] = useState("");
-  const [jobErrors, setJobErrors] = useState<Record<string, string>>({});
+  const [jobErrors, setJobErrors] = useState<Record<string, string | undefined>>({});
+
+  const clearJobError = (key: string) =>
+    jobErrors[key] && setJobErrors((prev) => ({ ...prev, [key]: undefined }));
 
   const handleJobDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setJobDragActive(true);
-    } else if (e.type === "dragleave") {
-      setJobDragActive(false);
-    }
+    if (e.type === "dragenter" || e.type === "dragover") setJobDragActive(true);
+    else if (e.type === "dragleave") setJobDragActive(false);
   };
 
   const validateJobFile = (selectedFile: File): boolean => {
     setJobFileError("");
-    const allowedExtensions = ["pdf", "doc", "docx"];
-    const fileExtension =
-      selectedFile.name.split(".").pop()?.toLowerCase() || "";
-
-    if (!allowedExtensions.includes(fileExtension)) {
+    const ext = selectedFile.name.split(".").pop()?.toLowerCase() || "";
+    if (!["pdf", "doc", "docx"].includes(ext)) {
       setJobFileError(tj("errors.invalidFileFormat"));
       return false;
     }
-
     if (selectedFile.size > 20 * 1024 * 1024) {
       setJobFileError(tj("errors.fileTooLarge"));
       return false;
     }
-
     return true;
   };
 
@@ -278,55 +477,51 @@ export function Contact() {
     e.preventDefault();
     e.stopPropagation();
     setJobDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0];
-      if (validateJobFile(droppedFile)) {
-        setJobFile(droppedFile);
-      }
-    }
+    const dropped = e.dataTransfer.files?.[0];
+    if (dropped && validateJobFile(dropped)) setJobFile(dropped);
   };
 
   const handleJobFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      if (validateJobFile(selectedFile)) {
-        setJobFile(selectedFile);
-      }
-    }
+    const selected = e.target.files?.[0];
+    if (selected && validateJobFile(selected)) setJobFile(selected);
   };
 
-  const handleJobRemoveFile = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleJobRemoveFile = () => {
     setJobFile(null);
     setJobFileError("");
-    if (jobFileInputRef.current) {
-      jobFileInputRef.current.value = "";
-    }
+    if (jobFileInputRef.current) jobFileInputRef.current.value = "";
   };
 
   const validateJobForm = () => {
     const errors: Record<string, string> = {};
     if (!jobFullName.trim()) errors.fullName = tj("errors.fullName");
-    if (!jobEmail.trim()) {
-      errors.email = tj("errors.emailRequired");
-    } else if (!/\S+@\S+\.\S+/.test(jobEmail)) {
-      errors.email = tj("errors.emailInvalid");
-    }
+    if (!jobEmail.trim()) errors.email = tj("errors.emailRequired");
+    else if (!/\S+@\S+\.\S+/.test(jobEmail)) errors.email = tj("errors.emailInvalid");
     if (!jobPhone.trim()) errors.phone = tj("errors.phone");
-    if (!jobCityCountry.trim())
-      errors.cityCountry = tj("errors.cityCountry");
+    if (!jobCityCountry.trim()) errors.cityCountry = tj("errors.cityCountry");
     if (!jobApplyingFor) errors.applyingFor = tj("errors.applyingFor");
-
     setJobErrors(errors);
     return Object.keys(errors).length === 0;
+  };
+
+  const resetJob = () => {
+    setJobFormStatus("idle");
+    setJobFullName("");
+    setJobEmail("");
+    setJobPhone("");
+    setJobCityCountry("");
+    setJobLinkedin("");
+    setJobApplyingFor("");
+    setJobShowWork("");
+    setJobAnythingElse("");
+    setJobFile(null);
+    setJobStatusMessage("");
   };
 
   const handleJobSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateJobForm()) return;
 
-    setJobStatusMessage("");
     setJobFormStatus("submitting");
     setJobStatusMessage(tj("reviewing"));
 
@@ -340,857 +535,508 @@ export function Contact() {
       formData.append("applyingFor", jobApplyingFor);
       formData.append("showWork", jobShowWork);
       formData.append("anythingElse", jobAnythingElse);
-      if (jobFile) {
-        formData.append("attachment", jobFile);
-      }
+      if (jobFile) formData.append("attachment", jobFile);
 
       const response = await fetch("/api/contact/job", {
         method: "POST",
-        headers: {
-          "Accept-Language": locale,
-          "X-Language": locale,
-        },
+        headers: { "Accept-Language": locale, "X-Language": locale },
         body: formData,
       });
-
       const data = (await response.json()) as { error?: string };
-
-      if (!response.ok) {
-        throw new Error(data.error ?? tj("fetchFailed"));
-      }
-
+      if (!response.ok) throw new Error(data.error ?? tj("fetchFailed"));
       setJobStatusMessage(tj("rising"));
       setJobFormStatus("success");
     } catch (error) {
       setJobFormStatus("idle");
-      setJobStatusMessage(
-        error instanceof Error
-          ? error.message
-          : tj("genericError"),
-      );
+      setJobStatusMessage(error instanceof Error ? error.message : tj("genericError"));
     }
   };
+
+  const details = [
+    { label: t("details.email"), value: CONTACT.email, href: `mailto:${CONTACT.email}` },
+    { label: t("details.instagram"), value: CONTACT.instagram.label, href: CONTACT.instagram.href },
+    { label: t("details.whatsapp"), value: CONTACT.whatsapp.label, href: CONTACT.whatsapp.href },
+    { label: t("details.address"), value: tf("studioCity"), href: CONTACT.directions },
+  ];
+
+  const errProps = (id: string, error?: string) => ({
+    id,
+    "aria-invalid": error ? true : undefined,
+    "aria-describedby": error ? `${id}-error` : undefined,
+  });
 
   return (
     <section
       id="contact"
-      className="relative bg-navy pt-20 pb-16 text-cream sm:pt-24 md:pt-32 md:pb-20 min-h-[calc(100vh-80px)] overflow-hidden">
-      {/* Decorative Blob Glows */}
-      <div className="absolute top-[-10%] right-[-10%] size-96 rounded-full bg-blob/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-15%] left-[-10%] size-[500px] rounded-full bg-water/20 blur-[150px] pointer-events-none" />
+      className="bg-cream pb-[var(--section-y)] pt-[calc(var(--nav-h)+clamp(40px,5vw,96px))] text-navy">
+      <div className="wrap">
+        <RunningHeader start="dough" end={t("label")} />
 
-      <div className="mx-auto max-w-7xl px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-          {/* Left Column: Heading and Info */}
-          <div className="lg:col-span-5 flex flex-col gap-8">
-            <Reveal duration={800}>
-              <span className="font-display text-[12px] leading-[14px] uppercase font-extrabold text-blob/90">
+        <div className="mt-[clamp(48px,7vw,130px)] grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-[clamp(48px,7vw,140px)]">
+          {/* Intro + details */}
+          <div className="flex flex-col gap-12 lg:sticky lg:top-[calc(var(--nav-h)+48px)] lg:self-start">
+            <div className="flex flex-col gap-8">
+              <span className="t-label text-water">
                 {activeTab === "project" ? t("projectEyebrow") : t("jobEyebrow")}
               </span>
-              <h2 className="font-display font-extrabold lowercase text-[28px] leading-[32px] md:text-[44px] md:leading-[48px] lg:text-[60px] lg:leading-[64px] text-cream mt-2 text-balance">
-                {activeTab === "project" ? (
-                  <>
-                    <span className="block">{t("projectHeadlineLine1")}</span>
-                    <span className="block text-blob">{t("projectHeadlineLine2")}</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="block">{t("jobHeadlineLine1")}</span>
-                    <span className="block text-blob">{t("jobHeadlineLine2")}</span>
-                  </>
-                )}
-              </h2>
-              <p className="mt-6 font-display font-normal text-[16px] leading-[19px] text-cream/70 max-w-md lowercase">
-                {activeTab === "project"
-                  ? t("projectDescription")
-                  : t("jobDescription")}
+              <h1 className="t-display t-md max-w-[13ch]">
+                <Emphasis text={activeTab === "project" ? t("projectHeadline") : t("jobHeadline")} />
+              </h1>
+              <p className="t-body max-w-[42ch]">
+                {activeTab === "project" ? t("projectDescription") : t("jobDescription")}
               </p>
-            </Reveal>
-
-            {/* Contact Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
-              {DETAILS.map(({ icon: Icon, labelKey, value, href }, i) => (
-                <Reveal key={labelKey} delay={i * 100} duration={750}>
-                  <a
-                    href={href}
-                    target={href.startsWith("http") ? "_blank" : undefined}
-                    rel={
-                      href.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="flex cursor-pointer flex-col items-start gap-3.5 group rounded-2xl border border-cream/5 bg-cream/[0.03] p-4 hover:bg-cream/[0.08] hover:border-cream/10 transition-all duration-300 h-full">
-                    <div className="size-9 rounded-xl bg-blob/10 flex items-center justify-center text-blob group-hover:bg-blob group-hover:text-navy transition-all duration-300">
-                      <Icon className="size-4" />
-                    </div>
-                    <div>
-                      <span className="font-display text-[12px] leading-[14px] uppercase font-bold text-cream/40 block">
-                        {t(`details.${labelKey}`)}
-                      </span>
-                      <span className="font-display text-[12px] leading-[14px] font-medium text-cream group-hover:text-blob transition-colors duration-300 break-words line-clamp-3">
-                        {value}
-                      </span>
-                    </div>
-                  </a>
-                </Reveal>
-              ))}
             </div>
+
+            <dl className="border-t border-navy/20">
+              {details.map((d) => (
+                <div
+                  key={d.label}
+                  className="grid grid-cols-[minmax(96px,0.4fr)_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+                  <dt className="t-label text-water">{d.label}</dt>
+                  <dd>
+                    <a
+                      href={d.href}
+                      target={d.href.startsWith("http") ? "_blank" : undefined}
+                      rel={d.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      className="-my-2 inline-flex items-baseline gap-2 py-2 text-[17px] font-medium transition-colors hover:text-water">
+                      <span dir="ltr">{d.value}</span>
+                      {d.href.startsWith("http") && <OutArrow />}
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          {/* Right Column: Interactive Tabbed Form */}
-          <div className="lg:col-span-7">
-            <Reveal duration={900} delay={150}>
-              <div className="bg-cream/[0.03] border border-cream/10 rounded-3xl p-4 sm:p-6 md:p-10 backdrop-blur-md shadow-xl overflow-hidden">
-                {/* Tab Switcher Button */}
-                <div className="flex border-b border-cream/10 mb-8 pb-1">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("project")}
-                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "project" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
-                    {t("tabProject")}
-                    {activeTab === "project" && (
-                      <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab("job")}
-                    className={`flex-1 pb-4 text-center font-display font-bold text-[12px] leading-[14px] uppercase transition-all duration-300 relative cursor-pointer ${activeTab === "job" ? "text-cream" : "text-cream/40 hover:text-cream/70"}`}>
-                    {t("tabJob")}
-                    {activeTab === "job" && (
-                      <span className="absolute bottom-[-1px] left-0 right-0 h-0.5 bg-blob" />
-                    )}
-                  </button>
-                </div>
+          {/* Forms */}
+          <div>
+            <div role="tablist" aria-label={t("label")} className="flex gap-8 border-b border-navy/20">
+              {(["project", "job"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  id={`tab-${tab}`}
+                  aria-selected={activeTab === tab}
+                  aria-controls={`panel-${tab}`}
+                  onClick={() => selectTab(tab)}
+                  className={cn(
+                    "t-label relative -mb-px border-b-2 pb-4 pt-1 transition-colors",
+                    activeTab === tab
+                      ? "border-navy font-semibold text-navy"
+                      : "border-transparent text-navy/50 hover:text-navy",
+                  )}>
+                  {tab === "project" ? t("tabProject") : t("tabJob")}
+                </button>
+              ))}
+            </div>
 
-                {/* Smooth Sliding Form Transition Wrapper */}
-                <div className="relative w-full overflow-hidden">
-                  {/* ==================== PROJECT FORM ==================== */}
-                  <div
-                    className={`transition-all duration-500 ease-in-out ${activeTab === "project" ? "opacity-100 translate-x-0 scale-100 pointer-events-auto relative" : "opacity-0 -translate-x-8 scale-95 pointer-events-none absolute top-0 left-0 w-full"}`}>
-                    {projectFormStatus === "success" ? (
-                      <div className="flex flex-col items-center justify-center text-center py-12 animate-in fade-in duration-500">
-                        <div className="size-20 rounded-full bg-blob/20 border border-blob/30 flex items-center justify-center text-blob mb-6 animate-bounce">
-                          <Check className="size-10" />
-                        </div>
-                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
-                          {tp("successTitle")}
-                        </h3>
-                        <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
-                          {tp("successMessage")}
-                        </p>
-                        <button
-                          onClick={() => {
-                            setProjectFormStatus("idle");
-                            setBusinessName("");
-                            setSocialMedia("");
-                            setName("");
-                            setMobile("");
-                            setEmail("");
-                            setPosition("");
-                            setSelectedServices([]);
-                            setOtherService("");
-                            setShowOtherInput(false);
-                            setMeetingPreference("");
-                            setStep(1);
-                            setProjectStatusMessage("");
-                          }}
-                          className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
-                          {tp("submitAnother")}
-                        </button>
+            {/* Project inquiry */}
+            <div
+              role="tabpanel"
+              id="panel-project"
+              aria-labelledby="tab-project"
+              hidden={activeTab !== "project"}
+              className="pt-10">
+              {projectFormStatus === "success" ? (
+                <StatusPanel
+                  title={tp("successTitle")}
+                  message={tp("successMessage")}
+                  action={tp("submitAnother")}
+                  onAction={resetProject}
+                />
+              ) : projectFormStatus === "submitting" ? (
+                <Sending message={projectStatusMessage} />
+              ) : (
+                <form onSubmit={handleProjectSubmit} noValidate className="flex flex-col gap-10">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h2 className="text-[clamp(22px,1.8vw,32px)] font-semibold">
+                        {stepTitles[step - 1]}
+                      </h2>
+                      <span className="t-label t-num text-water">{tp("stepOf", { step })}</span>
+                    </div>
+                    <div className="flex gap-2" aria-hidden="true">
+                      {[1, 2, 3].map((n) => (
+                        <span
+                          key={n}
+                          className={cn(
+                            "h-[3px] flex-1 transition-colors duration-500",
+                            n <= step ? "bg-navy" : "bg-navy/15",
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {projectStatusMessage && <ErrorBanner message={projectStatusMessage} />}
+
+                  <div ref={projectFormRef} className="flex flex-col gap-10">
+                    {step === 1 && (
+                      <>
+                        <Field id="p-business" label={tp("businessName")} error={step1Errors.businessName}>
+                          <input
+                            {...errProps("p-business", step1Errors.businessName)}
+                            type="text"
+                            autoComplete="organization"
+                            value={businessName}
+                            onChange={(e) => {
+                              setBusinessName(e.target.value);
+                              if (step1Errors.businessName) setStep1Errors((p) => ({ ...p, businessName: undefined }));
+                            }}
+                            placeholder={tp("businessNamePlaceholder")}
+                            className={fieldClass}
+                          />
+                        </Field>
+                        <Field id="p-social" label={tp("socialMedia")} error={step1Errors.socialMedia}>
+                          <input
+                            {...errProps("p-social", step1Errors.socialMedia)}
+                            type="text"
+                            value={socialMedia}
+                            onChange={(e) => {
+                              setSocialMedia(e.target.value);
+                              if (step1Errors.socialMedia) setStep1Errors((p) => ({ ...p, socialMedia: undefined }));
+                            }}
+                            placeholder={tp("socialMediaPlaceholder")}
+                            className={fieldClass}
+                          />
+                        </Field>
+                      </>
+                    )}
+
+                    {step === 2 && (
+                      <div className="grid gap-10 sm:grid-cols-2 sm:gap-x-8">
+                        <Field id="p-name" label={tp("yourName")} error={step2Errors.name}>
+                          <input
+                            {...errProps("p-name", step2Errors.name)}
+                            type="text"
+                            autoComplete="name"
+                            value={name}
+                            onChange={(e) => {
+                              setName(e.target.value);
+                              if (step2Errors.name) setStep2Errors((p) => ({ ...p, name: undefined }));
+                            }}
+                            placeholder={tp("yourNamePlaceholder")}
+                            className={fieldClass}
+                          />
+                        </Field>
+                        <Field id="p-mobile" label={tp("mobile")} error={step2Errors.mobile}>
+                          <input
+                            {...errProps("p-mobile", step2Errors.mobile)}
+                            type="tel"
+                            autoComplete="tel"
+                            dir="ltr"
+                            value={mobile}
+                            onChange={(e) => {
+                              setMobile(e.target.value);
+                              if (step2Errors.mobile) setStep2Errors((p) => ({ ...p, mobile: undefined }));
+                            }}
+                            placeholder={tp("mobilePlaceholder")}
+                            className={cn(fieldClass, "text-start rtl:text-end")}
+                          />
+                        </Field>
+                        <Field id="p-email" label={tp("email")}>
+                          <input
+                            id="p-email"
+                            type="email"
+                            autoComplete="email"
+                            dir="ltr"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder={tp("emailPlaceholder")}
+                            className={cn(fieldClass, "text-start rtl:text-end")}
+                          />
+                        </Field>
+                        <Field id="p-position" label={tp("position")} error={step2Errors.position}>
+                          <input
+                            {...errProps("p-position", step2Errors.position)}
+                            type="text"
+                            autoComplete="organization-title"
+                            value={position}
+                            onChange={(e) => {
+                              setPosition(e.target.value);
+                              if (step2Errors.position) setStep2Errors((p) => ({ ...p, position: undefined }));
+                            }}
+                            placeholder={tp("positionPlaceholder")}
+                            className={fieldClass}
+                          />
+                        </Field>
                       </div>
-                    ) : (
-                      <form
-                        onSubmit={handleProjectSubmit}
-                        className="flex flex-col gap-6 sm:gap-8">
-                        {projectFormStatus === "submitting" ? (
-                          <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
-                            <Loader2 className="size-12 text-blob animate-spin mb-4" />
-                            <p className="text-blob font-display text-sm uppercase animate-pulse">
-                              {projectStatusMessage}
-                            </p>
+                    )}
+
+                    {step === 3 && (
+                      <>
+                        <fieldset className="flex flex-col gap-4">
+                          <legend className="t-label mb-4 text-water">{tp("servicesLabel")}</legend>
+                          <div className="flex flex-wrap gap-3">
+                            {services.map((service) => (
+                              <Choice
+                                key={service}
+                                selected={selectedServices.includes(service)}
+                                onClick={() => handleServiceToggle(service)}>
+                                {service}
+                              </Choice>
+                            ))}
+                            <Choice
+                              selected={showOtherInput}
+                              onClick={() => setShowOtherInput((v) => !v)}>
+                              {tp("other")}
+                            </Choice>
                           </div>
-                        ) : (
-                          <>
-                            <div className="flex flex-col gap-2">
-                              <div className="flex justify-between items-center">
-                                <h3 className="font-display text-xl font-bold uppercase text-cream">
-                                  {tp("formTitle")}
-                                </h3>
-                                <span className="text-[10px] font-display uppercase text-blob/80 bg-blob/10 px-2.5 py-1 rounded-md">
-                                  {tp("stepOf", { step })}
-                                </span>
-                              </div>
-                              <div className="w-full bg-cream/10 h-1 rounded-full overflow-hidden mt-1">
-                                <div
-                                  className="bg-blob h-full transition-all duration-500 ease-out"
-                                  style={{
-                                    width:
-                                      step === 1
-                                        ? "33.3%"
-                                        : step === 2
-                                          ? "66.6%"
-                                          : "100%",
-                                  }}
-                                />
-                              </div>
-                            </div>
+                          {showOtherInput && (
+                            <input
+                              id="p-other"
+                              type="text"
+                              aria-label={tp("other")}
+                              value={otherService}
+                              onChange={(e) => {
+                                setOtherService(e.target.value);
+                                if (step3Errors.services) setStep3Errors((p) => ({ ...p, services: undefined }));
+                              }}
+                              placeholder={tp("otherPlaceholder")}
+                              className={fieldClass}
+                            />
+                          )}
+                          {step3Errors.services && (
+                            <p className="t-small text-[var(--error)]">{step3Errors.services}</p>
+                          )}
+                        </fieldset>
 
-                            {projectStatusMessage &&
-                              projectFormStatus === "idle" && (
-                                <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300 font-sans">
-                                  {projectStatusMessage}
-                                </p>
-                              )}
-
-                            <div className="overflow-hidden relative w-full">
-                              <div
-                                className="flex transition-transform duration-500 ease-in-out"
-                                style={{
-                                  transform: `translateX(-${(step - 1) * 100}%)`,
+                        <fieldset className="flex flex-col gap-4">
+                          <legend className="t-label mb-4 text-water">{tp("meetingPreference")}</legend>
+                          <div className="flex flex-wrap gap-3">
+                            {preferences.map((pref) => (
+                              <Choice
+                                key={pref}
+                                selected={meetingPreference === pref}
+                                onClick={() => {
+                                  setMeetingPreference(pref);
+                                  if (step3Errors.preference) setStep3Errors((p) => ({ ...p, preference: undefined }));
                                 }}>
-                                {/* Step 1: Business Details */}
-                                <div className="w-full shrink-0 flex flex-col gap-6 pr-2">
-                                  <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      {tp("businessName")}
-                                    </label>
-                                    <input
-                                      type="text"
-                                      value={businessName}
-                                      onChange={(e) => {
-                                        setBusinessName(e.target.value);
-                                        if (step1Errors.businessName)
-                                          setStep1Errors((prev) => ({
-                                            ...prev,
-                                            businessName: undefined,
-                                          }));
-                                      }}
-                                      placeholder={tp("businessNamePlaceholder")}
-                                      className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                    />
-                                    {step1Errors.businessName && (
-                                      <p className="text-red-400 text-xs mt-1 font-sans">
-                                        {step1Errors.businessName}
-                                      </p>
-                                    )}
-                                  </div>
-
-                                  <div className="flex flex-col gap-2">
-                                    <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      {tp("socialMedia")}
-                                    </label>
-                                    <input
-                                      type="text"
-                                      value={socialMedia}
-                                      onChange={(e) => {
-                                        setSocialMedia(e.target.value);
-                                        if (step1Errors.socialMedia)
-                                          setStep1Errors((prev) => ({
-                                            ...prev,
-                                            socialMedia: undefined,
-                                          }));
-                                      }}
-                                      placeholder={tp("socialMediaPlaceholder")}
-                                      className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                    />
-                                    {step1Errors.socialMedia && (
-                                      <p className="text-red-400 text-xs mt-1 font-sans">
-                                        {step1Errors.socialMedia}
-                                      </p>
-                                    )}
-                                  </div>
-
-                                  <button
-                                    type="button"
-                                    onClick={handleNext1}
-                                    className="w-full flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
-                                    {tp("nextStep")}
-                                    <ArrowRight className="size-4" />
-                                  </button>
-                                </div>
-
-                                {/* Step 2: Contact Details */}
-                                <div className="w-full shrink-0 flex flex-col gap-6 px-1">
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        {tp("yourName")}
-                                      </label>
-                                      <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => {
-                                          setName(e.target.value);
-                                          if (step2Errors.name)
-                                            setStep2Errors((prev) => ({
-                                              ...prev,
-                                              name: undefined,
-                                            }));
-                                        }}
-                                        placeholder={tp("yourNamePlaceholder")}
-                                        className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                      />
-                                      {step2Errors.name && (
-                                        <p className="text-red-400 text-xs mt-1 font-sans">
-                                          {step2Errors.name}
-                                        </p>
-                                      )}
-                                    </div>
-
-                                    <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        {tp("mobile")}
-                                      </label>
-                                      <input
-                                        type="tel"
-                                        value={mobile}
-                                        onChange={(e) => {
-                                          setMobile(e.target.value);
-                                          if (step2Errors.mobile)
-                                            setStep2Errors((prev) => ({
-                                              ...prev,
-                                              mobile: undefined,
-                                            }));
-                                        }}
-                                        placeholder={tp("mobilePlaceholder")}
-                                        className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                      />
-                                      {step2Errors.mobile && (
-                                        <p className="text-red-400 text-xs mt-1 font-sans">
-                                          {step2Errors.mobile}
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        {tp("email")}
-                                      </label>
-                                      <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                          setEmail(e.target.value)
-                                        }
-                                        placeholder={tp("emailPlaceholder")}
-                                        className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                      />
-                                    </div>
-
-                                    <div className="flex flex-col gap-2">
-                                      <label className="text-[10px] uppercase font-bold text-cream/60">
-                                        {tp("position")}
-                                      </label>
-                                      <input
-                                        type="text"
-                                        value={position}
-                                        onChange={(e) => {
-                                          setPosition(e.target.value);
-                                          if (step2Errors.position)
-                                            setStep2Errors((prev) => ({
-                                              ...prev,
-                                              position: undefined,
-                                            }));
-                                        }}
-                                        placeholder={tp("positionPlaceholder")}
-                                        className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                      />
-                                      {step2Errors.position && (
-                                        <p className="text-red-400 text-xs mt-1 font-sans">
-                                          {step2Errors.position}
-                                        </p>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  <div className="flex gap-4">
-                                    <button
-                                      type="button"
-                                      onClick={() => setStep(1)}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
-                                      <ArrowLeft className="size-4" />
-                                      {tp("back")}
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={handleNext2}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
-                                      {tp("nextStep")}
-                                      <ArrowRight className="size-4" />
-                                    </button>
-                                  </div>
-                                </div>
-
-                                {/* Step 3: Service & Meeting Preference */}
-                                <div className="w-full shrink-0 flex flex-col gap-6 pl-2">
-                                  <div className="flex flex-col gap-3">
-                                    <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      {tp("servicesLabel")}
-                                    </label>
-                                    <div className="flex flex-col gap-2">
-                                      {services.map((service, index) => {
-                                        const isSelected =
-                                          selectedServices.includes(service);
-                                        return (
-                                          <button
-                                            type="button"
-                                            key={service}
-                                            onClick={() =>
-                                              handleServiceToggle(service)
-                                            }
-                                            className={`w-full text-left text-xs px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer font-sans flex items-center gap-3 ${
-                                              isSelected
-                                                ? "bg-blob border-blob text-navy font-bold shadow-md"
-                                                : "bg-cream/[0.02] border-cream/10 text-cream/70 hover:border-cream/30 hover:text-cream"
-                                            }`}>
-                                            <span className="font-display text-[10px] opacity-60">
-                                              {index + 1}.
-                                            </span>
-                                            {service}
-                                          </button>
-                                        );
-                                      })}
-
-                                      <button
-                                        type="button"
-                                        onClick={() =>
-                                          setShowOtherInput(!showOtherInput)
-                                        }
-                                        className={`w-full text-left text-xs px-4 py-3 rounded-xl border transition-all duration-300 cursor-pointer font-sans ${
-                                          showOtherInput || otherService
-                                            ? "bg-blob border-blob text-navy font-bold shadow-md"
-                                            : "bg-cream/[0.02] border-cream/10 text-cream/70 hover:border-cream/30 hover:text-cream"
-                                        }`}>
-                                        {tp("other")}
-                                      </button>
-
-                                      {showOtherInput && (
-                                        <input
-                                          type="text"
-                                          value={otherService}
-                                          onChange={(e) => {
-                                            setOtherService(e.target.value);
-                                            if (step3Errors.services)
-                                              setStep3Errors((prev) => ({
-                                                ...prev,
-                                                services: undefined,
-                                              }));
-                                          }}
-                                          placeholder={tp("otherPlaceholder")}
-                                          className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans mt-1 animate-in fade-in slide-in-from-top-1 duration-200"
-                                        />
-                                      )}
-                                    </div>
-                                    {step3Errors.services && (
-                                      <p className="text-red-400 text-xs mt-1 font-sans">
-                                        {step3Errors.services}
-                                      </p>
-                                    )}
-                                  </div>
-
-                                  <div className="flex flex-col gap-3">
-                                    <label className="text-[10px] uppercase font-bold text-cream/60">
-                                      {tp("meetingPreference")}
-                                    </label>
-                                    <div className="grid grid-cols-1 min-[480px]:grid-cols-3 gap-2">
-                                      {preferences.map((pref) => {
-                                        const isSelected =
-                                          meetingPreference === pref;
-                                        return (
-                                          <button
-                                            type="button"
-                                            key={pref}
-                                            onClick={() => {
-                                              setMeetingPreference(pref);
-                                              if (step3Errors.preference)
-                                                setStep3Errors((prev) => ({
-                                                  ...prev,
-                                                  preference: undefined,
-                                                }));
-                                            }}
-                                            className={`text-[10px] sm:text-xs py-3 rounded-xl border text-center transition-all duration-300 cursor-pointer font-sans font-medium ${
-                                              isSelected
-                                                ? "bg-blob border-blob text-navy font-bold shadow-md"
-                                                : "bg-cream/[0.02] border-cream/10 text-cream/70 hover:border-cream/30 hover:text-cream"
-                                            }`}>
-                                            {pref}
-                                          </button>
-                                        );
-                                      })}
-                                    </div>
-                                    {step3Errors.preference && (
-                                      <p className="text-red-400 text-xs mt-1 font-sans">
-                                        {step3Errors.preference}
-                                      </p>
-                                    )}
-                                  </div>
-
-                                  <div className="flex gap-4">
-                                    <button
-                                      type="button"
-                                      onClick={() => setStep(2)}
-                                      className="flex-1 flex items-center justify-center gap-2 bg-cream/10 hover:bg-cream/20 text-cream font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer text-center">
-                                      <ArrowLeft className="size-4" />
-                                      {tp("back")}
-                                    </button>
-                                    <button
-                                      type="submit"
-                                      className="flex-[2] flex items-center justify-center gap-3 bg-blob hover:bg-blob/85 text-navy font-extrabold uppercase text-xs py-4 rounded-2xl transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg hover:-translate-y-[1px]">
-                                      <Send className="size-4" />
-                                      {tp("submit")}
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </form>
-                    )}
-                  </div>
-
-                  {/* ==================== TEAM/JOB FORM ==================== */}
-                  <div
-                    className={`transition-all duration-500 ease-in-out ${activeTab === "job" ? "opacity-100 translate-x-0 scale-100 pointer-events-auto relative" : "opacity-0 translate-x-8 scale-95 pointer-events-none absolute top-0 left-0 w-full"}`}>
-                    {jobFormStatus === "success" ? (
-                      <div className="flex flex-col items-center justify-center text-center py-12 animate-in fade-in duration-500">
-                        <div className="size-20 rounded-full bg-blob/20 border border-blob/30 flex items-center justify-center text-blob mb-6 animate-bounce">
-                          <Check className="size-10" />
-                        </div>
-                        <h3 className="font-display text-2xl sm:text-3xl font-extrabold lowercase text-cream leading-tight">
-                          {tj("successTitle")}
-                        </h3>
-                        <p className="text-cream/70 mt-4 max-w-md leading-relaxed text-sm sm:text-base">
-                          {tj("successMessage")}
-                        </p>
-                        <button
-                          onClick={() => {
-                            setJobFormStatus("idle");
-                            setJobFullName("");
-                            setJobEmail("");
-                            setJobPhone("");
-                            setJobCityCountry("");
-                            setJobLinkedin("");
-                            setJobApplyingFor("");
-                            setJobShowWork("");
-                            setJobAnythingElse("");
-                            setJobFile(null);
-                            setJobStatusMessage("");
-                          }}
-                          className="mt-8 text-xs uppercase font-extrabold bg-blob hover:bg-blob/85 text-navy px-6 py-3.5 rounded-full transition-all duration-300 cursor-pointer shadow-md hover:shadow-lg">
-                          {tj("applyAnother")}
-                        </button>
-                      </div>
-                    ) : (
-                      <form
-                        onSubmit={handleJobSubmit}
-                        className="flex flex-col gap-5 sm:gap-6">
-                        {jobFormStatus === "submitting" ? (
-                          <div className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in duration-300">
-                            <Loader2 className="size-12 text-blob animate-spin mb-4" />
-                            <p className="text-blob font-display text-sm uppercase animate-pulse">
-                              {jobStatusMessage}
-                            </p>
+                                {pref}
+                              </Choice>
+                            ))}
                           </div>
-                        ) : (
-                          <>
-                            <div className="flex flex-col gap-2">
-                              <h3 className="font-display text-xl font-bold uppercase text-cream">
-                                {tj("formTitle")}
-                              </h3>
-                              <p className="text-xs text-cream/55 leading-relaxed">
-                                {tj("formSubtitle")}
-                              </p>
-                            </div>
-
-                            {jobStatusMessage && jobFormStatus === "idle" && (
-                              <p className="rounded-xl border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300 font-sans">
-                                {jobStatusMessage}
-                              </p>
-                            )}
-
-                            {/* Grid 1: Basic Personal Info */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("fullName")}
-                                </label>
-                                <input
-                                  type="text"
-                                  required
-                                  value={jobFullName}
-                                  onChange={(e) => {
-                                    setJobFullName(e.target.value);
-                                    if (jobErrors.fullName)
-                                      setJobErrors((prev) => ({
-                                        ...prev,
-                                        fullName: undefined,
-                                      }));
-                                  }}
-                                  placeholder={tj("fullNamePlaceholder")}
-                                  className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                />
-                                {jobErrors.fullName && (
-                                  <span className="text-[10px] text-red-400 font-sans px-1">
-                                    {jobErrors.fullName}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("email")}
-                                </label>
-                                <input
-                                  type="email"
-                                  required
-                                  value={jobEmail}
-                                  onChange={(e) => {
-                                    setJobEmail(e.target.value);
-                                    if (jobErrors.email)
-                                      setJobErrors((prev) => ({
-                                        ...prev,
-                                        email: undefined,
-                                      }));
-                                  }}
-                                  placeholder={tj("emailPlaceholder")}
-                                  className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                />
-                                {jobErrors.email && (
-                                  <span className="text-[10px] text-red-400 font-sans px-1">
-                                    {jobErrors.email}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Grid 2: Location and Phone */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("phone")}
-                                </label>
-                                <input
-                                  type="tel"
-                                  required
-                                  value={jobPhone}
-                                  onChange={(e) => {
-                                    setJobPhone(e.target.value);
-                                    if (jobErrors.phone)
-                                      setJobErrors((prev) => ({
-                                        ...prev,
-                                        phone: undefined,
-                                      }));
-                                  }}
-                                  placeholder={tj("phonePlaceholder")}
-                                  className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                />
-                                {jobErrors.phone && (
-                                  <span className="text-[10px] text-red-400 font-sans px-1">
-                                    {jobErrors.phone}
-                                  </span>
-                                )}
-                              </div>
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("cityCountry")}
-                                </label>
-                                <input
-                                  type="text"
-                                  required
-                                  value={jobCityCountry}
-                                  onChange={(e) => {
-                                    setJobCityCountry(e.target.value);
-                                    if (jobErrors.cityCountry)
-                                      setJobErrors((prev) => ({
-                                        ...prev,
-                                        cityCountry: undefined,
-                                      }));
-                                  }}
-                                  placeholder={tj("cityCountryPlaceholder")}
-                                  className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                />
-                                {jobErrors.cityCountry && (
-                                  <span className="text-[10px] text-red-400 font-sans px-1">
-                                    {jobErrors.cityCountry}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Grid 3: Portfolio Link and Selection */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("linkedin")}
-                                </label>
-                                <input
-                                  type="url"
-                                  value={jobLinkedin}
-                                  onChange={(e) =>
-                                    setJobLinkedin(e.target.value)
-                                  }
-                                  placeholder={tj("linkedinPlaceholder")}
-                                  className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans"
-                                />
-                              </div>
-                              <div className="flex flex-col gap-1.5">
-                                <label className="text-[10px] uppercase font-bold text-cream/60">
-                                  {tj("role")}
-                                </label>
-                                <div className="relative">
-                                  <select
-                                    required
-                                    value={jobApplyingFor}
-                                    onChange={(e) => {
-                                      setJobApplyingFor(e.target.value);
-                                      if (jobErrors.applyingFor)
-                                        setJobErrors((prev) => ({
-                                          ...prev,
-                                          applyingFor: undefined,
-                                        }));
-                                    }}
-                                    className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans appearance-none cursor-pointer">
-                                    <option
-                                      value=""
-                                      disabled
-                                      className="bg-navy text-cream/30">
-                                      {tj("selectRole")}
-                                    </option>
-                                    {roles.map((role) => (
-                                      <option
-                                        key={role}
-                                        value={role}
-                                        className="bg-navy text-cream">
-                                        {role}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                                {jobErrors.applyingFor && (
-                                  <span className="text-[10px] text-red-400 font-sans px-1">
-                                    {jobErrors.applyingFor}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Textareas */}
-                            <div className="flex flex-col gap-1.5">
-                              <label className="text-[10px] uppercase font-bold text-cream/60">
-                                {tj("showWork")}
-                              </label>
-                              <textarea
-                                rows={2}
-                                value={jobShowWork}
-                                onChange={(e) => setJobShowWork(e.target.value)}
-                                placeholder={tj("showWorkPlaceholder")}
-                                className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans resize-none leading-relaxed"
-                              />
-                            </div>
-
-                            <div className="flex flex-col gap-1.5">
-                              <label className="text-[10px] uppercase font-bold text-cream/60">
-                                {tj("anythingElse")}
-                              </label>
-                              <textarea
-                                rows={2}
-                                value={jobAnythingElse}
-                                onChange={(e) =>
-                                  setJobAnythingElse(e.target.value)
-                                }
-                                placeholder={tj("anythingElsePlaceholder")}
-                                className="w-full bg-cream/[0.04] border border-cream/15 rounded-xl px-4 py-3 text-cream placeholder-cream/25 focus:outline-none focus:border-blob/60 focus:bg-cream/[0.08] transition-all text-sm font-sans resize-none leading-relaxed"
-                              />
-                            </div>
-
-                            {/* File Attachment Dropzone */}
-                            <div className="flex flex-col gap-2">
-                              <label className="text-[10px] uppercase font-bold text-cream/60">
-                                {tj("attachments")}
-                              </label>
-                              <div
-                                onDragEnter={handleJobDrag}
-                                onDragOver={handleJobDrag}
-                                onDragLeave={handleJobDrag}
-                                onDrop={handleJobDrop}
-                                className={`border border-dashed rounded-2xl p-5 text-center transition-all duration-300 flex flex-col items-center justify-center gap-2 select-none ${
-                                  jobDragActive
-                                    ? "border-blob bg-blob/5"
-                                    : jobFile
-                                      ? "border-blob/40 bg-cream/[0.01]"
-                                      : "border-cream/20 bg-cream/[0.01] hover:border-cream/40"
-                                }`}>
-                                <input
-                                  ref={jobFileInputRef}
-                                  type="file"
-                                  accept=".pdf,.doc,.docx"
-                                  onChange={handleJobFileChange}
-                                  className="hidden"
-                                  id="resume-file-input"
-                                />
-
-                                {jobFile ? (
-                                  <div className="flex items-center gap-3 w-full max-w-md bg-cream/[0.03] border border-cream/10 px-4 py-2.5 rounded-xl justify-between animate-in zoom-in-95 duration-200">
-                                    <div className="flex items-center gap-3 overflow-hidden text-left">
-                                      <Upload className="size-4 shrink-0 text-blob" />
-                                      <div className="truncate flex flex-col">
-                                        <span className="text-xs font-medium text-cream truncate">
-                                          {jobFile.name}
-                                        </span>
-                                        <span className="text-[10px] text-cream/40">
-                                          {(
-                                            jobFile.size /
-                                            (1024 * 1024)
-                                          ).toFixed(2)}{" "}
-                                          MB
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <button
-                                      type="button"
-                                      onClick={handleJobRemoveFile}
-                                      className="p-1 rounded-full hover:bg-cream/10 text-cream/55 hover:text-cream cursor-pointer transition-colors">
-                                      <X className="size-4" />
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <label
-                                    htmlFor="resume-file-input"
-                                    className="cursor-pointer w-full h-full flex flex-col items-center justify-center py-1">
-                                    <Upload className="size-6 text-cream/40 mb-2 hover:text-blob transition-colors" />
-                                    <span className="text-xs font-medium text-cream/80 block">
-                                      {tj("uploadPrompt")}
-                                    </span>
-                                    <span className="text-[10px] text-cream/45 block mt-1">
-                                      {tj("uploadHint")}
-                                    </span>
-                                  </label>
-                                )}
-                              </div>
-                              {jobFileError && (
-                                <span className="text-[10px] text-red-400 font-sans px-1 mt-0.5">
-                                  {jobFileError}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Submit Button */}
-                            <button
-                              type="submit"
-                              className="w-full bg-blob hover:bg-blob/90 text-navy font-bold text-xs uppercase py-4 px-6 rounded-2xl cursor-pointer transition-all duration-300 mt-2 shadow-lg hover:-translate-y-[1px]">
-                              {tj("submit")}
-                            </button>
-                          </>
-                        )}
-                      </form>
+                          {step3Errors.preference && (
+                            <p className="t-small text-[var(--error)]">{step3Errors.preference}</p>
+                          )}
+                        </fieldset>
+                      </>
                     )}
                   </div>
-                </div>
-              </div>
-            </Reveal>
+
+                  <div className="flex flex-wrap items-center gap-4 border-t border-navy/20 pt-8">
+                    {step > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => goToStep(step - 1)}
+                        className={buttonClass("outline-light")}>
+                        <Arrow className="-scale-x-100 rtl:scale-x-100" />
+                        <span>{tp("back")}</span>
+                      </button>
+                    )}
+                    <button type="submit" className={buttonClass("navy")}>
+                      <span>{step < 3 ? tp("nextStep") : tp("submit")}</span>
+                      <Arrow />
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+            {/* Job application */}
+            <div
+              role="tabpanel"
+              id="panel-job"
+              aria-labelledby="tab-job"
+              hidden={activeTab !== "job"}
+              className="pt-10">
+              {jobFormStatus === "success" ? (
+                <StatusPanel
+                  title={tj("successTitle")}
+                  message={tj("successMessage")}
+                  action={tj("applyAnother")}
+                  onAction={resetJob}
+                />
+              ) : jobFormStatus === "submitting" ? (
+                <Sending message={jobStatusMessage} />
+              ) : (
+                <form onSubmit={handleJobSubmit} noValidate className="flex flex-col gap-10">
+                  <div className="flex flex-col gap-3">
+                    <h2 className="text-[clamp(22px,1.8vw,32px)] font-semibold">{tj("formTitle")}</h2>
+                    <p className="t-small max-w-[48ch]">{tj("formSubtitle")}</p>
+                  </div>
+
+                  {jobStatusMessage && <ErrorBanner message={jobStatusMessage} />}
+
+                  <div className="grid gap-10 sm:grid-cols-2 sm:gap-x-8">
+                    <Field id="j-name" label={tj("fullName")} error={jobErrors.fullName}>
+                      <input
+                        {...errProps("j-name", jobErrors.fullName)}
+                        type="text"
+                        autoComplete="name"
+                        value={jobFullName}
+                        onChange={(e) => {
+                          setJobFullName(e.target.value);
+                          clearJobError("fullName");
+                        }}
+                        placeholder={tj("fullNamePlaceholder")}
+                        className={fieldClass}
+                      />
+                    </Field>
+                    <Field id="j-email" label={tj("email")} error={jobErrors.email}>
+                      <input
+                        {...errProps("j-email", jobErrors.email)}
+                        type="email"
+                        autoComplete="email"
+                        dir="ltr"
+                        value={jobEmail}
+                        onChange={(e) => {
+                          setJobEmail(e.target.value);
+                          clearJobError("email");
+                        }}
+                        placeholder={tj("emailPlaceholder")}
+                        className={cn(fieldClass, "text-start rtl:text-end")}
+                      />
+                    </Field>
+                    <Field id="j-phone" label={tj("phone")} error={jobErrors.phone}>
+                      <input
+                        {...errProps("j-phone", jobErrors.phone)}
+                        type="tel"
+                        autoComplete="tel"
+                        dir="ltr"
+                        value={jobPhone}
+                        onChange={(e) => {
+                          setJobPhone(e.target.value);
+                          clearJobError("phone");
+                        }}
+                        placeholder={tj("phonePlaceholder")}
+                        className={cn(fieldClass, "text-start rtl:text-end")}
+                      />
+                    </Field>
+                    <Field id="j-city" label={tj("cityCountry")} error={jobErrors.cityCountry}>
+                      <input
+                        {...errProps("j-city", jobErrors.cityCountry)}
+                        type="text"
+                        autoComplete="address-level2"
+                        value={jobCityCountry}
+                        onChange={(e) => {
+                          setJobCityCountry(e.target.value);
+                          clearJobError("cityCountry");
+                        }}
+                        placeholder={tj("cityCountryPlaceholder")}
+                        className={fieldClass}
+                      />
+                    </Field>
+                    <Field id="j-link" label={tj("linkedin")}>
+                      <input
+                        id="j-link"
+                        type="url"
+                        dir="ltr"
+                        value={jobLinkedin}
+                        onChange={(e) => setJobLinkedin(e.target.value)}
+                        placeholder={tj("linkedinPlaceholder")}
+                        className={cn(fieldClass, "text-start rtl:text-end")}
+                      />
+                    </Field>
+                    <Field id="j-role" label={tj("role")} error={jobErrors.applyingFor}>
+                      <Select
+                        id="j-role"
+                        value={jobApplyingFor}
+                        options={roles}
+                        placeholder={tj("selectRole")}
+                        invalid={!!jobErrors.applyingFor}
+                        describedBy={jobErrors.applyingFor ? "j-role-error" : undefined}
+                        onChange={(role) => {
+                          setJobApplyingFor(role);
+                          clearJobError("applyingFor");
+                        }}
+                      />
+                    </Field>
+                  </div>
+
+                  <Field id="j-work" label={tj("showWork")}>
+                    <textarea
+                      id="j-work"
+                      rows={2}
+                      value={jobShowWork}
+                      onChange={(e) => setJobShowWork(e.target.value)}
+                      placeholder={tj("showWorkPlaceholder")}
+                      className={cn(fieldClass, "resize-y leading-relaxed")}
+                    />
+                  </Field>
+
+                  <Field id="j-else" label={tj("anythingElse")}>
+                    <textarea
+                      id="j-else"
+                      rows={2}
+                      value={jobAnythingElse}
+                      onChange={(e) => setJobAnythingElse(e.target.value)}
+                      placeholder={tj("anythingElsePlaceholder")}
+                      className={cn(fieldClass, "resize-y leading-relaxed")}
+                    />
+                  </Field>
+
+                  <div className="flex flex-col gap-3">
+                    <span className="t-label text-water">{tj("attachments")}</span>
+                    <div
+                      onDragEnter={handleJobDrag}
+                      onDragOver={handleJobDrag}
+                      onDragLeave={handleJobDrag}
+                      onDrop={handleJobDrop}
+                      className={cn(
+                        "border border-dashed px-6 py-8 transition-colors",
+                        jobDragActive ? "border-navy bg-sparkle/40" : "border-navy/30",
+                      )}>
+                      <input
+                        ref={jobFileInputRef}
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleJobFileChange}
+                        className="sr-only"
+                        id="resume-file-input"
+                      />
+                      {jobFile ? (
+                        <div className="flex items-center justify-between gap-4">
+                          <div className="flex min-w-0 flex-col">
+                            <span className="truncate text-[15px] font-medium">{jobFile.name}</span>
+                            <span className="t-num text-[13px] text-water">
+                              {(jobFile.size / (1024 * 1024)).toFixed(2)} MB
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={handleJobRemoveFile}
+                            aria-label={tj("removeFile")}
+                            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-navy/25 transition-colors hover:border-navy">
+                            <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                              <path d="M6 6l12 12M18 6L6 18" />
+                            </svg>
+                          </button>
+                        </div>
+                      ) : (
+                        <label
+                          htmlFor="resume-file-input"
+                          className="flex cursor-pointer flex-col gap-1">
+                          <span className="text-[15px] font-medium underline underline-offset-4">
+                            {tj("uploadPrompt")}
+                          </span>
+                          <span className="text-[13px] text-water">{tj("uploadHint")}</span>
+                        </label>
+                      )}
+                    </div>
+                    {jobFileError && <p className="t-small text-[var(--error)]">{jobFileError}</p>}
+                  </div>
+
+                  <div className="border-t border-navy/20 pt-8">
+                    <button type="submit" className={buttonClass("navy")}>
+                      <span>{tj("submit")}</span>
+                      <Arrow />
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>

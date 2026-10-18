@@ -1,23 +1,30 @@
 import { SiteNav } from "@/components/dough/site-nav";
 import { Hero } from "@/components/dough/hero";
 import { WhoWeAre } from "@/components/dough/who-we-are";
-import { WhyUs } from "@/components/dough/why-us";
+import { WhyDough } from "@/components/dough/why-dough";
+import { Industries, ClientWall } from "@/components/dough/industries";
 import { WhatWeBake } from "@/components/dough/what-we-bake";
-import { FeaturedWorks } from "@/components/dough/featured-works";
 import { HowWeWork } from "@/components/dough/how-we-work";
+import { SelectedWork } from "@/components/dough/selected-work";
+import { Capabilities } from "@/components/dough/capabilities";
 import { SiteFooter } from "@/components/dough/site-footer";
 
 export default function Page() {
   return (
-    <main className="bg-cream overflow-x-clip">
+    <>
       <SiteNav />
-      <Hero />
-      <WhoWeAre />
-      <WhatWeBake />
-      <FeaturedWorks />
-      <HowWeWork />
-      <WhyUs />
+      <main>
+        <Hero />
+        <WhoWeAre />
+        <WhyDough />
+        <Industries />
+        <ClientWall />
+        <WhatWeBake />
+        <HowWeWork />
+        <SelectedWork />
+        <Capabilities />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   );
 }

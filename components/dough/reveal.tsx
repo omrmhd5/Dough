@@ -1,70 +1,56 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState, ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface RevealProps {
-  children: ReactNode
-  className?: string
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
-  delay?: number
-  duration?: number
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  as?: "div" | "li" | "section" | "figure";
 }
 
+/** Fades content up once it scrolls into view. Skipped for reduced motion. */
 export function Reveal({
   children,
-  className = '',
-  direction = 'up',
+  className,
   delay = 0,
-  duration = 800,
+  as: Tag = "div",
 }: RevealProps) {
-  const [isVisible, setIsVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.unobserve(entry.target)
+          setVisible(true);
+          observer.disconnect();
         }
       },
-      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
-    )
-
-    if (ref.current) {
-      observer.observe(ref.current)
-    }
-
-    return () => observer.disconnect()
-  }, [])
-
-  const getDirectionClass = () => {
-    switch (direction) {
-      case 'up':
-        return 'translate-y-10'
-      case 'down':
-        return '-translate-y-10'
-      case 'left':
-        return 'translate-x-10'
-      case 'right':
-        return '-translate-x-10'
-      default:
-        return 'scale-95'
-    }
-  }
+      { threshold: 0.08, rootMargin: "0px 0px -6% 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div
-      ref={ref}
-      className={`transition-all ease-[cubic-bezier(0.215,0.61,0.355,1)] ${className}`}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'none' : getDirectionClass(),
-        transitionDuration: `${duration}ms`,
-        transitionDelay: `${delay}ms`,
-      }}
-    >
+    <Tag
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={ref as any}
+      className={cn(
+        "transition-[opacity,transform] duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-7",
+        className,
+      )}
+      style={{ transitionDelay: `${delay}ms` }}>
       {children}
-    </div>
-  )
+    </Tag>
+  );
 }
