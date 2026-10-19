@@ -42,10 +42,10 @@ export function WhatWeBake() {
                     <span className="t-label t-num font-semibold text-water">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-[clamp(16px,1.45vw,28px)] font-bold uppercase leading-tight tracking-[0.04em]">
+                    <span className="min-w-0 text-[clamp(15px,1.35vw,28px)] font-bold uppercase leading-tight tracking-[0.03em]">
                       {service.title}
                     </span>
-                    <span className="t-small col-start-2 row-start-2 mt-2 font-light sm:col-start-3 sm:row-start-1 sm:mt-0">
+                    <span className="t-small col-start-2 row-start-2 mt-2 min-w-0 font-light sm:col-start-3 sm:row-start-1 sm:mt-0">
                       {service.description}
                     </span>
                     <span
@@ -67,11 +67,11 @@ export function WhatWeBake() {
                       isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
                     )}>
                     <div className="overflow-hidden">
-                      <ul className="flex flex-wrap gap-2 pb-8 ps-[calc(clamp(40px,4.5vw,90px)+1rem)]">
+                      <ul className="flex flex-wrap gap-1.5 pb-8 ps-[calc(clamp(40px,4.5vw,90px)+1rem)]">
                         {service.tags.split("•").map((tag) => (
                           <li
                             key={tag}
-                            className="rounded-full border border-navy/25 px-4 py-2 text-[14px]">
+                            className="rounded-full border border-navy/25 px-3 py-1.5 text-[12px] leading-snug">
                             {tag.trim()}
                           </li>
                         ))}

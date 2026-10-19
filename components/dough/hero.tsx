@@ -10,14 +10,14 @@ export function Hero() {
   return (
     <section className="relative flex flex-col-reverse overflow-hidden bg-cream pt-[var(--nav-h)] lg:block">
       <div className="lg:absolute lg:inset-y-0 lg:end-0 lg:w-1/2">
-        <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-auto lg:h-full">
+        <div className="flex w-full items-center justify-center overflow-hidden lg:h-full lg:min-h-[min(calc(100svh-var(--nav-h)),1080px)]">
           <img
             src="/profile/v3/n2-0.webp"
             alt={t("imageAlt")}
             width={800}
             height={451}
             fetchPriority="high"
-            className="animate-fade absolute inset-0 size-full object-cover grayscale contrast-[1.05]"
+            className="animate-fade h-[min(42svh,360px)] w-full object-cover grayscale contrast-[1.05] lg:h-full lg:max-h-[calc(100svh-var(--nav-h))]"
             style={{ objectPosition: "24% 30%" }}
           />
         </div>
@@ -40,9 +40,13 @@ export function Hero() {
               {t("tagline")}
             </p>
             <div
-              className="animate-rise flex flex-wrap items-center gap-x-8 gap-y-5"
+              className="animate-rise flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-5"
               style={{ animationDelay: "220ms" }}>
-              <ButtonLink href="/contact?tab=project">{t("ctaPrimary")}</ButtonLink>
+              <ButtonLink
+                href="/contact?tab=project"
+                className="w-full sm:w-fit">
+                {t("ctaPrimary")}
+              </ButtonLink>
               <TextLink href="/work" className="text-[15px] text-navy">
                 {t("ctaSecondary")}
               </TextLink>

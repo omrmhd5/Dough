@@ -25,6 +25,70 @@ const toneClass: Record<Tone, string> = {
 
 const isDark = (tone: Tone) => tone === "navy";
 
+function CompareOpenerTile({
+  image,
+  maxHeightClass,
+  eager = false,
+}: {
+  image: MediaImage;
+  maxHeightClass: string;
+  eager?: boolean;
+}) {
+  const L = useL();
+  return (
+    <div className={cn("flex w-full items-end", maxHeightClass)}>
+      <img
+        src={image.src}
+        alt={L(image.alt, image.altAr)}
+        width={image.w}
+        height={image.h}
+        fetchPriority={eager ? "high" : undefined}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        className="block max-h-full w-full object-contain object-bottom"
+        style={{ objectPosition: image.position ?? "bottom" }}
+      />
+    </div>
+  );
+}
+
+function SplitOpenerCompare({
+  before,
+  after,
+  beforeLabel,
+  afterLabel,
+}: {
+  before: MediaImage;
+  after: MediaImage;
+  beforeLabel: string;
+  afterLabel: string;
+}) {
+  return (
+    <div className="cover-native-opener flex w-full flex-col justify-center bg-cream px-[var(--gutter)] py-10 sm:py-12 lg:h-full lg:max-w-none lg:px-[clamp(28px,4vw,56px)] lg:py-[clamp(48px,5vw,80px)]">
+      <div className="mx-auto grid w-full max-w-md items-end gap-8 sm:max-w-none sm:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] sm:gap-[clamp(16px,2vw,32px)] lg:mx-0">
+        <div className="animate-fade flex flex-col gap-3">
+          <span className="t-label text-water">{beforeLabel}</span>
+          <CompareOpenerTile
+            image={before}
+            eager
+            maxHeightClass="max-h-[min(22svh,200px)] sm:max-h-[min(24svh,220px)]"
+          />
+        </div>
+        <div
+          className="animate-fade flex flex-col gap-3"
+          style={{ animationDelay: "80ms" }}>
+          <span className="t-label text-water">{afterLabel}</span>
+          <CompareOpenerTile
+            image={after}
+            eager
+            maxHeightClass="max-h-[min(34svh,300px)] sm:max-h-[min(38svh,340px)]"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function useL() {
   const { locale } = useAppLocale();
   return <T,>(en: T, ar: T | undefined) => (locale === "ar" && ar ? ar : en);
@@ -51,35 +115,99 @@ function Figure({
 }) {
   const L = useL();
   const caption = L(image.caption, image.captionAr);
+  const fill = image.featureFill === true;
+  const flex = image.featureFlex === true;
+  const containPad = image.fit === "contain" && !image.bg && !fill && !flex;
+  const cropTop = image.cropTop ?? 0;
+  const frameH = Math.max(1, image.h - cropTop);
+  const cropObjectPosition =
+    cropTop > 0
+      ? (`50% ${((cropTop + frameH / 2) / image.h) * 100}%` as const)
+      : undefined;
+  const native = image.nativeFrame === true && !fill && !flex;
+  const nativeCaptionWidth = native
+    ? (`min(100%, calc(var(--gallery-tile-max, var(--media-max)) * ${image.w} / ${frameH}))` as const)
+    : undefined;
+
   return (
-    <figure className={cn("flex flex-col", className)}>
+    <figure
+      className={cn(
+        "flex flex-col",
+        fill && "h-full min-h-0 flex-1",
+        flex && "min-h-0 lg:h-full lg:flex-1",
+        native && caption && "items-center",
+        className,
+      )}>
       <div
         className={cn(
-          "relative overflow-hidden bg-grey",
+          "relative overflow-hidden",
+          fill && "h-full max-h-none min-h-0 w-full",
+          flex &&
+            "max-h-[var(--media-max)] w-full max-lg:aspect-[var(--feature-flex-ar)] lg:h-full lg:max-h-none lg:min-h-0",
+          !fill && !flex && !native && "max-h-[var(--media-max)]",
+          native && "mx-auto max-h-[var(--gallery-tile-max,var(--media-max))]",
+          !image.bg && !native && "bg-grey",
           shadow && "photo-shadow",
           frameClassName,
         )}
         style={{
-          aspectRatio: aspect ?? `${image.w}/${image.h}`,
-          background: image.bg,
+          ...(fill || flex
+            ? flex
+              ? ({
+                  ["--feature-flex-ar" as string]: `${image.w}/${frameH}`,
+                } as React.CSSProperties)
+              : {}
+            : {
+                aspectRatio: aspect ?? `${image.w}/${frameH}`,
+                ...(native
+                  ? {
+                      width: `min(100%, calc(var(--gallery-tile-max, var(--media-max)) * ${image.w} / ${frameH}))`,
+                    }
+                  : {}),
+              }),
+          ...(image.bg
+            ? { background: image.bg }
+            : native
+              ? { background: "var(--cream)" }
+              : {}),
         }}>
         <img
           src={image.src}
           alt={L(image.alt, image.altAr)}
           width={image.w}
-          height={image.h}
+          height={frameH}
           loading={eager ? "eager" : "lazy"}
           decoding="async"
           className={cn(
-            "absolute inset-0 size-full",
-            image.fit === "contain" ? "object-contain p-[8%]" : "object-cover",
+            fill
+              ? "size-full object-contain object-bottom"
+              : flex
+                ? "absolute inset-0 size-full object-cover"
+                : "absolute inset-0 size-full",
+            !fill &&
+              !flex &&
+              (native || image.fit === "contain"
+                ? cn("object-contain", containPad && "p-[8%]")
+                : "object-cover"),
           )}
-          style={{ objectPosition: image.position }}
+          style={{
+            objectPosition:
+              image.position ??
+              cropObjectPosition ??
+              (fill ? "bottom" : undefined),
+          }}
         />
       </div>
       {caption && (
         <figcaption
-          className={cn("t-small mt-4", dark ? "text-sparkle" : "text-water")}>
+          className={cn(
+            "t-small mt-4",
+            native && "text-center",
+            dark ? "text-sparkle" : "text-water",
+          )}
+          style={
+            nativeCaptionWidth ? { width: nativeCaptionWidth } : undefined
+          }>
           {caption}
         </figcaption>
       )}
@@ -98,7 +226,7 @@ function StatRow({ stats, dark }: { stats: Stat[]; dark?: boolean }) {
       {stats.map((stat) => (
         <div key={stat.value + stat.label} className="flex flex-col gap-2">
           <dt className="sr-only">{L(stat.label, stat.labelAr)}</dt>
-          <dd className="t-num text-[clamp(52px,6.5vw,128px)] font-light leading-none tracking-[-0.04em]">
+          <dd className="t-num text-[length:var(--stat)] font-light leading-none tracking-[-0.04em]">
             {stat.value}
           </dd>
           <dd
@@ -112,7 +240,13 @@ function StatRow({ stats, dark }: { stats: Stat[]; dark?: boolean }) {
   );
 }
 
-function GalleryHeader({ gallery, caseLabel }: { gallery: Gallery; caseLabel: string }) {
+function GalleryHeader({
+  gallery,
+  caseLabel,
+}: {
+  gallery: Gallery;
+  caseLabel: string;
+}) {
   const L = useL();
   const dark = isDark(gallery.tone);
   const heading = L(gallery.heading, gallery.headingAr);
@@ -134,7 +268,9 @@ function GalleryHeader({ gallery, caseLabel }: { gallery: Gallery; caseLabel: st
             <span />
           )}
           {body && (
-            <p className={cn("t-body max-w-[46ch]", dark && "text-sparkle")}>{body}</p>
+            <p className={cn("t-body max-w-[46ch]", dark && "text-sparkle")}>
+              {body}
+            </p>
           )}
         </Reveal>
       )}
@@ -156,15 +292,53 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
   const { images } = gallery;
 
   switch (gallery.kind) {
-    case "grid":
+    case "grid": {
+      const cols = gallery.cols ?? 3;
+      const tileCap = gallery.tileMax ?? "var(--media-max)";
+      const gridGap = "clamp(12px, 1.6vw, 32px)";
       return (
         <>
-          <div className={cn("grid gap-[clamp(12px,1.6vw,32px)]", colsClass[gallery.cols ?? 3])}>
-            {images.map((image, i) => (
-              <Reveal key={image.src + i} delay={(i % (gallery.cols ?? 3)) * 70}>
-                <Figure image={image} aspect={gallery.aspect} dark={dark} />
-              </Reveal>
-            ))}
+          <div
+            className={cn(
+              "mx-auto grid gap-[clamp(12px,1.6vw,32px)]",
+              colsClass[cols],
+            )}
+            style={{
+              ...(gallery.tileMax
+                ? ({
+                    "--gallery-tile-max": gallery.tileMax,
+                  } as React.CSSProperties)
+                : {}),
+              ...(gallery.aspect === "1/1"
+                ? {
+                    maxWidth: `calc(${cols} * (${tileCap}) + ${cols - 1} * ${gridGap})`,
+                  }
+                : {}),
+            }}>
+            {images.map((image, i) => {
+              const tileImage = gallery.nativeTiles
+                ? {
+                    ...image,
+                    nativeFrame: true,
+                    fit: "contain" as const,
+                    bg: image.bg ?? "var(--cream)",
+                  }
+                : image;
+              return (
+                <Reveal key={image.src + i} delay={(i % cols) * 70}>
+                  <Figure
+                    image={tileImage}
+                    aspect={tileImage.nativeFrame ? undefined : gallery.aspect}
+                    dark={dark}
+                    frameClassName={
+                      gallery.tileMax
+                        ? "max-h-[var(--gallery-tile-max)]"
+                        : undefined
+                    }
+                  />
+                </Reveal>
+              );
+            })}
           </div>
           {gallery.palette && (
             <div className="mt-[clamp(40px,5vw,80px)] border-t border-navy/20 pt-7">
@@ -177,7 +351,9 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
                       style={{ background: swatch.hex }}
                     />
                     <span className="flex flex-col">
-                      <span className="t-small font-medium">{L(swatch.name, swatch.nameAr)}</span>
+                      <span className="t-small font-medium">
+                        {L(swatch.name, swatch.nameAr)}
+                      </span>
                       <span className="t-num text-[13px] text-water" dir="ltr">
                         {swatch.hex}
                       </span>
@@ -189,6 +365,62 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
           )}
         </>
       );
+    }
+
+    case "justified": {
+      // One row: every picture at the same height and its own proportions, with a
+      // small gap, so differently shaped photos sit together without any cropping.
+      // The row is capped so its height never exceeds the tile limit.
+      const ratios = images.map((image) => image.w / image.h);
+      const sum = ratios.reduce((a, r) => a + r, 0);
+      const cap = gallery.tileMax ?? "var(--media-max)";
+      return (
+        <div
+          className="mx-auto flex w-full flex-wrap gap-3 lg:flex-nowrap lg:gap-[clamp(8px,1vw,16px)]"
+          style={{
+            maxWidth: `calc(${cap} * ${sum.toFixed(4)} + ${images.length - 1} * 16px)`,
+          }}>
+          {images.map((image, i) => {
+            const ratio = ratios[i];
+            const caption = L(image.caption, image.captionAr);
+            return (
+              <div
+                key={image.src + i}
+                className="min-w-0 basis-[calc(50%-0.375rem)] lg:basis-auto lg:flex-[var(--r)_1_0%]"
+                style={{ "--r": ratio.toFixed(4) } as React.CSSProperties}>
+                <Reveal delay={i * 70}>
+                  <figure className="flex flex-col">
+                    <div
+                      className="photo-shadow relative overflow-hidden bg-grey"
+                      style={{ aspectRatio: ratio.toFixed(4) }}>
+                      <img
+                        src={image.src}
+                        alt={L(image.alt, image.altAr)}
+                        width={image.w}
+                        height={image.h}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 size-full object-cover"
+                        style={{ objectPosition: image.position }}
+                      />
+                    </div>
+                    {caption && (
+                      <figcaption
+                        className={cn(
+                          "t-small mt-3",
+                          dark ? "text-sparkle" : "text-water",
+                        )}>
+                        {caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                </Reveal>
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
 
     case "feature": {
       const [lead, ...rest] = images;
@@ -198,24 +430,68 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
             <Figure
               image={lead}
               dark={dark}
-              className="mx-auto w-full max-w-[min(100%,980px)]"
-              frameClassName="max-h-[85svh]"
+              className={cn(
+                "mx-auto w-full",
+                !lead.nativeFrame && "max-w-[min(100%,980px)]",
+              )}
             />
           </Reveal>
         );
       }
+      const sideFill = rest.some((img) => img.featureFill);
       return (
-        <div className="grid gap-[clamp(16px,2vw,40px)] lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-          <Reveal>
-            <Figure image={lead} dark={dark} />
+        <div
+          className={cn(
+            "grid gap-[clamp(16px,2vw,40px)] lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]",
+            sideFill && "lg:items-stretch",
+          )}>
+          <Reveal
+            className={cn(
+              sideFill && "min-h-0 lg:flex lg:h-full lg:flex-col",
+              gallery.leadUnder &&
+                "flex flex-col gap-[clamp(16px,2vw,40px)] lg:min-h-0 lg:flex-1",
+            )}>
+            <Figure
+              image={lead}
+              dark={dark}
+              className={
+                gallery.leadUnder?.featureFlex ? "shrink-0" : undefined
+              }
+            />
+            {gallery.leadUnder && (
+              <Figure
+                image={gallery.leadUnder}
+                dark={dark}
+                className={
+                  gallery.leadUnder.featureFlex
+                    ? "min-h-0 lg:flex-1"
+                    : undefined
+                }
+              />
+            )}
           </Reveal>
-          <div className="grid gap-[clamp(16px,2vw,40px)]">
+          <div
+            className={cn(
+              "grid gap-[clamp(16px,2vw,40px)]",
+              sideFill && "min-h-0 lg:flex lg:flex-col",
+            )}>
             {rest.map((image, i) => (
-              <Reveal key={image.src} delay={(i + 1) * 90}>
+              <Reveal
+                key={image.src}
+                delay={(i + 1) * 90}
+                className={
+                  image.featureFill ? "flex min-h-0 flex-1 flex-col" : undefined
+                }>
                 <Figure
                   image={image}
                   dark={dark}
-                  aspect={rest.length > 1 ? "4/3" : undefined}
+                  aspect={
+                    image.featureFill
+                      ? undefined
+                      : rest.length > 1
+                        ? "4/3"
+                        : undefined
+                  }
                 />
               </Reveal>
             ))}
@@ -234,7 +510,10 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
           </Reveal>
           <Reveal className="flex flex-col gap-4" delay={100}>
             <span className="t-label text-water">{t("after")}</span>
-            <Figure image={{ ...after, caption: undefined, captionAr: undefined }} aspect="1080/750" />
+            <Figure
+              image={{ ...after, caption: undefined, captionAr: undefined }}
+              aspect="1080/750"
+            />
           </Reveal>
         </div>
       );
@@ -243,7 +522,7 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
     case "phones": {
       const [before, print1, print2, phone1, phone2] = images;
       const phone = (image: MediaImage) => (
-        <div className="w-[clamp(140px,13vw,240px)] rounded-[clamp(26px,2.4vw,40px)] bg-[#151515] p-[clamp(6px,0.5vw,9px)] shadow-[0_40px_70px_-24px_rgba(18,41,64,0.45)]">
+        <div className="w-[var(--phone-w)] rounded-[clamp(26px,2.4vw,40px)] bg-[#151515] p-[clamp(6px,0.5vw,9px)] shadow-[0_40px_70px_-24px_rgba(18,41,64,0.45)]">
           <div className="aspect-[9/19] overflow-hidden rounded-[clamp(20px,1.9vw,31px)] bg-[#F0EBE5]">
             <img
               src={image.src}
@@ -264,7 +543,7 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
               {[print1, print2].map((image) => (
                 <div
                   key={image.src}
-                  className="photo-shadow relative aspect-[3/4] overflow-hidden">
+                  className="photo-shadow relative aspect-[3/4] max-h-[var(--media-max)] overflow-hidden">
                   <img
                     src={image.src}
                     alt={L(image.alt, image.altAr)}
@@ -274,14 +553,18 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
                 </div>
               ))}
             </div>
-            <p className="t-small mt-4 text-water">{L(print1.caption, print1.captionAr)}</p>
+            <p className="t-small mt-4 text-water">
+              {L(print1.caption, print1.captionAr)}
+            </p>
           </Reveal>
           <Reveal delay={180} className="flex flex-col">
             <div className="flex justify-start gap-[clamp(12px,1.5vw,28px)]">
               {phone(phone1)}
               {phone(phone2)}
             </div>
-            <p className="t-small mt-4 text-water">{L(phone1.caption, phone1.captionAr)}</p>
+            <p className="t-small mt-4 text-water">
+              {L(phone1.caption, phone1.captionAr)}
+            </p>
           </Reveal>
         </div>
       );
@@ -289,12 +572,23 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
 
     case "screens":
       return (
-        <div className="-mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] pb-4">
+        <div
+          className="-mx-[var(--gutter)] overflow-x-auto overscroll-x-contain px-[var(--gutter)] pb-4 [-webkit-overflow-scrolling:touch]"
+          style={
+            gallery.screenWidth
+              ? ({
+                  ["--screen-w" as string]: gallery.screenWidth,
+                } as React.CSSProperties)
+              : undefined
+          }>
           <div className="mx-auto flex w-max gap-[clamp(14px,1.5vw,28px)]">
             {images.map((image, i) => (
-              <Reveal key={image.src} delay={i * 80} className="flex flex-col items-center">
+              <Reveal
+                key={image.src}
+                delay={i * 80}
+                className="flex flex-col items-center">
                 <div className="h-[clamp(28px,3vw,56px)] w-[clamp(8px,0.75vw,14px)] bg-[#9A9A9A]" />
-                <div className="w-[clamp(180px,17vw,330px)] rounded-lg bg-[#0B0B0B] p-[clamp(6px,0.6vw,12px)] shadow-[0_40px_60px_-24px_rgba(0,0,0,0.6)]">
+                <div className="w-[var(--screen-w)] rounded-lg bg-[#0B0B0B] p-[clamp(6px,0.6vw,12px)] shadow-[0_40px_60px_-24px_rgba(0,0,0,0.6)]">
                   <img
                     src={image.src}
                     alt={L(image.alt, image.altAr)}
@@ -318,7 +612,7 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
             alt={L(gallery.heading ?? "", gallery.headingAr)}
             playLabel={t("play")}
             pauseLabel={t("pause")}
-            className="photo-shadow aspect-[616/1000]"
+            className="photo-shadow aspect-[616/1000] max-h-[var(--media-max)]"
           />
         </Reveal>
       );
@@ -354,6 +648,7 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
   ].filter(Boolean) as { label: string; value: string }[];
 
   const coverAlt = L(media.cover.alt, media.cover.altAr);
+  const coverNative = media.coverPreserveAspect === true;
 
   return (
     <article>
@@ -361,30 +656,58 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
       {media.opener === "split" ? (
         <section className="relative overflow-hidden bg-cream pt-[var(--nav-h)] text-navy">
           <div className="lg:absolute lg:inset-y-0 lg:end-0 lg:w-[52%]">
-            <div
-              className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[4/3] lg:aspect-auto lg:h-full"
-              style={{ background: media.cover.bg ?? "var(--grey)" }}>
-              <img
-                src={media.cover.src}
-                alt={coverAlt}
-                width={media.cover.w}
-                height={media.cover.h}
-                fetchPriority="high"
-                className="animate-fade absolute inset-0 size-full object-cover"
-                style={{ objectPosition: media.cover.position }}
+            {media.coverCompare ? (
+              <SplitOpenerCompare
+                before={media.coverCompare.before}
+                after={media.coverCompare.after}
+                beforeLabel={t("before")}
+                afterLabel={t("after")}
               />
-            </div>
+            ) : (
+              <div
+                className={cn(
+                  "relative w-full overflow-hidden",
+                  coverNative
+                    ? "cover-native-opener lg:flex lg:items-center lg:justify-center"
+                    : "aspect-[4/3] max-h-[var(--cover-max)] w-full lg:aspect-auto lg:h-full lg:max-h-none",
+                )}
+                style={{
+                  ...(coverNative
+                    ? ({
+                        aspectRatio: `${media.cover.w}/${media.cover.h}`,
+                        background: media.cover.bg,
+                        ["--cover-w" as string]: media.cover.w,
+                        ["--cover-h" as string]: media.cover.h,
+                      } as React.CSSProperties)
+                    : { background: media.cover.bg ?? "var(--grey)" }),
+                }}>
+                <img
+                  src={media.cover.src}
+                  alt={coverAlt}
+                  width={media.cover.w}
+                  height={media.cover.h}
+                  fetchPriority="high"
+                  className={cn(
+                    "animate-fade",
+                    coverNative
+                      ? "size-full object-contain lg:h-full lg:w-auto lg:max-w-full"
+                      : "absolute inset-0 size-full object-cover",
+                  )}
+                  style={{ objectPosition: media.cover.position }}
+                />
+              </div>
+            )}
           </div>
           <div className="wrap relative">
             <div className="flex flex-col justify-between gap-14 py-12 sm:py-16 lg:min-h-[min(calc(100svh-var(--nav-h)),1100px)] lg:w-[48%] lg:py-[clamp(56px,5vw,100px)] lg:pe-[clamp(32px,4vw,80px)]">
               <RunningHeader start={caseLabel} end={name} />
               <div className="flex flex-col gap-8">
-                <h1 className="animate-rise text-[clamp(56px,7vw,132px)] font-bold leading-[0.95] tracking-[-0.03em]">
+                <h1 className="animate-rise text-[length:var(--opener-title)] font-bold leading-[0.95] tracking-[-0.03em]">
                   {name}
                 </h1>
                 {subtitle && (
                   <p
-                    className="t-lead animate-rise max-w-[24ch] text-[clamp(24px,2.5vw,48px)] lowercase leading-[1.2]"
+                    className="t-lead animate-rise max-w-[24ch] text-[length:var(--opener-lead)] lowercase leading-[1.2]"
                     style={{ animationDelay: "120ms" }}>
                     {subtitle}
                   </p>
@@ -393,7 +716,9 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
               <div
                 className="animate-rise flex flex-col gap-8"
                 style={{ animationDelay: "200ms" }}>
-                {overview && <p className="t-body max-w-[48ch] font-normal">{overview}</p>}
+                {overview && (
+                  <p className="t-body max-w-[48ch] font-normal">{overview}</p>
+                )}
                 <Link
                   href="/work"
                   className="t-label -my-3 inline-flex w-fit items-center gap-2 py-3 text-water transition-colors hover:text-navy">
@@ -406,31 +731,56 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
         </section>
       ) : (
         <section className="bg-navy pt-[var(--nav-h)] text-cream">
-          <div className="relative h-[clamp(320px,62svh,1000px)] overflow-hidden bg-navy-deep">
+          <div
+            className={cn(
+              "relative w-full overflow-hidden bg-navy-deep",
+              coverNative
+                ? "mx-auto max-h-[min(52svh,560px)] max-w-full"
+                : "h-[var(--cover-max)]",
+            )}
+            style={
+              coverNative
+                ? {
+                    aspectRatio: `${media.cover.w}/${media.cover.h}`,
+                    width: `min(100%, calc(min(52svh, 560px) * ${media.cover.w} / ${media.cover.h}))`,
+                    background: media.cover.bg,
+                  }
+                : undefined
+            }>
             <img
               src={media.cover.src}
               alt={coverAlt}
               width={media.cover.w}
               height={media.cover.h}
               fetchPriority="high"
-              className="animate-fade absolute inset-0 size-full object-cover"
-              style={{ objectPosition: media.cover.position }}
+              className={cn(
+                "animate-fade",
+                coverNative
+                  ? "block size-full object-contain"
+                  : "absolute inset-0 size-full object-cover",
+              )}
+              style={{
+                objectPosition:
+                  media.cover.position ?? (coverNative ? "center" : undefined),
+              }}
             />
           </div>
           <div className="wrap grid gap-10 py-[clamp(40px,5vw,80px)] lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.5fr)] lg:gap-[clamp(48px,5vw,96px)]">
             <div className="flex flex-col gap-3">
               <span className="t-label text-sparkle">{caseLabel}</span>
-              <h1 className="animate-rise text-[clamp(52px,5.5vw,104px)] font-bold leading-none tracking-[-0.02em]">
+              <h1 className="animate-rise text-[length:var(--opener-title)] font-bold leading-none tracking-[-0.02em]">
                 {name}
               </h1>
             </div>
             <div className="flex flex-col gap-6">
               {subtitle && (
-                <p className="t-lead animate-rise max-w-[30ch] text-[clamp(24px,2.2vw,42px)] lowercase">
+                <p className="t-lead animate-rise max-w-[30ch] text-[length:var(--opener-lead)] lowercase">
                   {subtitle}
                 </p>
               )}
-              {overview && <p className="t-body max-w-[52ch] text-sparkle">{overview}</p>}
+              {overview && (
+                <p className="t-body max-w-[52ch] text-sparkle">{overview}</p>
+              )}
               <Link
                 href="/work"
                 className="t-label -my-3 inline-flex w-fit items-center gap-2 py-3 text-sparkle transition-colors hover:text-cream">
@@ -449,7 +799,9 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
             {meta.map((item) => (
               <div key={item.label} className="flex flex-col gap-2">
                 <dt className="t-label text-water">{item.label}</dt>
-                <dd className="t-small font-medium">{item.value}</dd>
+                <dd className="t-small break-words font-medium">
+                  {item.value}
+                </dd>
               </div>
             ))}
           </dl>
@@ -473,15 +825,19 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
             {challenge && (
               <Reveal className="flex flex-col gap-6 border-t border-navy/20 pt-8">
                 <h2 className="t-label font-semibold">
-                  {L(client.challengeLabel, client.challengeLabelAr) ?? t("challengeDefault")}
+                  {L(client.challengeLabel, client.challengeLabelAr) ??
+                    t("challengeDefault")}
                 </h2>
                 <p className="t-body max-w-[52ch]">{challenge}</p>
               </Reveal>
             )}
             {approach && (
-              <Reveal className="flex flex-col gap-6 border-t border-navy/20 pt-8" delay={100}>
+              <Reveal
+                className="flex flex-col gap-6 border-t border-navy/20 pt-8"
+                delay={100}>
                 <h2 className="t-label font-semibold">
-                  {L(client.approachLabel, client.approachLabelAr) ?? t("approachDefault")}
+                  {L(client.approachLabel, client.approachLabelAr) ??
+                    t("approachDefault")}
                 </h2>
                 <p className="t-body max-w-[52ch]">{approach}</p>
               </Reveal>
@@ -526,7 +882,10 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
           <div className="wrap">
             <RunningHeader
               start={caseLabel}
-              end={L(client.experienceLabel, client.experienceLabelAr) ?? t("experienceDefault")}
+              end={
+                L(client.experienceLabel, client.experienceLabelAr) ??
+                t("experienceDefault")
+              }
               tone="dark"
             />
             <ol className="mt-[clamp(48px,6vw,110px)] grid gap-x-[clamp(32px,4vw,80px)] gap-y-12 md:grid-cols-2">
@@ -542,7 +901,9 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
                   <h3 className="text-[clamp(18px,1.5vw,28px)] font-bold uppercase leading-tight tracking-[0.04em]">
                     {item.title}
                   </h3>
-                  {item.items && <p className="t-small text-sparkle">{item.items}</p>}
+                  {item.items && (
+                    <p className="t-small text-sparkle">{item.items}</p>
+                  )}
                 </Reveal>
               ))}
             </ol>
@@ -559,7 +920,9 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
                 <h2 className="t-label font-semibold">{t("scopeOfWork")}</h2>
                 <ul className="columns-1 gap-8 sm:columns-2">
                   {scope.map((item) => (
-                    <li key={item} className="t-small break-inside-avoid border-b border-navy/10 py-3">
+                    <li
+                      key={item}
+                      className="t-small break-inside-avoid border-b border-navy/10 py-3">
                       {item}
                     </li>
                   ))}
@@ -567,7 +930,9 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
               </Reveal>
             )}
             {outcome && (
-              <Reveal className="flex flex-col gap-6 border-t border-navy/20 pt-8" delay={100}>
+              <Reveal
+                className="flex flex-col gap-6 border-t border-navy/20 pt-8"
+                delay={100}>
                 <h2 className="t-label font-semibold">{t("outcome")}</h2>
                 <p className="t-lead max-w-[40ch]">{outcome}</p>
               </Reveal>
@@ -583,18 +948,21 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
           className="wrap group grid items-center gap-8 py-[clamp(56px,7vw,130px)] sm:grid-cols-[minmax(0,1fr)_auto]">
           <div className="flex flex-col gap-4">
             <span className="t-label">{t("nextCase")}</span>
-            <span className="flex items-center gap-5 text-[clamp(44px,6vw,112px)] font-light leading-none tracking-[-0.03em] transition-[font-weight] group-hover:font-bold">
+            <span className="flex items-center gap-5 text-[length:var(--opener-title)] font-light leading-none tracking-[-0.03em] transition-[font-weight] group-hover:font-bold">
               {L(next.client.en, next.client.ar)}
               <Arrow className="size-[0.5em] transition-transform duration-300 group-hover:translate-x-2 rtl:group-hover:-translate-x-2" />
             </span>
           </div>
-          <div className="photo-shadow relative hidden aspect-[4/5] w-[clamp(160px,16vw,300px)] overflow-hidden bg-grey sm:block">
+          <div className="photo-shadow relative hidden aspect-[4/5] max-h-[var(--media-max)] w-[var(--next-thumb)] overflow-hidden bg-grey sm:block">
             <img
               src={next.media.cover.src}
               alt=""
               loading="lazy"
               className="photo transition-transform duration-700 group-hover:scale-[1.05]"
-              style={{ objectPosition: next.media.cover.position, background: next.media.cover.bg }}
+              style={{
+                objectPosition: next.media.cover.position,
+                background: next.media.cover.bg,
+              }}
             />
           </div>
         </Link>

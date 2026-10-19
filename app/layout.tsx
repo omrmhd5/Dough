@@ -2,7 +2,7 @@ import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Alexandria } from "next/font/google";
 import "./globals.css";
-import { ScrollToTopOnLoad } from "@/components/dough/scroll-to-top-on-load";
+import { ScrollRestore } from "@/components/dough/scroll-restore";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 
 const montserrat = Montserrat({
@@ -57,7 +57,7 @@ export default function RootLayout({
       suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
         <LocaleProvider>
-          <ScrollToTopOnLoad />
+          <ScrollRestore />
           {children}
           {process.env.NODE_ENV === "production" && <Analytics />}
         </LocaleProvider>

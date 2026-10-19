@@ -4,7 +4,13 @@ import { useState, useEffect, useRef, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useAppLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
-import { Arrow, Emphasis, OutArrow, RunningHeader, buttonClass } from "./primitives";
+import {
+  Arrow,
+  Emphasis,
+  OutArrow,
+  RunningHeader,
+  buttonClass,
+} from "./primitives";
 import { CONTACT } from "./site-footer";
 
 /* ── Form primitives ──────────────────────────────────────────────────── */
@@ -152,7 +158,9 @@ function Select({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listId}
-        aria-activedescendant={open && active >= 0 ? `${id}-opt-${active}` : undefined}
+        aria-activedescendant={
+          open && active >= 0 ? `${id}-opt-${active}` : undefined
+        }
         aria-invalid={invalid ? true : undefined}
         aria-describedby={describedBy}
         onClick={() => (open ? setOpen(false) : openList())}
@@ -236,10 +244,15 @@ function StatusPanel({
   onAction: () => void;
 }) {
   return (
-    <div className="flex flex-col items-start gap-6 border-t border-navy/20 py-12" role="status">
+    <div
+      className="flex flex-col items-start gap-6 border-t border-navy/20 py-12"
+      role="status">
       <h3 className="t-display t-sm">{title}</h3>
       <p className="t-body max-w-[44ch]">{message}</p>
-      <button type="button" onClick={onAction} className={buttonClass("outline-light")}>
+      <button
+        type="button"
+        onClick={onAction}
+        className={buttonClass("outline-light")}>
         {action}
       </button>
     </div>
@@ -248,7 +261,10 @@ function StatusPanel({
 
 function Sending({ message }: { message: string }) {
   return (
-    <div className="flex items-center gap-4 border-t border-navy/20 py-16" role="status" aria-live="polite">
+    <div
+      className="flex items-center gap-4 border-t border-navy/20 py-16"
+      role="status"
+      aria-live="polite">
       <span className="size-3 animate-ping rounded-full bg-water" />
       <p className="t-label text-navy">{message}</p>
     </div>
@@ -339,7 +355,8 @@ export function Contact() {
         ? prev.filter((s) => s !== service)
         : [...prev, service],
     );
-    if (step3Errors.services) setStep3Errors((p) => ({ ...p, services: undefined }));
+    if (step3Errors.services)
+      setStep3Errors((p) => ({ ...p, services: undefined }));
   };
 
   const handleNext1 = () => {
@@ -389,7 +406,10 @@ export function Contact() {
     if (step === 2) return handleNext2();
 
     const errors: typeof step3Errors = {};
-    if (selectedServices.length === 0 && (!showOtherInput || !otherService.trim())) {
+    if (
+      selectedServices.length === 0 &&
+      (!showOtherInput || !otherService.trim())
+    ) {
       errors.services = tp("errors.services");
     }
     if (!meetingPreference) errors.preference = tp("errors.preference");
@@ -428,7 +448,9 @@ export function Contact() {
       setProjectFormStatus("success");
     } catch (error) {
       setProjectFormStatus("idle");
-      setProjectStatusMessage(error instanceof Error ? error.message : tp("genericError"));
+      setProjectStatusMessage(
+        error instanceof Error ? error.message : tp("genericError"),
+      );
     }
   };
 
@@ -445,9 +467,13 @@ export function Contact() {
   const [jobDragActive, setJobDragActive] = useState(false);
   const [jobFileError, setJobFileError] = useState("");
   const jobFileInputRef = useRef<HTMLInputElement>(null);
-  const [jobFormStatus, setJobFormStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [jobFormStatus, setJobFormStatus] = useState<
+    "idle" | "submitting" | "success"
+  >("idle");
   const [jobStatusMessage, setJobStatusMessage] = useState("");
-  const [jobErrors, setJobErrors] = useState<Record<string, string | undefined>>({});
+  const [jobErrors, setJobErrors] = useState<
+    Record<string, string | undefined>
+  >({});
 
   const clearJobError = (key: string) =>
     jobErrors[key] && setJobErrors((prev) => ({ ...prev, [key]: undefined }));
@@ -496,7 +522,8 @@ export function Contact() {
     const errors: Record<string, string> = {};
     if (!jobFullName.trim()) errors.fullName = tj("errors.fullName");
     if (!jobEmail.trim()) errors.email = tj("errors.emailRequired");
-    else if (!/\S+@\S+\.\S+/.test(jobEmail)) errors.email = tj("errors.emailInvalid");
+    else if (!/\S+@\S+\.\S+/.test(jobEmail))
+      errors.email = tj("errors.emailInvalid");
     if (!jobPhone.trim()) errors.phone = tj("errors.phone");
     if (!jobCityCountry.trim()) errors.cityCountry = tj("errors.cityCountry");
     if (!jobApplyingFor) errors.applyingFor = tj("errors.applyingFor");
@@ -548,15 +575,33 @@ export function Contact() {
       setJobFormStatus("success");
     } catch (error) {
       setJobFormStatus("idle");
-      setJobStatusMessage(error instanceof Error ? error.message : tj("genericError"));
+      setJobStatusMessage(
+        error instanceof Error ? error.message : tj("genericError"),
+      );
     }
   };
 
   const details = [
-    { label: t("details.email"), value: CONTACT.email, href: `mailto:${CONTACT.email}` },
-    { label: t("details.instagram"), value: CONTACT.instagram.label, href: CONTACT.instagram.href },
-    { label: t("details.whatsapp"), value: CONTACT.whatsapp.label, href: CONTACT.whatsapp.href },
-    { label: t("details.address"), value: tf("studioCity"), href: CONTACT.directions },
+    {
+      label: t("details.email"),
+      value: CONTACT.email,
+      href: `mailto:${CONTACT.email}`,
+    },
+    {
+      label: t("details.instagram"),
+      value: CONTACT.instagram.label,
+      href: CONTACT.instagram.href,
+    },
+    {
+      label: t("details.whatsapp"),
+      value: CONTACT.whatsapp.label,
+      href: CONTACT.whatsapp.href,
+    },
+    {
+      label: t("details.address"),
+      value: tf("studioCity"),
+      href: CONTACT.directions,
+    },
   ];
 
   const errProps = (id: string, error?: string) => ({
@@ -577,13 +622,23 @@ export function Contact() {
           <div className="flex flex-col gap-12 lg:sticky lg:top-[calc(var(--nav-h)+48px)] lg:self-start">
             <div className="flex flex-col gap-8">
               <span className="t-label text-water">
-                {activeTab === "project" ? t("projectEyebrow") : t("jobEyebrow")}
+                {activeTab === "project"
+                  ? t("projectEyebrow")
+                  : t("jobEyebrow")}
               </span>
               <h1 className="t-display t-md max-w-[13ch]">
-                <Emphasis text={activeTab === "project" ? t("projectHeadline") : t("jobHeadline")} />
+                <Emphasis
+                  text={
+                    activeTab === "project"
+                      ? t("projectHeadline")
+                      : t("jobHeadline")
+                  }
+                />
               </h1>
               <p className="t-body max-w-[42ch]">
-                {activeTab === "project" ? t("projectDescription") : t("jobDescription")}
+                {activeTab === "project"
+                  ? t("projectDescription")
+                  : t("jobDescription")}
               </p>
             </div>
 
@@ -591,15 +646,21 @@ export function Contact() {
               {details.map((d) => (
                 <div
                   key={d.label}
-                  className="grid grid-cols-[minmax(96px,0.4fr)_1fr] items-baseline gap-4 border-b border-navy/20 py-4">
+                  className="grid grid-cols-1 gap-1 border-b border-navy/20 py-4 sm:grid-cols-[minmax(96px,0.4fr)_minmax(0,1fr)] sm:items-baseline sm:gap-4">
                   <dt className="t-label text-water">{d.label}</dt>
                   <dd>
                     <a
                       href={d.href}
                       target={d.href.startsWith("http") ? "_blank" : undefined}
-                      rel={d.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="-my-2 inline-flex items-baseline gap-2 py-2 text-[17px] font-medium transition-colors hover:text-water">
-                      <span dir="ltr">{d.value}</span>
+                      rel={
+                        d.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="-my-2 inline-flex min-w-0 items-baseline gap-2 py-2 text-[17px] font-medium transition-colors hover:text-water">
+                      <span dir="ltr" className="break-words">
+                        {d.value}
+                      </span>
                       {d.href.startsWith("http") && <OutArrow />}
                     </a>
                   </dd>
@@ -610,7 +671,10 @@ export function Contact() {
 
           {/* Forms */}
           <div>
-            <div role="tablist" aria-label={t("label")} className="flex gap-8 border-b border-navy/20">
+            <div
+              role="tablist"
+              aria-label={t("label")}
+              className="flex gap-8 border-b border-navy/20">
               {(["project", "job"] as const).map((tab) => (
                 <button
                   key={tab}
@@ -648,13 +712,18 @@ export function Contact() {
               ) : projectFormStatus === "submitting" ? (
                 <Sending message={projectStatusMessage} />
               ) : (
-                <form onSubmit={handleProjectSubmit} noValidate className="flex flex-col gap-10">
+                <form
+                  onSubmit={handleProjectSubmit}
+                  noValidate
+                  className="flex flex-col gap-10">
                   <div className="flex flex-col gap-4">
                     <div className="flex items-baseline justify-between gap-4">
                       <h2 className="text-[clamp(22px,1.8vw,32px)] font-semibold">
                         {stepTitles[step - 1]}
                       </h2>
-                      <span className="t-label t-num text-water">{tp("stepOf", { step })}</span>
+                      <span className="t-label t-num text-water">
+                        {tp("stepOf", { step })}
+                      </span>
                     </div>
                     <div className="flex gap-2" aria-hidden="true">
                       {[1, 2, 3].map((n) => (
@@ -669,33 +738,52 @@ export function Contact() {
                     </div>
                   </div>
 
-                  {projectStatusMessage && <ErrorBanner message={projectStatusMessage} />}
+                  {projectStatusMessage && (
+                    <ErrorBanner message={projectStatusMessage} />
+                  )}
 
                   <div ref={projectFormRef} className="flex flex-col gap-10">
                     {step === 1 && (
                       <>
-                        <Field id="p-business" label={tp("businessName")} error={step1Errors.businessName}>
+                        <Field
+                          id="p-business"
+                          label={tp("businessName")}
+                          error={step1Errors.businessName}>
                           <input
-                            {...errProps("p-business", step1Errors.businessName)}
+                            {...errProps(
+                              "p-business",
+                              step1Errors.businessName,
+                            )}
                             type="text"
                             autoComplete="organization"
                             value={businessName}
                             onChange={(e) => {
                               setBusinessName(e.target.value);
-                              if (step1Errors.businessName) setStep1Errors((p) => ({ ...p, businessName: undefined }));
+                              if (step1Errors.businessName)
+                                setStep1Errors((p) => ({
+                                  ...p,
+                                  businessName: undefined,
+                                }));
                             }}
                             placeholder={tp("businessNamePlaceholder")}
                             className={fieldClass}
                           />
                         </Field>
-                        <Field id="p-social" label={tp("socialMedia")} error={step1Errors.socialMedia}>
+                        <Field
+                          id="p-social"
+                          label={tp("socialMedia")}
+                          error={step1Errors.socialMedia}>
                           <input
                             {...errProps("p-social", step1Errors.socialMedia)}
                             type="text"
                             value={socialMedia}
                             onChange={(e) => {
                               setSocialMedia(e.target.value);
-                              if (step1Errors.socialMedia) setStep1Errors((p) => ({ ...p, socialMedia: undefined }));
+                              if (step1Errors.socialMedia)
+                                setStep1Errors((p) => ({
+                                  ...p,
+                                  socialMedia: undefined,
+                                }));
                             }}
                             placeholder={tp("socialMediaPlaceholder")}
                             className={fieldClass}
@@ -706,7 +794,10 @@ export function Contact() {
 
                     {step === 2 && (
                       <div className="grid gap-10 sm:grid-cols-2 sm:gap-x-8">
-                        <Field id="p-name" label={tp("yourName")} error={step2Errors.name}>
+                        <Field
+                          id="p-name"
+                          label={tp("yourName")}
+                          error={step2Errors.name}>
                           <input
                             {...errProps("p-name", step2Errors.name)}
                             type="text"
@@ -714,13 +805,20 @@ export function Contact() {
                             value={name}
                             onChange={(e) => {
                               setName(e.target.value);
-                              if (step2Errors.name) setStep2Errors((p) => ({ ...p, name: undefined }));
+                              if (step2Errors.name)
+                                setStep2Errors((p) => ({
+                                  ...p,
+                                  name: undefined,
+                                }));
                             }}
                             placeholder={tp("yourNamePlaceholder")}
                             className={fieldClass}
                           />
                         </Field>
-                        <Field id="p-mobile" label={tp("mobile")} error={step2Errors.mobile}>
+                        <Field
+                          id="p-mobile"
+                          label={tp("mobile")}
+                          error={step2Errors.mobile}>
                           <input
                             {...errProps("p-mobile", step2Errors.mobile)}
                             type="tel"
@@ -729,10 +827,17 @@ export function Contact() {
                             value={mobile}
                             onChange={(e) => {
                               setMobile(e.target.value);
-                              if (step2Errors.mobile) setStep2Errors((p) => ({ ...p, mobile: undefined }));
+                              if (step2Errors.mobile)
+                                setStep2Errors((p) => ({
+                                  ...p,
+                                  mobile: undefined,
+                                }));
                             }}
                             placeholder={tp("mobilePlaceholder")}
-                            className={cn(fieldClass, "text-start rtl:text-end")}
+                            className={cn(
+                              fieldClass,
+                              "text-start rtl:text-end",
+                            )}
                           />
                         </Field>
                         <Field id="p-email" label={tp("email")}>
@@ -744,10 +849,16 @@ export function Contact() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={tp("emailPlaceholder")}
-                            className={cn(fieldClass, "text-start rtl:text-end")}
+                            className={cn(
+                              fieldClass,
+                              "text-start rtl:text-end",
+                            )}
                           />
                         </Field>
-                        <Field id="p-position" label={tp("position")} error={step2Errors.position}>
+                        <Field
+                          id="p-position"
+                          label={tp("position")}
+                          error={step2Errors.position}>
                           <input
                             {...errProps("p-position", step2Errors.position)}
                             type="text"
@@ -755,7 +866,11 @@ export function Contact() {
                             value={position}
                             onChange={(e) => {
                               setPosition(e.target.value);
-                              if (step2Errors.position) setStep2Errors((p) => ({ ...p, position: undefined }));
+                              if (step2Errors.position)
+                                setStep2Errors((p) => ({
+                                  ...p,
+                                  position: undefined,
+                                }));
                             }}
                             placeholder={tp("positionPlaceholder")}
                             className={fieldClass}
@@ -767,7 +882,9 @@ export function Contact() {
                     {step === 3 && (
                       <>
                         <fieldset className="flex flex-col gap-4">
-                          <legend className="t-label mb-4 text-water">{tp("servicesLabel")}</legend>
+                          <legend className="t-label mb-4 text-water">
+                            {tp("servicesLabel")}
+                          </legend>
                           <div className="flex flex-wrap gap-3">
                             {services.map((service) => (
                               <Choice
@@ -791,19 +908,27 @@ export function Contact() {
                               value={otherService}
                               onChange={(e) => {
                                 setOtherService(e.target.value);
-                                if (step3Errors.services) setStep3Errors((p) => ({ ...p, services: undefined }));
+                                if (step3Errors.services)
+                                  setStep3Errors((p) => ({
+                                    ...p,
+                                    services: undefined,
+                                  }));
                               }}
                               placeholder={tp("otherPlaceholder")}
                               className={fieldClass}
                             />
                           )}
                           {step3Errors.services && (
-                            <p className="t-small text-[var(--error)]">{step3Errors.services}</p>
+                            <p className="t-small text-[var(--error)]">
+                              {step3Errors.services}
+                            </p>
                           )}
                         </fieldset>
 
                         <fieldset className="flex flex-col gap-4">
-                          <legend className="t-label mb-4 text-water">{tp("meetingPreference")}</legend>
+                          <legend className="t-label mb-4 text-water">
+                            {tp("meetingPreference")}
+                          </legend>
                           <div className="flex flex-wrap gap-3">
                             {preferences.map((pref) => (
                               <Choice
@@ -811,14 +936,20 @@ export function Contact() {
                                 selected={meetingPreference === pref}
                                 onClick={() => {
                                   setMeetingPreference(pref);
-                                  if (step3Errors.preference) setStep3Errors((p) => ({ ...p, preference: undefined }));
+                                  if (step3Errors.preference)
+                                    setStep3Errors((p) => ({
+                                      ...p,
+                                      preference: undefined,
+                                    }));
                                 }}>
                                 {pref}
                               </Choice>
                             ))}
                           </div>
                           {step3Errors.preference && (
-                            <p className="t-small text-[var(--error)]">{step3Errors.preference}</p>
+                            <p className="t-small text-[var(--error)]">
+                              {step3Errors.preference}
+                            </p>
                           )}
                         </fieldset>
                       </>
@@ -861,16 +992,26 @@ export function Contact() {
               ) : jobFormStatus === "submitting" ? (
                 <Sending message={jobStatusMessage} />
               ) : (
-                <form onSubmit={handleJobSubmit} noValidate className="flex flex-col gap-10">
+                <form
+                  onSubmit={handleJobSubmit}
+                  noValidate
+                  className="flex flex-col gap-10">
                   <div className="flex flex-col gap-3">
-                    <h2 className="text-[clamp(22px,1.8vw,32px)] font-semibold">{tj("formTitle")}</h2>
+                    <h2 className="text-[clamp(22px,1.8vw,32px)] font-semibold">
+                      {tj("formTitle")}
+                    </h2>
                     <p className="t-small max-w-[48ch]">{tj("formSubtitle")}</p>
                   </div>
 
-                  {jobStatusMessage && <ErrorBanner message={jobStatusMessage} />}
+                  {jobStatusMessage && (
+                    <ErrorBanner message={jobStatusMessage} />
+                  )}
 
                   <div className="grid gap-10 sm:grid-cols-2 sm:gap-x-8">
-                    <Field id="j-name" label={tj("fullName")} error={jobErrors.fullName}>
+                    <Field
+                      id="j-name"
+                      label={tj("fullName")}
+                      error={jobErrors.fullName}>
                       <input
                         {...errProps("j-name", jobErrors.fullName)}
                         type="text"
@@ -884,7 +1025,10 @@ export function Contact() {
                         className={fieldClass}
                       />
                     </Field>
-                    <Field id="j-email" label={tj("email")} error={jobErrors.email}>
+                    <Field
+                      id="j-email"
+                      label={tj("email")}
+                      error={jobErrors.email}>
                       <input
                         {...errProps("j-email", jobErrors.email)}
                         type="email"
@@ -899,7 +1043,10 @@ export function Contact() {
                         className={cn(fieldClass, "text-start rtl:text-end")}
                       />
                     </Field>
-                    <Field id="j-phone" label={tj("phone")} error={jobErrors.phone}>
+                    <Field
+                      id="j-phone"
+                      label={tj("phone")}
+                      error={jobErrors.phone}>
                       <input
                         {...errProps("j-phone", jobErrors.phone)}
                         type="tel"
@@ -914,7 +1061,10 @@ export function Contact() {
                         className={cn(fieldClass, "text-start rtl:text-end")}
                       />
                     </Field>
-                    <Field id="j-city" label={tj("cityCountry")} error={jobErrors.cityCountry}>
+                    <Field
+                      id="j-city"
+                      label={tj("cityCountry")}
+                      error={jobErrors.cityCountry}>
                       <input
                         {...errProps("j-city", jobErrors.cityCountry)}
                         type="text"
@@ -939,14 +1089,19 @@ export function Contact() {
                         className={cn(fieldClass, "text-start rtl:text-end")}
                       />
                     </Field>
-                    <Field id="j-role" label={tj("role")} error={jobErrors.applyingFor}>
+                    <Field
+                      id="j-role"
+                      label={tj("role")}
+                      error={jobErrors.applyingFor}>
                       <Select
                         id="j-role"
                         value={jobApplyingFor}
                         options={roles}
                         placeholder={tj("selectRole")}
                         invalid={!!jobErrors.applyingFor}
-                        describedBy={jobErrors.applyingFor ? "j-role-error" : undefined}
+                        describedBy={
+                          jobErrors.applyingFor ? "j-role-error" : undefined
+                        }
                         onChange={(role) => {
                           setJobApplyingFor(role);
                           clearJobError("applyingFor");
@@ -978,7 +1133,9 @@ export function Contact() {
                   </Field>
 
                   <div className="flex flex-col gap-3">
-                    <span className="t-label text-water">{tj("attachments")}</span>
+                    <span className="t-label text-water">
+                      {tj("attachments")}
+                    </span>
                     <div
                       onDragEnter={handleJobDrag}
                       onDragOver={handleJobDrag}
@@ -986,7 +1143,9 @@ export function Contact() {
                       onDrop={handleJobDrop}
                       className={cn(
                         "border border-dashed px-6 py-8 transition-colors",
-                        jobDragActive ? "border-navy bg-sparkle/40" : "border-navy/30",
+                        jobDragActive
+                          ? "border-navy bg-sparkle/40"
+                          : "border-navy/30",
                       )}>
                       <input
                         ref={jobFileInputRef}
@@ -999,7 +1158,9 @@ export function Contact() {
                       {jobFile ? (
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex min-w-0 flex-col">
-                            <span className="truncate text-[15px] font-medium">{jobFile.name}</span>
+                            <span className="truncate text-[15px] font-medium">
+                              {jobFile.name}
+                            </span>
                             <span className="t-num text-[13px] text-water">
                               {(jobFile.size / (1024 * 1024)).toFixed(2)} MB
                             </span>
@@ -1009,7 +1170,13 @@ export function Contact() {
                             onClick={handleJobRemoveFile}
                             aria-label={tj("removeFile")}
                             className="flex size-10 shrink-0 items-center justify-center rounded-full border border-navy/25 transition-colors hover:border-navy">
-                            <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <svg
+                              viewBox="0 0 24 24"
+                              className="size-4"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              aria-hidden="true">
                               <path d="M6 6l12 12M18 6L6 18" />
                             </svg>
                           </button>
@@ -1021,11 +1188,17 @@ export function Contact() {
                           <span className="text-[15px] font-medium underline underline-offset-4">
                             {tj("uploadPrompt")}
                           </span>
-                          <span className="text-[13px] text-water">{tj("uploadHint")}</span>
+                          <span className="text-[13px] text-water">
+                            {tj("uploadHint")}
+                          </span>
                         </label>
                       )}
                     </div>
-                    {jobFileError && <p className="t-small text-[var(--error)]">{jobFileError}</p>}
+                    {jobFileError && (
+                      <p className="t-small text-[var(--error)]">
+                        {jobFileError}
+                      </p>
+                    )}
                   </div>
 
                   <div className="border-t border-navy/20 pt-8">

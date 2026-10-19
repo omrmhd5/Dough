@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import { CLIENT_WALL } from "./case-media";
 import { Emphasis, RunningHeader } from "./primitives";
 import { Reveal } from "./reveal";
@@ -54,11 +55,17 @@ export function Industries() {
 }
 
 /** Profile page 07: white logos on navy, even optical size. */
-export function ClientWall() {
+export function ClientWall({ lead = false }: { lead?: boolean }) {
   const t = useTranslations("clients");
 
   return (
-    <section className="section-y bg-navy text-cream">
+    <section
+      className={cn(
+        "bg-navy text-cream",
+        lead
+          ? "pb-[var(--section-y)] pt-[calc(var(--nav-h)+clamp(40px,5vw,96px))]"
+          : "section-y",
+      )}>
       <div className="wrap">
         <RunningHeader start="dough" end={t("label")} tone="dark" />
 
@@ -74,15 +81,15 @@ export function ClientWall() {
           {CLIENT_WALL.map((logo) => (
             <li
               key={logo.src}
-              className="flex h-[clamp(56px,6vw,112px)] basis-1/3 items-center justify-center sm:basis-1/4 md:basis-1/5 lg:basis-[calc(100%/7)]">
+              className="flex h-[var(--logo-slot)] basis-1/3 items-center justify-center sm:basis-1/4 md:basis-1/5 lg:basis-[calc(100%/7)]">
               <img
                 src={logo.src}
                 alt={logo.alt}
                 loading="lazy"
                 decoding="async"
-                className="w-auto max-w-[80%] object-contain opacity-90 transition-opacity duration-300 hover:opacity-100"
+                className="w-auto max-h-full max-w-[80%] object-contain opacity-90 transition-opacity duration-300 hover:opacity-100"
                 style={{
-                  maxHeight: `clamp(${Math.round(logo.h * 0.42)}px, ${(logo.h / 19.2).toFixed(2)}vw, ${logo.h}px)`,
+                  height: `clamp(${Math.round(logo.h * 0.4)}px, min(${(logo.h / 19.5).toFixed(2)}vw, ${(logo.h * 0.068).toFixed(2)}svh), ${Math.round(logo.h * 0.82)}px)`,
                 }}
               />
             </li>

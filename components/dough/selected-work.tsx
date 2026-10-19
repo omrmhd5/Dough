@@ -5,9 +5,13 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAppLocale } from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
-import { CASES } from "./case-media";
+import { CASES, type CaseMedia } from "./case-media";
 import { Arrow, Emphasis, RunningHeader, TextLink } from "./primitives";
 import { Reveal } from "./reveal";
+
+function homePreviewCover(media: CaseMedia) {
+  return media.coverHome ?? media.cover;
+}
 
 /** Profile page 10: the case-study index, with a live preview frame. */
 export function SelectedWork() {
@@ -39,35 +43,45 @@ export function SelectedWork() {
           <ol className="border-t border-navy/20">
             {CASES.map(({ client, media, number }, i) => {
               const name = locale === "ar" ? client.ar : client.en;
-              const sector = locale === "ar" ? client.sectorAr ?? client.sector : client.sector;
+              const sector =
+                locale === "ar"
+                  ? (client.sectorAr ?? client.sector)
+                  : client.sector;
+              const preview = homePreviewCover(media);
               return (
                 <li key={client.slug} className="border-b border-navy/20">
                   <Link
                     href={`/work/${client.slug}`}
                     onMouseEnter={() => setActive(i)}
                     onFocus={() => setActive(i)}
-                    className="group grid grid-cols-[72px_minmax(0,1fr)_auto] items-center gap-x-5 py-4 sm:grid-cols-[clamp(56px,6vw,110px)_minmax(0,1fr)_auto] sm:py-6 lg:grid-cols-[clamp(56px,6vw,110px)_minmax(0,1fr)_auto]">
+                    className="group grid min-w-0 grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-x-4 py-4 sm:grid-cols-[clamp(56px,6vw,110px)_minmax(0,1fr)_auto] sm:gap-x-5 sm:py-6">
                     <span className="t-label t-num hidden text-water sm:block">
                       {tc("caseLabel", { n: String(number).padStart(2, "0") })}
                     </span>
                     <span className="relative block aspect-square overflow-hidden bg-grey sm:hidden">
                       <img
-                        src={media.cover.src}
+                        src={preview.src}
                         alt=""
                         loading="lazy"
                         className="photo"
-                        style={media.cover.position ? { objectPosition: media.cover.position } : undefined}
+                        style={
+                          preview.position
+                            ? { objectPosition: preview.position }
+                            : undefined
+                        }
                       />
                     </span>
                     <span className="flex min-w-0 flex-col gap-1">
                       <span
                         className={cn(
-                          "truncate text-[clamp(26px,3.2vw,60px)] font-light leading-[1.05] tracking-[-0.02em] group-hover:font-bold group-focus-visible:font-bold",
+                          "truncate text-[length:var(--name-title)] font-light leading-[1.05] tracking-[-0.02em] group-hover:font-bold group-focus-visible:font-bold",
                           active === i && "lg:font-bold",
                         )}>
                         {name}
                       </span>
-                      <span className="t-small truncate text-water">{sector}</span>
+                      <span className="t-small truncate text-water">
+                        {sector}
+                      </span>
                     </span>
                     <Arrow className="size-5 text-navy/40 transition-all duration-300 group-hover:translate-x-1 group-hover:text-navy rtl:group-hover:-translate-x-1" />
                   </Link>
@@ -78,29 +92,104 @@ export function SelectedWork() {
 
           <div className="hidden lg:block">
             <div className="sticky top-[calc(var(--nav-h)+40px)]">
-              <div className="photo-shadow relative aspect-[4/5] overflow-hidden bg-grey">
-                {CASES.map(({ client, media }, i) => (
-                  <img
-                    key={client.slug}
-                    src={media.cover.src}
-                    alt={i === active ? (locale === "ar" ? media.cover.altAr ?? media.cover.alt : media.cover.alt) : ""}
-                    aria-hidden={i !== active}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    decoding="async"
-                    className={cn(
-                      "photo absolute inset-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      i === active ? "scale-100 opacity-100" : "scale-[1.03] opacity-0",
-                    )}
-                    style={{
-                      objectPosition: media.cover.position,
-                      background: media.cover.bg,
-                    }}
-                  />
-                ))}
+              <div
+                className={cn(
+                  "relative aspect-[4/5] max-h-[var(--media-max)]",
+                  // Before/after logos sit straight on the page: no panel, shadow or fill,
+                  // and they may spill into the margins for extra size.
+                  CASES[active].media.coverCompare
+                    ? "overflow-visible"
+                    : "overflow-hidden photo-shadow bg-grey",
+                )}>
+                {CASES.map(({ client, media }, i) => {
+                  const preview = homePreviewCover(media);
+                  const compare = media.coverCompare;
+                  const fade = cn(
+                    "absolute inset-0 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    i === active
+                      ? "scale-100 opacity-100"
+                      : "scale-[1.03] opacity-0",
+                  );
+
+                  // Cases with a before/after pair (Akleh) show both side by side.
+                  if (compare) {
+                    // Two equal columns across the whole preview space, bottoms on one
+                    // line. The old logo is naturally smaller, the new wordmark bigger.
+                    // No background, shadow or overlay; multiply drops the old logo's
+                    // white so it sits straight on the page.
+                    const sides = [
+                      { key: "before", image: compare.before, blend: true },
+                      { key: "after", image: compare.after, blend: false },
+                    ] as const;
+                    return (
+                      <div
+                        key={client.slug}
+                        aria-hidden={i !== active}
+                        className={cn(fade, "flex items-center")}
+                        style={{
+                          insetInlineStart: "-2.5vw",
+                          insetInlineEnd: "calc(var(--gutter) * -0.9)",
+                        }}>
+                        <div className="grid w-full grid-cols-2 items-end gap-[clamp(16px,2vw,32px)]">
+                          {sides.map(({ key, image, blend }) => (
+                            <figure
+                              key={key}
+                              className="flex min-w-0 flex-col gap-3">
+                              <figcaption className="t-label text-water">
+                                {tc(key)}
+                              </figcaption>
+                              <img
+                                src={image.src}
+                                alt={
+                                  i === active
+                                    ? locale === "ar"
+                                      ? (image.altAr ?? image.alt)
+                                      : image.alt
+                                    : ""
+                                }
+                                width={image.w}
+                                height={image.h}
+                                loading={i === 0 ? "eager" : "lazy"}
+                                decoding="async"
+                                className={cn(
+                                  "block h-auto w-full",
+                                  blend && "mix-blend-multiply",
+                                )}
+                              />
+                            </figure>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <img
+                      key={client.slug}
+                      src={preview.src}
+                      alt={
+                        i === active
+                          ? locale === "ar"
+                            ? (preview.altAr ?? preview.alt)
+                            : preview.alt
+                          : ""
+                      }
+                      aria-hidden={i !== active}
+                      loading={i === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      className={cn("photo", fade)}
+                      style={{
+                        objectPosition: preview.position,
+                        background: preview.bg,
+                      }}
+                    />
+                  );
+                })}
               </div>
               <p className="t-small mt-4 text-water">
                 {locale === "ar"
-                  ? CASES[active].client.subtitleAr ?? CASES[active].client.subtitle
+                  ? (CASES[active].client.subtitleAr ??
+                    CASES[active].client.subtitle)
                   : CASES[active].client.subtitle}
               </p>
             </div>

@@ -24,9 +24,10 @@ export function WhoWeAre() {
             <Photo
               src="/profile/v3/n6-0.webp"
               alt={t("studioAlt")}
-              width={720}
-              height={534}
-              className="aspect-[1150/852]"
+              width={1150}
+              height={852}
+              shadow
+              className="flex justify-center"
             />
           </Reveal>
 

@@ -17,7 +17,12 @@ type Item = {
 const MEDIA = [
   { src: "/profile/cp/kufta-boxes.webp", w: 1066, h: 1600 },
   { src: "/profile/ai/comfort-grid-web.webp", w: 1600, h: 2000 },
-  { video: "/profile/ai/lux-grapefruit.mp4", src: "/profile/ai/lux-grapefruit-still.webp", w: 941, h: 1672 },
+  {
+    video: "/profile/ai/lux-grapefruit.mp4",
+    src: "/profile/ai/lux-grapefruit-still.webp",
+    w: 941,
+    h: 1672,
+  },
   { src: "/profile/cp/crepe-booth-crop.webp", w: 1000, h: 800 },
   { src: "/profile/v3/n49-0.webp", w: 800, h: 800 },
   { src: "/profile/cp/kufta-booth.webp", w: 1024, h: 768 },
@@ -52,37 +57,55 @@ export function FilmTile({
   };
 
   return (
-    <div className={cn("relative overflow-hidden bg-[#E8B7A5]", className)}>
+    <div className={cn("relative overflow-hidden", className)}>
+      {!playing && (
+        <img
+          src={poster}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 size-full object-cover"
+        />
+      )}
       <video
         ref={ref}
         src={src}
-        poster={poster}
         muted
         playsInline
         loop
-        preload="none"
+        preload="metadata"
         aria-label={alt}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        className="photo"
+        className={cn(
+          "absolute inset-0 size-full object-cover",
+          !playing && "invisible",
+        )}
       />
       <button
         type="button"
         onClick={toggle}
         aria-label={playing ? pauseLabel : playLabel}
         aria-pressed={playing}
-        className="absolute inset-0 flex items-end justify-start p-5 text-cream">
+        className="absolute inset-0 z-10 flex items-end justify-start p-5 text-cream">
         <span
           className={cn(
             "flex size-14 items-center justify-center rounded-full bg-navy/80 backdrop-blur transition-opacity duration-300",
             playing && "opacity-0 hover:opacity-100",
           )}>
           {playing ? (
-            <svg viewBox="0 0 24 24" className="size-5" fill="currentColor" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              className="size-5"
+              fill="currentColor"
+              aria-hidden="true">
               <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
             </svg>
           ) : (
-            <svg viewBox="0 0 24 24" className="size-5 translate-x-px" fill="currentColor" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              className="size-5 translate-x-px"
+              fill="currentColor"
+              aria-hidden="true">
               <path d="M8 5l11 7-11 7z" />
             </svg>
           )}
@@ -117,7 +140,11 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
           {items.map((item, i) => {
             const media = MEDIA[i];
             return (
-              <Reveal as="li" key={item.title} delay={(i % 3) * 90} className="flex flex-col">
+              <Reveal
+                as="li"
+                key={item.title}
+                delay={(i % 3) * 90}
+                className="flex min-w-0 flex-col">
                 {"video" in media ? (
                   <FilmTile
                     src={media.video}
@@ -125,7 +152,7 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     alt={item.alt}
                     playLabel={item.play ?? ""}
                     pauseLabel={item.pause ?? ""}
-                    className="photo-shadow aspect-[4/5]"
+                    className="photo-shadow aspect-[4/5] max-h-[var(--tile-max)]"
                   />
                 ) : (
                   <Photo
@@ -134,10 +161,10 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     width={media.w}
                     height={media.h}
                     shadow
-                    className="aspect-[4/5]"
+                    className="aspect-[4/5] max-h-[var(--tile-max)]"
                   />
                 )}
-                <h3 className="t-display mt-7 text-[clamp(26px,2.2vw,42px)] leading-[1.05]">
+                <h3 className="t-display mt-7 text-[length:var(--name-title)] leading-[1.05]">
                   <Emphasis text={item.title} />
                 </h3>
                 <p className="t-small mt-3 max-w-[38ch]">{item.body}</p>
