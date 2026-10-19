@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Blob } from "./blob";
 import { ButtonLink, Emphasis, RunningHeader } from "./primitives";
 
 /** Coming-soon page in the profile's section-opener style. */
@@ -28,9 +29,10 @@ export function UncleDough() {
           <ButtonLink href="/" tone="navy">
             {t("backHome")}
           </ButtonLink>
-          <span
-            aria-hidden="true"
-            className="hidden size-[clamp(80px,9vw,160px)] rounded-[48%_52%_44%_56%/55%_45%_55%_45%] bg-water sm:block"
+          <Blob
+            variant={3}
+            aria-hidden
+            className="hidden size-[clamp(80px,9vw,160px)] shrink-0 bg-water sm:block"
           />
         </div>
       </div>

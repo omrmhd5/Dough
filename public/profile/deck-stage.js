@@ -184,6 +184,26 @@
       justify-content: center;
     }
 
+    /* Narrow viewports: fit slide width and scroll vertically (see _fit). */
+    :host([data-mobile-scroll]) {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+    :host([data-mobile-scroll]) .stage {
+      position: relative;
+      inset: auto;
+      min-height: 100%;
+      box-sizing: border-box;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0 0 max(12px, env(safe-area-inset-bottom));
+    }
+    .canvas-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
     .canvas {
       position: relative;
       transform-origin: center center;
@@ -587,6 +607,10 @@
         color: inherit;
       }
       .stage { position: static; display: block; }
+      .canvas-wrap {
+        width: auto !important;
+        height: auto !important;
+      }
       .canvas {
         transform: none !important;
         width: auto !important;
@@ -714,6 +738,8 @@
       this._ensureTextWrapDefaults();
       window.addEventListener('keydown', this._onKey);
       window.addEventListener('resize', this._onResize);
+      this._onNarrowChange = () => this._onResize();
+      NARROW_MQ.addEventListener('change', this._onNarrowChange);
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
       window.addEventListener('click', this._onDocClick, true);
@@ -1042,6 +1068,7 @@
       this._stopDragTrack();
       window.removeEventListener('keydown', this._onKey);
       window.removeEventListener('resize', this._onResize);
+      if (this._onNarrowChange) NARROW_MQ.removeEventListener('change', this._onNarrowChange);
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
       window.removeEventListener('click', this._onDocClick, true);
@@ -1097,6 +1124,9 @@
       const stage = document.createElement('div');
       stage.className = 'stage';
 
+      const canvasWrap = document.createElement('div');
+      canvasWrap.className = 'canvas-wrap';
+
       const canvas = document.createElement('div');
       canvas.className = 'canvas';
       canvas.style.width = this.designWidth + 'px';
@@ -1107,7 +1137,8 @@
       const slot = document.createElement('slot');
       slot.addEventListener('slotchange', this._onSlotChange);
       canvas.appendChild(slot);
-      stage.appendChild(canvas);
+      canvasWrap.appendChild(canvas);
+      stage.appendChild(canvasWrap);
 
       // Overlay: compact, solid black, with clickable controls.
       const overlay = document.createElement('div');
@@ -1289,6 +1320,7 @@
 
       this._root.append(style, rail, resize, stage, overlay, menu, confirm);
       this._canvas = canvas;
+      this._canvasWrap = canvasWrap;
       this._stage = stage;
       this._slot = slot;
       this._overlay = overlay;
@@ -1509,6 +1541,7 @@
         if (i === curr) s.setAttribute('data-deck-active', '');
         else s.removeAttribute('data-deck-active');
       });
+      if (reason !== 'init') this._syncMobileScrollPosition(true);
       this._syncCount();
       // Follow-scroll on every navigation (init deep-link, keyboard, click,
       // tap, external goTo) — the only time we *don't* want the rail to
@@ -1566,6 +1599,10 @@
       }, OVERLAY_HIDE_MS);
     }
 
+    _mobileScroll() {
+      return !this.hasAttribute('noscale') && NARROW_MQ.matches;
+    }
+
     _railWidth() {
       // State-based, no offsetWidth: the first _fit() can run before the
       // rail has had layout on some load paths, and a 0 there paints the
@@ -1579,12 +1616,19 @@
 
     _fit() {
       if (!this._canvas) return;
-      const stage = this._canvas.parentElement;
+      const stage = this._stage;
+      const wrap = this._canvasWrap;
       // PPTX export sets noscale so the DOM capture sees authored-size
       // geometry — the scaled canvas is in shadow DOM, so the exporter's
       // resetTransformSelector can't reach .canvas.style.transform directly.
       if (this.hasAttribute('noscale')) {
+        this.removeAttribute('data-mobile-scroll');
         this._canvas.style.transform = 'none';
+        this._canvas.style.transformOrigin = '';
+        if (wrap) {
+          wrap.style.width = '';
+          wrap.style.height = '';
+        }
         if (stage) stage.style.left = '0';
         if (this._overlay) this._overlay.style.marginLeft = '0';
         return;
@@ -1597,8 +1641,41 @@
       if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
       const vw = window.innerWidth - rw;
       const vh = window.innerHeight;
-      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
-      this._canvas.style.transform = `scale(${s})`;
+      const mobileScroll = this._mobileScroll();
+      const s = mobileScroll
+        ? Math.max(vw / this.designWidth, vh / this.designHeight)
+        : Math.min(vw / this.designWidth, vh / this.designHeight);
+      if (mobileScroll) {
+        this.setAttribute('data-mobile-scroll', '');
+        const sw = Math.ceil(this.designWidth * s);
+        const sh = Math.ceil(this.designHeight * s);
+        if (wrap) {
+          wrap.style.width = sw + 'px';
+          wrap.style.height = sh + 'px';
+        }
+        this._canvas.style.transformOrigin = 'top left';
+        this._canvas.style.transform = `scale(${s})`;
+      } else {
+        this.removeAttribute('data-mobile-scroll');
+        if (wrap) {
+          wrap.style.width = '';
+          wrap.style.height = '';
+        }
+        this._canvas.style.transformOrigin = 'center center';
+        this._canvas.style.transform = `scale(${s})`;
+      }
+      if (mobileScroll) this._syncMobileScrollPosition(false);
+    }
+
+    /** Center horizontal overflow after fit; optional vertical reset on nav. */
+    _syncMobileScrollPosition(resetVertical) {
+      if (!this.hasAttribute('data-mobile-scroll')) return;
+      requestAnimationFrame(() => {
+        if (resetVertical) this.scrollTop = 0;
+        const maxLeft = this.scrollWidth - this.clientWidth;
+        if (maxLeft > 0) this.scrollLeft = maxLeft / 2;
+        else this.scrollLeft = 0;
+      });
     }
 
     _onResize() {
@@ -1725,6 +1802,9 @@
     _onTap(e) {
       // Touch-only — keyboard + the overlay toolbar cover nav on desktop.
       if (FINE_POINTER_MQ.matches) return;
+      // Narrow viewports scroll the slide vertically; half-screen tap nav
+      // would fight touch scrolling.
+      if (this.hasAttribute('data-mobile-scroll')) return;
       // Only taps that land on the stage (slide content or letterbox); the
       // overlay / rail / menus are siblings with their own click handlers.
       const path = e.composedPath();

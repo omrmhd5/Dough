@@ -38,14 +38,14 @@ export function RunningHeader({
   return (
     <div
       className={cn(
-        "t-label flex items-baseline justify-between gap-6",
+        "t-label flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2",
         tone === "light" && "text-water",
         tone === "dark" && "text-sparkle",
         tone === "sparkle" && "text-navy",
         className,
       )}>
-      <span>{start}</span>
-      {end ? <span className="text-end">{end}</span> : null}
+      <span className="min-w-0">{start}</span>
+      {end ? <span className="min-w-0 text-end">{end}</span> : null}
     </div>
   );
 }
@@ -56,7 +56,10 @@ export function Arrow({ className }: { className?: string }) {
     <svg
       viewBox="0 0 24 24"
       aria-hidden="true"
-      className={cn("inline-block size-[0.9em] shrink-0 rtl:-scale-x-100", className)}
+      className={cn(
+        "inline-block size-[0.9em] shrink-0 rtl:-scale-x-100",
+        className,
+      )}
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -72,7 +75,10 @@ export function OutArrow({ className }: { className?: string }) {
     <svg
       viewBox="0 0 24 24"
       aria-hidden="true"
-      className={cn("inline-block size-[0.62em] shrink-0 rtl:-scale-x-100", className)}
+      className={cn(
+        "inline-block size-[0.62em] shrink-0 rtl:-scale-x-100",
+        className,
+      )}
       fill="none"
       stroke="currentColor"
       strokeWidth="2.4"
@@ -87,8 +93,10 @@ type ButtonTone = "navy" | "cream" | "outline-light" | "outline-dark";
 const buttonTones: Record<ButtonTone, string> = {
   navy: "bg-navy text-cream hover:bg-water",
   cream: "bg-cream text-navy hover:bg-sparkle",
-  "outline-light": "border border-navy/30 text-navy hover:bg-navy hover:text-cream",
-  "outline-dark": "border border-sparkle/40 text-cream hover:bg-cream hover:text-navy",
+  "outline-light":
+    "border border-navy/30 text-navy hover:bg-navy hover:text-cream",
+  "outline-dark":
+    "border border-sparkle/40 text-cream hover:bg-cream hover:text-navy",
 };
 
 export const buttonClass = (tone: ButtonTone = "navy") =>
@@ -159,7 +167,7 @@ export function Photo({
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-grey",
+        "overflow-hidden bg-grey",
         shadow && "photo-shadow",
         className,
       )}>
@@ -172,9 +180,8 @@ export function Photo({
         decoding="async"
         fetchPriority={priority ? "high" : undefined}
         className={cn(
-          "photo",
-          fit === "contain" && "object-contain bg-transparent",
-          imgClassName,
+          imgClassName ?? "photo",
+          fit === "contain" && "object-contain p-[6%] bg-transparent",
         )}
         style={position ? { objectPosition: position } : undefined}
       />

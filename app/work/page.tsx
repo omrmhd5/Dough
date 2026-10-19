@@ -16,9 +16,9 @@ export default function WorkPage() {
     <>
       <SiteNav />
       <main>
-        <WorkIndex />
-        <ClientWall />
+        <ClientWall lead />
         <Capabilities />
+        <WorkIndex />
       </main>
       <SiteFooter />
     </>

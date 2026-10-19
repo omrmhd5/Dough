@@ -34,13 +34,13 @@ function ContactRow({
   value: string;
 }) {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-2">
       <span className="t-label text-sparkle">{label}</span>
       <a
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="-my-2 inline-flex w-fit items-baseline gap-2 py-2 text-[clamp(18px,1.6vw,30px)] text-cream transition-colors hover:text-sparkle">
+        className="-my-1 inline-flex w-fit items-baseline gap-2 py-1 text-[length:var(--footer-link)] text-cream transition-colors hover:text-sparkle">
         <span dir="ltr">{value}</span>
         <OutArrow />
       </a>
@@ -58,43 +58,49 @@ export function SiteFooter({
 
   return (
     <footer className="bg-navy text-cream">
-      <div className="wrap pb-12 pt-[var(--section-y)]">
+      <div className="wrap py-[var(--footer-y)]">
         <RunningHeader start="dough" end={t("label")} tone="dark" />
 
         {variant === "full" && (
-          <h2 className="t-display t-lg mt-[clamp(56px,7vw,128px)] max-w-[15ch] text-cream">
+          <h2 className="t-display t-sm mt-[var(--footer-stack)] max-w-[15ch] text-cream">
             <Emphasis text={t("headline")} />
           </h2>
         )}
 
         <div
           className={cn(
-            "grid gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-24",
-            variant === "full" ? "mt-[clamp(56px,7vw,120px)]" : "mt-14",
+            "grid gap-[var(--footer-gap)] lg:grid-cols-[1fr_1.15fr] lg:gap-x-16",
+            variant === "full" ? "mt-[var(--footer-stack)]" : "mt-8",
           )}>
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3">
               <span className="t-label text-sparkle">{t("sayHello")}</span>
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="w-fit break-all text-[clamp(30px,3.6vw,64px)] font-semibold leading-tight tracking-[-0.01em] underline decoration-[3px] underline-offset-[12px] transition-colors hover:text-sparkle"
+                className="w-fit break-all text-[length:var(--footer-email)] font-semibold leading-tight tracking-[-0.01em] underline decoration-2 underline-offset-[0.35em] transition-colors hover:text-sparkle"
                 dir="ltr">
                 {CONTACT.email}
               </a>
             </div>
             {variant === "full" && (
-              <div className="flex flex-wrap gap-3">
-                <ButtonLink href="/contact?tab=project" tone="cream">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <ButtonLink
+                  href="/contact?tab=project"
+                  tone="cream"
+                  className="w-full sm:w-fit">
                   {t("startProject")}
                 </ButtonLink>
-                <ButtonLink href="/contact?tab=job" tone="outline-dark">
+                <ButtonLink
+                  href="/contact?tab=job"
+                  tone="outline-dark"
+                  className="w-full sm:w-fit">
                   {t("joinTeam")}
                 </ButtonLink>
               </div>
             )}
           </div>
 
-          <div className="grid gap-x-16 gap-y-10 sm:grid-cols-2">
+          <div className="grid gap-x-10 gap-y-6 sm:grid-cols-2">
             <ContactRow
               label={t("website")}
               href={CONTACT.website.href}
@@ -115,28 +121,28 @@ export function SiteFooter({
               href={CONTACT.whatsapp.href}
               value={CONTACT.whatsapp.label}
             />
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <span className="t-label text-sparkle">{t("studio")}</span>
-              <span className="text-[clamp(18px,1.6vw,30px)]">
+              <span className="text-[length:var(--footer-link)]">
                 {t("studioCity")}
               </span>
               <a
                 href={CONTACT.directions}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="-my-2 inline-flex w-fit items-baseline gap-2 py-2 text-[clamp(15px,1.15vw,22px)] text-sparkle transition-colors hover:text-cream">
+                className="-my-1 inline-flex w-fit items-baseline gap-2 py-1 text-[length:var(--footer-meta)] text-sparkle transition-colors hover:text-cream">
                 {t("directions")}
                 <OutArrow />
               </a>
             </div>
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
               <span className="t-label text-sparkle">{t("joinTeam")}</span>
-              <p className="t-small max-w-[34ch] text-cream/80">
+              <p className="max-w-[34ch] text-[length:var(--footer-meta)] leading-snug text-cream/80">
                 {t("careersCopy")}
               </p>
               <Link
                 href="/contact?tab=job"
-                className="-my-2 inline-flex w-fit items-baseline gap-2 py-2 text-[clamp(15px,1.15vw,22px)] text-sparkle transition-colors hover:text-cream">
+                className="-my-1 inline-flex w-fit items-baseline gap-2 py-1 text-[length:var(--footer-meta)] text-sparkle transition-colors hover:text-cream">
                 {t("joinTeam")}
                 <OutArrow />
               </Link>
@@ -144,12 +150,16 @@ export function SiteFooter({
           </div>
         </div>
 
-        <div className="mt-[clamp(72px,9vw,160px)] flex flex-col gap-6 border-t border-sparkle/25 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" aria-label="Dough" className="-my-2 w-fit py-2">
-            <img src="/Logo-Light.png" alt="Dough" className="h-8 w-auto" />
+        <div className="mt-[var(--footer-stack)] flex flex-col gap-4 border-t border-sparkle/25 pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <Link href="/" aria-label="Dough" className="-my-1 w-fit py-1">
+            <img src="/Logo-Light.png" alt="Dough" className="h-7 w-auto" />
           </Link>
-          <p className="t-small text-sparkle/80">{t("tagline")}</p>
-          <p className="t-small text-sparkle/80">{t("rights", { year })}</p>
+          <p className="text-[length:var(--footer-meta)] text-sparkle/80">
+            {t("tagline")}
+          </p>
+          <p className="text-[length:var(--footer-meta)] text-sparkle/80">
+            {t("rights", { year })}
+          </p>
         </div>
       </div>
     </footer>
