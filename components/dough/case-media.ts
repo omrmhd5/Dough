@@ -23,6 +23,8 @@ export interface MediaImage {
   featureFill?: boolean;
   /** Under the feature lead: grow to fill leftover column height (object-cover). */
   featureFlex?: boolean;
+  /** Grid: frame shape for this tile, overriding the gallery aspect. */
+  tileAspect?: string;
   /** Native w×h frame capped by --media-max (social / opener-style sizing). */
   nativeFrame?: boolean;
 }
@@ -60,14 +62,25 @@ export interface Gallery {
   nativeTiles?: boolean;
   /** Screens row: override `--screen-w` (e.g. tie width to `--media-max`). */
   screenWidth?: string;
+  /** Below `lg`: cap tile count (e.g. 8 in a 2-col grid, 4 in a 2×2 justified wrap). */
+  twoColumnMaxImages?: number;
+  /** `cols: 2` grids default to one column on phone; set true to keep two columns. */
+  twoColumnsOnPhone?: boolean;
   images: MediaImage[];
+  /** Justified galleries: render as the native-size grid on phones. */
+  phoneGrid?: boolean;
   /** Feature galleries: a wide photo placed directly under the lead photo. */
   leadUnder?: MediaImage;
   palette?: { name: string; nameAr: string; hex: string }[];
   stats?: Stat[];
   video?: { src: string; poster: string };
   /** Vertical reels row (kind "videos"). */
-  videos?: { src: string; poster?: string; caption: string; captionAr: string }[];
+  videos?: {
+    src: string;
+    poster?: string;
+    caption: string;
+    captionAr: string;
+  }[];
 }
 
 export interface CaseMedia {
@@ -205,6 +218,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         cols: 3,
         aspect: "1/1",
         tileMax: "min(40svh, 420px)",
+        twoColumnMaxImages: 8,
         palette: [
           { name: "Teal", nameAr: "تيل", hex: "#0E8A9A" },
           { name: "Mustard", nameAr: "مستردة", hex: "#C99A00" },
@@ -397,6 +411,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "grid",
         cols: 2,
         aspect: "4/5",
+        twoColumnsOnPhone: true,
         images: [
           img(
             "akleh/akleh-shoot-burger",
@@ -421,6 +436,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             1200,
             "Akleh zaatar manoucheh",
             "منقوشة زعتر من أكلة",
+            { tileAspect: "3/2" },
           ),
           img(
             "akleh/akleh-shoot-cheese",
@@ -428,6 +444,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             1200,
             "Akleh cheese manoucheh",
             "منقوشة جبنة من أكلة",
+            { tileAspect: "3/2" },
           ),
         ],
       },
@@ -554,6 +571,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tone: "navy",
         kind: "grid",
         cols: 2,
+        twoColumnsOnPhone: true,
         images: [
           img(
             "knorr/knorr-fries",
@@ -661,9 +679,8 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         heading: "boxes *and kiosks.*",
         headingAr: "علب *وأكشاك.*",
         tone: "cream",
-        kind: "grid",
-        cols: 2,
-        nativeTiles: true,
+        kind: "justified",
+        phoneGrid: true,
         tileMax: "min(76svh, 840px)",
         images: [
           img(

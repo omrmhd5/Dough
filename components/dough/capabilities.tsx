@@ -28,13 +28,12 @@ const MEDIA = [
   { src: "/cases/kufta/kufta-booth.webp", w: 1024, h: 768 },
 ] as const;
 
-function nativeTileStyle(w: number, h: number): CSSProperties {
-  return {
-    aspectRatio: `${w}/${h}`,
-    width: `min(100%, calc(var(--tile-max) * ${w} / ${h}))`,
-    maxHeight: "var(--tile-max)",
-  };
-}
+/** One shared 4∶5 frame so mixed-ratio media line up in a clean grid. */
+const TILE_STYLE: CSSProperties = {
+  aspectRatio: "4/5",
+  width: "min(100%, calc(var(--tile-max) * 4 / 5))",
+  maxHeight: "var(--tile-max)",
+};
 
 export function FilmTile({
   src,
@@ -163,8 +162,8 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     alt={item.alt}
                     playLabel={item.play ?? ""}
                     pauseLabel={item.pause ?? ""}
-                    className="photo-shadow"
-                    style={nativeTileStyle(media.w, media.h)}
+                    className="photo-shadow mx-auto"
+                    style={TILE_STYLE}
                   />
                 ) : (
                   <Photo
@@ -174,7 +173,7 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     height={media.h}
                     shadow
                     className="mx-auto"
-                    style={nativeTileStyle(media.w, media.h)}
+                    style={TILE_STYLE}
                   />
                 )}
                 <h3 className="t-display mt-7 text-[length:var(--name-title)] leading-[1.05]">
