@@ -8,6 +8,13 @@ const nextConfig = {
     unoptimized: true,
   },
   devIndicators: false,
+  // Company profile deck lives in public/profile; serve it at /profile.
+  async rewrites() {
+    return [
+      { source: "/profile", destination: "/profile/index.html" },
+      { source: "/profile/", destination: "/profile/index.html" },
+    ];
+  },
   async redirects() {
     return [
       {
