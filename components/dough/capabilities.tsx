@@ -15,17 +15,17 @@ type Item = {
 };
 
 const MEDIA = [
-  { src: "/profile/cp/kufta-boxes.webp", w: 1066, h: 1600 },
-  { src: "/profile/ai/comfort-grid-web.webp", w: 1600, h: 2000 },
+  { src: "/cases/kufta/kufta-boxes.webp", w: 1066, h: 1600 },
+  { src: "/home/comfort-grid.webp", w: 1600, h: 2000 },
   {
-    video: "/profile/ai/lux-grapefruit.mp4",
-    src: "/profile/ai/lux-grapefruit-still.webp",
+    video: "/cases/lux/lux-grapefruit.mp4",
+    src: "/cases/lux/lux-grapefruit-still.webp",
     w: 941,
     h: 1672,
   },
-  { src: "/profile/cp/crepe-booth-crop.webp", w: 1000, h: 800 },
-  { src: "/profile/v3/n49-0.webp", w: 800, h: 800 },
-  { src: "/profile/cp/kufta-booth.webp", w: 1024, h: 768 },
+  { src: "/home/crepe-booth-crop.webp", w: 1000, h: 800 },
+  { src: "/home/n49-0.webp", w: 800, h: 800 },
+  { src: "/cases/kufta/kufta-booth.webp", w: 1024, h: 768 },
 ] as const;
 
 export function FilmTile({

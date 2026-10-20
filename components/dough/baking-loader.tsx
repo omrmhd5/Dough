@@ -11,7 +11,7 @@ export function BakingLoader({ className }: { className?: string }) {
       role="status"
       aria-live="polite">
       <img
-        src="/Logo-Dark.png"
+        src="/brand/Logo-Dark.png"
         alt=""
         aria-hidden="true"
         className="h-8 w-auto animate-pulse sm:h-10"

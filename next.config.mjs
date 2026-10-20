@@ -8,10 +8,6 @@ const nextConfig = {
     unoptimized: true,
   },
   devIndicators: false,
-  // The company profile is a static deck in public/profile; serve it at /profile.
-  async rewrites() {
-    return [{ source: "/profile", destination: "/profile/index.html" }];
-  },
   async redirects() {
     return [
       {
