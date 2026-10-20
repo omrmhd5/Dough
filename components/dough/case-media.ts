@@ -23,6 +23,8 @@ export interface MediaImage {
   featureFill?: boolean;
   /** Under the feature lead: grow to fill leftover column height (object-cover). */
   featureFlex?: boolean;
+  /** Grid: frame shape for this tile, overriding the gallery aspect. */
+  tileAspect?: string;
   /** Native w×h frame capped by --media-max (social / opener-style sizing). */
   nativeFrame?: boolean;
 }
@@ -49,6 +51,7 @@ export interface Gallery {
     | "phones"
     | "screens"
     | "video"
+    | "videos"
     | "feature";
   cols?: 2 | 3 | 4 | 5;
   /** CSS aspect-ratio applied to every tile, e.g. "4/5". */
@@ -59,12 +62,25 @@ export interface Gallery {
   nativeTiles?: boolean;
   /** Screens row: override `--screen-w` (e.g. tie width to `--media-max`). */
   screenWidth?: string;
+  /** Below `lg`: cap tile count (e.g. 8 in a 2-col grid, 4 in a 2×2 justified wrap). */
+  twoColumnMaxImages?: number;
+  /** `cols: 2` grids default to one column on phone; set true to keep two columns. */
+  twoColumnsOnPhone?: boolean;
   images: MediaImage[];
+  /** Justified galleries: render as the native-size grid on phones. */
+  phoneGrid?: boolean;
   /** Feature galleries: a wide photo placed directly under the lead photo. */
   leadUnder?: MediaImage;
   palette?: { name: string; nameAr: string; hex: string }[];
   stats?: Stat[];
   video?: { src: string; poster: string };
+  /** Vertical reels row (kind "videos"). */
+  videos?: {
+    src: string;
+    poster?: string;
+    caption: string;
+    captionAr: string;
+  }[];
 }
 
 export interface CaseMedia {
@@ -92,14 +108,14 @@ const img = (
   alt: string,
   altAr: string,
   extra: Partial<MediaImage> = {},
-): MediaImage => ({ src: `/profile/${path}.webp`, w, h, alt, altAr, ...extra });
+): MediaImage => ({ src: `/cases/${path}.webp`, w, h, alt, altAr, ...extra });
 
 export const CASE_MEDIA: Record<string, CaseMedia> = {
   barns: {
     slug: "barns",
     opener: "band",
     cover: img(
-      "p15-0",
+      "barns/p15-0",
       2000,
       1129,
       "Barn's green storefront panel beside a filled baguette",
@@ -119,15 +135,15 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         cols: 3,
         aspect: "5/6",
         images: [
-          img("p14-0", 354, 425, "Barn's social post", "منشور بارنز"),
-          img("p14-2", 353, 425, "Barn's social post", "منشور بارنز"),
-          img("p14-3", 353, 424, "Barn's social post", "منشور بارنز"),
-          img("p14-4", 353, 424, "Barn's social post", "منشور بارنز"),
-          img("p14-5", 353, 422, "Barn's social post", "منشور بارنز"),
-          img("p14-6", 351, 424, "Barn's social post", "منشور بارنز"),
-          img("p14-7", 353, 424, "Barn's social post", "منشور بارنز"),
-          img("p14-8", 353, 425, "Barn's social post", "منشور بارنز"),
-          img("p14-9", 352, 424, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-0", 354, 425, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-2", 353, 425, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-3", 353, 424, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-4", 353, 424, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-5", 353, 422, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-6", 351, 424, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-7", 353, 424, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-8", 353, 425, "Barn's social post", "منشور بارنز"),
+          img("barns/p14-9", 352, 424, "Barn's social post", "منشور بارنز"),
         ],
       },
       {
@@ -139,7 +155,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "feature",
         images: [
           img(
-            "p16-0",
+            "barns/p16-0",
             2000,
             1125,
             "Barn's branded paper cups scattered on white",
@@ -147,7 +163,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "Product photography", captionAr: "تصوير المنتجات" },
           ),
           img(
-            "p13-0",
+            "barns/p13-0",
             1530,
             1912,
             "Milk pouring into a Barn's iced coffee",
@@ -162,9 +178,9 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
   akleh: {
     slug: "akleh",
     opener: "split",
-    logoLight: "/profile/v3/akleh-new-white.webp",
+    logoLight: "/work/logos/akleh-new-white.webp",
     cover: img(
-      "cp/akleh-logo-beige",
+      "akleh/akleh-logo-beige",
       1802,
       1248,
       "The new Akleh wordmark",
@@ -175,14 +191,14 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     ),
     coverCompare: {
       before: img(
-        "cp/akleh-old-logo",
+        "akleh/akleh-old-logo",
         1794,
         936,
         "The previous Akleh logo",
         "شعار أكلة القديم",
       ),
       after: img(
-        "cp/akleh-logo-beige",
+        "akleh/akleh-logo-beige",
         1802,
         1248,
         "The new Akleh wordmark",
@@ -202,6 +218,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         cols: 3,
         aspect: "1/1",
         tileMax: "min(40svh, 420px)",
+        twoColumnMaxImages: 8,
         palette: [
           { name: "Teal", nameAr: "تيل", hex: "#0E8A9A" },
           { name: "Mustard", nameAr: "مستردة", hex: "#C99A00" },
@@ -212,63 +229,63 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         ],
         images: [
           img(
-            "cp/akleh-alu-1",
+            "akleh/akleh-alu-1",
             620,
             620,
             "Aluminium wrapping paper, purple seal on a plain wrap",
             "ورق ألومنيوم للتغليف، ختم بنفسجي على ورق سادة",
           ),
           img(
-            "cp/akleh-alu-2",
+            "akleh/akleh-alu-2",
             620,
             620,
             "Aluminium wrapping paper, teal seal on a plain wrap",
             "ورق ألومنيوم للتغليف، ختم تركواز على ورق سادة",
           ),
           img(
-            "cp/akleh-alu-3",
+            "akleh/akleh-alu-3",
             620,
             620,
             "Aluminium wrapping paper, mustard seal on a plain wrap",
             "ورق ألومنيوم للتغليف، ختم خردلي على ورق سادة",
           ),
           img(
-            "cp/akleh-alu-4",
+            "akleh/akleh-alu-4",
             620,
             620,
             "Aluminium wrapping paper, teal star pattern",
             "ورق ألومنيوم للتغليف، باترن نجوم تركواز",
           ),
           img(
-            "cp/akleh-alu-5",
+            "akleh/akleh-alu-5",
             620,
             620,
             "Aluminium wrapping paper, purple grid pattern",
             "ورق ألومنيوم للتغليف، باترن شبكة بنفسجي",
           ),
           img(
-            "cp/akleh-alu-6",
+            "akleh/akleh-alu-6",
             620,
             620,
             "Aluminium wrapping paper, red checker pattern",
             "ورق ألومنيوم للتغليف، باترن مربعات أحمر",
           ),
           img(
-            "cp/akleh-alu-7",
+            "akleh/akleh-alu-7",
             620,
             620,
             "Aluminium wrapping paper, teal scallop pattern",
             "ورق ألومنيوم للتغليف، باترن أقواس تركواز",
           ),
           img(
-            "cp/akleh-alu-8",
+            "akleh/akleh-alu-8",
             620,
             620,
             "Aluminium wrapping paper, purple wave pattern",
             "ورق ألومنيوم للتغليف، باترن موجات بنفسجي",
           ),
           img(
-            "cp/akleh-alu-9",
+            "akleh/akleh-alu-9",
             620,
             620,
             "Aluminium wrapping paper, orange stripe pattern",
@@ -286,7 +303,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tone: "cream",
         kind: "feature",
         leadUnder: img(
-          "cp/akleh-bowls-pattern",
+          "akleh/akleh-bowls-pattern",
           1800,
           780,
           "Akleh pattern and coloured bowls",
@@ -294,9 +311,15 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
           { featureFlex: true },
         ),
         images: [
-          img("cp/akleh-box", 1600, 1066, "Akleh meal box", "علبة وجبات أكلة"),
           img(
-            "cp/akleh-kraft",
+            "akleh/akleh-box",
+            1600,
+            1066,
+            "Akleh meal box",
+            "علبة وجبات أكلة",
+          ),
+          img(
+            "akleh/akleh-kraft",
             668,
             1009,
             "Akleh kraft bag",
@@ -317,10 +340,10 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         cols: 4,
         aspect: "1/1",
         images: [
-          img("cp/akleh-tee1", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
-          img("cp/akleh-tee2", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
-          img("cp/akleh-tee3", 1308, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
-          img("cp/akleh-tee4", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
+          img("akleh/akleh-tee1", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
+          img("akleh/akleh-tee2", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
+          img("akleh/akleh-tee3", 1308, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
+          img("akleh/akleh-tee4", 1303, 1308, "Akleh t-shirt", "تيشيرت أكلة"),
         ],
       },
       {
@@ -335,7 +358,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "phones",
         images: [
           img(
-            "cp/akleh-old-menu",
+            "akleh/akleh-old-menu",
             1600,
             1131,
             "The previous Akleh menu",
@@ -343,7 +366,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "Before", captionAr: "قبل" },
           ),
           img(
-            "cp/akleh-menu-p1",
+            "akleh/akleh-menu-p1",
             924,
             1233,
             "New Akleh print menu, page one",
@@ -351,14 +374,14 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "After — print", captionAr: "بعد — مطبوع" },
           ),
           img(
-            "cp/akleh-menu-p2",
+            "akleh/akleh-menu-p2",
             924,
             1233,
             "New Akleh print menu, page two",
             "منيو أكلة المطبوع الجديد، صفحة ٢",
           ),
           img(
-            "am/akleh-m6-p",
+            "akleh/m6-p",
             540,
             1080,
             "Akleh QR mobile menu",
@@ -369,7 +392,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             },
           ),
           img(
-            "am/akleh-m9-p",
+            "akleh/m9-p",
             540,
             1080,
             "Akleh QR mobile menu, item page",
@@ -388,9 +411,10 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "grid",
         cols: 2,
         aspect: "4/5",
+        twoColumnsOnPhone: true,
         images: [
           img(
-            "cp/akleh-shoot-burger",
+            "akleh/akleh-shoot-burger",
             1440,
             1800,
             "Akleh burger",
@@ -400,25 +424,27 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             },
           ),
           img(
-            "cp/akleh-shoot-shawerma",
+            "akleh/akleh-shoot-shawerma",
             1440,
             1800,
             "Akleh shawerma",
             "شاورما أكلة",
           ),
           img(
-            "cp/akleh-shoot-zaatar",
+            "akleh/akleh-shoot-zaatar",
             1800,
             1200,
             "Akleh zaatar manoucheh",
             "منقوشة زعتر من أكلة",
+            { tileAspect: "3/2" },
           ),
           img(
-            "cp/akleh-shoot-cheese",
+            "akleh/akleh-shoot-cheese",
             1800,
             1200,
             "Akleh cheese manoucheh",
             "منقوشة جبنة من أكلة",
+            { tileAspect: "3/2" },
           ),
         ],
       },
@@ -429,9 +455,9 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     slug: "lux",
     opener: "split",
     coverPreserveAspect: true,
-    logoLight: "/profile/v3/lux-white.webp",
+    logoLight: "/work/logos/lux-white.webp",
     cover: img(
-      "cp/lux-d",
+      "lux/lux-d",
       1080,
       1621,
       "Hand squeezing a Lux body wash bottle",
@@ -458,23 +484,14 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         body: "28.7K likes and 11.1K shares on the Yasmine Sabri post.",
         bodyAr: "٢٨٫٧ ألف إعجاب و١١٫١ ألف مشاركة على منشور ياسمين صبري.",
         tone: "grey",
-        kind: "grid",
-        cols: 3,
-        nativeTiles: true,
-        tileMax: "min(76svh, 840px)",
+        kind: "justified",
+        tileMax: "min(62svh, 720px)",
         images: [
-          img("cp/lux-a", 1080, 1350, "Lux social post", "منشور لوكس"),
-          img("cp/lux-c", 1080, 1350, "Lux social post", "منشور لوكس"),
-          img("cp/lux-b", 1122, 1402, "Lux social post", "منشور لوكس"),
-          img("cp/lux-e", 1080, 1350, "Lux social post", "منشور لوكس"),
-          img("cp/lux-f", 1080, 1350, "Lux social post", "منشور لوكس"),
-          img(
-            "cp/lux-g",
-            941,
-            1672,
-            "Lux Revitalizing Grapefruit visual",
-            "مرئي لوكس جريب فروت",
-          ),
+          img("lux/lux-a", 1080, 1350, "Lux social post", "منشور لوكس"),
+          img("lux/lux-c", 1080, 1350, "Lux social post", "منشور لوكس"),
+          img("lux/lux-b", 1122, 1402, "Lux social post", "منشور لوكس"),
+          img("lux/lux-e", 1080, 1350, "Lux social post", "منشور لوكس"),
+          img("lux/lux-f", 1080, 1350, "Lux social post", "منشور لوكس"),
         ],
       },
       {
@@ -489,8 +506,8 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "video",
         images: [],
         video: {
-          src: "/profile/ai/lux-grapefruit.mp4",
-          poster: "/profile/ai/lux-grapefruit-still.webp",
+          src: "/cases/lux/lux-grapefruit.mp4",
+          poster: "/cases/lux/lux-grapefruit-still.webp",
         },
       },
     ],
@@ -500,9 +517,9 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     slug: "knorr",
     opener: "split",
     coverPreserveAspect: true,
-    logoLight: "/profile/v3/knorr-white.webp",
+    logoLight: "/work/logos/knorr-white.webp",
     cover: img(
-      "cp/knorr-cover",
+      "knorr/knorr-cover",
       1080,
       1920,
       "Knorr bechamel chocolate April Fools' post",
@@ -530,7 +547,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "feature",
         images: [
           img(
-            "cp/knorr-post",
+            "knorr/knorr-post",
             1206,
             1482,
             "Knorr bechamel chocolate pack",
@@ -554,9 +571,10 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tone: "navy",
         kind: "grid",
         cols: 2,
+        twoColumnsOnPhone: true,
         images: [
           img(
-            "cp/knorr-fries",
+            "knorr/knorr-fries",
             1206,
             1482,
             "Knorr potato seasoning post",
@@ -570,7 +588,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             },
           ),
           img(
-            "cp/knorr-bucket",
+            "knorr/knorr-bucket",
             1206,
             1482,
             "Knorr broasted mix post",
@@ -585,6 +603,23 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
           ),
         ],
       },
+      {
+        label: "Knorr 7aletha",
+        labelAr: "كنور حلّتها",
+        heading: "knorr *7aletha.*",
+        headingAr: "كنور *حلّتها.*",
+        body: "Four short films from the Knorr 7aletha series, cut for the vertical feed.",
+        bodyAr: "أربعة أفلام قصيرة من سلسلة كنور حلّتها، متقطّعة للفيد الطولي.",
+        tone: "cream",
+        kind: "videos",
+        images: [],
+        videos: [1, 2, 3, 4].map((n) => ({
+          src: `/cases/knorr/knorr-7aletha-${n}.mp4`,
+          poster: `/cases/knorr/knorr-7aletha-thmb-${n}.jpg`,
+          caption: `7aletha · ${n}`,
+          captionAr: `حلّتها · ${n}`,
+        })),
+      },
     ],
   },
 
@@ -592,22 +627,22 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     slug: "kufta",
     opener: "split",
     coverPreserveAspect: true,
-    logoLight: "/profile/v3/logo15-0.webp",
+    logoLight: "/work/logos/logo15-0.webp",
     cover: img(
-      "cp/kufta-cover",
+      "kufta/kufta-cover",
       3661,
       3376,
       "Kufta campaign hero visual",
       "صورة رئيسية لحملة كفتة",
-      { src: "/profile/cp/kufta-cover.webp" },
+      { src: "/cases/kufta/kufta-cover.webp" },
     ),
     coverHome: img(
-      "cp/kufta-cover-home",
+      "kufta/kufta-cover-home",
       3661,
       4577,
       "Kufta campaign hero visual",
       "صورة رئيسية لحملة كفتة",
-      { src: "/profile/cp/kufta-cover-home.jpg" },
+      { src: "/cases/kufta/cover-home.jpg" },
     ),
     galleries: [
       {
@@ -623,14 +658,14 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tileMax: "min(62svh, 720px)",
         images: [
           img(
-            "cp/kufta-chips-1",
+            "kufta/kufta-chips-1",
             768,
             960,
             "Kufta Eidiya campaign visual with chips and prize cards",
             "مرئي حملة عيدية كفتة مع الشيبس وكروت الجوايز",
           ),
           img(
-            "cp/kufta-chips-2",
+            "kufta/kufta-chips-2",
             1160,
             2000,
             "Kufta chips bag",
@@ -644,13 +679,12 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         heading: "boxes *and kiosks.*",
         headingAr: "علب *وأكشاك.*",
         tone: "cream",
-        kind: "grid",
-        cols: 2,
-        nativeTiles: true,
+        kind: "justified",
+        phoneGrid: true,
         tileMax: "min(76svh, 840px)",
         images: [
           img(
-            "cp/kufta-boxes",
+            "kufta/kufta-boxes",
             1066,
             1600,
             "Stacked Kufta takeaway boxes",
@@ -658,7 +692,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "Takeaway packaging", captionAr: "تغليف التيك أواي" },
           ),
           img(
-            "cp/kufta-booth",
+            "kufta/kufta-booth",
             1024,
             768,
             "Render of the Kufta ordering kiosk",
@@ -678,7 +712,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     opener: "split",
     coverPreserveAspect: true,
     cover: img(
-      "cp/farooja-billboard",
+      "farooja/farooja-billboard",
       1268,
       846,
       "Farooja 'opening soon' billboard against blue sky",
@@ -696,28 +730,28 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "justified",
         images: [
           img(
-            "cp/farooja-cards",
+            "farooja/farooja-cards",
             1184,
             896,
             "Farooja business cards",
             "كروت فروجى",
           ),
           img(
-            "cp/farooja-awning",
+            "farooja/farooja-awning",
             1205,
             764,
             "Farooja storefront awning",
             "تندة واجهة فروجى",
           ),
           img(
-            "cp/farooja-wings-warm",
+            "farooja/farooja-wings-warm",
             1315,
             1842,
             "Farooja grilled wings",
             "أجنحة فروجى المشوية",
           ),
           img(
-            "cp/farooja-bag",
+            "farooja/farooja-bag",
             678,
             772,
             "Farooja paper bag",
@@ -735,7 +769,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tileMax: "min(62svh, 720px)",
         images: [
           img(
-            "cp/farooja-poster",
+            "farooja/farooja-poster",
             796,
             822,
             "Farooja 'opening soon' poster",
@@ -743,7 +777,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "Opening soon", captionAr: "قريبًا" },
           ),
           img(
-            "cp/farooja-menu-cover",
+            "farooja/farooja-menu-cover",
             900,
             1600,
             "Farooja 'born on the grill' menu cover",
@@ -764,21 +798,21 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "feature",
         images: [
           img(
-            "cp/farooja-int1",
+            "farooja/farooja-int1",
             1400,
             1050,
             "Farooja interior render, counter",
             "تصوّر داخلي لفروجى، الكاونتر",
           ),
           img(
-            "cp/farooja-int2",
+            "farooja/farooja-int2",
             1400,
             1050,
             "Farooja interior render, seating",
             "تصوّر داخلي لفروجى، الجلسة",
           ),
           img(
-            "cp/farooja-int3",
+            "farooja/farooja-int3",
             1400,
             1050,
             "Farooja interior render, wall graphics",
@@ -799,28 +833,28 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         screenWidth: "calc(var(--media-max) * 608 / 1080)",
         images: [
           img(
-            "fm/menu-3",
+            "farooja/menu-3",
             608,
             1080,
             "Farooja digital menu board",
             "شاشة منيو فروجى",
           ),
           img(
-            "fm/menu-4",
+            "farooja/menu-4",
             608,
             1080,
             "Farooja digital menu board",
             "شاشة منيو فروجى",
           ),
           img(
-            "fm/menu-5",
+            "farooja/menu-5",
             608,
             1080,
             "Farooja digital menu board",
             "شاشة منيو فروجى",
           ),
           img(
-            "fm/menu-6",
+            "farooja/menu-6",
             608,
             1080,
             "Farooja digital menu board",
@@ -835,7 +869,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     slug: "hndl",
     opener: "split",
     cover: img(
-      "cp/hndl-mockup2",
+      "hndl/hndl-mockup2",
       1080,
       1440,
       "HNDL website on a laptop",
@@ -850,7 +884,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "beforeAfter",
         images: [
           img(
-            "cp/hndl-old-logo",
+            "hndl/hndl-old-logo",
             1123,
             588,
             "The previous HNDL logo",
@@ -858,7 +892,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { fit: "contain", bg: "#ffffff" },
           ),
           img(
-            "cp/hndl-logo",
+            "hndl/hndl-logo",
             924,
             653,
             "The new HNDL logo",
@@ -876,7 +910,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "feature",
         images: [
           img(
-            "cp/hndl-home",
+            "hndl/hndl-home",
             2000,
             934,
             "HNDL homepage",
@@ -888,7 +922,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             },
           ),
           img(
-            "cp/hndl-mockup1",
+            "hndl/hndl-mockup1",
             1080,
             1440,
             "HNDL app icon",
@@ -906,7 +940,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         aspect: "3/4",
         images: [
           img(
-            "cp/hndl-booth",
+            "hndl/hndl-booth",
             1080,
             1440,
             "HNDL exhibition booth",
@@ -914,7 +948,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             { caption: "Exhibition booth", captionAr: "جناح المعرض" },
           ),
           img(
-            "cp/hndl-mockup2",
+            "hndl/hndl-mockup2",
             1080,
             1440,
             "HNDL website on a laptop",
@@ -928,9 +962,9 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
   primos: {
     slug: "primos",
     opener: "band",
-    logoLight: "/profile/cp/primos-white.webp",
+    logoLight: "/work/logos/primos-white.webp",
     cover: img(
-      "cp/primos-samples",
+      "primos/primos-samples",
       1274,
       654,
       "Grid of Primos pizza social posts",
@@ -945,7 +979,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         tone: "cream",
         kind: "feature",
         images: [
-          img("cp/primos-logo-1", 1264, 652, "Primos logo", "شعار بريموز", {
+          img("primos/primos-logo-1", 1264, 652, "Primos logo", "شعار بريموز", {
             caption: "Primos identity",
             captionAr: "هوية بريموز",
           }),
@@ -958,7 +992,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
     slug: "qasr-elkababgi",
     opener: "split",
     cover: img(
-      "cp/qasr-p1",
+      "qasr-elkababgi/qasr-p1",
       924,
       1306,
       "Qasr ElKababgi menu cover with the lion crest",
@@ -979,28 +1013,28 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         aspect: "924/1306",
         images: [
           img(
-            "cp/qasr-p1",
+            "qasr-elkababgi/qasr-p1",
             924,
             1306,
             "Qasr ElKababgi menu, cover",
             "منيو قصر الكبابجي، الغلاف",
           ),
           img(
-            "cp/qasr-p2",
+            "qasr-elkababgi/qasr-p2",
             924,
             1306,
             "Qasr ElKababgi menu, inside page",
             "منيو قصر الكبابجي، صفحة داخلية",
           ),
           img(
-            "cp/qasr-p5",
+            "qasr-elkababgi/qasr-p5",
             924,
             1306,
             "Qasr ElKababgi menu, inside page",
             "منيو قصر الكبابجي، صفحة داخلية",
           ),
           img(
-            "cp/qasr-p9",
+            "qasr-elkababgi/qasr-p9",
             924,
             1306,
             "Qasr ElKababgi menu, inside page",
@@ -1038,30 +1072,30 @@ export function getCase(slug: string | undefined) {
 
 /** Client logo wall, white logos on navy (profile page 07). */
 export const CLIENT_WALL: { src: string; alt: string; h: number }[] = [
-  { src: "/profile/v3/akleh-new-white.webp", alt: "Akleh", h: 100 },
-  { src: "/profile/v3/n9-1.webp", alt: "Farooja", h: 90 },
-  { src: "/profile/v3/n9-2.webp", alt: "Barn's", h: 100 },
-  { src: "/profile/v3/n9-3.webp", alt: "Bebek", h: 70 },
-  { src: "/profile/v3/kiri-white.webp", alt: "Kiri", h: 78 },
-  { src: "/profile/v3/n9-5.webp", alt: "El Dahan", h: 78 },
-  { src: "/profile/v3/n9-6.webp", alt: "Shawerma El Reem", h: 70 },
-  { src: "/profile/v3/n9-7.webp", alt: "Crinkle", h: 100 },
-  { src: "/profile/v3/n9-8.webp", alt: "Kufta", h: 70 },
-  { src: "/profile/v3/n9-9.webp", alt: "Lil Kitchen", h: 64 },
-  { src: "/profile/v3/n9-10.webp", alt: "Mini Town Team", h: 70 },
-  { src: "/profile/v3/n9-11.webp", alt: "Qasr ElKababgi", h: 90 },
-  { src: "/profile/v3/knorr-white.webp", alt: "Knorr", h: 96 },
-  { src: "/profile/v3/n9-13.webp", alt: "Tant", h: 100 },
-  { src: "/profile/v3/n9-14.webp", alt: "Taghmisa", h: 70 },
-  { src: "/profile/v3/lux-white.webp", alt: "Lux", h: 78 },
-  { src: "/profile/v3/n9-16.webp", alt: "Town Team", h: 84 },
-  { src: "/profile/v3/n9-17.webp", alt: "Madghout Dagag", h: 90 },
-  { src: "/profile/v3/n9-18.webp", alt: "J-Smash", h: 110 },
-  { src: "/profile/v3/n9-19.webp", alt: "Cif", h: 90 },
-  { src: "/profile/v3/n9-20.webp", alt: "Comfort", h: 90 },
-  { src: "/profile/v3/camay-white.webp", alt: "Camay", h: 64 },
-  { src: "/profile/v3/sayed-hanafy-white.webp", alt: "Sayed Hanafy", h: 76 },
-  { src: "/profile/cp/primos-white.webp", alt: "Primos", h: 70 },
-  { src: "/profile/v3/omo-white.webp", alt: "Omo", h: 90 },
-  { src: "/profile/v3/heinz-white.webp", alt: "Heinz", h: 72 },
+  { src: "/work/logos/akleh-new-white.webp", alt: "Akleh", h: 100 },
+  { src: "/work/logos/n9-1.webp", alt: "Farooja", h: 90 },
+  { src: "/work/logos/n9-2.webp", alt: "Barn's", h: 100 },
+  { src: "/work/logos/n9-3.webp", alt: "Bebek", h: 70 },
+  { src: "/work/logos/kiri-white.webp", alt: "Kiri", h: 78 },
+  { src: "/work/logos/n9-5.webp", alt: "El Dahan", h: 78 },
+  { src: "/work/logos/n9-6.webp", alt: "Shawerma El Reem", h: 70 },
+  { src: "/work/logos/n9-7.webp", alt: "Crinkle", h: 100 },
+  { src: "/work/logos/n9-8.webp", alt: "Kufta", h: 70 },
+  { src: "/work/logos/n9-9.webp", alt: "Lil Kitchen", h: 64 },
+  { src: "/work/logos/n9-10.webp", alt: "Mini Town Team", h: 70 },
+  { src: "/work/logos/n9-11.webp", alt: "Qasr ElKababgi", h: 90 },
+  { src: "/work/logos/knorr-white.webp", alt: "Knorr", h: 96 },
+  { src: "/work/logos/n9-13.webp", alt: "Tant", h: 100 },
+  { src: "/work/logos/n9-14.webp", alt: "Taghmisa", h: 70 },
+  { src: "/work/logos/lux-white.webp", alt: "Lux", h: 78 },
+  { src: "/work/logos/n9-16.webp", alt: "Town Team", h: 84 },
+  { src: "/work/logos/n9-17.webp", alt: "Madghout Dagag", h: 90 },
+  { src: "/work/logos/n9-18.webp", alt: "J-Smash", h: 110 },
+  { src: "/work/logos/n9-19.webp", alt: "Cif", h: 90 },
+  { src: "/work/logos/n9-20.webp", alt: "Comfort", h: 90 },
+  { src: "/work/logos/camay-white.webp", alt: "Camay", h: 64 },
+  { src: "/work/logos/sayed-hanafy-white.webp", alt: "Sayed Hanafy", h: 76 },
+  { src: "/work/logos/primos-white.webp", alt: "Primos", h: 70 },
+  { src: "/work/logos/omo-white.webp", alt: "Omo", h: 90 },
+  { src: "/work/logos/heinz-white.webp", alt: "Heinz", h: 72 },
 ];

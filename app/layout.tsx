@@ -31,12 +31,12 @@ export const metadata: Metadata = {
     title: "Dough — where ideas take shape",
     description:
       "A Cairo creative agency shaping brands, stories, and moments from scratch.",
-    images: ["/profile/v3/n2-0.webp"],
+    images: ["/home/hero.webp"],
     type: "website",
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/brand/favicon.ico",
+    shortcut: "/brand/favicon.ico",
   },
 };
 

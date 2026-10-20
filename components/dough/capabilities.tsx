@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Emphasis, Photo, RunningHeader } from "./primitives";
@@ -15,18 +15,25 @@ type Item = {
 };
 
 const MEDIA = [
-  { src: "/profile/cp/kufta-boxes.webp", w: 1066, h: 1600 },
-  { src: "/profile/ai/comfort-grid-web.webp", w: 1600, h: 2000 },
+  { src: "/cases/kufta/kufta-boxes.webp", w: 1066, h: 1600 },
+  { src: "/home/comfort-grid.webp", w: 1600, h: 2000 },
   {
-    video: "/profile/ai/lux-grapefruit.mp4",
-    src: "/profile/ai/lux-grapefruit-still.webp",
+    video: "/cases/lux/lux-grapefruit.mp4",
+    src: "/cases/lux/lux-grapefruit-still.webp",
     w: 941,
     h: 1672,
   },
-  { src: "/profile/cp/crepe-booth-crop.webp", w: 1000, h: 800 },
-  { src: "/profile/v3/n49-0.webp", w: 800, h: 800 },
-  { src: "/profile/cp/kufta-booth.webp", w: 1024, h: 768 },
+  { src: "/home/crepe-booth-crop.webp", w: 1000, h: 800 },
+  { src: "/home/n49-0.webp", w: 800, h: 800 },
+  { src: "/cases/kufta/kufta-booth.webp", w: 1024, h: 768 },
 ] as const;
+
+/** One shared 4∶5 frame so mixed-ratio media line up in a clean grid. */
+const TILE_STYLE: CSSProperties = {
+  aspectRatio: "4/5",
+  width: "min(100%, calc(var(--tile-max) * 4 / 5))",
+  maxHeight: "var(--tile-max)",
+};
 
 export function FilmTile({
   src,
@@ -35,13 +42,15 @@ export function FilmTile({
   playLabel,
   pauseLabel,
   className,
+  style,
 }: {
   src: string;
-  poster: string;
+  poster?: string;
   alt: string;
   playLabel: string;
   pauseLabel: string;
   className?: string;
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -57,8 +66,10 @@ export function FilmTile({
   };
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      {!playing && (
+    <div
+      className={cn("relative mx-auto overflow-hidden bg-grey", className)}
+      style={style}>
+      {poster && !playing && (
         <img
           src={poster}
           alt=""
@@ -78,7 +89,7 @@ export function FilmTile({
         onPause={() => setPlaying(false)}
         className={cn(
           "absolute inset-0 size-full object-cover",
-          !playing && "invisible",
+          poster && !playing && "invisible",
         )}
       />
       <button
@@ -148,11 +159,11 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                 {"video" in media ? (
                   <FilmTile
                     src={media.video}
-                    poster={media.src}
                     alt={item.alt}
                     playLabel={item.play ?? ""}
                     pauseLabel={item.pause ?? ""}
-                    className="photo-shadow aspect-[4/5] max-h-[var(--tile-max)]"
+                    className="photo-shadow mx-auto"
+                    style={TILE_STYLE}
                   />
                 ) : (
                   <Photo
@@ -161,7 +172,8 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     width={media.w}
                     height={media.h}
                     shadow
-                    className="aspect-[4/5] max-h-[var(--tile-max)]"
+                    className="mx-auto"
+                    style={TILE_STYLE}
                   />
                 )}
                 <h3 className="t-display mt-7 text-[length:var(--name-title)] leading-[1.05]">

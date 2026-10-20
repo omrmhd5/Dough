@@ -152,7 +152,7 @@ export function SiteFooter({
 
         <div className="mt-[var(--footer-stack)] flex flex-col gap-4 border-t border-sparkle/25 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <Link href="/" aria-label="Dough" className="-my-1 w-fit py-1">
-            <img src="/Logo-Light.png" alt="Dough" className="h-7 w-auto" />
+            <img src="/brand/Logo-Light.png" alt="Dough" className="h-7 w-auto" />
           </Link>
           <p className="text-[length:var(--footer-meta)] text-sparkle/80">
             {t("tagline")}

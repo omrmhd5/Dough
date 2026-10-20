@@ -56,13 +56,7 @@ export const CLIENTS: ClientDetail[] = [
       "Brand Strategy • Visual Identity • Packaging • Menu Design • Restaurant Branding",
     servicesAr:
       "استراتيجية العلامة • الهوية البصرية • التغليف • تصميم المنيو • هوية المطعم",
-    logo: "/logos/Akleh.png",
-    images: [
-      "/Packaging-design.png",
-      "/grids image (2).png",
-      "/portable-event-booth.png",
-      "/CGI.png",
-    ],
+    logo: "/cases/akleh/logo.png",
     year: "2025",
     subtitle: "From Generic to Genre-Defining.",
     subtitleAr: "من العادي إلى تعريف فئة بحد ذاتها.",
@@ -150,18 +144,11 @@ export const CLIENTS: ClientDetail[] = [
       "Social Media Strategy • Creative Direction • Content Production • CGI & AI Content • Copywriting • Digital Campaigns",
     servicesAr:
       "استراتيجية السوشيال ميديا • الإخراج الإبداعي • إنتاج المحتوى • CGI ومحتوى AI • كتابة المحتوى • الحملات الرقمية",
-    logo: "/logos/LUX.png",
-    images: [
-      "/CGI.png",
-      "/photography1.png",
-      "/photography3.png",
-      "/Packaging-design.png",
-    ],
+    logo: "/cases/lux/logo.png",
     year: "2025–2026",
     subtitle:
       "Making Premium Beauty Feel Relevant, Accessible, and Made for Gen Z.",
-    subtitleAr:
-      "نجعل الجمال الفاخر قريبًا، ملائمًا، ومصممًا لجيل Z.",
+    subtitleAr: "نجعل الجمال الفاخر قريبًا، ملائمًا، ومصممًا لجيل Z.",
     overview:
       "We evolved LUX's social presence into a modern beauty platform that balances premium aspiration with mainstream accessibility—keeping the brand culturally relevant to a younger generation without losing its established elegance.",
     overviewAr:
@@ -186,8 +173,7 @@ export const CLIENTS: ClientDetail[] = [
         titleAr: "سرد المنتج الفاخر",
         items:
           "Beauty Visuals • Ingredient Stories • Sensory Content • Product Benefits",
-        itemsAr:
-          "مرئيات الجمال • قصص المكوّنات • محتوى حسّي • فوائد المنتج",
+        itemsAr: "مرئيات الجمال • قصص المكوّنات • محتوى حسّي • فوائد المنتج",
       },
       {
         title: "Gen Z Relevance",
@@ -257,13 +243,7 @@ export const CLIENTS: ClientDetail[] = [
       "Brand Identity • Website UI/UX • Web Development • Digital Strategy • Brand Guidelines",
     servicesAr:
       "هوية العلامة • UI/UX للموقع • تطوير الويب • الاستراتيجية الرقمية • دليل العلامة",
-    logo: "/logos/HNDL.png",
-    images: [
-      "/grids image (2).png",
-      "/CGI.png",
-      "/photography3.png",
-      "/Packaging-design.png",
-    ],
+    logo: "/cases/hndl/logo.png",
     year: "2026",
     subtitle:
       "Simplifying Fleet Management Through Brand & Digital Experience.",
@@ -313,8 +293,7 @@ export const CLIENTS: ClientDetail[] = [
         titleAr: "الحضور الرقمي",
         items:
           "Landing Pages • Web Development • CMS • Performance Optimization",
-        itemsAr:
-          "صفحات الهبوط • تطوير الويب • CMS • تحسين الأداء",
+        itemsAr: "صفحات الهبوط • تطوير الويب • CMS • تحسين الأداء",
       },
     ],
     outcome:
@@ -356,13 +335,7 @@ export const CLIENTS: ClientDetail[] = [
       "Brand Strategy • Brand Positioning • Naming • Visual Identity • Packaging Design • Menu Design • Social Media Art Direction",
     servicesAr:
       "استراتيجية العلامة • تموضع العلامة • التسمية • الهوية البصرية • تصميم التغليف • تصميم المنيو • الإخراج الفني للسوشيال ميديا",
-    logo: "/logos/Farooja.png",
-    images: [
-      "/Packaging-design.png",
-      "/photography1.png",
-      "/photography3.png",
-      "/CGI.png",
-    ],
+    logo: "/cases/farooja/logo.png",
     year: "2025–2026",
     subtitle: "Reinventing the Chicken Bucket for a Healthier Generation.",
     subtitleAr: "إعادة اختراع باكيت الدجاج لجيل أكثر صحة.",
@@ -459,13 +432,7 @@ export const CLIENTS: ClientDetail[] = [
       "Social Media Strategy • Creative Direction • Digital Campaigns • Performance Marketing • Website Design & Development • UI/UX Design",
     servicesAr:
       "استراتيجية السوشيال ميديا • الإخراج الإبداعي • الحملات الرقمية • تسويق الأداء • تصميم وتطوير الموقع • تصميم UI/UX",
-    logo: "/logos/Knorr.png",
-    images: [
-      "/photography3.png",
-      "/photography1.png",
-      "/CGI.png",
-      "/Packaging-design.png",
-    ],
+    logo: "/cases/knorr/logo.png",
     year: "2025",
     subtitle: "Making Everyday Cooking Worth Watching.",
     subtitleAr: "نجعل الطبخ اليومي يستحق المشاهدة.",
@@ -502,8 +469,7 @@ export const CLIENTS: ClientDetail[] = [
         titleAr: "كنور حلّتها",
         items:
           "Digital Campaign • Social Amplification • Influencer Content • Community Engagement",
-        itemsAr:
-          "حملة رقمية • تضخيم سوشيال • محتوى مؤثرين • تفاعل المجتمع",
+        itemsAr: "حملة رقمية • تضخيم سوشيال • محتوى مؤثرين • تفاعل المجتمع",
       },
       {
         title: "Smart Recipe Platform",
@@ -557,13 +523,7 @@ export const CLIENTS: ClientDetail[] = [
       "Campaign Strategy • Creative Concept • Packaging Design • Customer Experience Design",
     servicesAr:
       "استراتيجية الحملة • المفهوم الإبداعي • تصميم التغليف • تصميم تجربة العميل",
-    logo: "/logos/Kufta.png",
-    images: [
-      "/Packaging-design.png",
-      "/photography1.png",
-      "/photography3.png",
-      "/CGI.png",
-    ],
+    logo: "/cases/kufta/logo.png",
     year: "2025",
     subtitle: "Turning Every Meal into a Winning Experience.",
     subtitleAr: "تحويل كل وجبة إلى تجربة فوز.",
@@ -625,7 +585,7 @@ export const CLIENTS: ClientDetail[] = [
     sectorAr: "أغذية ومشروبات / قهوة",
     services: "Social Media • Photography • Business Development",
     servicesAr: "السوشيال ميديا • التصوير • تطوير الأعمال",
-    logo: "/logos/Barns.png",
+    logo: "/cases/barns/logo.png",
     subtitle: "Launching Saudi Arabia's #1 coffee brand in Egypt.",
     subtitleAr: "إطلاق علامة القهوة الأولى في السعودية في مصر.",
     overview:
@@ -692,14 +652,24 @@ export const CLIENTS: ClientDetail[] = [
     sectorAr: "أغذية ومشروبات / مطعم",
     services: "Menu Design • Food Photography • Print Production",
     servicesAr: "تصميم المنيو • تصوير الطعام • الإنتاج الطباعي",
-    logo: "/logos/KasrElKababgy.png",
+    logo: "/cases/qasr-elkababgi/logo.png",
     subtitle: "A new menu, designed, printed and produced.",
     subtitleAr: "منيو جديد، اتصمم واتطبع واتنفّذ.",
     overview:
       "A 22-page bilingual menu with photography on every section, taken through to print and production.",
     overviewAr:
       "منيو من ٢٢ صفحة بلغتين، فيه تصوير لكل قسم، ووصلناه لحد الطباعة والإنتاج.",
-    scope: ["Menu Design", "Food Photography", "Bilingual Typesetting", "Print Production"],
-    scopeAr: ["تصميم المنيو", "تصوير الطعام", "تنسيق النص بلغتين", "الإنتاج الطباعي"],
+    scope: [
+      "Menu Design",
+      "Food Photography",
+      "Bilingual Typesetting",
+      "Print Production",
+    ],
+    scopeAr: [
+      "تصميم المنيو",
+      "تصوير الطعام",
+      "تنسيق النص بلغتين",
+      "الإنتاج الطباعي",
+    ],
   },
 ];

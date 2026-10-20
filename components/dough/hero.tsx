@@ -12,7 +12,7 @@ export function Hero() {
       <div className="lg:absolute lg:inset-y-0 lg:end-0 lg:w-1/2">
         <div className="flex w-full items-center justify-center overflow-hidden lg:h-full lg:min-h-[min(calc(100svh-var(--nav-h)),1080px)]">
           <img
-            src="/profile/v3/n2-0.webp"
+            src="/home/hero.webp"
             alt={t("imageAlt")}
             width={800}
             height={451}

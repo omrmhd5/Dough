@@ -68,7 +68,7 @@ export function SiteNav() {
             aria-label={t("homeLabel")}
             className="-my-2 min-w-0 shrink py-2">
             <img
-              src="/Logo-Dark.png"
+              src="/brand/Logo-Dark.png"
               alt="Dough"
               width={1107}
               height={282}

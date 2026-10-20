@@ -22,7 +22,7 @@ export function WhoWeAre() {
         <div className="mt-[clamp(64px,8vw,150px)] grid gap-12 lg:grid-cols-[1.45fr_1fr] lg:gap-[clamp(48px,6vw,120px)]">
           <Reveal>
             <Photo
-              src="/profile/v3/n6-0.webp"
+              src="/home/studio.webp"
               alt={t("studioAlt")}
               width={1150}
               height={852}
