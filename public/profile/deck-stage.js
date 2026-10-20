@@ -210,11 +210,15 @@
       opacity: 0;
       pointer-events: none;
       visibility: hidden;
+      /* Off-screen slides skip layout and paint, so pinch-zoom only ever
+         re-renders the one slide in view instead of all of them. */
+      content-visibility: hidden;
     }
     ::slotted([data-deck-active]) {
       opacity: 1;
       pointer-events: auto;
       visibility: visible;
+      content-visibility: visible;
     }
 
     /* Touch screens: swipe up / down between slides, with a short slide-in. */
@@ -771,6 +775,15 @@
       this._ensureTextWrapDefaults();
       window.addEventListener('keydown', this._onKey);
       window.addEventListener('resize', this._onResize);
+      if (window.visualViewport) {
+        this._onViewportZoom = () => {
+          const vv = window.visualViewport;
+          if (vv.scale > 1.01) return;
+          clearTimeout(this._zoomTimer);
+          this._zoomTimer = setTimeout(() => this._onResize(), 150);
+        };
+        window.visualViewport.addEventListener('resize', this._onViewportZoom);
+      }
       // Rotating a phone: window 'resize' and innerHeight can lag, or never fire,
       // on some mobile browsers. Follow the size of the deck's own box instead:
       // it changes exactly when the layout has really changed.
@@ -1153,6 +1166,10 @@
       this._stopDragTrack();
       window.removeEventListener('keydown', this._onKey);
       window.removeEventListener('resize', this._onResize);
+      if (window.visualViewport && this._onViewportZoom) {
+        window.visualViewport.removeEventListener('resize', this._onViewportZoom);
+      }
+      clearTimeout(this._zoomTimer);
       if (this._ro) { this._ro.disconnect(); this._ro = null; }
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
@@ -1743,6 +1760,12 @@
     }
 
     _onResize() {
+      // Pinch-zoom fires a stream of resize events on phones. Re-fitting the
+      // canvas and re-scaling every thumbnail on each one re-rasters the whole
+      // deck at the zoomed scale until the tab runs out of memory, so skip it
+      // while zoomed; the visualViewport listener refits once zoom returns to 1.
+      const vv = window.visualViewport;
+      if (vv && vv.scale > 1.01) return;
       this._fit();
       const narrow = NARROW_MQ.matches;
       if (narrow !== this._wasNarrow) {
