@@ -58,12 +58,29 @@ export function SelectedWork() {
                     <span className="t-label t-num hidden text-water sm:block">
                       {tc("caseLabel", { n: String(number).padStart(2, "0") })}
                     </span>
-                    <span className="relative block aspect-square overflow-hidden bg-grey sm:hidden">
+                    <span
+                      className={cn(
+                        "relative block overflow-hidden sm:hidden",
+                        client.slug === "farooja"
+                          ? "bg-cream"
+                          : "aspect-square bg-grey",
+                      )}
+                      style={
+                        client.slug === "farooja"
+                          ? { aspectRatio: `${preview.w}/${preview.h}` }
+                          : undefined
+                      }>
                       <img
                         src={preview.src}
                         alt=""
                         loading="lazy"
-                        className="photo"
+                        width={preview.w}
+                        height={preview.h}
+                        className={
+                          client.slug === "farooja"
+                            ? "size-full object-contain"
+                            : "photo"
+                        }
                         style={
                           preview.position
                             ? { objectPosition: preview.position }
@@ -94,13 +111,23 @@ export function SelectedWork() {
             <div className="sticky top-[calc(var(--nav-h)+40px)]">
               <div
                 className={cn(
-                  "relative aspect-[4/5] max-h-[var(--media-max)]",
-                  // Before/after logos sit straight on the page: no panel, shadow or fill,
-                  // and they may spill into the margins for extra size.
-                  CASES[active].media.coverCompare
-                    ? "overflow-visible"
-                    : "overflow-hidden photo-shadow bg-grey",
-                )}>
+                  "relative max-h-[var(--media-max)]",
+                  CASES[active].client.slug === "farooja"
+                    ? "w-full overflow-hidden photo-shadow bg-cream"
+                    : cn(
+                        "aspect-[4/5]",
+                        CASES[active].media.coverCompare
+                          ? "overflow-visible"
+                          : "overflow-hidden photo-shadow bg-grey",
+                      ),
+                )}
+                style={
+                  CASES[active].client.slug === "farooja"
+                    ? {
+                        aspectRatio: `${homePreviewCover(CASES[active].media).w}/${homePreviewCover(CASES[active].media).h}`,
+                      }
+                    : undefined
+                }>
                 {CASES.map(({ client, media }, i) => {
                   const preview = homePreviewCover(media);
                   const compare = media.coverCompare;
@@ -163,6 +190,7 @@ export function SelectedWork() {
                     );
                   }
 
+                  const faroojaPreview = client.slug === "farooja";
                   return (
                     <img
                       key={client.slug}
@@ -174,13 +202,22 @@ export function SelectedWork() {
                             : preview.alt
                           : ""
                       }
+                      width={preview.w}
+                      height={preview.h}
                       aria-hidden={i !== active}
                       loading={i === 0 ? "eager" : "lazy"}
                       decoding="async"
-                      className={cn("photo", fade)}
+                      className={cn(
+                        fade,
+                        faroojaPreview
+                          ? "size-full object-contain bg-cream"
+                          : "photo",
+                      )}
                       style={{
                         objectPosition: preview.position,
-                        background: preview.bg,
+                        background: faroojaPreview
+                          ? (preview.bg ?? "var(--cream)")
+                          : preview.bg,
                       }}
                     />
                   );

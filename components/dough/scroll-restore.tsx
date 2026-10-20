@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 
 const STORAGE_PREFIX = "dough:scroll:";
 
@@ -44,28 +44,37 @@ function isReloadNavigation() {
 /** Keeps scroll position on hard refresh; client navigations still start at the top. */
 export function ScrollRestore() {
   const pathname = usePathname();
+  /** Set after the first pathname handled for this document load (SPA navigations follow). */
+  const hasHandledRouteRef = useRef(false);
 
   useLayoutEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
 
-    if (!isReloadNavigation()) return;
+    const isSpaNavigation = hasHandledRouteRef.current;
+    hasHandledRouteRef.current = true;
 
-    const y = readSavedY(pathname);
-    if (y == null) return;
+    const shouldRestoreOnLoad = !isSpaNavigation && isReloadNavigation();
 
-    const restore = () => scrollToY(y);
-    restore();
-    const raf = requestAnimationFrame(restore);
-    const timers = [0, 50, 150, 350, 700].map((ms) =>
-      window.setTimeout(restore, ms),
-    );
+    if (shouldRestoreOnLoad) {
+      const y = readSavedY(pathname);
+      if (y == null) return;
 
-    return () => {
-      cancelAnimationFrame(raf);
-      timers.forEach((id) => window.clearTimeout(id));
-    };
+      const restore = () => scrollToY(y);
+      restore();
+      const raf = requestAnimationFrame(restore);
+      const timers = [0, 50, 150, 350, 700].map((ms) =>
+        window.setTimeout(restore, ms),
+      );
+
+      return () => {
+        cancelAnimationFrame(raf);
+        timers.forEach((id) => window.clearTimeout(id));
+      };
+    }
+
+    scrollToY(0);
   }, [pathname]);
 
   useEffect(() => {

@@ -49,6 +49,7 @@ export interface Gallery {
     | "phones"
     | "screens"
     | "video"
+    | "videos"
     | "feature";
   cols?: 2 | 3 | 4 | 5;
   /** CSS aspect-ratio applied to every tile, e.g. "4/5". */
@@ -65,6 +66,8 @@ export interface Gallery {
   palette?: { name: string; nameAr: string; hex: string }[];
   stats?: Stat[];
   video?: { src: string; poster: string };
+  /** Vertical reels row (kind "videos"). */
+  videos?: { src: string; poster?: string; caption: string; captionAr: string }[];
 }
 
 export interface CaseMedia {
@@ -464,23 +467,14 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         body: "28.7K likes and 11.1K shares on the Yasmine Sabri post.",
         bodyAr: "٢٨٫٧ ألف إعجاب و١١٫١ ألف مشاركة على منشور ياسمين صبري.",
         tone: "grey",
-        kind: "grid",
-        cols: 3,
-        nativeTiles: true,
-        tileMax: "min(76svh, 840px)",
+        kind: "justified",
+        tileMax: "min(62svh, 720px)",
         images: [
           img("lux/lux-a", 1080, 1350, "Lux social post", "منشور لوكس"),
           img("lux/lux-c", 1080, 1350, "Lux social post", "منشور لوكس"),
           img("lux/lux-b", 1122, 1402, "Lux social post", "منشور لوكس"),
           img("lux/lux-e", 1080, 1350, "Lux social post", "منشور لوكس"),
           img("lux/lux-f", 1080, 1350, "Lux social post", "منشور لوكس"),
-          img(
-            "lux/lux-g",
-            941,
-            1672,
-            "Lux Revitalizing Grapefruit visual",
-            "مرئي لوكس جريب فروت",
-          ),
         ],
       },
       {
@@ -590,6 +584,23 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             },
           ),
         ],
+      },
+      {
+        label: "Knorr 7aletha",
+        labelAr: "كنور حلّتها",
+        heading: "knorr *7aletha.*",
+        headingAr: "كنور *حلّتها.*",
+        body: "Four short films from the Knorr 7aletha series, cut for the vertical feed.",
+        bodyAr: "أربعة أفلام قصيرة من سلسلة كنور حلّتها، متقطّعة للفيد الطولي.",
+        tone: "cream",
+        kind: "videos",
+        images: [],
+        videos: [1, 2, 3, 4].map((n) => ({
+          src: `/cases/knorr/knorr-7aletha-${n}.mp4`,
+          poster: `/cases/knorr/knorr-7aletha-thmb-${n}.jpg`,
+          caption: `7aletha · ${n}`,
+          captionAr: `حلّتها · ${n}`,
+        })),
       },
     ],
   },

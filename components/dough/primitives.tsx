@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps, CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -152,6 +152,7 @@ export function Photo({
   fit = "cover",
   width,
   height,
+  style,
 }: {
   src: string;
   alt: string;
@@ -163,6 +164,7 @@ export function Photo({
   fit?: "cover" | "contain";
   width?: number;
   height?: number;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -170,7 +172,8 @@ export function Photo({
         "overflow-hidden bg-grey",
         shadow && "photo-shadow",
         className,
-      )}>
+      )}
+      style={style}>
       <img
         src={src}
         alt={alt}

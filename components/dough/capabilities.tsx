@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Emphasis, Photo, RunningHeader } from "./primitives";
@@ -28,6 +28,14 @@ const MEDIA = [
   { src: "/cases/kufta/kufta-booth.webp", w: 1024, h: 768 },
 ] as const;
 
+function nativeTileStyle(w: number, h: number): CSSProperties {
+  return {
+    aspectRatio: `${w}/${h}`,
+    width: `min(100%, calc(var(--tile-max) * ${w} / ${h}))`,
+    maxHeight: "var(--tile-max)",
+  };
+}
+
 export function FilmTile({
   src,
   poster,
@@ -35,13 +43,15 @@ export function FilmTile({
   playLabel,
   pauseLabel,
   className,
+  style,
 }: {
   src: string;
-  poster: string;
+  poster?: string;
   alt: string;
   playLabel: string;
   pauseLabel: string;
   className?: string;
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -57,8 +67,10 @@ export function FilmTile({
   };
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      {!playing && (
+    <div
+      className={cn("relative mx-auto overflow-hidden bg-grey", className)}
+      style={style}>
+      {poster && !playing && (
         <img
           src={poster}
           alt=""
@@ -78,7 +90,7 @@ export function FilmTile({
         onPause={() => setPlaying(false)}
         className={cn(
           "absolute inset-0 size-full object-cover",
-          !playing && "invisible",
+          poster && !playing && "invisible",
         )}
       />
       <button
@@ -148,11 +160,11 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                 {"video" in media ? (
                   <FilmTile
                     src={media.video}
-                    poster={media.src}
                     alt={item.alt}
                     playLabel={item.play ?? ""}
                     pauseLabel={item.pause ?? ""}
-                    className="photo-shadow aspect-[4/5] max-h-[var(--tile-max)]"
+                    className="photo-shadow"
+                    style={nativeTileStyle(media.w, media.h)}
                   />
                 ) : (
                   <Photo
@@ -161,7 +173,8 @@ export function Capabilities({ showHeader = true }: { showHeader?: boolean }) {
                     width={media.w}
                     height={media.h}
                     shadow
-                    className="aspect-[4/5] max-h-[var(--tile-max)]"
+                    className="mx-auto"
+                    style={nativeTileStyle(media.w, media.h)}
                   />
                 )}
                 <h3 className="t-display mt-7 text-[length:var(--name-title)] leading-[1.05]">

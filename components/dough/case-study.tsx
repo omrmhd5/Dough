@@ -602,6 +602,27 @@ function GalleryBody({ gallery }: { gallery: Gallery }) {
         </div>
       );
 
+    case "videos":
+      return (
+        <Reveal className="mx-auto grid w-full max-w-[min(100%,calc(var(--media-max)*0.5625*4+48px))] grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+          {(gallery.videos ?? []).map((v) => (
+            <figure key={v.src} className="flex flex-col gap-2">
+              <FilmTile
+                src={v.src}
+                poster={v.poster}
+                alt={L(v.caption, v.captionAr)}
+                playLabel={t("play")}
+                pauseLabel={t("pause")}
+                className="photo-shadow aspect-[9/16] w-full"
+              />
+              <figcaption className="t-label text-center opacity-70">
+                {L(v.caption, v.captionAr)}
+              </figcaption>
+            </figure>
+          ))}
+        </Reveal>
+      );
+
     case "video":
       if (!gallery.video) return null;
       return (
