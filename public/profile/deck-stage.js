@@ -184,32 +184,11 @@
       justify-content: center;
     }
 
-    /* Narrow viewports: fit slide width and scroll vertically (see _fit). */
-    :host([data-mobile-scroll]) {
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-x pan-y;
-    }
-    :host([data-mobile-scroll]) .stage {
-      position: relative;
-      inset: auto;
-      min-height: 100%;
-      box-sizing: border-box;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 0 0 max(12px, env(safe-area-inset-bottom));
-    }
-    .canvas-wrap {
-      position: relative;
-      flex-shrink: 0;
-    }
-
     .canvas {
       position: relative;
       transform-origin: center center;
       flex-shrink: 0;
       background: #fff;
-      will-change: transform;
       /* Slide edge on the black stage. Dark decks override the canvas
        * fill toward the stage's own black, leaving nothing to mark where
        * the slide ends — the faint white ring keeps the boundary legible
@@ -236,6 +215,42 @@
       opacity: 1;
       pointer-events: auto;
       visibility: visible;
+    }
+
+    /* Touch screens: swipe up / down between slides, with a short slide-in. */
+    @media (hover: none) and (pointer: coarse) {
+      :host { touch-action: pinch-zoom; overscroll-behavior: none; }
+      ::slotted([data-deck-active]) {
+        animation: deck-in-next 360ms cubic-bezier(.22, 1, .36, 1) both;
+      }
+      :host([data-deck-dir="prev"]) ::slotted([data-deck-active]) {
+        animation-name: deck-in-prev;
+      }
+      :host([data-deck-dir="next-x"]) ::slotted([data-deck-active]) {
+        animation-name: deck-in-next-x;
+      }
+      :host([data-deck-dir="prev-x"]) ::slotted([data-deck-active]) {
+        animation-name: deck-in-prev-x;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      ::slotted([data-deck-active]) { animation: none !important; }
+    }
+    @keyframes deck-in-next {
+      from { opacity: 0; transform: translateY(8%); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes deck-in-prev {
+      from { opacity: 0; transform: translateY(-8%); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes deck-in-next-x {
+      from { opacity: 0; transform: translateX(8%); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes deck-in-prev-x {
+      from { opacity: 0; transform: translateX(-8%); }
+      to { opacity: 1; transform: none; }
     }
 
     .overlay {
@@ -376,8 +391,29 @@
     :host([no-rail]) .rail,
     :host([noscale]) .rail { display: none; }
     .rail[data-presenting] { display: none; }
+    /* Phones: the thumbnail rail becomes a horizontal strip under the slide. */
     @media (max-width: 640px) {
-      .rail, .rail-resize { display: none; }
+      .rail-resize { display: none; }
+      .rail {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: calc(92px + env(safe-area-inset-bottom, 0px));
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+        overflow-x: auto;
+        overflow-y: hidden;
+        border-right: 0;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        touch-action: pan-x;
+        -webkit-overflow-scrolling: touch;
+      }
+      .thumb { flex: 0 0 auto; width: 104px; gap: 4px; }
+      .thumb .num { width: 14px; padding-top: 0; font-size: 10px; }
     }
     /* User-driven show/hide (the TweaksPanel toggle) slides instead of
        popping. Transitions are gated on :host([data-rail-anim]) — set only
@@ -607,10 +643,6 @@
         color: inherit;
       }
       .stage { position: static; display: block; }
-      .canvas-wrap {
-        width: auto !important;
-        height: auto !important;
-      }
       .canvas {
         transform: none !important;
         width: auto !important;
@@ -619,6 +651,7 @@
         will-change: auto;
       }
       ::slotted(*) {
+        animation: none !important;
         position: relative !important;
         inset: auto !important;
         width: var(--deck-design-w) !important;
@@ -738,12 +771,64 @@
       this._ensureTextWrapDefaults();
       window.addEventListener('keydown', this._onKey);
       window.addEventListener('resize', this._onResize);
-      this._onNarrowChange = () => this._onResize();
-      NARROW_MQ.addEventListener('change', this._onNarrowChange);
+      // Rotating a phone: window 'resize' and innerHeight can lag, or never fire,
+      // on some mobile browsers. Follow the size of the deck's own box instead:
+      // it changes exactly when the layout has really changed.
+      if (typeof ResizeObserver !== 'undefined') {
+        this._ro = new ResizeObserver(() => this._onResize());
+        this._ro.observe(this);
+      }
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
       window.addEventListener('click', this._onDocClick, true);
       this.addEventListener('click', this._onTap);
+      // Swipe up / down to move between slides on touch screens, like a PDF.
+      this._onTouchStart = (e) => {
+        if (e.touches.length !== 1
+            || (this._rail && e.composedPath().includes(this._rail))) {
+          this._swipe = null;
+          return;
+        }
+        const t = e.touches[0];
+        this._swipe = { x: t.clientX, y: t.clientY, at: Date.now() };
+      };
+      this._onTouchEnd = (e) => {
+        const s = this._swipe;
+        this._swipe = null;
+        if (!s || !e.changedTouches.length) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - s.x;
+        const dy = t.clientY - s.y;
+        if (Date.now() - s.at > 900) return;
+        const ax = Math.abs(dx);
+        const ay = Math.abs(dy);
+        if (ay >= 40 && ay >= ax * 1.2) this._advance(dy < 0 ? 1 : -1, 'swipe');
+        else if (ax >= 40 && ax >= ay * 1.2) this._advance(dx < 0 ? 1 : -1, 'swipe-x');
+      };
+      this.addEventListener('touchstart', this._onTouchStart, { passive: true });
+      this.addEventListener('touchend', this._onTouchEnd, { passive: true });
+      // Scroll wheel / trackpad: scroll down = next slide, up = previous. One
+      // gesture moves one slide (a trackpad's momentum tail is ignored), and a
+      // fresh wheel notch after a short pause moves another.
+      this._onWheel = (e) => {
+        if (e.ctrlKey || e.metaKey || this.hasAttribute('noscale')) return;
+        const path = e.composedPath();
+        if (this._rail && path.includes(this._rail)) return; // let the rail scroll
+        if ((this._confirm && this._confirm.hasAttribute('data-open'))
+            || (this._menu && this._menu.hasAttribute('data-open'))) return;
+        const dy = e.deltaY;
+        if (Math.abs(dy) <= Math.abs(e.deltaX) || Math.abs(dy) < 4) return;
+        e.preventDefault();
+        const now = performance.now();
+        const gap = now - (this._wheelAt || 0);
+        this._wheelAt = now;
+        if (gap < 120 && this._wheelDone
+            && !(Math.abs(dy) >= 50 && now - (this._wheelNavAt || 0) > 700)) return;
+        this._wheelDone = true;
+        this._wheelNavAt = now;
+        this._advance(dy > 0 ? 1 : -1, 'wheel');
+      };
+      window.addEventListener('wheel', this._onWheel, { passive: false });
       // Print lays every slide out as its own page, so [data-deck-active]-
       // gated entrance styles need the attribute on every slide (not just
       // the current one) or their content prints at the hidden base style.
@@ -863,7 +948,7 @@
             this._materialize(e.target.__deckThumb);
           }
         });
-      }, { root: this._rail, rootMargin: '400px 0px' });
+      }, { root: this._rail, rootMargin: '400px 400px' });
       // Tweaks typically change CSS vars / attrs OUTSIDE <deck-stage>
       // (on <html>, <body>, a wrapper div, or a <style> tag), which
       // _liveObserver can't see. Re-snapshot author CSS (constructable
@@ -1068,7 +1153,7 @@
       this._stopDragTrack();
       window.removeEventListener('keydown', this._onKey);
       window.removeEventListener('resize', this._onResize);
-      if (this._onNarrowChange) NARROW_MQ.removeEventListener('change', this._onNarrowChange);
+      if (this._ro) { this._ro.disconnect(); this._ro = null; }
       window.removeEventListener('mousemove', this._onMouseMove);
       window.removeEventListener('message', this._onMessage);
       window.removeEventListener('click', this._onDocClick, true);
@@ -1076,6 +1161,9 @@
       window.removeEventListener('afterprint', this._onAfterPrint);
       if (this._freezeStyle) { this._freezeStyle.remove(); this._freezeStyle = null; }
       this.removeEventListener('click', this._onTap);
+      this.removeEventListener('touchstart', this._onTouchStart);
+      this.removeEventListener('touchend', this._onTouchEnd);
+      window.removeEventListener('wheel', this._onWheel);
       if (this._hideTimer) clearTimeout(this._hideTimer);
       if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
       if (this._liveTimer) clearTimeout(this._liveTimer);
@@ -1124,9 +1212,6 @@
       const stage = document.createElement('div');
       stage.className = 'stage';
 
-      const canvasWrap = document.createElement('div');
-      canvasWrap.className = 'canvas-wrap';
-
       const canvas = document.createElement('div');
       canvas.className = 'canvas';
       canvas.style.width = this.designWidth + 'px';
@@ -1137,8 +1222,7 @@
       const slot = document.createElement('slot');
       slot.addEventListener('slotchange', this._onSlotChange);
       canvas.appendChild(slot);
-      canvasWrap.appendChild(canvas);
-      stage.appendChild(canvasWrap);
+      stage.appendChild(canvas);
 
       // Overlay: compact, solid black, with clickable controls.
       const overlay = document.createElement('div');
@@ -1320,7 +1404,6 @@
 
       this._root.append(style, rail, resize, stage, overlay, menu, confirm);
       this._canvas = canvas;
-      this._canvasWrap = canvasWrap;
       this._stage = stage;
       this._slot = slot;
       this._overlay = overlay;
@@ -1541,7 +1624,6 @@
         if (i === curr) s.setAttribute('data-deck-active', '');
         else s.removeAttribute('data-deck-active');
       });
-      if (reason !== 'init') this._syncMobileScrollPosition(true);
       this._syncCount();
       // Follow-scroll on every navigation (init deep-link, keyboard, click,
       // tap, external goTo) — the only time we *don't* want the rail to
@@ -1599,10 +1681,6 @@
       }, OVERLAY_HIDE_MS);
     }
 
-    _mobileScroll() {
-      return !this.hasAttribute('noscale') && NARROW_MQ.matches;
-    }
-
     _railWidth() {
       // State-based, no offsetWidth: the first _fit() can run before the
       // rail has had layout on some load paths, and a 0 there paints the
@@ -1614,72 +1692,64 @@
       return this._railPx || 0;
     }
 
+    _railHeight() {
+      if (!NARROW_MQ.matches || !this._railEnabled || !this._railVisible
+          || this.hasAttribute('no-rail') || this.hasAttribute('noscale')
+          || this._presenting || this._previewMode) return 0;
+      return (this._rail && this._rail.offsetHeight) || 92;
+    }
+
     _fit() {
       if (!this._canvas) return;
-      const stage = this._stage;
-      const wrap = this._canvasWrap;
+      const stage = this._canvas.parentElement;
       // PPTX export sets noscale so the DOM capture sees authored-size
       // geometry — the scaled canvas is in shadow DOM, so the exporter's
       // resetTransformSelector can't reach .canvas.style.transform directly.
       if (this.hasAttribute('noscale')) {
-        this.removeAttribute('data-mobile-scroll');
         this._canvas.style.transform = 'none';
-        this._canvas.style.transformOrigin = '';
-        if (wrap) {
-          wrap.style.width = '';
-          wrap.style.height = '';
-        }
-        if (stage) stage.style.left = '0';
-        if (this._overlay) this._overlay.style.marginLeft = '0';
+        if (stage) { stage.style.left = '0'; stage.style.bottom = ''; }
+        if (this._overlay) { this._overlay.style.marginLeft = '0'; this._overlay.style.bottom = ''; }
         return;
       }
       const rw = this._railWidth();
-      if (stage) stage.style.left = rw + 'px';
+      const rh = this._railHeight();
+      if (stage) { stage.style.left = rw + 'px'; stage.style.bottom = rh + 'px'; }
+      if (this._overlay) this._overlay.style.bottom = rh ? (rh + 14) + 'px' : '';
       // Overlay is centred on the viewport via left:50% + translate(-50%);
       // marginLeft shifts the centre by rw/2 so it lands in the middle of
       // the [rw, innerWidth] stage region.
       if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
-      const vw = window.innerWidth - rw;
-      const vh = window.innerHeight;
-      const mobileScroll = this._mobileScroll();
-      const s = mobileScroll
-        ? Math.max(vw / this.designWidth, vh / this.designHeight)
-        : Math.min(vw / this.designWidth, vh / this.designHeight);
-      if (mobileScroll) {
-        this.setAttribute('data-mobile-scroll', '');
-        const sw = Math.ceil(this.designWidth * s);
-        const sh = Math.ceil(this.designHeight * s);
-        if (wrap) {
-          wrap.style.width = sw + 'px';
-          wrap.style.height = sh + 'px';
-        }
-        this._canvas.style.transformOrigin = 'top left';
-        this._canvas.style.transform = `scale(${s})`;
-      } else {
-        this.removeAttribute('data-mobile-scroll');
-        if (wrap) {
-          wrap.style.width = '';
-          wrap.style.height = '';
-        }
-        this._canvas.style.transformOrigin = 'center center';
-        this._canvas.style.transform = `scale(${s})`;
-      }
-      if (mobileScroll) this._syncMobileScrollPosition(false);
+      const box = this.getBoundingClientRect();
+      const vw = (box.width || window.innerWidth) - rw;
+      const vh = (box.height || window.innerHeight) - rh;
+      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      this._canvas.style.transform = `scale(${s})`;
     }
 
-    /** Center horizontal overflow after fit; optional vertical reset on nav. */
-    _syncMobileScrollPosition(resetVertical) {
-      if (!this.hasAttribute('data-mobile-scroll')) return;
-      requestAnimationFrame(() => {
-        if (resetVertical) this.scrollTop = 0;
-        const maxLeft = this.scrollWidth - this.clientWidth;
-        if (maxLeft > 0) this.scrollLeft = maxLeft / 2;
-        else this.scrollLeft = 0;
-      });
+    /** Side rail <-> bottom strip: re-check thumbnails, keep the current one in view. */
+    _railModeChanged() {
+      if (!this._thumbs) return;
+      if (NARROW_MQ.matches) {
+        this._trimThumbs();
+      } else {
+        this._thumbs.forEach((entry) => {
+          if (!entry.host && this._railObserver) {
+            this._railObserver.unobserve(entry.frame);
+            this._railObserver.observe(entry.frame);
+          }
+        });
+      }
+      requestAnimationFrame(() => { this._scaleThumbs(); this._syncRail(true); });
     }
 
     _onResize() {
       this._fit();
+      const narrow = NARROW_MQ.matches;
+      if (narrow !== this._wasNarrow) {
+        const first = this._wasNarrow === undefined;
+        this._wasNarrow = narrow;
+        if (!first) this._railModeChanged();
+      }
       // Crossing the narrow-viewport breakpoint reveals the rail — rerun the
       // thumbnail scale the same way _setRailWidth does.
       if (!this._scaleRaf) {
@@ -1802,9 +1872,6 @@
     _onTap(e) {
       // Touch-only — keyboard + the overlay toolbar cover nav on desktop.
       if (FINE_POINTER_MQ.matches) return;
-      // Narrow viewports scroll the slide vertically; half-screen tap nav
-      // would fight touch scrolling.
-      if (this.hasAttribute('data-mobile-scroll')) return;
       // Only taps that land on the stage (slide content or letterbox); the
       // overlay / rail / menus are siblings with their own click handlers.
       const path = e.composedPath();
@@ -1917,6 +1984,7 @@
      *  nothing further in that direction. */
     _advance(dir, reason) {
       if (!this._slides.length) return;
+      this.setAttribute('data-deck-dir', (dir > 0 ? 'next' : 'prev') + (reason === 'swipe-x' ? '-x' : ''));
       let i = this._index + dir;
       while (i >= 0 && i < this._slides.length && this._slides[i].hasAttribute('data-deck-skip')) {
         i += dir;
@@ -2195,8 +2263,24 @@
     }
 
     /** Lazily build the clone for a thumb that has scrolled into view. */
+    /** Phones: keep real previews only near the current slide, free the rest. */
+    _trimThumbs() {
+      if (!NARROW_MQ.matches || !this._thumbs) return;
+      this._thumbs.forEach((entry, i) => {
+        const near = Math.abs(i - this._index) <= 3;
+        if (near && !entry.host) {
+          this._materialize(entry);
+        } else if (!near && entry.host) {
+          entry.host.remove();
+          entry.host = entry.clone = null;
+          if (this._railObserver) this._railObserver.observe(entry.frame);
+        }
+      });
+    }
+
     _materialize(entry) {
       if (entry.host) return;
+      if (NARROW_MQ.matches && Math.abs(entry.i - this._index) > 3) return;
       const dw = this.designWidth, dh = this.designHeight;
       let clone = entry.slide.cloneNode(true);
       // The clone participates in the document's flat tree, so the
@@ -2568,11 +2652,12 @@
 
     _syncRail(follow) {
       if (!this._thumbs) return;
+      this._trimThumbs();
       this._thumbs.forEach(({ thumb }, i) => {
         if (i === this._index) {
           thumb.setAttribute('data-current', '');
           if (follow && typeof thumb.scrollIntoView === 'function') {
-            thumb.scrollIntoView({ block: 'nearest' });
+            thumb.scrollIntoView({ block: 'nearest', inline: 'nearest' });
           }
         } else {
           thumb.removeAttribute('data-current');
