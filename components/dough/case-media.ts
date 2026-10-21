@@ -23,6 +23,8 @@ export interface MediaImage {
   featureFill?: boolean;
   /** Under the feature lead: grow to fill leftover column height (object-cover). */
   featureFlex?: boolean;
+  /** Plays this film in place of the still (the image is its poster). */
+  video?: string;
   /** Grid: frame shape for this tile, overriding the gallery aspect. */
   tileAspect?: string;
   /** Native w×h frame capped by --media-max (social / opener-style sizing). */
@@ -73,7 +75,13 @@ export interface Gallery {
   leadUnder?: MediaImage;
   palette?: { name: string; nameAr: string; hex: string }[];
   stats?: Stat[];
-  video?: { src: string; poster: string };
+  /** Single film; w×h is its native size so the frame never crops it. */
+  video?: {
+    src: string | readonly string[];
+    poster: string;
+    w: number;
+    h: number;
+  };
   /** Vertical reels row (kind "videos"). */
   videos?: {
     src: string;
@@ -463,26 +471,12 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
       "Hand squeezing a Lux body wash bottle",
       "يد بتعصر عبوة شاور جل لوكس",
     ),
-    stats: [
-      {
-        value: "28.7K",
-        label: "likes on the Yasmine Sabri post",
-        labelAr: "إعجاب على منشور ياسمين صبري",
-      },
-      {
-        value: "11.1K",
-        label: "shares on the same post",
-        labelAr: "مشاركة على نفس المنشور",
-      },
-    ],
     galleries: [
       {
         label: "Social content",
         labelAr: "محتوى السوشيال",
         heading: "premium, *made for the feed.*",
         headingAr: "فخامة، *معمولة للفيد.*",
-        body: "28.7K likes and 11.1K shares on the Yasmine Sabri post.",
-        bodyAr: "٢٨٫٧ ألف إعجاب و١١٫١ ألف مشاركة على منشور ياسمين صبري.",
         tone: "grey",
         kind: "justified",
         tileMax: "min(62svh, 720px)",
@@ -506,8 +500,10 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
         kind: "video",
         images: [],
         video: {
-          src: "/cases/lux/lux-grapefruit.mp4",
-          poster: "/cases/lux/lux-grapefruit-still.webp",
+          src: ["/home/motion-1.mp4", "/home/motion-2.mp4"],
+          poster: "/home/motion-poster.webp",
+          w: 3,
+          h: 5,
         },
       },
     ],
@@ -665,11 +661,12 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             "مرئي حملة عيدية كفتة مع الشيبس وكروت الجوايز",
           ),
           img(
-            "kufta/kufta-chips-2",
-            1160,
-            2000,
-            "Kufta chips bag",
-            "كيس شيبس كفتة",
+            "kufta/kufta-vid-poster",
+            1080,
+            1920,
+            "Kufta Eidiya campaign film",
+            "فيلم حملة عيدية كفتة",
+            { video: "/cases/kufta/kufta-vid-clean.mp4" },
           ),
         ],
       },
@@ -803,6 +800,7 @@ export const CASE_MEDIA: Record<string, CaseMedia> = {
             1050,
             "Farooja interior render, counter",
             "تصوّر داخلي لفروجى، الكاونتر",
+            { featureFlex: true },
           ),
           img(
             "farooja/farooja-int2",

@@ -166,7 +166,9 @@
       {
         "title": "ai, in *the studio.*",
         "body": "Concepts, visuals and motion are generated, then art-directed and finished by our team.",
-        "alt": "Grid of AI-generated Comfort social posts"
+        "alt": "Showreel of AI-generated scenes made in the Dough studio",
+        "play": "Play the studio film",
+        "pause": "Pause the studio film"
       },
       {
         "title": "motion, *made.*",

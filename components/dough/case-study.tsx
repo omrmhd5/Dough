@@ -283,6 +283,58 @@ function GalleryHeader({
   );
 }
 
+/** Single film: copy on one side, the film on the other, so the section stays compact. */
+function VideoFeature({
+  gallery,
+  caseLabel,
+}: {
+  gallery: Gallery;
+  caseLabel: string;
+}) {
+  const t = useTranslations("workCaseStudy");
+  const L = useL();
+  const dark = isDark(gallery.tone);
+  const video = gallery.video;
+  if (!video) return null;
+  const heading = L(gallery.heading, gallery.headingAr);
+  const body = L(gallery.body, gallery.bodyAr);
+  return (
+    <>
+      <RunningHeader
+        start={caseLabel}
+        end={L(gallery.label, gallery.labelAr)}
+        tone={dark ? "dark" : "light"}
+      />
+      <Reveal className="mt-[clamp(40px,5vw,96px)] grid items-center gap-10 lg:grid-cols-2 lg:gap-[clamp(48px,6vw,120px)]">
+        <div className="flex flex-col gap-6 lg:gap-8">
+          {heading && (
+            <h2 className="t-display t-sm max-w-[16ch]">
+              <Emphasis text={heading} />
+            </h2>
+          )}
+          {body && (
+            <p className={cn("t-body max-w-[40ch]", dark && "text-sparkle")}>
+              {body}
+            </p>
+          )}
+        </div>
+        <FilmTile
+          src={video.src}
+          poster={video.poster}
+          alt={heading ?? ""}
+          playLabel={t("play")}
+          pauseLabel={t("pause")}
+          className="photo-shadow mx-auto"
+          style={{
+            aspectRatio: `${video.w}/${video.h}`,
+            width: `min(100%, calc(var(--media-max) * ${video.w} / ${video.h}))`,
+          }}
+        />
+      </Reveal>
+    </>
+  );
+}
+
 const colsClass: Record<number, string> = {
   2: "grid-cols-1 sm:grid-cols-2",
   3: "grid-cols-2 lg:grid-cols-3",
@@ -443,7 +495,11 @@ function GalleryBody({ gallery: source }: { gallery: Gallery }) {
                 // columns and gutters line up exactly between rows.
                 const rowMean =
                   row.reduce((a, k) => a + phoneRatios[k], 0) / row.length;
-                const frame = lgUp || row.length === 1 ? ratio : rowMean;
+                // A row holding a film keeps each tile's own proportions (equal
+                // heights), so the film is never cropped.
+                const rowHasVideo = row.some((k) => phoneJustified[k].video);
+                const frame =
+                  lgUp || row.length === 1 || rowHasVideo ? ratio : rowMean;
                 const caption = L(image.caption, image.captionAr);
                 const isLone =
                   row.length === 1 && !lgUp && phoneJustified.length > 1;
@@ -452,7 +508,7 @@ function GalleryBody({ gallery: source }: { gallery: Gallery }) {
                     key={image.src + i}
                     className={cn(
                       "min-w-0 flex-[var(--r)_1_0%]",
-                      !isLone && "max-lg:flex-1",
+                      !isLone && !rowHasVideo && "max-lg:flex-1",
                       isLone && "grow-0 basis-[58%]",
                     )}
                     style={{ "--r": ratio.toFixed(4) } as React.CSSProperties}
@@ -463,16 +519,27 @@ function GalleryBody({ gallery: source }: { gallery: Gallery }) {
                           className="photo-shadow relative overflow-hidden bg-grey"
                           style={{ aspectRatio: frame.toFixed(4) }}
                         >
-                          <img
-                            src={image.src}
-                            alt={L(image.alt, image.altAr)}
-                            width={image.w}
-                            height={image.h}
-                            loading="lazy"
-                            decoding="async"
-                            className="absolute inset-0 size-full object-cover"
-                            style={{ objectPosition: image.position }}
-                          />
+                          {image.video ? (
+                            <FilmTile
+                              src={image.video}
+                              poster={image.src}
+                              alt={L(image.alt, image.altAr)}
+                              playLabel={t("play")}
+                              pauseLabel={t("pause")}
+                              className="absolute inset-0 size-full"
+                            />
+                          ) : (
+                            <img
+                              src={image.src}
+                              alt={L(image.alt, image.altAr)}
+                              width={image.w}
+                              height={image.h}
+                              loading="lazy"
+                              decoding="async"
+                              className="absolute inset-0 size-full object-cover"
+                              style={{ objectPosition: image.position }}
+                            />
+                          )}
                         </div>
                         {caption && (
                           <figcaption
@@ -512,15 +579,22 @@ function GalleryBody({ gallery: source }: { gallery: Gallery }) {
         );
       }
       const sideFill = rest.some((img) => img.featureFill);
+      // Lead stretches to the height of the stacked photos beside it, so the
+      // two columns end on the same line (columns 2:1 match 4:3 stacks).
+      const leadFlex = lead.featureFlex === true && !gallery.leadUnder;
       return (
         <div
           className={cn(
-            "grid gap-[clamp(16px,2vw,40px)] lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]",
+            "grid gap-[clamp(16px,2vw,40px)]",
+            leadFlex
+              ? "lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]"
+              : "lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]",
             sideFill && "lg:items-stretch",
           )}
         >
           <Reveal
             className={cn(
+              leadFlex && "min-h-0 lg:flex lg:h-full lg:flex-col",
               sideFill && "min-h-0 lg:flex lg:h-full lg:flex-col",
               gallery.leadUnder &&
                 "flex flex-col gap-[clamp(16px,2vw,40px)] lg:min-h-0 lg:flex-1",
@@ -709,14 +783,18 @@ function GalleryBody({ gallery: source }: { gallery: Gallery }) {
     case "video":
       if (!gallery.video) return null;
       return (
-        <Reveal className="mx-auto w-full max-w-[min(100%,560px)]">
+        <Reveal className="mx-auto w-full">
           <FilmTile
             src={gallery.video.src}
             poster={gallery.video.poster}
             alt={L(gallery.heading ?? "", gallery.headingAr)}
             playLabel={t("play")}
             pauseLabel={t("pause")}
-            className="photo-shadow aspect-[616/1000] max-h-[var(--media-max)]"
+            className="photo-shadow mx-auto"
+            style={{
+              aspectRatio: `${gallery.video.w}/${gallery.video.h}`,
+              width: `min(100%, calc(var(--media-max) * ${gallery.video.w} / ${gallery.video.h}))`,
+            }}
           />
         </Reveal>
       );
@@ -976,10 +1054,16 @@ export function CaseStudy({ entry }: { entry: CaseEntry }) {
           className={cn("section-y", toneClass[gallery.tone])}
         >
           <div className="wrap">
-            <GalleryHeader gallery={gallery} caseLabel={caseLabel} />
-            <div className="mt-[clamp(40px,5vw,96px)]">
-              <GalleryBody gallery={gallery} />
-            </div>
+            {gallery.kind === "video" && gallery.video ? (
+              <VideoFeature gallery={gallery} caseLabel={caseLabel} />
+            ) : (
+              <>
+                <GalleryHeader gallery={gallery} caseLabel={caseLabel} />
+                <div className="mt-[clamp(40px,5vw,96px)]">
+                  <GalleryBody gallery={gallery} />
+                </div>
+              </>
+            )}
             {gallery.stats && (
               <div className="mt-16">
                 <StatRow stats={gallery.stats} dark={isDark(gallery.tone)} />
