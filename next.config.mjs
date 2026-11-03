@@ -13,6 +13,15 @@ const nextConfig = {
     return [
       { source: "/profile", destination: "/profile/index.html" },
       { source: "/profile/", destination: "/profile/index.html" },
+      // Primo's November content calendar (static page + images).
+      {
+        source: "/primos-november-calendar",
+        destination: "/primos-november-calendar/index.html",
+      },
+      {
+        source: "/primos-november-calendar/",
+        destination: "/primos-november-calendar/index.html",
+      },
     ];
   },
   async redirects() {
