@@ -167,7 +167,7 @@ export default function PortalPage() {
           pages={pages}
           onPublished={(page) => {
             setNotice(
-              `Published /${page.slug}. It goes live in about a minute or two, once the site finishes deploying.`,
+              `Published /${page.slug}. The site is redeploying now. Wait about 40 seconds, then open xdough.com/${page.slug} to see it live.`,
             );
             void load();
           }}
@@ -421,7 +421,7 @@ function PageRow({
               if (!file) return;
               void run("update", async () => {
                 await publish(file, page.slug, page.title, "update", () => {});
-                return `Updated /${page.slug}. The new version goes live in about a minute or two.`;
+                return `Updated /${page.slug}. The site is redeploying now. Wait about 40 seconds, then refresh xdough.com/${page.slug} to see the new version.`;
               });
             }}
           />
@@ -469,7 +469,7 @@ function PageRow({
                   body: JSON.stringify({ action: "edit", slug: page.slug, newSlug: slug, title }),
                 });
                 return slug !== page.slug
-                  ? `Moved to /${slug}. The old address stops working once the site redeploys.`
+                  ? `Moved to /${slug}. The site is redeploying now. Wait about 40 seconds, then use xdough.com/${slug}; the old address stops working after that.`
                   : "Saved.";
               })
             }>
@@ -499,7 +499,7 @@ function PageRow({
                         headers: { "content-type": "application/json" },
                         body: JSON.stringify({ action: "restore", slug: page.slug, sha: v.sha }),
                       });
-                      return `Restored /${page.slug}. It goes live in about a minute or two.`;
+                      return `Restored /${page.slug}. The site is redeploying now. Wait about 40 seconds, then refresh xdough.com/${page.slug}.`;
                     })
                   }>
                   {busy === "restore" ? "Restoring…" : "Restore"}
@@ -529,7 +529,7 @@ function PageRow({
                     headers: { "content-type": "application/json" },
                     body: JSON.stringify({ action: "delete", slug: page.slug }),
                   });
-                  return `Deleted /${page.slug}.`;
+                  return `Deleted /${page.slug}. The site is redeploying now; the link stops working in about 40 seconds.`;
                 })
               }>
               {busy === "delete" ? "Deleting…" : "Delete page"}
