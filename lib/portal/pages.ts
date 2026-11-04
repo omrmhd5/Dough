@@ -1,4 +1,3 @@
-import legacy from "@/data/pages.json";
 import {
   listPrefix,
   PortalError,
@@ -23,11 +22,6 @@ const RESERVED = new Set([
   "sitemap.xml", "admin", "login", "_next",
 ]);
 
-/** Pages that were published before the portal used Blob still live in the repository. */
-const legacySlugs = new Set(
-  ((legacy as { pages?: { slug: string }[] }).pages ?? []).map((p) => p.slug),
-);
-
 export const ALLOWED_EXT = new Set([
   "html", "htm", "css", "js", "mjs", "json", "txt", "svg", "ico", "map",
   "png", "jpg", "jpeg", "gif", "webp", "avif",
@@ -41,7 +35,7 @@ export function validateSlug(slug: unknown): string {
       "The address can only use lowercase letters, numbers and dashes, for example primos-november-calendar.",
     );
   }
-  if (RESERVED.has(slug) || legacySlugs.has(slug)) {
+  if (RESERVED.has(slug)) {
     throw new PortalError(`"${slug}" is already used by the website. Pick another address.`, 409);
   }
   return slug;

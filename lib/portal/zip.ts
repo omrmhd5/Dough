@@ -78,22 +78,6 @@ export function tidyZip(files: ZipFile[]): ZipFile[] {
   return list;
 }
 
-/**
- * Makes the page work at /<slug> without a trailing slash: relative links
- * (img/…, style.css) resolve against the page's own folder.
- */
-export function prepareIndex(html: string, slug: string, hideFromSearch: boolean) {
-  let tags = "";
-  if (!/<base\s/i.test(html)) tags += `<base href="/${slug}/" data-portal>`;
-  if (hideFromSearch && !/name=["']?robots/i.test(html)) {
-    tags += `<meta name="robots" content="noindex, nofollow">`;
-  }
-  if (!tags) return html;
-  if (/<head[^>]*>/i.test(html)) return html.replace(/<head[^>]*>/i, (m) => m + tags);
-  if (/<html[^>]*>/i.test(html)) return html.replace(/<html[^>]*>/i, (m) => `${m}<head>${tags}</head>`);
-  return `${tags}${html}`;
-}
-
 export function titleOf(html: string, fallback: string) {
   const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   if (!match) return fallback;
