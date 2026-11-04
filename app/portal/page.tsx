@@ -67,17 +67,22 @@ async function publish(
   async function worker() {
     while (next < uploads.length) {
       const file = uploads[next++];
-      const { sha } = await api<{ sha: string }>("/api/portal/blob", {
-        method: "POST",
-        body: file.data as BodyInit,
-      }).catch((error: Error) => {
-        throw new Error(`${file.path}: ${error.message}`);
-      });
+      const send = () =>
+        api<{ sha: string }>("/api/portal/blob", {
+          method: "POST",
+          body: file.data as BodyInit,
+        });
+      // One more try on a hiccup, then report which file failed.
+      const { sha } = await send()
+        .catch(() => new Promise((r) => setTimeout(r, 1200)).then(send))
+        .catch((error: Error) => {
+          throw new Error(`${file.path}: ${error.message}`);
+        });
       results.push({ path: file.path, sha });
       onStep(`Uploading files… ${++done} of ${uploads.length}`);
     }
   }
-  await Promise.all([worker(), worker(), worker(), worker()]);
+  await Promise.all([worker(), worker(), worker()]);
 
   onStep("Publishing…");
   const { page } = await api<{ page: Page }>("/api/portal/manage", {

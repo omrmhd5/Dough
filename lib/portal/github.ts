@@ -21,28 +21,44 @@ async function gh<T>(path: string, init: RequestInit = {}): Promise<T> {
       500,
     );
   }
-  const response = await fetch(`${API}/repos/${repo()}${path}`, {
-    ...init,
-    cache: "no-store",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      "Content-Type": "application/json",
-      ...init.headers,
-    },
-  });
-  if (!response.ok) {
+  // Reads and blob uploads are safe to repeat, so GitHub's occasional 5xx and
+  // rate-limit answers are retried a few times before giving up.
+  const method = (init.method ?? "GET").toUpperCase();
+  const retryable = method === "GET" || path === "/git/blobs";
+  for (let attempt = 0; ; attempt++) {
+    const response = await fetch(`${API}/repos/${repo()}${path}`, {
+      ...init,
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "Content-Type": "application/json",
+        ...init.headers,
+      },
+    });
+    if (response.ok) return (await response.json()) as T;
+
     let detail = "";
     try {
       detail = ((await response.json()) as { message?: string }).message ?? "";
     } catch {}
+    const transient =
+      response.status >= 500 ||
+      response.status === 429 ||
+      (response.status === 403 && /rate limit|abuse/i.test(detail));
+    if (retryable && transient && attempt < 4) {
+      const wait = Number(response.headers.get("retry-after")) * 1000;
+      await new Promise((resolve) =>
+        setTimeout(resolve, wait > 0 ? Math.min(wait, 8000) : 600 * 2 ** attempt),
+      );
+      continue;
+    }
     throw new GitHubError(
       `GitHub said: ${detail || response.statusText}`,
       response.status,
     );
   }
-  return (await response.json()) as T;
 }
 
 type Head = { commit: string; tree: string };
