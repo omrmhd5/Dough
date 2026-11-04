@@ -7,7 +7,7 @@ const SESSION_DAYS = 7;
 function secret() {
   return (
     process.env.PORTAL_SECRET ||
-    `${process.env.PORTAL_PASSWORD ?? ""}|${process.env.GITHUB_TOKEN ?? ""}|portal`
+    `${process.env.PORTAL_PASSWORD ?? ""}|${process.env.BLOB_READ_WRITE_TOKEN ?? ""}|portal`
   );
 }
 

@@ -1,56 +1,32 @@
+import legacy from "@/data/pages.json";
 import {
-  commitOnHead,
-  createBlob,
-  readBlob,
-  recursiveTree,
-  treeAtCommit,
-  type Change,
-  type TreeEntry,
-} from "./github";
+  listPrefix,
+  PortalError,
+  readManifest,
+  removeBlobs,
+  updateManifest,
+  type PortalPage,
+} from "./store";
 
-export const MANIFEST_PATH = "data/pages.json";
-export const FILES_ROOT = "public/p";
-
-export type PortalPage = {
-  slug: string;
-  title: string;
-  version: number;
-  createdAt: string;
-  updatedAt: string;
-};
-export type Manifest = { pages: PortalPage[] };
-
-export class PortalError extends Error {
-  status: number;
-  constructor(message: string, status = 400) {
-    super(message);
-    this.status = status;
-  }
-}
+export { PortalError };
+export type { PortalPage };
 
 export const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const ID_RE = /^[a-z0-9]{8,24}$/;
+export const MAX_FILES = 400;
+export const MAX_FILE_BYTES = 100_000_000;
 
 /** Addresses the website itself uses; a published page can never take these. */
 const RESERVED = new Set([
-  "api",
-  "portal",
-  "p",
-  "work",
-  "contact",
-  "profile",
-  "clients",
-  "uncledough",
-  "cases",
-  "home",
-  "brand",
-  "fonts",
-  "images",
-  "favicon.ico",
-  "robots.txt",
-  "sitemap.xml",
-  "admin",
-  "login",
+  "api", "portal", "p", "work", "contact", "profile", "clients", "uncledough",
+  "cases", "home", "brand", "fonts", "images", "favicon.ico", "robots.txt",
+  "sitemap.xml", "admin", "login", "_next",
 ]);
+
+/** Pages that were published before the portal used Blob still live in the repository. */
+const legacySlugs = new Set(
+  ((legacy as { pages?: { slug: string }[] }).pages ?? []).map((p) => p.slug),
+);
 
 export const ALLOWED_EXT = new Set([
   "html", "htm", "css", "js", "mjs", "json", "txt", "svg", "ico", "map",
@@ -59,16 +35,14 @@ export const ALLOWED_EXT = new Set([
   "mp4", "webm", "mp3", "m4a", "wav",
 ]);
 
-export const MAX_FILES = 400;
-
 export function validateSlug(slug: unknown): string {
   if (typeof slug !== "string" || !SLUG_RE.test(slug) || slug.length > 60) {
     throw new PortalError(
       "The address can only use lowercase letters, numbers and dashes, for example primos-november-calendar.",
     );
   }
-  if (RESERVED.has(slug)) {
-    throw new PortalError(`"${slug}" is used by the website. Pick another address.`);
+  if (RESERVED.has(slug) || legacySlugs.has(slug)) {
+    throw new PortalError(`"${slug}" is already used by the website. Pick another address.`, 409);
   }
   return slug;
 }
@@ -78,7 +52,6 @@ export function validateFilePath(path: unknown): string {
     typeof path !== "string" ||
     !path ||
     path.length > 200 ||
-    path.startsWith("/") ||
     path.split("/").some((part) => !part || part === "." || part === "..") ||
     !/^[A-Za-z0-9._ \-()]+(\/[A-Za-z0-9._ \-()]+)*$/.test(path)
   ) {
@@ -91,215 +64,133 @@ export function validateFilePath(path: unknown): string {
   return path;
 }
 
-const prefixOf = (slug: string) => `${FILES_ROOT}/${slug}/`;
+/** Upload paths look like pages/<page id>/<version id>/<file>. */
+export function parseUploadPath(pathname: string) {
+  const match = pathname.match(/^pages\/([a-z0-9]{8,24})\/([a-z0-9]{6,16})\/(.+)$/);
+  if (!match) throw new PortalError("Upload path not allowed.");
+  return { id: match[1], version: match[2], file: validateFilePath(match[3]) };
+}
+
 const now = () => new Date().toISOString();
-
-async function loadManifest(tree: TreeEntry[]): Promise<Manifest> {
-  const entry = tree.find((e) => e.path === MANIFEST_PATH);
-  if (!entry) return { pages: [] };
-  try {
-    const parsed = JSON.parse((await readBlob(entry.sha)).toString("utf8"));
-    return { pages: Array.isArray(parsed.pages) ? parsed.pages : [] };
-  } catch {
-    return { pages: [] };
-  }
-}
-
-async function manifestChange(manifest: Manifest): Promise<Change> {
-  const body = JSON.stringify(manifest, null, 2) + "\n";
-  const sha = await createBlob(Buffer.from(body, "utf8").toString("base64"));
-  return { path: MANIFEST_PATH, sha };
-}
-
-/** The address a new page wants must not clash with the site's own routes or folders. */
-function assertFree(tree: TreeEntry[], manifest: Manifest, slug: string) {
-  if (manifest.pages.some((p) => p.slug === slug)) {
-    throw new PortalError(`"${slug}" is already a published page.`, 409);
-  }
-  const taken = tree.some(
-    (e) =>
-      e.path === slug ||
-      e.path === `app/${slug}` ||
-      e.path === `public/${slug}`,
-  );
-  if (taken) {
-    throw new PortalError(`"${slug}" is used by the website. Pick another address.`, 409);
-  }
-}
-
-/** The base address injected at publish must follow the page when it moves or is restored. */
-async function withBase(entry: TreeEntry, slug: string): Promise<string> {
-  if (!/\.html?$/i.test(entry.path)) return entry.sha;
-  const html = (await readBlob(entry.sha)).toString("utf8");
-  const pattern = /<base\s+href="[^"]*"\s+data-portal>/i;
-  const wanted = `<base href="/${slug}/" data-portal>`;
-  if (!pattern.test(html) || html.includes(wanted)) return entry.sha;
-  return createBlob(
-    Buffer.from(html.replace(pattern, wanted), "utf8").toString("base64"),
-  );
-}
 
 export type Publish = {
   mode: "create" | "update";
+  pageId: string;
   slug: string;
   title: string;
-  files: { path: string; sha: string }[];
+  version: string;
+  files: string[];
 };
 
 export async function publishPage(input: Publish) {
   const slug = validateSlug(input.slug);
+  if (!ID_RE.test(input.pageId) || !/^[a-z0-9]{6,16}$/.test(input.version)) {
+    throw new PortalError("Bad upload reference.");
+  }
   const title = String(input.title ?? "").trim().slice(0, 120) || slug;
-  if (!Array.isArray(input.files) || !input.files.length) {
-    throw new PortalError("The upload has no files.");
+  const files = (input.files ?? []).map(validateFilePath);
+  if (!files.length || files.length > MAX_FILES) {
+    throw new PortalError(`Upload between 1 and ${MAX_FILES} files.`);
   }
-  if (input.files.length > MAX_FILES) {
-    throw new PortalError(`Too many files (limit ${MAX_FILES}).`);
-  }
-  const files = input.files.map((f) => ({
-    path: validateFilePath(f.path),
-    sha: String(f.sha),
-  }));
-  if (!files.some((f) => f.path === "index.html")) {
-    throw new PortalError("The zip needs an index.html at its top level.");
-  }
-  if (new Set(files.map((f) => f.path)).size !== files.length) {
-    throw new PortalError("The zip contains the same file twice.");
+  if (!files.includes("index.html")) {
+    throw new PortalError("The upload needs an index.html at its top level.");
   }
 
-  let page!: PortalPage;
-  await commitOnHead(async (head) => {
-    const tree = await recursiveTree(head.tree);
-    const manifest = await loadManifest(tree);
+  // Every file must really be in storage before the address points at it.
+  const stored = new Set(
+    (await listPrefix(`pages/${input.pageId}/${input.version}/`)).map((b) =>
+      b.pathname.slice(`pages/${input.pageId}/${input.version}/`.length),
+    ),
+  );
+  const missing = files.find((f) => !stored.has(f));
+  if (missing) throw new PortalError(`${missing} did not finish uploading. Try again.`);
+
+  return updateManifest((manifest) => {
     const existing = manifest.pages.find((p) => p.slug === slug);
-    if (input.mode === "create") assertFree(tree, manifest, slug);
-    else if (!existing) throw new PortalError(`"${slug}" is not published.`, 404);
-
-    const prefix = prefixOf(slug);
-    const changes: Change[] = files.map((f) => ({
-      path: prefix + f.path,
-      sha: f.sha,
-    }));
-    const keep = new Set(changes.map((c) => c.path));
-    for (const entry of tree) {
-      if (entry.type === "blob" && entry.path.startsWith(prefix) && !keep.has(entry.path)) {
-        changes.push({ path: entry.path, sha: null });
-      }
-    }
-
-    page = existing
-      ? { ...existing, title, version: existing.version + 1, updatedAt: now() }
-      : { slug, title, version: 1, createdAt: now(), updatedAt: now() };
-    manifest.pages = [...manifest.pages.filter((p) => p.slug !== slug), page];
-    changes.push(await manifestChange(manifest));
-    return {
-      message: existing
-        ? `Update page /${slug} (version ${page.version})`
-        : `Publish page /${slug}`,
-      changes,
+    const version = {
+      id: input.version,
+      at: now(),
+      note: existing ? "Updated" : "Published",
+      files: files.length,
     };
+    let page: PortalPage;
+    if (input.mode === "create") {
+      if (existing) throw new PortalError(`"${slug}" is already a published page.`, 409);
+      if (manifest.pages.some((p) => p.id === input.pageId)) {
+        throw new PortalError("That upload was already used.", 409);
+      }
+      page = {
+        id: input.pageId,
+        slug,
+        title,
+        current: version.id,
+        versions: [version],
+        createdAt: now(),
+        updatedAt: now(),
+      };
+    } else {
+      if (!existing || existing.id !== input.pageId) {
+        throw new PortalError(`"${slug}" is not published.`, 404);
+      }
+      page = {
+        ...existing,
+        current: version.id,
+        versions: [version, ...existing.versions],
+        updatedAt: now(),
+      };
+    }
+    manifest.pages = [...manifest.pages.filter((p) => p.slug !== slug), page];
+    return page;
   });
-  return page;
 }
 
-export async function editPage(input: {
-  slug: string;
-  newSlug?: string;
-  title?: string;
-}) {
-  const slug = validateSlug(input.slug);
-  const newSlug = input.newSlug ? validateSlug(input.newSlug) : slug;
-  let page!: PortalPage;
-  await commitOnHead(async (head) => {
-    const tree = await recursiveTree(head.tree);
-    const manifest = await loadManifest(tree);
+export async function editPage(input: { slug: string; newSlug?: string; title?: string }) {
+  const slug = String(input.slug);
+  const newSlug = input.newSlug && input.newSlug !== slug ? validateSlug(input.newSlug) : slug;
+  return updateManifest((manifest) => {
     const existing = manifest.pages.find((p) => p.slug === slug);
     if (!existing) throw new PortalError(`"${slug}" is not published.`, 404);
-
-    const changes: Change[] = [];
-    if (newSlug !== slug) {
-      assertFree(tree, manifest, newSlug);
-      const from = prefixOf(slug);
-      const to = prefixOf(newSlug);
-      for (const entry of tree) {
-        if (entry.type !== "blob" || !entry.path.startsWith(from)) continue;
-        changes.push({ path: entry.path, sha: null });
-        changes.push({
-          path: to + entry.path.slice(from.length),
-          sha: await withBase(entry, newSlug),
-        });
-      }
+    if (newSlug !== slug && manifest.pages.some((p) => p.slug === newSlug)) {
+      throw new PortalError(`"${newSlug}" is already a published page.`, 409);
     }
-    page = {
+    const page = {
       ...existing,
       slug: newSlug,
       title: (input.title ?? existing.title).trim().slice(0, 120) || newSlug,
       updatedAt: now(),
     };
-    manifest.pages = [...manifest.pages.filter((p) => p.slug !== slug), page];
-    changes.push(await manifestChange(manifest));
-    return { message: `Edit page /${slug}${newSlug !== slug ? ` → /${newSlug}` : ""}`, changes };
+    manifest.pages = manifest.pages.map((p) => (p.id === existing.id ? page : p));
+    return page;
   });
-  return page;
 }
 
-export async function deletePage(slugInput: string) {
-  const slug = validateSlug(slugInput);
-  await commitOnHead(async (head) => {
-    const tree = await recursiveTree(head.tree);
-    const manifest = await loadManifest(tree);
-    if (!manifest.pages.some((p) => p.slug === slug)) {
-      throw new PortalError(`"${slug}" is not published.`, 404);
+export async function restorePage(input: { slug: string; version: string }) {
+  return updateManifest((manifest) => {
+    const existing = manifest.pages.find((p) => p.slug === input.slug);
+    if (!existing) throw new PortalError(`"${input.slug}" is not published.`, 404);
+    if (!existing.versions.some((v) => v.id === input.version)) {
+      throw new PortalError("That version no longer exists.", 404);
     }
-    const prefix = prefixOf(slug);
-    const changes: Change[] = tree
-      .filter((e) => e.type === "blob" && e.path.startsWith(prefix))
-      .map((e) => ({ path: e.path, sha: null }));
-    manifest.pages = manifest.pages.filter((p) => p.slug !== slug);
-    changes.push(await manifestChange(manifest));
-    return { message: `Delete page /${slug}`, changes };
+    const page = { ...existing, current: input.version, updatedAt: now() };
+    manifest.pages = manifest.pages.map((p) => (p.id === existing.id ? page : p));
+    return page;
   });
 }
 
-export async function restorePage(input: { slug: string; sha: string }) {
-  const slug = validateSlug(input.slug);
-  if (!/^[0-9a-f]{40}$/.test(input.sha)) throw new PortalError("Unknown version.");
-  const old = (await treeAtCommit(input.sha)).filter(
-    (e) => e.type === "blob" && e.path.startsWith(prefixOf(slug)),
-  );
-  if (!old.length) throw new PortalError("That version has no files for this page.");
-
-  let page!: PortalPage;
-  await commitOnHead(async (head) => {
-    const tree = await recursiveTree(head.tree);
-    const manifest = await loadManifest(tree);
+export async function deletePage(slug: string) {
+  const removed = await updateManifest((manifest) => {
     const existing = manifest.pages.find((p) => p.slug === slug);
     if (!existing) throw new PortalError(`"${slug}" is not published.`, 404);
-
-    const changes: Change[] = [];
-    for (const entry of old) {
-      changes.push({ path: entry.path, sha: await withBase(entry, slug) });
-    }
-    const keep = new Set(old.map((e) => e.path));
-    for (const entry of tree) {
-      if (entry.type === "blob" && entry.path.startsWith(prefixOf(slug)) && !keep.has(entry.path)) {
-        changes.push({ path: entry.path, sha: null });
-      }
-    }
-    page = { ...existing, version: existing.version + 1, updatedAt: now() };
-    manifest.pages = [...manifest.pages.filter((p) => p.slug !== slug), page];
-    changes.push(await manifestChange(manifest));
-    return {
-      message: `Restore page /${slug} to ${input.sha.slice(0, 7)} (version ${page.version})`,
-      changes,
-    };
+    manifest.pages = manifest.pages.filter((p) => p.id !== existing.id);
+    return existing;
   });
-  return page;
+  // The address is already gone; clearing the stored files is best effort.
+  try {
+    await removeBlobs((await listPrefix(`pages/${removed.id}/`)).map((b) => b.url));
+  } catch {}
 }
 
-export async function listPages(): Promise<PortalPage[]> {
-  const { getHead } = await import("./github");
-  const head = await getHead();
-  const tree = await recursiveTree(head.tree);
-  const manifest = await loadManifest(tree);
+export async function listPages() {
+  const manifest = await readManifest(true);
   return manifest.pages.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
 }

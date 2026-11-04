@@ -1,18 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { prepareIndex, readZip, tidyZip, titleOf } from "@/lib/portal/zip";
+import { upload } from "@vercel/blob/client";
+import { readZip, tidyZip, titleOf } from "@/lib/portal/zip";
 
 /* ── Types & helpers ──────────────────────────────────────────────────── */
 
+type Version = { id: string; at: string; note: string; files: number };
 type Page = {
+  id: string;
   slug: string;
   title: string;
-  version: number;
+  current: string;
+  versions: Version[];
   createdAt: string;
   updatedAt: string;
 };
-type Version = { sha: string; url: string; message: string; date: string };
 type Toast = { id: number; kind: "ok" | "err"; text: string };
 type Notify = (kind: Toast["kind"], text: string) => void;
 
@@ -56,12 +59,29 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
   return data as T;
 }
 
-/** Unzips (or reads one HTML file) in the browser, uploads each file, then asks the server for one commit. */
+const randomId = (length: number) => {
+  const bytes = crypto.getRandomValues(new Uint8Array(length));
+  return Array.from(bytes, (b) => "abcdefghijklmnopqrstuvwxyz0123456789"[b % 36]).join("");
+};
+
+const CONTENT_TYPES: Record<string, string> = {
+  html: "text/html", htm: "text/html", css: "text/css", js: "text/javascript",
+  mjs: "text/javascript", json: "application/json", txt: "text/plain",
+  svg: "image/svg+xml", ico: "image/x-icon", png: "image/png", jpg: "image/jpeg",
+  jpeg: "image/jpeg", gif: "image/gif", webp: "image/webp", avif: "image/avif",
+  woff: "font/woff", woff2: "font/woff2", ttf: "font/ttf", otf: "font/otf",
+  mp4: "video/mp4", webm: "video/webm", mp3: "audio/mpeg", m4a: "audio/mp4", wav: "audio/wav",
+};
+
+/**
+ * Unzips (or reads one HTML file) in the browser, sends each file straight to
+ * storage as a new version, then points the address at that version.
+ */
 async function publish(
   source: File,
   slug: string,
   title: string,
-  mode: "create" | "update",
+  target: { mode: "create" } | { mode: "update"; page: Page },
   onStep: (text: string, percent: number) => void,
 ) {
   onStep("Reading the file…", 4);
@@ -71,44 +91,48 @@ async function publish(
     : tidyZip(await readZip(await source.arrayBuffer()));
   const index = files.find((f) => f.path === "index.html");
   if (!index) throw new Error("The zip needs an index.html at its top level.");
+  const finalTitle = title || titleOf(new TextDecoder().decode(index.data), slug);
 
-  const html = new TextDecoder().decode(index.data);
-  const prepared = new TextEncoder().encode(prepareIndex(html, slug, true));
-  const finalTitle = title || titleOf(html, slug);
-
-  const uploads = files.map((f) => ({
-    path: f.path,
-    data: f.path === "index.html" ? prepared : f.data,
-  }));
-  const results: { path: string; sha: string }[] = [];
+  const pageId = target.mode === "update" ? target.page.id : randomId(14);
+  const version = randomId(8);
   let done = 0;
   let next = 0;
   async function worker() {
-    while (next < uploads.length) {
-      const file = uploads[next++];
+    while (next < files.length) {
+      const file = files[next++];
+      const type = CONTENT_TYPES[file.path.split(".").pop()?.toLowerCase() ?? ""] ?? "application/octet-stream";
       const send = () =>
-        api<{ sha: string }>("/api/portal/blob", {
-          method: "POST",
-          body: file.data as BodyInit,
+        upload(`pages/${pageId}/${version}/${file.path}`, new globalThis.Blob([file.data as BlobPart], { type }), {
+          access: "public",
+          handleUploadUrl: "/api/portal/upload",
+          contentType: type,
+          multipart: file.data.length > 8_000_000,
         });
       // One more try on a hiccup, then report which file failed.
-      const { sha } = await send()
+      await send()
         .catch(() => new Promise((r) => setTimeout(r, 1200)).then(send))
         .catch((error: Error) => {
           throw new Error(`${file.path}: ${error.message}`);
         });
-      results.push({ path: file.path, sha });
       done += 1;
-      onStep(`Uploading files… ${done} of ${uploads.length}`, 6 + (done / uploads.length) * 84);
+      onStep(`Uploading files… ${done} of ${files.length}`, 6 + (done / files.length) * 84);
     }
   }
-  await Promise.all([worker(), worker(), worker()]);
+  await Promise.all([worker(), worker(), worker(), worker()]);
 
   onStep("Publishing…", 94);
   const { page } = await api<{ page: Page }>("/api/portal/manage", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ action: "publish", mode, slug, title: finalTitle, files: results }),
+    body: JSON.stringify({
+      action: "publish",
+      mode: target.mode,
+      pageId,
+      slug,
+      title: finalTitle,
+      version,
+      files: files.map((f) => f.path),
+    }),
   });
   onStep("Done", 100);
   return page;
@@ -283,7 +307,7 @@ export default function PortalPage() {
             onPublished={(page) => {
               notify(
                 "ok",
-                `Published /${page.slug}. The site is redeploying now. Wait about 40 seconds, then open xdough.com/${page.slug} to see it live.`,
+                `Published /${page.slug}. It is live now at xdough.com/${page.slug}.`,
               );
               void load();
             }}
@@ -534,7 +558,7 @@ function NewPage({
             if (!file) return;
             setStep({ text: "Starting…", percent: 2 });
             try {
-              const page = await publish(file, slug, title.trim(), "create", (text, percent) =>
+              const page = await publish(file, slug, title.trim(), { mode: "create" }, (text, percent) =>
                 setStep({ text, percent }),
               );
               setFile(null);
@@ -586,7 +610,6 @@ function PageRow({
   const [busy, setBusy] = useState("");
   const [slug, setSlug] = useState(page.slug);
   const [title, setTitle] = useState(page.title);
-  const [versions, setVersions] = useState<Version[] | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const url = `/${page.slug}`;
 
@@ -617,7 +640,7 @@ function PageRow({
         <div className="min-w-0 flex-1 basis-[260px]">
           <div className="flex items-center gap-3">
             <p className="truncate text-[22px] font-bold tracking-[-0.01em]">{page.title}</p>
-            <span className="shrink-0 rounded-full bg-sparkle px-2.5 py-0.5 text-[12px] font-semibold">v{page.version}</span>
+            <span className="shrink-0 rounded-full bg-sparkle px-2.5 py-0.5 text-[12px] font-semibold">v{page.versions.length}</span>
           </div>
           <a
             href={url}
@@ -657,8 +680,8 @@ function PageRow({
               e.target.value = "";
               if (!file) return;
               void run("update", async () => {
-                await publish(file, page.slug, page.title, "update", () => {});
-                return `Updated /${page.slug}. The site is redeploying now. Wait about 40 seconds, then refresh xdough.com/${page.slug} to see the new version.`;
+                await publish(file, page.slug, page.title, { mode: "update", page }, () => {});
+                return `Updated /${page.slug}. The new version is live now.`;
               });
             }}
           />
@@ -669,15 +692,7 @@ function PageRow({
             className={`${btnGhost} ${mode === "history" ? "border-navy bg-sparkle/50" : ""}`}
             disabled={Boolean(busy)}
             aria-label="Versions"
-            onClick={async () => {
-              toggle("history");
-              if (mode === "history" || versions) return;
-              try {
-                setVersions((await api<{ versions: Version[] }>(`/api/portal/history?slug=${page.slug}`)).versions);
-              } catch (e) {
-                notify("err", (e as Error).message);
-              }
-            }}>
+            onClick={() => toggle("history")}>
             <Icon name="clock" /> <span className="max-sm:sr-only">Versions</span>
           </button>
           <button
@@ -707,7 +722,7 @@ function PageRow({
               run("edit", async () => {
                 await post({ action: "edit", slug: page.slug, newSlug: slug, title });
                 return slug !== page.slug
-                  ? `Moved to /${slug}. The site is redeploying now. Wait about 40 seconds, then use xdough.com/${slug}; the old address stops working after that.`
+                  ? `Moved to /${slug}. The new address works now; the old one no longer does.`
                   : "Saved.";
               })
             }>
@@ -718,35 +733,31 @@ function PageRow({
 
       <Collapse open={mode === "history"}>
         <ul className="rounded-3xl bg-sparkle/40 p-2">
-          {versions === null && (
-            <li className="flex items-center gap-3 px-4 py-3 text-[14px] text-water">
-              <Spinner /> Loading versions…
-            </li>
-          )}
-          {versions?.map((v, i) => (
-            <li key={v.sha} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 text-[14px] transition-colors hover:bg-cream/70">
+          {page.versions.map((v, i) => (
+            <li key={v.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 text-[14px] transition-colors hover:bg-cream/70">
               <span className="min-w-0">
-                <b className="font-semibold">{v.message}</b>
-                <span className="ml-2 text-water">{dateText(v.date)}</span>
+                <b className="font-semibold">Version {page.versions.length - i}</b>
+                <span className="ml-2 text-water">
+                  {v.note} · {dateText(v.at)} · {v.files} {v.files === 1 ? "file" : "files"}
+                </span>
               </span>
-              {i === 0 ? (
-                <span className="rounded-full bg-navy px-3 py-1 text-[12px] font-semibold text-cream">Current</span>
+              {v.id === page.current ? (
+                <span className="rounded-full bg-navy px-3 py-1 text-[12px] font-semibold text-cream">Live</span>
               ) : (
                 <button
                   className={btnGhost}
                   disabled={Boolean(busy)}
                   onClick={() =>
                     run("restore", async () => {
-                      await post({ action: "restore", slug: page.slug, sha: v.sha });
-                      return `Restored /${page.slug}. The site is redeploying now. Wait about 40 seconds, then refresh xdough.com/${page.slug}.`;
+                      await post({ action: "restore", slug: page.slug, version: v.id });
+                      return `Switched /${page.slug} to version ${page.versions.length - i}. It is live now.`;
                     })
                   }>
-                  {busy === "restore" ? <Spinner /> : <Icon name="refresh" />} Restore
+                  {busy === "restore" ? <Spinner /> : <Icon name="refresh" />} Make live
                 </button>
               )}
             </li>
           ))}
-          {versions?.length === 0 && <li className="px-4 py-3 text-[14px] text-water">No earlier versions.</li>}
         </ul>
       </Collapse>
 
@@ -755,7 +766,7 @@ function PageRow({
           <p className="flex max-w-[52ch] items-start gap-3 text-[14px] text-[#8F2820]">
             <Icon name="alert" className="mt-0.5 size-5 shrink-0" />
             <span>
-              Delete <b>/{page.slug}</b>? The page stops working after the next deploy. You can still bring it back from the repository history.
+              Delete <b>/{page.slug}</b> and all of its versions? The link stops working right away and this cannot be undone.
             </span>
           </p>
           <div className="flex gap-2">
@@ -769,7 +780,7 @@ function PageRow({
               onClick={() =>
                 run("delete", async () => {
                   await post({ action: "delete", slug: page.slug });
-                  return `Deleted /${page.slug}. The site is redeploying now; the link stops working in about 40 seconds.`;
+                  return `Deleted /${page.slug}.`;
                 })
               }>
               {busy === "delete" ? <Spinner /> : <Icon name="trash" />} Delete page

@@ -1,5 +1,4 @@
 import { guard, json } from "@/lib/portal/auth";
-import { GitHubError } from "@/lib/portal/github";
 import {
   deletePage,
   editPage,
@@ -16,7 +15,7 @@ type Body =
   | ({ action: "publish" } & Publish)
   | { action: "edit"; slug: string; newSlug?: string; title?: string }
   | { action: "delete"; slug: string }
-  | { action: "restore"; slug: string; sha: string };
+  | { action: "restore"; slug: string; version: string };
 
 export async function POST(request: Request) {
   const blocked = guard(request);
@@ -37,9 +36,7 @@ export async function POST(request: Request) {
         return json({ error: "Unknown action." }, 400);
     }
   } catch (error) {
-    if (error instanceof PortalError || error instanceof GitHubError) {
-      return json({ error: error.message }, error.status >= 400 ? error.status : 500);
-    }
-    return json({ error: "Something went wrong. Try again." }, 500);
+    if (error instanceof PortalError) return json({ error: error.message }, error.status);
+    return json({ error: error instanceof Error ? error.message : "Something went wrong." }, 500);
   }
 }
