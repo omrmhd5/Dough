@@ -528,7 +528,7 @@ function NewPage({
               id="new-slug"
               value={slug}
               onChange={(e) => setSlug(e.target.value.toLowerCase())}
-              placeholder="primos-november-calendar"
+              placeholder="client-content-calendar"
               className="min-w-0 flex-1 bg-transparent py-3 pr-5 outline-none placeholder:text-sparkle/50"
             />
           </div>

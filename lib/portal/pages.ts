@@ -32,7 +32,7 @@ export const ALLOWED_EXT = new Set([
 export function validateSlug(slug: unknown): string {
   if (typeof slug !== "string" || !SLUG_RE.test(slug) || slug.length > 60) {
     throw new PortalError(
-      "The address can only use lowercase letters, numbers and dashes, for example primos-november-calendar.",
+      "The address can only use lowercase letters, numbers and dashes, for example client-content-calendar.",
     );
   }
   if (RESERVED.has(slug)) {
