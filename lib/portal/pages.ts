@@ -178,10 +178,52 @@ export async function deletePage(slug: string) {
     manifest.pages = manifest.pages.filter((p) => p.id !== existing.id);
     return existing;
   });
-  // The address is already gone; clearing the stored files is best effort.
+  // The address is gone; now remove every stored version of the page.
   try {
     await removeBlobs((await listPrefix(`pages/${removed.id}/`)).map((b) => b.url));
-  } catch {}
+  } catch {
+    throw new PortalError(
+      "The page was removed, but some of its files could not be deleted. Use Clean up to remove them.",
+      500,
+    );
+  }
+}
+
+/** Before uploading anything: is this address allowed and does it fit the action? */
+export async function checkSlug(input: { mode: "create" | "update"; slug: string }) {
+  const slug = validateSlug(input.slug);
+  const exists = (await readManifest(true)).pages.some((p) => p.slug === slug);
+  if (input.mode === "create" && exists) {
+    throw new PortalError(`"${slug}" is already published. Use Update on that page instead.`, 409);
+  }
+  if (input.mode === "update" && !exists) {
+    throw new PortalError(`"${slug}" is not published.`, 404);
+  }
+}
+
+/** Removes files of an upload that never became a version (a failed publish). */
+export async function discardUpload(input: { pageId: string; version: string }) {
+  if (!ID_RE.test(input.pageId) || !/^[a-z0-9]{6,16}$/.test(input.version)) return 0;
+  const manifest = await readManifest(true);
+  const used = manifest.pages.some(
+    (p) => p.id === input.pageId && p.versions.some((v) => v.id === input.version),
+  );
+  if (used) return 0;
+  const orphans = await listPrefix(`pages/${input.pageId}/${input.version}/`);
+  await removeBlobs(orphans.map((b) => b.url));
+  return orphans.length;
+}
+
+/** Removes every stored file that no page version points at (older than 10 minutes, so uploads in progress are safe). */
+export async function sweepUnused() {
+  const manifest = await readManifest(true);
+  const keep = manifest.pages.flatMap((p) => p.versions.map((v) => `pages/${p.id}/${v.id}/`));
+  const cutoff = Date.now() - 10 * 60 * 1000;
+  const orphans = (await listPrefix("pages/")).filter(
+    (b) => b.uploadedAt < cutoff && !keep.some((prefix) => b.pathname.startsWith(prefix)),
+  );
+  await removeBlobs(orphans.map((b) => b.url));
+  return orphans.length;
 }
 
 export async function listPages() {

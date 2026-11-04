@@ -131,11 +131,17 @@ export async function updateManifest<T>(change: (manifest: Manifest) => T | Prom
 
 export async function listPrefix(prefix: string) {
   requireToken();
-  const found: { url: string; pathname: string }[] = [];
+  const found: { url: string; pathname: string; uploadedAt: number }[] = [];
   let cursor: string | undefined;
   do {
     const page = await list({ prefix, cursor, limit: 1000 });
-    found.push(...page.blobs.map((b) => ({ url: b.url, pathname: b.pathname })));
+    found.push(
+      ...page.blobs.map((b) => ({
+        url: b.url,
+        pathname: b.pathname,
+        uploadedAt: new Date(b.uploadedAt).getTime(),
+      })),
+    );
     cursor = page.hasMore ? page.cursor : undefined;
   } while (cursor);
   return found;

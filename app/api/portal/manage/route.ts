@@ -1,10 +1,13 @@
 import { guard, json } from "@/lib/portal/auth";
 import {
+  checkSlug,
   deletePage,
+  discardUpload,
   editPage,
   PortalError,
   publishPage,
   restorePage,
+  sweepUnused,
   type Publish,
 } from "@/lib/portal/pages";
 
@@ -15,7 +18,10 @@ type Body =
   | ({ action: "publish" } & Publish)
   | { action: "edit"; slug: string; newSlug?: string; title?: string }
   | { action: "delete"; slug: string }
-  | { action: "restore"; slug: string; version: string };
+  | { action: "restore"; slug: string; version: string }
+  | { action: "check"; mode: "create" | "update"; slug: string }
+  | { action: "discard"; pageId: string; version: string }
+  | { action: "sweep" };
 
 export async function POST(request: Request) {
   const blocked = guard(request);
@@ -32,6 +38,13 @@ export async function POST(request: Request) {
         return json({ ok: true }, 200);
       case "restore":
         return json({ page: await restorePage(body) }, 200);
+      case "check":
+        await checkSlug(body);
+        return json({ ok: true }, 200);
+      case "discard":
+        return json({ removed: await discardUpload(body) }, 200);
+      case "sweep":
+        return json({ removed: await sweepUnused() }, 200);
       default:
         return json({ error: "Unknown action." }, 400);
     }

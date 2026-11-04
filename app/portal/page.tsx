@@ -95,6 +95,15 @@ async function publish(
 
   const pageId = target.mode === "update" ? target.page.id : randomId(14);
   const version = randomId(8);
+  const manage = (body: object) =>
+    api<{ page: Page }>("/api/portal/manage", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  // Refuse a taken or reserved address before anything is uploaded.
+  await manage({ action: "check", mode: target.mode, slug });
+
   let done = 0;
   let next = 0;
   async function worker() {
@@ -118,13 +127,10 @@ async function publish(
       onStep(`Uploading files… ${done} of ${files.length}`, 6 + (done / files.length) * 84);
     }
   }
-  await Promise.all([worker(), worker(), worker(), worker()]);
-
-  onStep("Publishing…", 94);
-  const { page } = await api<{ page: Page }>("/api/portal/manage", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({
+  try {
+    await Promise.all([worker(), worker(), worker(), worker()]);
+    onStep("Publishing…", 94);
+    const { page } = await manage({
       action: "publish",
       mode: target.mode,
       pageId,
@@ -132,10 +138,14 @@ async function publish(
       title: finalTitle,
       version,
       files: files.map((f) => f.path),
-    }),
-  });
-  onStep("Done", 100);
-  return page;
+    });
+    onStep("Done", 100);
+    return page;
+  } catch (error) {
+    // Whatever was uploaded for this attempt never became a version: remove it.
+    await manage({ action: "discard", pageId, version }).catch(() => {});
+    throw error;
+  }
 }
 
 /* ── Icons (24px, 1.7 stroke) ─────────────────────────────────────────── */
@@ -315,9 +325,33 @@ export default function PortalPage() {
 
           {/* All pages */}
           <section className="mt-20">
-            <div className="flex items-baseline justify-between gap-4 border-b border-navy/20 pb-4 text-[12px] font-medium uppercase tracking-[0.14em] text-water">
+            <div className="flex items-center justify-between gap-4 border-b border-navy/20 pb-4 text-[12px] font-medium uppercase tracking-[0.14em] text-water">
               <span>All pages</span>
-              <span>{pages.length} published</span>
+              <span className="flex items-center gap-3">
+                {pages.length} published
+                <button
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 uppercase tracking-[0.14em] transition-colors hover:bg-sparkle/50 hover:text-navy"
+                  title="Delete stored files that no page uses (for example from failed uploads)"
+                  onClick={async () => {
+                    try {
+                      const { removed } = await api<{ removed: number }>("/api/portal/manage", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({ action: "sweep" }),
+                      });
+                      notify(
+                        "ok",
+                        removed
+                          ? `Removed ${removed} unused ${removed === 1 ? "file" : "files"} from storage.`
+                          : "Storage is clean. Nothing unused was found.",
+                      );
+                    } catch (e) {
+                      notify("err", (e as Error).message);
+                    }
+                  }}>
+                  <Icon name="trash" className="size-4" /> Clean up
+                </button>
+              </span>
             </div>
             {pages.length === 0 ? (
               <div className="pt-rise flex flex-col items-center py-20 text-center">
