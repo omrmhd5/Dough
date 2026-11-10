@@ -13,6 +13,27 @@ const nextConfig = {
     return [
       { source: "/profile", destination: "/profile/index.html" },
       { source: "/profile/", destination: "/profile/index.html" },
+      // Dough Biggy Q1 strategy (single HTML file in public/).
+      {
+        source: "/dough-biggy-q1-strategy-v2",
+        destination: "/dough-biggy-q1-strategy-v2/index.html",
+      },
+      {
+        source: "/dough-biggy-q1-strategy-v2/",
+        destination: "/dough-biggy-q1-strategy-v2/index.html",
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/dough-biggy-q1-strategy-v2/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/dough-biggy-q1-strategy-v2",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   async redirects() {
