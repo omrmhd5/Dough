@@ -89,11 +89,11 @@ Home hero → Who We Are → Why Dough → Industries → What We Bake → How W
 | **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png) | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png) |
 | **Why Dough** ![Why Dough](./docs/screenshots/03-why-dough.png) | **Industries** ![Industries](./docs/screenshots/04-industries.png) |
 | **What We Bake** ![What We Bake](./docs/screenshots/05-what-we-bake.png) | **How We Work** ![How We Work](./docs/screenshots/06-how-we-work.png) |
-| **Selected Work** ![Selected Work](./docs/screenshots/07-selected-work.png) | **Client Wall** ![Client Wall](./docs/screenshots/08-work-clients.png) |
-| **Capabilities** ![Capabilities](./docs/screenshots/09-work-capabilities.png) | **Work Index** ![Work Index](./docs/screenshots/10-work-index.png) |
-| **Case Study — Farooja** ![Case Study Farooja](./docs/screenshots/11-case-study-farooja.png) | **Case Study — Branding** ![Case Study Branding](./docs/screenshots/12-case-study-overview.png) |
-| **Uncle Dough** ![Uncle Dough](./docs/screenshots/13-uncle-dough.png) | **Contact — Start a Project** ![Contact Start a Project](./docs/screenshots/14-contact-project.png) |
-| **Contact — Join the Team** ![Contact Join the Team](./docs/screenshots/15-contact-job.png) | **Mobile Home** ![Mobile Home](./docs/screenshots/16-mobile-home.png) |
+| **Selected Work** ![Selected Work](./docs/screenshots/07-selected-work.png) | **Clients** ![Clients](./docs/screenshots/08-clients.png) |
+| **Capabilities** ![Capabilities](./docs/screenshots/09-work-capabilities.png) | **Case Studies** ![Case Studies](./docs/screenshots/10-case-studies.png) |
+| **Case Study Farooja** ![Case Study Farooja](./docs/screenshots/11-case-study-farooja.png) | **Case Study Branding** ![Case Study Branding](./docs/screenshots/12-case-study-branding.png) |
+| **Uncle Dough** ![Uncle Dough](./docs/screenshots/13-uncle-dough.png) | **Contact Start a Project** ![Contact Start a Project](./docs/screenshots/14-contact-start-a-project.png) |
+| **Contact Join the Team** ![Contact Join the Team](./docs/screenshots/15-contact-join-the-team.png) | **Mobile Home** ![Mobile Home](./docs/screenshots/16-mobile-home.png) |
 
 ## Live Demo 🚀
 
