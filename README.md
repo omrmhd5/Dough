@@ -97,7 +97,7 @@ Home hero → Who We Are → Why Dough → Industries → What We Bake → How W
 
 ## Live Demo 🚀
 
-**[View Live Demo](https://doughx.vercel.app/)**
+**[View Live Demo](https://www.xdough.com)**
 
 ---
 
