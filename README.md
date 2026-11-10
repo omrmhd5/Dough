@@ -76,9 +76,9 @@ The site strengthened Dough’s digital presence with a scroll-stopping hero, st
 
 ## 🎬 Site Demo
 
-**[▶ Watch site walkthrough](./docs/dough-demo.mp4)** (~1 min)
+**[▶ Watch site walkthrough](./docs/dough-demo.mp4)** (~1.5 min)
 
-Homepage Arabic glance → Home hero → Who We Are → What We Bake → Featured → How We Work → Why Us → Work carousel → Akleh case study → Contact → Uncle Dough.
+Home hero → Who We Are → Why Dough → Industries → What We Bake → How We Work → Selected Work → Work page (client wall, capabilities) → Farooja case study → Uncle Dough → Contact.
 
 ---
 
@@ -86,12 +86,14 @@ Homepage Arabic glance → Home hero → Who We Are → What We Bake → Feature
 
 |                                                                                        |                                                                                               |
 | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png)                        | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png)                            |
-| **What We Bake** ![What We Bake](./docs/screenshots/03-what-we-bake.png)               | **Featured Works** ![Featured Works](./docs/screenshots/04-featured-works.png)                |
-| **How We Work** ![How We Work](./docs/screenshots/05-how-we-work.png)                  | **Work Portfolio** ![Work Portfolio](./docs/screenshots/06-work-portfolio.png)                |
-| **Case Study — Akleh** ![Case Study Akleh](./docs/screenshots/07-case-study-akleh.png) | **Case Study Overview** ![Case Study Overview](./docs/screenshots/08-case-study-overview.png) |
-| **Contact** ![Contact Page](./docs/screenshots/09-contact.png)                         | **Uncle Dough** ![Uncle Dough](./docs/screenshots/10-uncle-dough.png)                         |
-| **Arabic Homepage** ![Arabic Homepage](./docs/screenshots/11-home-arabic.png)          | **Mobile Home** ![Mobile Home](./docs/screenshots/12-mobile-home.png)                         |
+| **Home Hero** ![Home Hero](./docs/screenshots/01-home-hero.png) | **Who We Are** ![Who We Are](./docs/screenshots/02-who-we-are.png) |
+| **Why Dough** ![Why Dough](./docs/screenshots/03-why-dough.png) | **Industries** ![Industries](./docs/screenshots/04-industries.png) |
+| **What We Bake** ![What We Bake](./docs/screenshots/05-what-we-bake.png) | **How We Work** ![How We Work](./docs/screenshots/06-how-we-work.png) |
+| **Selected Work** ![Selected Work](./docs/screenshots/07-selected-work.png) | **Client Wall** ![Client Wall](./docs/screenshots/08-work-clients.png) |
+| **Capabilities** ![Capabilities](./docs/screenshots/09-work-capabilities.png) | **Work Index** ![Work Index](./docs/screenshots/10-work-index.png) |
+| **Case Study — Farooja** ![Case Study Farooja](./docs/screenshots/11-case-study-farooja.png) | **Case Study — Branding** ![Case Study Branding](./docs/screenshots/12-case-study-overview.png) |
+| **Uncle Dough** ![Uncle Dough](./docs/screenshots/13-uncle-dough.png) | **Contact — Start a Project** ![Contact Start a Project](./docs/screenshots/14-contact-project.png) |
+| **Contact — Join the Team** ![Contact Join the Team](./docs/screenshots/15-contact-job.png) | **Mobile Home** ![Mobile Home](./docs/screenshots/16-mobile-home.png) |
 
 ## Live Demo 🚀
 
