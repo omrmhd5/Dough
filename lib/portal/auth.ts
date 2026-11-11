@@ -7,7 +7,7 @@ const SESSION_DAYS = 7;
 function secret() {
   return (
     process.env.PORTAL_SECRET ||
-    `${process.env.PORTAL_PASSWORD ?? ""}|${process.env.BLOB_READ_WRITE_TOKEN ?? ""}|portal`
+    `${process.env.PORTAL_PASSWORD ?? ""}|${process.env.B2_APP_KEY ?? ""}|portal`
   );
 }
 

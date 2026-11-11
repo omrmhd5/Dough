@@ -2,7 +2,7 @@ import {
   listPrefix,
   PortalError,
   readManifest,
-  removeBlobs,
+  removeObjects,
   updateManifest,
   type PortalPage,
 } from "./store";
@@ -180,7 +180,7 @@ export async function deletePage(slug: string) {
   });
   // The address is gone; now remove every stored version of the page.
   try {
-    await removeBlobs((await listPrefix(`pages/${removed.id}/`)).map((b) => b.url));
+    await removeObjects((await listPrefix(`pages/${removed.id}/`)).map((b) => b.key));
   } catch {
     throw new PortalError(
       "The page was removed, but some of its files could not be deleted. Use Clean up to remove them.",
@@ -210,7 +210,7 @@ export async function discardUpload(input: { pageId: string; version: string }) 
   );
   if (used) return 0;
   const orphans = await listPrefix(`pages/${input.pageId}/${input.version}/`);
-  await removeBlobs(orphans.map((b) => b.url));
+  await removeObjects(orphans.map((b) => b.key));
   return orphans.length;
 }
 
@@ -222,7 +222,7 @@ export async function sweepUnused() {
   const orphans = (await listPrefix("pages/")).filter(
     (b) => b.uploadedAt < cutoff && !keep.some((prefix) => b.pathname.startsWith(prefix)),
   );
-  await removeBlobs(orphans.map((b) => b.url));
+  await removeObjects(orphans.map((b) => b.key));
   return orphans.length;
 }
 

@@ -1,4 +1,4 @@
-import { configured, readManifest, urlFor } from "@/lib/portal/store";
+import { configured, getObject, readManifest } from "@/lib/portal/store";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -44,7 +44,7 @@ const notFound = () =>
   );
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string; path?: string[] }> },
 ) {
   const { slug, path = [] } = await params;
@@ -58,12 +58,13 @@ export async function GET(
   let file = path.join("/");
   if (!file) file = "index.html";
 
-  const upstream = await fetch(urlFor(`pages/${page.id}/${page.current}/${file}`), {
-    cache: "no-store",
-  }).catch(() => null);
-  if (!upstream || !upstream.ok) return notFound();
-
   const ext = file.split(".").pop()?.toLowerCase() ?? "";
+  const isHtml = ext === "html" || ext === "htm";
+  // Videos are fetched in ranges so seeking works.
+  const range = isHtml ? undefined : (request.headers.get("range") ?? undefined);
+  const object = await getObject(`pages/${page.id}/${page.current}/${file}`, range).catch(() => null);
+  if (!object || !object.Body) return notFound();
+
   const headers = new Headers({
     "content-type": TYPES[ext] ?? "application/octet-stream",
     // Short shared cache: a new version shows within seconds, assets stay fast.
@@ -71,12 +72,17 @@ export async function GET(
     // Published pages run their own scripts: isolate them from the site and portal.
     "content-security-policy":
       "sandbox allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms",
+    // The sandbox gives the page an opaque origin, so its own scripts and
+    // images are cross-origin requests and need this to load. Published pages
+    // are public files; the portal API is a different route and stays closed.
+    "access-control-allow-origin": "*",
+    "accept-ranges": "bytes",
     "x-robots-tag": "noindex, nofollow",
     "x-content-type-options": "nosniff",
   });
 
-  if (ext === "html" || ext === "htm") {
-    let html = await upstream.text();
+  if (isHtml) {
+    let html = await object.Body.transformToString();
     // Lets relative links (img/…, style.css) work at /<address> without a trailing slash.
     if (!/<base\s/i.test(html)) {
       const tag = `<base href="/${slug}/">`;
@@ -87,5 +93,10 @@ export async function GET(
     return new Response(html, { status: 200, headers });
   }
 
-  return new Response(upstream.body, { status: 200, headers });
+  if (object.ContentLength != null) headers.set("content-length", String(object.ContentLength));
+  if (object.ContentRange) headers.set("content-range", object.ContentRange);
+  return new Response(object.Body.transformToWebStream(), {
+    status: object.ContentRange ? 206 : 200,
+    headers,
+  });
 }

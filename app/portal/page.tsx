@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
-import { upload } from "@vercel/blob/client";
 import { readZip, tidyZip, titleOf } from "@/lib/portal/zip";
 
 /* ── Types & helpers ──────────────────────────────────────────────────── */
@@ -110,13 +109,24 @@ async function publish(
     while (next < files.length) {
       const file = files[next++];
       const type = CONTENT_TYPES[file.path.split(".").pop()?.toLowerCase() ?? ""] ?? "application/octet-stream";
-      const send = () =>
-        upload(`pages/${pageId}/${version}/${file.path}`, new globalThis.Blob([file.data as BlobPart], { type }), {
-          access: "public",
-          handleUploadUrl: "/api/portal/upload",
-          contentType: type,
-          multipart: file.data.length > 8_000_000,
+      // Ask the portal for a short-lived link, then send the file straight to storage.
+      const send = async () => {
+        const { url, contentType } = await api<{ url: string; contentType: string }>("/api/portal/upload", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            pathname: `pages/${pageId}/${version}/${file.path}`,
+            contentType: type,
+            size: file.data.length,
+          }),
         });
+        const response = await fetch(url, {
+          method: "PUT",
+          headers: { "content-type": contentType },
+          body: file.data as BodyInit,
+        });
+        if (!response.ok) throw new Error(`storage said ${response.status}`);
+      };
       // One more try on a hiccup, then report which file failed.
       await send()
         .catch(() => new Promise((r) => setTimeout(r, 1200)).then(send))
